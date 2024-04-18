@@ -46,18 +46,16 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-{% set image = content.field_service_icon|field_value %}
-{% set title = content.field_title|field_value%}
-{% set body = content.field_description|field_value %}
+
 
 
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
       <div id="card">
-                    <div id="card_image"class="" >{{image}}</div>
-                    <div id="card_title" class=""> <h4>{{title}}</h4></div>
-                    <div id="card_body" >{{}}</div>
+                    <div id="card_image"class="" >{{content.field_service_icon}}</div>
+                    <div id="card_title" class=""> <h4>{{content.field_title}}</h4></div>
+                    <div id="card_body" >{{content.field_description}}</div>
 
               </div>
 
