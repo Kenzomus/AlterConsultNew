@@ -54,7 +54,7 @@
                                                           {% set id= paragraph_item['#paragraph'].id() %}
 
                                                           {% if id is not empty %}
-                                                          ID{{ID}}
+                                                          ID{{id}}
                                                           <div > {{ drupal_entity('paragraph',id, 'default') }}</div>
                                                           {% endif %}
                                                     {% endfor %}

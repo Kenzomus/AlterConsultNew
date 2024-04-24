@@ -49,15 +49,23 @@
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-     # {{ content }}#
-      {% for paragraph_item in content.field_add_reason %}
-                                                          {% set id= paragraph_item['#paragraph'].id() %}
+      <div class="block__content">
+          <div class="c--scrolling__cover">
+                  <div> <button id= "slideLeft"  onclick="document.getElementById('container').scrollLeft -= 20;" >&#8249;</button></div>
+                  <div><button id= "slideRight" onclick=" document.getElementById('container').scrollLeft += 20;" >&#8250;</button></div>
+          </div >
 
-                                                          {% if id is not empty %}
-                                                           id {{id}}
-                                                          <div > {{ drupal_entity('paragraph',id, 'default') }}</div>
-                                                          {% endif %}
-                                                    {% endfor %}
+     <div id="container" class="c--scrolling__wrapper" >
+      {% for paragraph_item in content.field_add_reason %}
+              {% set id= paragraph_item['#paragraph'].id() %}
+
+              {% if id is not empty %}
+                id {{id}}
+              <div > {{ drupal_entity('paragraph',id, 'default') }}</div>
+              {% endif %}
+      {% endfor %}
+      </div>
+
     {% endblock %}
   </div>
 {% endblock paragraph %}
