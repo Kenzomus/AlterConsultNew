@@ -49,6 +49,14 @@
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
+
+    {% for paragraph_item in content.field_add_service %}
+                                                          {% set id= paragraph_item['#paragraph'].id() %}
+
+                                                          {% if id is not empty %}
+                                                          <div > {{ drupal_entity('paragraph',id, 'default') }}</div>
+                                                          {% endif %}
+                                                    {% endfor %}
       {{ content }}
     {% endblock %}
   </div>
