@@ -27,7 +27,8 @@
         "drupal/bootstrap5": "^3.0",
         "drupal/vani": "^10.0",
         "drupal/drupal8_zymphonies_theme": "^3.0",
-        "drupal/bootstrap": "^3.30"
+        "drupal/bootstrap": "^3.30",
+        "drupal/openai": "^1.0@beta"
     },
     "require-dev": {
         "drupal/core-dev": "^10"
