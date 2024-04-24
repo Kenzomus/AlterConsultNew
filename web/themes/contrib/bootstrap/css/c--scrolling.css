@@ -1,0 +1,122 @@
+/*!**************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[0].use[2]!./node_modules/sass-loader/dist/cjs.js!./web/themes/custom/baltimorecity/scss/components/c--scrolling.scss ***!
+  \**************************************************************************************************************************************************************************************************************************************************************/
+.c--scrolling__wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.c--scrolling__scroll_cards {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c--scrolling__cover {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin-right: 2.1875rem;
+  margin-bottom: 1.5625rem;
+}
+
+#slideLeft {
+  border-radius: 50%;
+  width: 3.75rem;
+  height: 3.75rem;
+  background-color: #a9a9a9;
+  color: #fff;
+}
+
+#slideRight {
+  border-radius: 50%;
+  width: 3.75rem;
+  height: 3.75rem;
+  background-color: #a9a9a9;
+  color: #fff;
+}
+
+.c--scrolling__card_button {
+  color: #2f1c3d;
+  text-align: center;
+  font-size: 1.125rem;
+  width: 9.1875rem;
+  height: 2.625rem;
+  background-color: #fabe21;
+  padding: 0.5rem 1.375rem;
+}
+.c--scrolling__card_button a {
+  text-decoration: none;
+}
+
+#card_container {
+  width: 16.5rem;
+  margin-left: 1.5625rem;
+}
+
+#card {
+  width: 16.5rem;
+  margin-bottom: 2rem;
+}
+
+#card_image {
+  border-radius: 50%;
+  width: 16.5rem;
+  height: 3rem;
+  margin-bottom: 0.9375rem;
+}
+#card_image img {
+  border-radius: 50px;
+  width: 3rem;
+  height: 3rem;
+}
+
+#card_title {
+  width: 16.5rem;
+  height: 1.875rem;
+}
+
+#card_body {
+  width: 16.5rem;
+  margin-top: 1.5625rem;
+}
+
+#card_button {
+  width: 16.5rem;
+  height: 2.625rem;
+  margin-top: 3.125rem;
+}
+
+@media (max-width: 800px) {
+  .c--scrolling__scroll_cards {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-flex-line-pack: center;
+        align-content: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  #slideLeft {
+    display: none;
+  }
+  #slideRight {
+    display: none;
+  }
+  #card_button {
+    width: 16.5rem;
+    height: 2.625rem;
+    margin-top: 0.625rem;
+  }
+}
