@@ -51,20 +51,28 @@
     {% block content %}
       <div class="block__content">
           <div class="c--scrolling__cover">
-                  <div style="
+                  <div
+"> <button id= "slideLeft"   style="
     border-radius: 50%;
     width: 3.75rem;
     height: 3.75rem;
     background-color: #a9a9a9;
     color: #fff;
-"> <button id= "slideLeft"  onclick="document.getElementById('container').scrollLeft -= 20;" >&#8249;</button></div>
+    float: right; "
+    onclick="document.getElementById('container').scrollLeft -= 20;" >&#8249;</button></div>
       <div  style="
     border-radius: 50%;
     width: 3.75rem;
     height: 3.75rem;
     background-color: #a9a9a9;
     color: #fff;
-"><button id= "slideRight" onclick=" document.getElementById('container').scrollLeft += 20;" >&#8250;</button></div>
+"><button id= "slideRight" style="
+    border-radius: 50%;
+    width: 3.75rem;
+    height: 3.75rem;
+    background-color: #a9a9a9;
+    color: #fff;
+    float: left; " onclick=" document.getElementById('container').scrollLeft += 20;" >&#8250;</button></div>
           </div >
 
      <div id="container" class="c--scrolling__wrapper" >
