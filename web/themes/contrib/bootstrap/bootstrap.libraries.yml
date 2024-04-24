@@ -167,6 +167,14 @@ drupal.text:
     - core/once
     - core/drupal
 
+scrolling:
+  js:
+    js/scrolling.js: {}
+  dependencies:
+    - core/jquery
+    - core/once
+    - core/drupal
+
 drupal.vertical-tabs:
   js:
     js/misc/vertical-tabs.js: {}
