@@ -49,7 +49,17 @@
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-      {{ content }}
+   <div id="card">
+                    <div id="card_image"class=""style="
+    width: 128px;
+    height: 128px;
+    float:left;
+
+" >{{content.field_reason_image}}</div>
+    <div id="card_title" class=""> <h4>{{content.field_title}}</h4></div>
+    <div id="card_body" >{{content.	field_description}}</div>
+
+              </div>
     {% endblock %}
   </div>
 {% endblock paragraph %}
