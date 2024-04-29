@@ -46,6 +46,7 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+{{ attach_library('/bootstrap/js/scrolling.js') }}
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
@@ -75,12 +76,16 @@
     float: left; " onclick=" document.getElementById('container').scrollLeft += 20;" >&#8250;</button></div>
           </div >
 
-     <div id="container" class="c--scrolling__wrapper" >
+     <div id="container" class="c--scrolling__wrapper" style="
+    overflow-x: scroll;
+    overflow-y: hidden;
+    display: flex;
+">
       {% for paragraph_item in content.field_add_reason %}
               {% set id= paragraph_item['#paragraph'].id() %}
 
               {% if id is not empty %}
-                id {{id}}
+
               <div > {{ drupal_entity('paragraph',id, 'default') }}</div>
               {% endif %}
       {% endfor %}
