@@ -28,7 +28,8 @@
         "drupal/vani": "^10.0",
         "drupal/drupal8_zymphonies_theme": "^3.0",
         "drupal/bootstrap": "^3.30",
-        "drupal/openai": "^1.0@beta"
+        "drupal/openai": "^1.0@beta",
+        "drupal/devel": "^5.2"
     },
     "require-dev": {
         "drupal/core-dev": "^10"
