@@ -38,7 +38,7 @@
  * @ingroup themeable
  */
 #}
-{{ attach_library('/bootstrap/js/scrolling.js') }}
+
 {%
   set classes = [
     'paragraph',
@@ -47,18 +47,19 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+{{ attach_library('/bootstrap/js/scrolling.js') }}
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
 
     {% for paragraph_item in content.field_add_service %}
-                                                          {% set id= paragraph_item['#paragraph'].id() %}
+            {% set id= paragraph_item['#paragraph'].id() %}
 
-                                                          {% if id is not empty %}
-                                                          ID{{id}}
-                                                          <div > {{ drupal_entity('paragraph',id, 'default') }}</div>
-                                                          {% endif %}
-                                                    {% endfor %}
+            {% if id is not empty %}
+            ID{{id}}
+            <div > {{ drupal_entity('paragraph',id, 'default') }}</div>
+            {% endif %}
+    {% endfor %}
 
     {% endblock %}
   </div>
