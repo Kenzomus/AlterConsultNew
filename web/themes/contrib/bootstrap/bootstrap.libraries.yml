@@ -167,13 +167,7 @@ drupal.text:
     - core/once
     - core/drupal
 
-scrolling:
-  js:
-    js/scrolling.js: {}
-  dependencies:
-    - core/jquery
-    - core/once
-    - core/drupal
+
 
 drupal.vertical-tabs:
   js:
@@ -182,3 +176,12 @@ drupal.vertical-tabs:
     - bootstrap/theme
     - core/once
     - core/drupal.form
+
+# scrolling.
+c--scrolling:
+  css:
+    component:
+      css/               {}
+
+  js:
+    js/scrolling.js: {}
