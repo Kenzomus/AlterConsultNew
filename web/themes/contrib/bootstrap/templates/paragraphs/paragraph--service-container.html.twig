@@ -51,7 +51,11 @@
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-
+     <div  style="
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+">
     {% for paragraph_item in content.field_add_service %}
             {% set id= paragraph_item['#paragraph'].id() %}
 
@@ -60,7 +64,7 @@
             <div > {{ drupal_entity('paragraph',id, 'default') }}</div>
             {% endif %}
     {% endfor %}
-
+</div>
     {% endblock %}
   </div>
 {% endblock paragraph %}
