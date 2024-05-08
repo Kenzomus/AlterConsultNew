@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Implements the Augmentor Google Cloud Text-to-Speech module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function augmentor_google_cloud_text_to_speech_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.augmentor_google_cloud_text_to_speech':
+      $output = '';
+      $output .= '<h3>' . t('Google Cloud Text-to-Speech Augmentor') . '</h3>';
+      $output .= '<p>' . t('Provides integration between Augmentor and the Google Cloud Text-to-Speech APIs') . '</p>';
+      return $output;
+  }
+}

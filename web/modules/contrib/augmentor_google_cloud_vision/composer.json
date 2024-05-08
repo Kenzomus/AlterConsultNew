@@ -1,0 +1,10 @@
+{
+  "name": "drupal/augmentor_google_cloud_vision",
+  "type": "drupal-module",
+  "description": "Provides integration with the Google Cloud Vision.",
+  "homepage": "http://drupal.org/project/augmentor_google_cloud_vision",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "google/cloud-vision": "^1.5"
+  }
+}

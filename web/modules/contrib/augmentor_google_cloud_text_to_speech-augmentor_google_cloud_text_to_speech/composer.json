@@ -1,0 +1,10 @@
+{
+  "name": "drupal/augmentor_google_cloud_text_to_speech",
+  "type": "drupal-module",
+  "description": "Provides integration of Augmentor with Google Cloud TTS APIs",
+  "homepage": "http://drupal.org/project/augmentor",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "google/cloud-text-to-speech": "^1.4"
+  }
+}

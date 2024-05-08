@@ -1,0 +1,10 @@
+{
+  "name": "drupal/augmentor_aws",
+  "type": "drupal-module",
+  "description": "Integration between Augmentor and the AWS AI Services.",
+  "homepage": "http://drupal.org/project/augmentor_aws",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "aws/aws-sdk-php": "^3.255"
+  }
+}

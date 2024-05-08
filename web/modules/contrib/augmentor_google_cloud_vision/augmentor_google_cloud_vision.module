@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Implements the Google Cloud Vision Augmentor module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function augmentor_google_cloud_vision_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.augmentor_google_cloud_vision':
+      $output = '<h3>' . t('Google Cloud Vision Augmentor') . '</h3>';
+      $output .= '<p>' . t('Provides integration with the Google Cloud Vision API') . '</p>';
+      return $output;
+  }
+}
