@@ -1,0 +1,12 @@
+name: Google Cloud Vision Augmentor
+type: module
+description: Provides integration with the Google Cloud Vision.
+package: Augmentor
+core_version_requirement: ^9.5 || ^10
+dependencies:
+  - augmentor:augmentor
+
+# Information added by Drupal.org packaging script on 2023-11-17
+version: '1.0.1'
+project: 'augmentor_google_cloud_vision'
+datestamp: 1700205787
