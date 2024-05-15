@@ -181,7 +181,7 @@ drupal.vertical-tabs:
 c--scrolling:
   css:
     component:
-      css/               {}
+      css/c--scrolling: {}
 
   js:
     js/scrolling.js: {}
