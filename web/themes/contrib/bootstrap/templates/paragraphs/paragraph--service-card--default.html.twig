@@ -61,9 +61,9 @@
 " >{{content.field_service_icon}}</div>
                     <div id="card_title" class=""> <h4>{{content.field_title}}</h4></div>
                     <div id="card_body" >{{content.field_description}}</div>
-  {% set mybuton = {{content.field_get_in_touch }} %}
+  {% set mybuton = paragraph_item['#paragraph'].field_get_in_touch() %}
 
-  {% if mybuton !empty %}
+  {% if mybuton is not empty %}
 
   <div class="button" style="
 
