@@ -50,7 +50,8 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
      <div style= "background-image: url('/sites/default/files/2024-05/violin.png')">
-        <div></div>
+        <div> {{content.field_hero_description}}</div>
+        <div>{{field_call_to_action }}</div>
       </div>
 
     {% endblock %}
