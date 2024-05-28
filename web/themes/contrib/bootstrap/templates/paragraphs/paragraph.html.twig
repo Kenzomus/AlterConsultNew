@@ -51,7 +51,18 @@
     {% block content %}
      <div style= "background-image: url('/sites/default/files/2024-05/violin.png')">
         <div> {{content.field_hero_description}}</div>
-        <div>{{field_call_to_action }}</div>
+        <div style="
+
+    border-radius: 48px;
+    padding: 10px 22px;
+    font-weight: 500;
+    font-size: 14px;
+    width: fit-content;
+    display: table;
+    border: 0;
+    background: linear-gradient(to right, #d33536 50%, #e03535);
+
+">{{content.field_call_to_action }}</div>
       </div>
 
     {% endblock %}
