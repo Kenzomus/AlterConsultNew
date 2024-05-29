@@ -52,11 +52,9 @@
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
 
-     <div style= "background-position: 50% 0;background-repeat: no-repeat;background-size: cover;/* background: rgba(20, 20, 20, 0.5); */height:  800px;overflow: hidden;position: relative;background-image: url('/sites/default/files//2024-05/{{image}}')">
+     <div style= "background-position: 50% 0;background-repeat: no-repeat;background-size: cover;/* background: rgba(20, 20, 20, 0.5); */height:  800px;overflow: hidden;position: relative;background-image: url'/sites/default/files//2024-05/{{image}}'>
         <div style="
-    /* position: relative; */
-    /* height: 370px; */
-    /* z-index: 2; */
+
     position: absolute;
     bottom: 0;
     left: 10%;
@@ -64,6 +62,7 @@
     text-align: center;
     z-index: 2;
     top: 15px;
+    color: #fff;
 "> {{content.field_hero_description}}</div>
         <div style="border-radius: 48px;padding: 11px 103px;font-weight: 500;font-size: 24px;width: 297px;display: table;border: 0;background: linear-gradient(to right, #d33536 50%, #e03535);margin-top: 672px;margin-left: 429px;">{{content.field_call_to_action }}</div>
       </div>
