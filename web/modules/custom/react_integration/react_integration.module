@@ -1,4 +1,6 @@
 <?php
+use Drupal\Core\Routing\RouteMatchInterface;
+
 /**
  *Implement  hook help().
 */
@@ -12,3 +14,9 @@ function react_integration_help($route_name, $route_match){
        }
 
 }
+/**
+ * Implements hook_page_attachements().
+*/
+function react_integration_page_attachements(array &attachments) {
+ $attachements['#attached']['library'][] = 'react_integration/react';
+
