@@ -1,0 +1,7 @@
+react:
+ version: 1.x
+ js:
+  dist/bundle.js: {}
+ dependencies:
+   - core/drupal
+   - core/drupalSettings
