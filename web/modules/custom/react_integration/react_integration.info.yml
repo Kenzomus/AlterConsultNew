@@ -1,0 +1,7 @@
+name: 'React Integration'
+type:  module
+description:  'A custom module to integrate React with Drupal 10.'
+package:  Custom
+core_version_requirement:   ^10
+dependencies:
+  - node:node
