@@ -19,4 +19,4 @@ function react_integration_help($route_name, $route_match){
 */
 function react_integration_page_attachements(array &attachments) {
  $attachements['#attached']['library'][] = 'react_integration/react';
-
+}
