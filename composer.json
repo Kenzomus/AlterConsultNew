@@ -39,7 +39,8 @@
         "drupal/augmentor_aws": "^1.0@alpha",
         "drupal/augmentor_nlpcloud": "^1.0",
         "drupal/augmentor_chatgpt": "^1.0@alpha",
-        "drupal/core-project-message": "10.2.6"
+        "drupal/core-project-message": "10.2.6",
+        "drupal/webprofiler": "^10.1"
     },
     "require-dev": {
         "drupal/core-dev": "^10"
