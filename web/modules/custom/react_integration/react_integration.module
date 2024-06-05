@@ -9,7 +9,7 @@ function react_integration_help($route_name, $route_match){
 
       switch($route_name) {
          case'help.page.react_integration':
-           return '<p>'. t('This module integrates React with Drupal 10').'</p>;
+           return '<p>'. t('This module integrates React with Drupal 10').'</p>';
 
        }
 
