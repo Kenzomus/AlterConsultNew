@@ -14,9 +14,10 @@ function react_integration_help($route_name, $route_match){
        }
 
 }
+
 /**
- * Implements hook_page_attachements().
+* Implements hook_page_attachments().
 */
-function react_integration_page_attachements(array &attachments) {
- $attachements['#attached']['library'][] = 'react_integration/react';
+function react_integration_page_attachments(array &$attachments) {
+ $attachments['#attached']['library'][] = 'react_integration/react';
 }
