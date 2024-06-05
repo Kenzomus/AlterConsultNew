@@ -4,4 +4,4 @@ react_integration.content:
   _Controller: '\Drupal\react_integration\Controller\ReactIntegrationController::content'
   _title: 'React Integration'
  requirements:
-  _permissions: 'access content'
+  _permission: 'access content'
