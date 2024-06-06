@@ -1,7 +1,7 @@
 react_integration.content:
  path: /react-integration
  defaults:
-  _Controller: '\Drupal\react_integration\Controller\ReactIntegrationController::content'
+  _Controller: \Drupal\react_integration\Controller\ReactIntegrationController::content
   _title: 'React Integration'
  requirements:
   _permission: 'access content'
