@@ -1,0 +1,40 @@
+name: Drupal core updates 
+on: 
+  workflow_dispatch: 
+  schedule: 
+    - cron: '0 10 * * *' 
+jobs: 
+  core-updates: 
+    runs-on: ubuntu-latest 
+    steps: 
+      - uses: actions/checkout@v3 
+      - name: Install PHP 
+        uses: shivammathur/setup-php@v2 
+        with: 
+          php-version: 8.1 
+      - name: Composer install with dev dependencies 
+        run: composer install -n --optimize-autoloader --ignore-platform-reqs 
+      - name: Store current version for reference 
+        run: | 
+          echo "ORIGINAL_CORE_VERSION=$(composer show drupal/core-recommended | grep "versions : \* [0-9.]" | cut -d' ' -f 4 | xargs -n1 basename)" >> $GITHUB_ENV 
+ 
+      - name: Check for Drupal core updates 
+        run: | 
+          composer update drupal/core-* -W 
+      - name: Getting updated version, if applicable 
+        run: | 
+          echo "UPDATED_CORE_VERSION=$(composer show drupal/core-recommended | grep "versions : \* [0-9.]" | cut -d' ' -f 4 | xargs -n1 basename)" >> $GITHUB_ENV 
+      - name: Get current date and time 
+        run: | 
+          echo "JOB_CURRENT_TIME=$(date +'%Y-%m-%d.%s')" >> $GITHUB_ENV 
+      - name: Generate a pull request 
+        if: ${{ env.ORIGINAL_CORE_VERSION != env.UPDATED_CORE_VERSION }} 
+        uses: kenzomus/create-pull-request@v5 
+        with: 
+          token: ${{ secrets.ACCESS_TOKEN }} 
+          commit-message: Update drupal/core-* packages to ${{ env.UPDATED_CORE_VERSION }} 
+          title: Update drupal/core-* packages to ${{ env.UPDATED_CORE_VERSION }} 
+          body: | 
+            Update drupal/core-* packages to ${{ env.UPDATED_CORE_VERSION }} 
+          branch: release/drupal-core-${{ env.UPDATED_CORE_VERSION }}-${{ env.JOB_CURRENT_TIME }} 
+          delete-branch: true 
