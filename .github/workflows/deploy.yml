@@ -3,45 +3,65 @@ name: Deploy to Google Cloud Run
 on:
   push:
     branches:
-      - main  # Trigger deployment on main branch push
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    env:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_REGION: ${{ secrets.GCP_REGION }}
+
     steps:
       # 1️⃣ Checkout repository
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Authenticate with Google Cloud
+      # 2️⃣ Set up PHP (for Composer)
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      # 3️⃣ Install Composer dependencies with caching
+      - name: Install Composer dependencies
+        run: |
+          composer install --no-dev --prefer-dist --optimize-autoloader
+        # Cache vendor directory
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      # 4️⃣ Authenticate to Google Cloud
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # 3️⃣ Set project and configure gcloud
-      - name: Set up gcloud project
-        run: |
-          gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
-          gcloud auth configure-docker gcr.io --quiet
+      # 5️⃣ Configure Docker to use gcloud
+      - name: Configure Docker
+        run: gcloud auth configure-docker gcr.io --quiet
 
-      # 4️⃣ Build Docker image
+      # 6️⃣ Cache Docker layers
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-docker-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
+
+      # 7️⃣ Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/alterconsult:$GITHUB_SHA .
-
-      # 5️⃣ Push Docker image to GCR
-      - name: Push Docker image
-        run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/alterconsult:$GITHUB_SHA
-
-      # 6️⃣ Deploy to Cloud Run
-      - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy alterconsult \
-            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/alterconsult:$GITHUB_SHA \
-            --platform managed \
-            --region ${{ secrets.GCP_REGION }} \
-            --allow-unauthenticated \
-            --quiet
+          docker build \
+            --cache-from=type=local,src=/tmp/.buildx-cache \
+            --cache-to=type=local,dest=/tmp/.buildx-cache-new,mode=max \
+            -t gcr.io/${GCP_PROJEC_
