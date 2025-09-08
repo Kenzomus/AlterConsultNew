@@ -12,7 +12,18 @@ services:
     class: Drupal\key\Plugin\KeyPluginManager
     arguments: ['key_input', '@container.namespaces', '@cache.discovery', '@module_handler']
   key.config_override:
-    class: \Drupal\key\KeyConfigOverrides
+    class: Drupal\key\KeyConfigOverrides
     arguments: ['@config.factory', '@cache.data']
     tags:
       - {name: config.factory.override, priority: 10}
+  key.resolver:
+    class: Drupal\key\Resolver\ChainKeyResolver
+    tags:
+      - { name: service_collector, tag: key.resolver, call: addResolver }
+
+  # The default key entity resolver that loads keys from the config repository.
+  key.resolver.key_entity:
+    class: Drupal\key\Resolver\KeyEntityResolver
+    arguments: ['@key.repository', '@entity_type.manager']
+    tags:
+      - { name: key.resolver, priority: -100 }

@@ -83,8 +83,10 @@ abstract class ConstraintValidatorTestCase extends TestCase
         $this->validator = $this->createValidator();
         $this->validator->initialize($this->context);
 
-        $this->defaultLocale = \Locale::getDefault();
-        \Locale::setDefault('en');
+        if (class_exists(\Locale::class)) {
+            $this->defaultLocale = \Locale::getDefault();
+            \Locale::setDefault('en');
+        }
 
         $this->expectedViolations = [];
         $this->call = 0;
@@ -96,7 +98,9 @@ abstract class ConstraintValidatorTestCase extends TestCase
     {
         $this->restoreDefaultTimezone();
 
-        \Locale::setDefault($this->defaultLocale);
+        if (class_exists(\Locale::class)) {
+            \Locale::setDefault($this->defaultLocale);
+        }
     }
 
     protected function setDefaultTimezone(?string $defaultTimezone)
@@ -221,8 +225,7 @@ abstract class ConstraintValidatorTestCase extends TestCase
     {
         $validator = $this->context->getValidator()->inContext($this->context);
         $validator->expectValidation($i, $propertyPath, $value, $group, function ($passedConstraints) {
-            $expectedConstraints = new LogicalOr();
-            $expectedConstraints->setConstraints([new IsNull(), new IsIdentical([]), new IsInstanceOf(Valid::class)]);
+            $expectedConstraints = LogicalOr::fromConstraints(new IsNull(), new IsIdentical([]), new IsInstanceOf(Valid::class));
 
             Assert::assertThat($passedConstraints, $expectedConstraints);
         });
@@ -277,7 +280,7 @@ abstract class ConstraintValidatorTestCase extends TestCase
 
     protected function assertNoViolation()
     {
-        $this->assertSame(0, $violationsCount = \count($this->context->getViolations()), sprintf('0 violation expected. Got %u.', $violationsCount));
+        $this->assertSame(0, $violationsCount = \count($this->context->getViolations()), \sprintf('0 violation expected. Got %u.', $violationsCount));
     }
 
     protected function buildViolation(string|\Stringable $message): ConstraintViolationAssertion
@@ -420,7 +423,7 @@ final class ConstraintViolationAssertion
 
         $violations = iterator_to_array($this->context->getViolations());
 
-        Assert::assertSame($expectedCount = \count($expected), $violationsCount = \count($violations), sprintf('%u violation(s) expected. Got %u.', $expectedCount, $violationsCount));
+        Assert::assertSame($expectedCount = \count($expected), $violationsCount = \count($violations), \sprintf('%u violation(s) expected. Got %u.', $expectedCount, $violationsCount));
 
         reset($violations);
 
@@ -488,7 +491,7 @@ class AssertingContextualValidator implements ContextualValidatorInterface
         Assert::assertFalse($this->expectNoValidate, 'No validation calls have been expected.');
 
         if (!isset($this->expectedAtPath[++$this->atPathCalls])) {
-            throw new ExpectationFailedException(sprintf('Validation for property path "%s" was not expected.', $path));
+            throw new ExpectationFailedException(\sprintf('Validation for property path "%s" was not expected.', $path));
         }
 
         $expectedPath = $this->expectedAtPath[$this->atPathCalls];
