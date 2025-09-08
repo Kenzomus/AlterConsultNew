@@ -58,14 +58,10 @@ class KeyAdminTest extends BrowserTestBase {
         ':link' => Url::fromRoute('entity.key.add_form')->toString(),
       ]));
 
-    // Add a key.
-    $this->drupalGet('admin/config/system/keys/add');
-
-    $edit = [
-      'id' => 'testing_key',
-      'label' => 'Testing Key',
-    ];
-    $this->submitForm($edit, 'Save');
+    // Enable a default provider and check the key exists.
+    \Drupal::service('module_installer')->install(
+      ['key_test']
+    );
 
     // Go to the Key list page.
     $this->drupalGet('admin/config/system/keys');
@@ -73,6 +69,28 @@ class KeyAdminTest extends BrowserTestBase {
 
     // Verify that the "no keys" message does not display.
     $assert_session->pageTextNotContains('No keys are available.');
+
+    // Check that both test keys exist.
+    $assert_session->pageTextContainsOnce('Test Key 1');
+    $assert_session->pageTextContainsOnce('Test Key 2');
+
+    // Add a key.
+    $this->drupalGet('admin/config/system/keys/add');
+
+    $edit = [
+      'id' => 'test_key1',
+      'label' => 'Test Key 1 (Config)',
+    ];
+    $this->submitForm($edit, 'Save');
+
+    // Go to the Key list page.
+    $this->drupalGet('admin/config/system/keys');
+    $assert_session->statusCodeEquals(200);
+
+    // Check that all three keys show up on the page.
+    $assert_session->pageTextContainsOnce('Test Key 1 (Config)');
+    $assert_session->pageTextContainsOnce('TestKeyResolver:test_key1');
+    $assert_session->pageTextContainsOnce('TestKeyResolver:test_key2');
   }
 
   /**

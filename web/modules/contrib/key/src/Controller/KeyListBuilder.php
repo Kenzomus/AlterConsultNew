@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Url;
+use Drupal\key\Resolver\ChainKeyResolver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -32,11 +33,19 @@ class KeyListBuilder extends ConfigEntityListBuilder {
   protected $overrides;
 
   /**
+   * The Key resolver Service.
+   *
+   * @var \Drupal\key\Resolver\ChainKeyResolver
+   */
+  private $keyResolver;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(EntityTypeInterface $entity_type, EntityTypeManagerInterface $entity_type_manager, EntityStorageInterface $storage) {
+  public function __construct(EntityTypeInterface $entity_type, EntityTypeManagerInterface $entity_type_manager, EntityStorageInterface $storage, ChainKeyResolver $keyResolver) {
     parent::__construct($entity_type, $storage);
     $this->entityTypeManager = $entity_type_manager;
+    $this->keyResolver = $keyResolver;
   }
 
   /**
@@ -46,7 +55,8 @@ class KeyListBuilder extends ConfigEntityListBuilder {
     return new static(
       $entity_type,
       $container->get('entity_type.manager'),
-      $container->get('entity_type.manager')->getStorage($entity_type->id())
+      $container->get('entity_type.manager')->getStorage($entity_type->id()),
+      $container->get('key.resolver'),
     );
   }
 
@@ -55,6 +65,7 @@ class KeyListBuilder extends ConfigEntityListBuilder {
    */
   public function buildHeader() {
     $header['label'] = $this->t('Key');
+    $header['id'] = $this->t('Identifier');
     $header['type'] = [
       'data' => $this->t('Type'),
       'class' => [RESPONSIVE_PRIORITY_MEDIUM],
@@ -75,10 +86,11 @@ class KeyListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var $key \Drupal\key\Entity\Key */
+    /** @var \Drupal\key\Entity\Key $key */
     $key = $entity;
 
     $row['label'] = $key->label();
+    $row['id'] = $key->id();
     $row['type'] = $key->getKeyType()->getPluginDefinition()['label'];
     $row['provider'] = $key->getKeyProvider()->getPluginDefinition()['label'];
 
@@ -95,7 +107,7 @@ class KeyListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function getOperations(EntityInterface $entity) {
-    /* @var $key \Drupal\key\Entity\Key */
+    /** @var \Drupal\key\Entity\Key $key */
     $key = $entity;
 
     $operations = parent::getOperations($key);
@@ -120,7 +132,32 @@ class KeyListBuilder extends ConfigEntityListBuilder {
    */
   public function render() {
     $build = parent::render();
-    $build['table']['#empty'] = $this->t('No keys are available. <a href=":link">Add a key</a>.', [':link' => Url::fromRoute('entity.key.add_form')->toString()]);
+    // Add in keys from non config entities for informational purposes only.
+    $keys = [];
+    foreach ($this->keyResolver->getResolvers() as $resolver_id => $resolver) {
+      $resolver_keys = $resolver->getKeys();
+      foreach ($resolver_keys as $key_id => $key_value) {
+        $keys[$resolver_id . ':' . $key_id] = $key_value;
+      }
+    }
+    $keys = array_filter($keys, function ($key) {
+      return !(str_contains($key, 'KeyEntityResolver'));
+    }, ARRAY_FILTER_USE_KEY);
+    foreach ($keys as $id => $key) {
+      $build['table']['#rows'][$id] = [
+        'label' => $key->label(),
+        'id' => $id,
+        'type' => $key->getKeyProvider(),
+        'provider' => $this->t('Not Applicable'),
+        'overrides' => [],
+        'operations' => [],
+      ];
+    }
+    if (!$keys) {
+      $build['table']['#empty'] = $this->t('No keys are available. <a href=":link">Add a key</a>.', [
+        ':link' => Url::fromRoute('entity.key.add_form')->toString(),
+      ]);
+    }
     return $build;
   }
 
@@ -154,7 +191,7 @@ class KeyListBuilder extends ConfigEntityListBuilder {
       }
     }
 
-    return isset($this->overrides[$key_id]) ? $this->overrides[$key_id] : [];
+    return $this->overrides[$key_id] ?? [];
   }
 
 }
