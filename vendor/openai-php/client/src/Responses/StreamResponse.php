@@ -37,6 +37,12 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
         while (! $this->response->getBody()->eof()) {
             $line = $this->readLine($this->response->getBody());
 
+            $event = null;
+            if (str_starts_with($line, 'event:')) {
+                $event = trim(substr($line, strlen('event:')));
+                $line = $this->readLine($this->response->getBody());
+            }
+
             if (! str_starts_with($line, 'data:')) {
                 continue;
             }
@@ -47,12 +53,21 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
                 break;
             }
 
-            /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}} $response */
+            /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}, type?: string} $response */
             $response = json_decode($data, true, flags: JSON_THROW_ON_ERROR);
 
             if (isset($response['error'])) {
-                throw new ErrorException($response['error']);
+                throw new ErrorException($response['error'], $this->response);
             }
+
+            if (isset($response['type']) && $response['type'] === 'ping') {
+                continue;
+            }
+
+            if ($event !== null) {
+                $response['__event'] = $event;
+            }
+            $response['__meta'] = $this->meta();
 
             yield $this->responseClass::from($response);
         }
@@ -80,7 +95,6 @@ final class StreamResponse implements ResponseHasMetaInformationContract, Respon
 
     public function meta(): MetaInformation
     {
-        // @phpstan-ignore-next-line
         return MetaInformation::from($this->response->getHeaders());
     }
 }

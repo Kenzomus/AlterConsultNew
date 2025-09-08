@@ -57,7 +57,14 @@ class KeySelect extends Select {
    */
   public static function processKeySelect(array &$element, FormStateInterface $form_state, array &$complete_form) {
     // Get the list of available keys and define the options.
-    $options = \Drupal::service('key.repository')->getKeyNamesAsOptions($element['#key_filters']);
+    $keys = \Drupal::service('key.resolver')->getKeys([], $element['#key_filters']);
+    $options = [];
+    foreach ($keys as $id => $key) {
+      $key_id = $id;
+      $key_title = $key->label();
+      $options[$key_id] = (string) $key_title;
+    }
+
     $element['#options'] = $options;
 
     // Prefix the default description with information about keys,

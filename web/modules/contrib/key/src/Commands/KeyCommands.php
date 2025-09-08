@@ -5,13 +5,14 @@ namespace Drupal\key\Commands;
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\key\KeyRepositoryInterface;
 use Drupal\key\Plugin\KeyPluginManager;
 use Drush\Commands\DrushCommands;
 use Drush\Utils\StringUtils;
 
 /**
- * Class KeyCommands.
+ * Drush commands for managing keys.
  *
  * @package Drupal\key\Commands
  */
@@ -46,18 +47,27 @@ class KeyCommands extends DrushCommands {
   protected $keyProviderPluginManager;
 
   /**
+   * Key logging service.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  protected $loggerChannel;
+
+  /**
    * Constructs a new KeyCommands drush command.
    */
   public function __construct(
     KeyRepositoryInterface $repository,
     KeyPluginManager $key_plugin_manager,
     EntityTypeManagerInterface $entity_type_manager,
-    KeyPluginManager $provider_manager
+    KeyPluginManager $provider_manager,
+    LoggerChannelFactoryInterface $loggerChannelFactory,
   ) {
     $this->repository = $repository;
     $this->keyTypePluginManager = $key_plugin_manager;
     $this->entityTypeManager = $entity_type_manager;
     $this->keyProviderPluginManager = $provider_manager;
+    $this->loggerChannel = $loggerChannelFactory->get('key');
   }
 
   /**
@@ -100,7 +110,7 @@ class KeyCommands extends DrushCommands {
       'key-provider-settings' => NULL,
       'key-input' => NULL,
       'key-input-settings' => NULL,
-    ]
+    ],
   ) {
     $values = [];
     $values['id'] = $id;
@@ -191,7 +201,7 @@ class KeyCommands extends DrushCommands {
   public function delete($id, array $options = []) {
     // Look for a key with the specified ID. If one does not exist, set an
     // error and abort.
-    /* @var $key \Drupal\key\Entity\Key */
+    /** @var \Drupal\key\Entity\Key $key */
     $key = $this->repository->getKey($id);
     if (!$key) {
       throw new \Exception(dt('Key !id does not exist.', ['!id' => $id]));
@@ -234,7 +244,7 @@ class KeyCommands extends DrushCommands {
   public function keyList(array $options = ['key-type' => NULL, 'key-provider' => NULL]) {
     $result = [];
 
-    /* @var $key \Drupal\key\Entity\Key */
+    /** @var \Drupal\key\Entity\Key $key */
     $keys = $this->repository->getKeys();
 
     // Filter by key type, if specified.
@@ -300,18 +310,30 @@ class KeyCommands extends DrushCommands {
    * Display a list of available key providers.
    *
    * @command key:provider-list
-   * @option storage-method An optional key provider storage method on which to filter.
+   * @option tags Optional key provider tags, separated by comma, on which to filter.
+   * @option storage-method [DEPRECATED] An optional key provider storage method on which to filter.
    * @aliases key-provider-list
    * @format table
    */
-  public function providerList($options = ['storage-method' => NULL]) {
+  public function providerList(
+    $options = [
+      'tags' => NULL,
+      'storage-method' => NULL,
+    ],
+  ) {
     $result = [];
 
-    $storage_method = $options['storage-method'];
+    $tags = StringUtils::csvToArray($options['tags']);
+    if ($options['storage-method']) {
+      @trigger_error("The Drush --storage-method option is deprecated in key:1.18.0 and is removed from key:2.0.0. Use the --tags option instead. See https://www.drupal.org/node/3364701", E_USER_DEPRECATED);
+      $this->loggerChannel->warning("The Drush --storage-method option is deprecated in key:1.18.0 and is removed from key:2.0.0. Use the --tags option instead. See https://www.drupal.org/node/3364701");
+      $tags[] = $options['storage-method'];
+      $tags = array_unique($tags);
+    }
 
     $plugins = $this->keyProviderPluginManager->getDefinitions();
     foreach ($plugins as $id => $plugin) {
-      if (!isset($storage_method) || $plugin['storage_method'] == $storage_method) {
+      if (!$tags || array_intersect($plugin['tags'], $tags)) {
         $row = [];
         $row['id'] = $id;
         $row['description'] = $plugin['description'];
@@ -341,7 +363,7 @@ class KeyCommands extends DrushCommands {
     $result = [];
     // Look for a key with the specified ID. If one does not exist, set an
     // error and abort.
-    /* @var $key \Drupal\key\Entity\Key */
+    /** @var \Drupal\key\Entity\Key $key */
     $key = $this->repository->getKey($id);
     if (!$key) {
       throw new \Exception(dt('Key !id does not exist.', ['!id' => $id]));

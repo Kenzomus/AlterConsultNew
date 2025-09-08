@@ -34,7 +34,8 @@
         "drupal/augmentor_google_cloud_speech_to_text-augmentor_google_cloud_speech_to_text": "^1.0",
         "drupal/augmentor_google_cloud_text_to_speech-augmentor_google_cloud_text_to_speech": "^1.0",
         "drupal/core-project-message": "10.2.6",
-        "drupal/webprofiler": "^10.1"
+        "drupal/webprofiler": "^10.1",
+        "openai-php/client": "^0.16.1"
     },
     "require-dev": {
         "drupal/core-dev": "^10"
