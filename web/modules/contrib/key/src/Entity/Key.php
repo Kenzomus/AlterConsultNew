@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityWithPluginCollectionInterface;
 use Drupal\key\Exception\KeyValueNotSetException;
 use Drupal\key\KeyInterface;
+use Drupal\key\KeyValueInterface;
 use Drupal\key\Plugin\KeyPluginCollection;
 use Drupal\key\Plugin\KeyProviderSettableValueInterface;
 
@@ -50,7 +51,7 @@ use Drupal\key\Plugin\KeyProviderSettableValueInterface;
  *   }
  * )
  */
-class Key extends ConfigEntityBase implements KeyInterface, EntityWithPluginCollectionInterface {
+class Key extends ConfigEntityBase implements KeyValueInterface, KeyInterface, EntityWithPluginCollectionInterface {
 
   /**
    * The key ID.
@@ -338,7 +339,7 @@ class Key extends ConfigEntityBase implements KeyInterface, EntityWithPluginColl
 
     // If an original key exists.
     if (isset($this->original)) {
-      /* @var $original \Drupal\key\Entity\Key */
+      /** @var \Drupal\key\Entity\Key $original */
       $original = $this->original;
 
       // If the original key's provider allows setting a key value and
@@ -360,7 +361,7 @@ class Key extends ConfigEntityBase implements KeyInterface, EntityWithPluginColl
    */
   public static function postDelete(EntityStorageInterface $storage, array $entities) {
     foreach ($entities as $key) {
-      /* @var $key \Drupal\key\Entity\Key */
+      /** @var \Drupal\key\Entity\Key $key */
       // Give the key provider plugin the opportunity to delete the key value.
       if ($key->getKeyProvider() instanceof KeyProviderSettableValueInterface) {
         $key->deleteKeyValue();

@@ -3,7 +3,6 @@
 namespace Drupal\openai_devel\Commands;
 
 use Consolidation\AnnotatedCommand\CommandData;
-use Drupal\devel_generate\DevelGenerateBaseInterface;
 use Drupal\devel_generate\DevelGeneratePluginManager;
 use Drush\Commands\DrushCommands;
 
@@ -115,15 +114,15 @@ class OpenAIDevelCommands extends DrushCommands {
   /**
    * Generate content using OpenAI's GPT services.
    *
-   * @command devel-generate:content-gpt
-   * @aliases gencgpt
-   * @pluginId content_gpt
-   * @validate-module-enabled node
-   *
    * @param int $num
    *   Number of nodes to generate.
    * @param array $options
    *   Array of options as described below.
+   *
+   * @command devel-generate:content-gpt
+   * @aliases gencgpt
+   * @pluginId content_gpt
+   * @validate-module-enabled node
    *
    * @option kill Delete all content before generating new content.
    * @option bundles A comma-delimited list of content types to create.
@@ -140,39 +139,42 @@ class OpenAIDevelCommands extends DrushCommands {
    * @option max_tokens The maximum number of tokens to generate in the response. The token count of your prompt plus max_tokens cannot exceed the model\'s context length.
    * @option html If TRUE, OpenAI will be instructed to format the replies in basic HTML format for text formatted fields. Warning, this will consume many more tokens in the response.
    */
-  public function content($num = 15, array $options = [
-    'kill' => FALSE,
-    'bundles' => 'page,article',
-    'authors' => self::REQ,
-    'feedback' => 1,
-    'skip-fields' => self::REQ,
-    'base-fields' => self::REQ,
-    'languages' => self::REQ,
-    'translations' => self::REQ,
-    'add-type-label' => FALSE,
-    'model' => 'gpt-3.5-turbo',
-    'system' => self::REQ,
-    'temperature' => 0.4,
-    'max_tokens' => 512,
-    'html' => FALSE,
-  ]) {
+  public function content(
+    $num = 15,
+    array $options = [
+      'kill' => FALSE,
+      'bundles' => 'page,article',
+      'authors' => self::REQ,
+      'feedback' => 1,
+      'skip-fields' => self::REQ,
+      'base-fields' => self::REQ,
+      'languages' => self::REQ,
+      'translations' => self::REQ,
+      'add-type-label' => FALSE,
+      'model' => 'gpt-3.5-turbo',
+      'system' => self::REQ,
+      'temperature' => 0.4,
+      'max_tokens' => 512,
+      'html' => FALSE,
+    ],
+  ) {
     $this->generate();
   }
 
   /**
    * The standard drush validate hook.
    *
-   * @hook validate
-   *
    * @param \Consolidation\AnnotatedCommand\CommandData $commandData
    *   The data sent from the drush command.
+   *
+   * @hook validate
    */
   public function validate(CommandData $commandData) {
     $manager = $this->getManager();
     $args = $commandData->input()->getArguments();
     // The command name is the first argument but we do not need this.
     array_shift($args);
-    /** @var DevelGenerateBaseInterface $instance */
+    /** @var \Drupal\devel_generate\DevelGenerateBaseInterface $instance */
     $instance = $manager->createInstance($commandData->annotationData()->get('pluginId'), []);
     $this->setPluginInstance($instance);
     $parameters = $instance->validateDrushParams($args, $commandData->input()->getOptions());
