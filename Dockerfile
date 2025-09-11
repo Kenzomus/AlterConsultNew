@@ -1,6 +1,7 @@
 # Stage 1: Base PHP 8.3 Apache image
 FROM php:8.3-apache AS base
 
+# Set working directory
 WORKDIR /var/www/html
 
 # Install system dependencies and PHP extensions
@@ -20,15 +21,18 @@ RUN apt-get update && apt-get install -y \
 # Enable Apache modules
 RUN a2enmod rewrite headers
 
-# Copy Drupal files
+# Allow .htaccess overrides
+RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+
+# Copy Drupal project files including hidden files like .htaccess
 COPY . /var/www/html
 
-# Set Drupal permissions
+# Set proper Drupal file permissions
 RUN chown -R www-data:www-data /var/www/html \
     && find /var/www/html -type d -exec chmod 755 {} \; \
     && find /var/www/html -type f -exec chmod 644 {} \;
 
-# PHP configuration
+# PHP configuration for Drupal + Cloud Run
 RUN echo "memory_limit=512M\nupload_max_filesize=100M\npost_max_size=100M\nmax_execution_time=300\n" > /usr/local/etc/php/conf.d/drupal.ini \
     && echo "opcache.enable=1\nopcache.memory_consumption=128\nopcache.interned_strings_buffer=16\nopcache.max_accelerated_files=10000\nopcache.revalidate_freq=0\nopcache.validate_timestamps=0\n" >> /usr/local/etc/php/conf.d/opcache.ini
 
@@ -52,5 +56,5 @@ ENV DB_USER="DB_USER"
 ENV DB_PASS="DB_PASSWORD"
 ENV DB_NAME="DB_NAME"
 
-# Run both Cloud SQL Proxy and Apache
+# Run Cloud SQL Proxy and Apache together
 CMD /cloud_sql_proxy -instances=$CLOUDSQL_CONNECTION_NAME=tcp:3306 & apache2-foreground
