@@ -1,41 +1,65 @@
-name: Deploy to Cloud Run
+name: Deploy to Google Cloud Run
 
 on:
   push:
     branches:
       - main
+      - dev
+
+env:
+  PROJECT_ID: alter-consult-464302  # <-- replace with your GCP Project ID
+  REGION: us-central1              # <-- adjust region if needed
+  SERVICE_NAME: alter-consult-drupal
+  GAR_REPO: drupal-repo            # Artifact Registry repo name
+  IMAGE: drupal-app
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # ------------------------------------------------------
+      # 1. Checkout Repo
+      # ------------------------------------------------------
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
+      # ------------------------------------------------------
+      # 2. Authenticate to Google Cloud
+      # ------------------------------------------------------
       - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
+        uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          credentials_json: ${{ secrets.GCP_SA_KEY }} # Service account JSON in GitHub Secrets
 
-      - name: Configure Docker
-        run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      # ------------------------------------------------------
+      # 3. Configure Docker for Artifact Registry
+      # ------------------------------------------------------
+      - name: Configure Docker for GAR
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
-      - name: Build and push Docker image
+      # ------------------------------------------------------
+      # 4. Build & Push Docker Image
+      # ------------------------------------------------------
+      - name: Build & Push Docker image
         run: |
-          IMAGE="us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alterconsult:${{ github.sha }}"
-          docker build -t $IMAGE .
-          docker push $IMAGE
-          echo "IMAGE=$IMAGE" >> $GITHUB_ENV
+          IMAGE_URI=${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO }}/${{ env.IMAGE }}:${{ github.sha }}
+          docker build -t $IMAGE_URI .
+          docker push $IMAGE_URI
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
+      # ------------------------------------------------------
+      # 5. Deploy to Cloud Run
+      # ------------------------------------------------------
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy alterconsult \
-            --image $IMAGE \
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image $IMAGE_URI \
+            --region ${{ env.REGION }} \
             --platform managed \
-            --region us-central1 \
             --allow-unauthenticated \
-            --service-account cloud-run-runtime@alter-consult-464302.iam.gserviceaccount.com
+            --service-account 155305720214-compute@developer.gserviceaccount.com \
+            --port 8080
