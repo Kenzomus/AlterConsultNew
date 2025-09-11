@@ -1,10 +1,10 @@
-# Stage 1: Base PHP 8.3 Apache image
-FROM php:8.3-apache AS base
+# Base image: PHP 8.3 with Apache
+FROM php:8.3-apache
 
-# Set working directory
+# Set working directory to Apache web root
 WORKDIR /var/www/html
 
-# Install system dependencies and PHP extensions
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -13,48 +13,25 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libonig-dev \
     libxml2-dev \
-    libpq-dev \
-    wget \
     && docker-php-ext-install pdo pdo_mysql gd zip opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache modules
+# Enable Apache modules required by Drupal
 RUN a2enmod rewrite headers
 
-# Allow .htaccess overrides
-RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+# Copy only the web directory as the Apache document root
+COPY web/ /var/www/html/
 
-# Copy Drupal project files including hidden files like .htaccess
-COPY . /var/www/html
+# Allow .htaccess overrides (Drupal needs this for clean URLs & access rules)
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
-# Set proper Drupal file permissions
+# Set correct permissions for Drupal
 RUN chown -R www-data:www-data /var/www/html \
     && find /var/www/html -type d -exec chmod 755 {} \; \
     && find /var/www/html -type f -exec chmod 644 {} \;
 
-# PHP configuration for Drupal + Cloud Run
-RUN echo "memory_limit=512M\nupload_max_filesize=100M\npost_max_size=100M\nmax_execution_time=300\n" > /usr/local/etc/php/conf.d/drupal.ini \
-    && echo "opcache.enable=1\nopcache.memory_consumption=128\nopcache.interned_strings_buffer=16\nopcache.max_accelerated_files=10000\nopcache.revalidate_freq=0\nopcache.validate_timestamps=0\n" >> /usr/local/etc/php/conf.d/opcache.ini
-
-# Cloud Run port
-ENV PORT 8080
-RUN sed -i "s/Listen 80/Listen ${PORT}/g" /etc/apache2/ports.conf \
-    && sed -i "s/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/g" /etc/apache2/sites-enabled/000-default.conf
-
+# Expose the Cloud Run expected port
 EXPOSE 8080
 
-# Stage 2: Add Cloud SQL Auth Proxy
-FROM base
-
-# Download Cloud SQL Auth Proxy
-RUN wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O /cloud_sql_proxy \
-    && chmod +x /cloud_sql_proxy
-
-# Environment variables for Cloud SQL
-ENV CLOUDSQL_CONNECTION_NAME="PROJECT_ID:REGION:INSTANCE_ID"
-ENV DB_USER="DB_USER"
-ENV DB_PASS="DB_PASSWORD"
-ENV DB_NAME="DB_NAME"
-
-# Run Cloud SQL Proxy and Apache together
-CMD /cloud_sql_proxy -instances=$CLOUDSQL_CONNECTION_NAME=tcp:3306 & apache2-foreground
+# Run Apache in the foreground
+CMD ["apache2-foreground"]
