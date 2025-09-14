@@ -1,52 +1,75 @@
 # ------------------------------------------------------
-# Stage 1: Build (Composer)
+# Stage 1: Build Stage (Composer + Dependencies)
 # ------------------------------------------------------
-FROM composer:2 AS build
+FROM php:8.3-cli AS build
 
 WORKDIR /app
 
-# Copy only composer files for faster builds
+# Install system dependencies for PHP extensions
+RUN apt-get update && apt-get install -y \
+        libpng-dev \
+        libjpeg-dev \
+        libfreetype6-dev \
+        libzip-dev \
+        libonig-dev \
+        libicu-dev \
+        zip \
+        unzip \
+        git \
+        curl \
+        pkg-config \
+        unzip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Configure and install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip pdo pdo_mysql mbstring exif pcntl bcmath opcache intl
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Copy composer files and install PHP dependencies
 COPY composer.json composer.lock ./
-
-# Install PHP dependencies (ignore GD for build)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-gd
-
-# Copy the rest of the application code
-COPY . .
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # ------------------------------------------------------
 # Stage 2: Runtime (Apache + PHP)
 # ------------------------------------------------------
 FROM php:8.3-apache AS runtime
 
-# Set working directory
 WORKDIR /var/www/html
 
-# Install required PHP extensions
+# Install system dependencies for runtime (if needed)
 RUN apt-get update && apt-get install -y \
         libpng-dev \
         libjpeg-dev \
         libfreetype6-dev \
+        libzip-dev \
+        libonig-dev \
+        libicu-dev \
         zip \
         unzip \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd zip pdo pdo_mysql mbstring exif pcntl bcmath opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Configure and install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip pdo pdo_mysql mbstring exif pcntl bcmath opcache intl
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Copy Drupal code and vendor from build stage
-COPY --from=build /app /var/www/html
+# Copy built vendor from build stage
+COPY --from=build /app/vendor /var/www/html/vendor
 
-# Set file permissions (optional, adjust for your setup)
-RUN chown -R www-data:www-data /var/www/html \
-    && find /var/www/html -type d -exec chmod 755 {} \; \
-    && find /var/www/html -type f -exec chmod 644 {} \;
+# Copy Drupal source code
+COPY . .
 
-# Expose port 8080 (Cloud Run expects this)
-ENV PORT=8080
+# Set permissions for Drupal
+RUN chown -R www-data:www-data /var/www/html/web/sites
+
+# Cloud Run listens on PORT env variable
+ENV PORT 8080
 EXPOSE 8080
 
-# Start Apache in foreground
+# Apache foreground
 CMD ["apache2-foreground"]
