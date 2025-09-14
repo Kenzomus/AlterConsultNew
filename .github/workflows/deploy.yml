@@ -1,41 +1,50 @@
-name: Deploy to Cloud Run
+name: Build & Deploy to Cloud Run
 
 on:
   push:
     branches:
-      - main  # Change this if you use another default branch
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    env:
-      PROJECT_ID: alter-consult-464302
-      REGION: us-central1
-      SERVICE_NAME: alter-consult-drupal
-      PORT: 8080
-
     steps:
-      # Step 1: Checkout repository
+      # 1️⃣ Checkout the repo
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Google Cloud SDK
+      # 2️⃣ Set up Google Cloud SDK and authenticate
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
-          project_id: ${{ env.PROJECT_ID }}
+          project_id: alter-consult-464302
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
 
-      # Step 3: Build Docker image
+      # 3️⃣ Configure Docker to use gcloud as a credential helper
+      - name: Configure Docker for GCR
+        run: gcloud auth configure-docker
+
+      # 4️⃣ Build the Docker image
       - name: Build Docker image
         run: |
-          docker build -t gcr.io/${PROJECT_ID}/${SERVICE_NAME}:${GITHUB_SHA} .
+          IMAGE_NAME=gcr.io/alter-consult-464302/alter-consult-drupal:${GITHUB_SHA}
+          docker build -t $IMAGE_NAME .
 
-      # Step 4: Push Docker image to GCR
+      # 5️⃣ Push Docker image to GCR
       - name: Push Docker image
         run: |
-          docker push gcr.io/${PROJECT_ID}/${SERVICE_NAME}:${GITHUB_SHA}
+          IMAGE_NAME=gcr.io/alter-consult-464302/alter-consult-drupal:${GITHUB_SHA}
+          docker push $IMAGE_NAME
 
-      # Step 5: Deploy to Cloud Run
+      # 6️⃣ Deploy to Cloud Run
+      - name: Deploy to Cloud Run
+        run: |
+          IMAGE_NAME=gcr.io/alter-consult-464302/alter-consult-drupal:${GITHUB_SHA}
+          gcloud run deploy alter-consult-drupal \
+            --image $IMAGE_NAME \
+            --region us-central1 \
+            --platform managed \
+            --allow-unauthenticated \
+            --port 8080
