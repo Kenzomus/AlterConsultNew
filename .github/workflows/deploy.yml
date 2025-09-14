@@ -1,4 +1,4 @@
-name: Build & Deploy to Cloud Run
+name: Build & Deploy Drupal to Cloud Run
 
 on:
   push:
@@ -10,41 +10,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout the repo
-      - name: Checkout code
-        uses: actions/checkout@v3
+    # Step 1: Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      # 2️⃣ Set up Google Cloud SDK and authenticate
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: alter-consult-464302
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
+    # Step 2: Authenticate to Google Cloud
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # 3️⃣ Configure Docker to use gcloud as a credential helper
-      - name: Configure Docker for GCR
-        run: gcloud auth configure-docker
+    # Step 3: Set up gcloud CLI
+    - name: Set up gcloud
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        project_id: alter-consult-464302
+        install_components: 'gke-gcloud-auth-plugin'
 
-      # 4️⃣ Build the Docker image
-      - name: Build Docker image
-        run: |
-          IMAGE_NAME=gcr.io/alter-consult-464302/alter-consult-drupal:${GITHUB_SHA}
-          docker build -t $IMAGE_NAME .
+    # Step 4: Configure Docker to use Artifact Registry
+    - name: Configure Docker for Artifact Registry
+      run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      # 5️⃣ Push Docker image to GCR
-      - name: Push Docker image
-        run: |
-          IMAGE_NAME=gcr.io/alter-consult-464302/alter-consult-drupal:${GITHUB_SHA}
-          docker push $IMAGE_NAME
+    # Step 5: Build Docker image
+    - name: Build Docker image
+      run: |
+        docker build \
+          -t us-central1-docker.pkg.dev/alter-consult-464302/drupal-repo/alter-consult-drupal:latest .
 
-      # 6️⃣ Deploy to Cloud Run
-      - name: Deploy to Cloud Run
-        run: |
-          IMAGE_NAME=gcr.io/alter-consult-464302/alter-consult-drupal:${GITHUB_SHA}
-          gcloud run deploy alter-consult-drupal \
-            --image $IMAGE_NAME \
-            --region us-central1 \
-            --platform managed \
-            --allow-unauthenticated \
-            --port 8080
+    # Step 6: Push Docker image to Artifact Registry
+    - name: Push Docker image
+      run: |
+        docker push us-central1-docker.pkg.dev/alter-consult-464302/drupal-repo/alter-consult-drupal:latest
+
+    # Step 7: Deploy to Cloud Run
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy alter-consult-drupal \
+          --image us-central1-docker.pkg.dev/alter-consult-464302/drupal-repo/alter-consult-drupal:latest \
+          --region us-central1 \
+          --platform managed \
+          --allow-unauthenticated \
+          --port 8080
