@@ -1,48 +1,54 @@
-# Stage 1: Build with Composer
-FROM php:8.3-cli AS builder
-
-# Install system deps and PHP extensions needed for composer install
-RUN apt-get update && apt-get install -y \
-    git unzip libicu-dev libpq-dev libpng-dev libjpeg-dev libfreetype6-dev libzip-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd intl pdo pdo_mysql zip opcache \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# ------------------------------------------------------
+# Stage 1: Build vendor dependencies with Composer
+# ------------------------------------------------------
+FROM php:8.3-cli AS vendor
 
 WORKDIR /app
 
-# Copy composer files
-COPY composer.json composer.lock ./
-
-# Install PHP dependencies into vendor/
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-# Copy rest of project
-COPY . .
-
-# Stage 2: Runtime with Apache
-FROM php:8.3-apache
-
-# Install required extensions again for runtime
+# Install tools needed for composer
 RUN apt-get update && apt-get install -y \
-    libicu-dev libpq-dev libpng-dev libjpeg-dev libfreetype6-dev libzip-dev unzip git \
+    git unzip libzip-dev libpng-dev libjpeg-dev libfreetype6-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd intl pdo pdo_mysql zip opcache \
+    && docker-php-ext-install gd zip \
     && rm -rf /var/lib/apt/lists/*
 
-RUN a2enmod rewrite
+# Install Composer (inside the php:8.3-cli container)
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+    && rm composer-setup.php
+
+# Copy composer files and install dependencies
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Copy everything else (needed for custom modules/themes)
+COPY . .
+
+# ------------------------------------------------------
+# Stage 2: Runtime (Apache + PHP)
+# ------------------------------------------------------
+FROM php:8.3-apache AS runtime
 
 WORKDIR /var/www/html
 
-# Copy everything from builder (including vendor/)
-COPY --from=builder /app /var/www/html
+# Install required PHP extensions for Drupal
+RUN apt-get update && apt-get install -y \
+    libzip-dev libpng-dev libjpeg-dev libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd mysqli pdo pdo_mysql zip opcache \
+    && rm -rf /var/lib/apt/lists/*
 
-# Apache docroot to web/
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/web
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
-    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+# Enable Apache rewrite
+RUN a2enmod rewrite
 
+# Copy Drupal project from vendor stage
+COPY --from=vendor /app /var/www/html
+
+# Set proper permissions for Drupal (simplified)
+RUN chown -R www-data:www-data /var/www/html/web/sites /var/www/html/web/modules /var/www/html/web/themes
+
+# Environment variables (Cloud Run sets these dynamically)
+ENV PORT=8080
 EXPOSE 8080
+
 CMD ["apache2-foreground"]
