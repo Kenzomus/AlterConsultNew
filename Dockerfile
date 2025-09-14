@@ -1,27 +1,17 @@
 # ------------------------------------------------------
-# Stage 1: Build vendor dependencies with Composer
+# Stage 1: Build (Composer)
 # ------------------------------------------------------
-FROM php:8.3-cli AS vendor
+FROM composer:2 AS build
 
 WORKDIR /app
 
-# Install tools needed for composer
-RUN apt-get update && apt-get install -y \
-    git unzip libzip-dev libpng-dev libjpeg-dev libfreetype6-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd zip \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Composer (inside the php:8.3-cli container)
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
-    && rm composer-setup.php
-
-# Copy composer files and install dependencies
+# Copy composer files
 COPY composer.json composer.lock ./
+
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Copy everything else (needed for custom modules/themes)
+# Copy Drupal source code
 COPY . .
 
 # ------------------------------------------------------
@@ -29,26 +19,27 @@ COPY . .
 # ------------------------------------------------------
 FROM php:8.3-apache AS runtime
 
-WORKDIR /var/www/html
-
-# Install required PHP extensions for Drupal
+# Install required PHP extensions
 RUN apt-get update && apt-get install -y \
-    libzip-dev libpng-dev libjpeg-dev libfreetype6-dev \
+    libpng-dev libjpeg-dev libfreetype6-dev libzip-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd mysqli pdo pdo_mysql zip opcache \
+    && docker-php-ext-install gd zip pdo pdo_mysql \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache rewrite
+# Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Copy Drupal project from vendor stage
-COPY --from=vendor /app /var/www/html
+WORKDIR /var/www/html
 
-# Set proper permissions for Drupal (simplified)
-RUN chown -R www-data:www-data /var/www/html/web/sites /var/www/html/web/modules /var/www/html/web/themes
+# Copy Drupal code from build stage
+COPY --from=build /app /var/www/html
 
-# Environment variables (Cloud Run sets these dynamically)
-ENV PORT=8080
+# Set file permissions (for Cloud Run, www-data can write)
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
+
+# Expose the port Cloud Run expects
 EXPOSE 8080
 
+# Use the official PHP entrypoint
 CMD ["apache2-foreground"]
