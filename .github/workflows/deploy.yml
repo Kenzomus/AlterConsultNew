@@ -1,30 +1,45 @@
-# cloudbuild.yaml
-steps:
-  # Step 1: Build the Docker image
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [
-      'build',
-      '-t', 'gcr.io/$PROJECT_ID/alter-consult-drupal:$COMMIT_SHA',
-      '.'
-    ]
+# .github/workflows/deploy-cloudrun.yml
+name: Deploy Drupal to Cloud Run
 
-  # Step 2: Push the image to Google Container Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: [
-      'push',
-      'gcr.io/$PROJECT_ID/alter-consult-drupal:$COMMIT_SHA'
-    ]
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to main
+  workflow_dispatch:
 
-  # Step 3: Deploy to Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
-    entrypoint: gcloud
-    args:
-      [
-        'run', 'deploy', 'alter-consult-drupal',
-        '--image', 'gcr.io/$PROJECT_ID/alter-consult-drupal:$COMMIT_SHA',
-        '--platform', 'managed',
-        '--region', 'us-central1',
-        '--allow-unauthenticated',
-        '--port', '8080',
-        '--set-secrets',
-        'DB_USER=drupal-db-user:latest,DB_PASSWORD=drupal-db-password:latest,DB_NAME=d_
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Google Cloud SDK
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCP_PROJECT }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
+
+      # Step 3: Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/alter-consult-drupal:${{ github.sha }} .
+
+      # Step 4: Push Docker image
+      - name: Push Docker image to GCR
+        run: |
+          docker push gcr.io/${{ secrets.GCP_PROJECT }}/alter-consult-drupal:${{ github.sha }}
+
+      # Step 5: Deploy to Cloud Run
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy alter-consult-drupal \
+            --image gcr.io/${{ secrets.GCP_PROJECT }}/alter-consult-drupal:${{ github.sha }} \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated \
+            --port 8080 \
+            --set-secrets DB_USER=drupal-db-user:latest,DB_PASSWORD=drupal-db-password:latest,DB_NAME=drupal-db-name:latest
