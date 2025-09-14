@@ -1,10 +1,12 @@
-# Stage 1: Build environment
+# ------------------------------------------------------
+# Stage 1: Build stage (composer + dependencies)
+# ------------------------------------------------------
 FROM php:8.3-cli AS build
 
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies and PHP extensions needed for Drupal packages
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -12,37 +14,52 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     git \
-    curl \
-    libonig-dev \
-    libxml2-dev \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip pdo pdo_mysql mbstring exif pcntl bcmath opcache \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Configure and install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd zip pdo pdo_mysql mbstring exif pcntl bcmath opcache
-
-# Copy composer files first for caching
+# Copy composer files separately for caching
 COPY composer.json composer.lock ./
 
 # Install PHP dependencies (no dev)
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Copy Drupal source code
+# Copy the rest of the Drupal code
 COPY . .
 
-# Stage 2: Runtime
-FROM php:8.3-apache
+# ------------------------------------------------------
+# Stage 2: Runtime (Apache + PHP)
+# ------------------------------------------------------
+FROM php:8.3-apache AS runtime
 
 WORKDIR /var/www/html
 
-# Copy built application from build stage
+# Install runtime PHP extensions
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    unzip \
+    git \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip pdo pdo_mysql mbstring exif pcntl bcmath opcache \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Drupal code + vendor from build stage
 COPY --from=build /app /var/www/html
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
-
-# Expose port 8080
+# Set Apache environment
+ENV PORT 8080
 EXPOSE 8080
 
-# Start Apache
+# Enable mod_rewrite
+RUN a2enmod rewrite
+
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html/sites /var/www/html/modules /var/www/html/themes
+
+# Run Apache in foreground
 CMD ["apache2-foreground"]
