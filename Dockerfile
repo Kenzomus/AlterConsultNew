@@ -1,40 +1,32 @@
-# Use PHP 8.3 with Apache
+# Base image with PHP and Apache
 FROM php:8.3-apache
 
-# Enable required Apache modules
-RUN a2enmod rewrite expires headers
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
 
-# Install dependencies
+# Install required system dependencies
 RUN apt-get update && apt-get install -y \
-    git unzip libpng-dev libjpeg-dev libfreetype6-dev libonig-dev libxml2-dev mariadb-client \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql mbstring exif pcntl bcmath opcache \
-    && rm -rf /var/lib/apt/lists/*
+    git unzip libicu-dev libpng-dev libonig-dev libxml2-dev \
+    && docker-php-ext-install intl pdo pdo_mysql gd mbstring opcache
 
-# Set working directory
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Set workdir
 WORKDIR /var/www/html
 
-# Copy project files
-COPY . /var/www/html
+# Copy project files (excluding vendor/ because composer will handle it)
+COPY composer.json composer.lock ./
+COPY web ./web
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && find /var/www/html -type d -exec chmod 755 {} \; \
-    && find /var/www/html -type f -exec chmod 644 {} \;
+# Install PHP dependencies inside the container
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
 
-# ✅ Dynamically configure Apache to listen on $PORT
-RUN sed -i "s/Listen 80/Listen \${PORT}/" /etc/apache2/ports.conf \
-    && sed -i "s/:80/:${PORT}/g" /etc/apache2/sites-available/000-default.conf
+# Ensure correct permissions
+RUN chown -R www-data:www-data /var/www/html
 
-# Environment variables
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/web
-ENV PORT=8080
-
-# Update Apache config to use Drupal web root
-RUN sed -i "s|/var/www/html|${APACHE_DOCUMENT_ROOT}|g" /etc/apache2/sites-available/000-default.conf /etc/apache2/apache2.conf /etc/apache2/sites-available/000-default.conf
-
-# Expose Cloud Run port
+# Expose Apache port
 EXPOSE 8080
 
-# ✅ Start Apache on Cloud Run's port
-CMD ["sh", "-c", "apache2-foreground -DFOREGROUND -k start -e info -DFOREGROUND"]
+# Override default Apache config for Drupal
+COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
