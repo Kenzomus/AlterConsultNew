@@ -4,9 +4,16 @@ on:
   push:
     branches:
       - main
+      - dev
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  SERVICE: alterconsult
+  REGION: us-central1
+  REPO: alter-consult-new-look
 
 jobs:
-  deploy:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,21 +28,22 @@ jobs:
       - name: Set up gcloud
         uses: google-github-actions/setup-gcloud@v2
 
-      - name: Configure Docker for Artifact Registry
+      - name: Configure Docker auth
         run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
       - name: Build and push Docker image
         run: |
-          IMAGE="us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal"
+          IMAGE=us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/docker-repo/${{ env.SERVICE }}:${{ github.sha }}
           docker build -t $IMAGE .
           docker push $IMAGE
 
-      - name: Deploy to Cloud Run with extended timeout
+      - name: Deploy to Cloud Run
         run: |
-          IMAGE="us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal"
-          gcloud run deploy alter-consult-drupal \
+          IMAGE=us-central1-docker.pkg.dev/${{ env.PROJECT_ID }}/docker-repo/${{ env.SERVICE }}:${{ github.sha }}
+          gcloud run deploy ${{ env.SERVICE }} \
             --image $IMAGE \
-            --region us-central1 \
+            --region ${{ env.REGION }} \
             --platform managed \
             --allow-unauthenticated \
-            --timeout 900
+            --port 8080 \
+            --service-account=${{ secrets.GCP_RUNTIME_SA }}
