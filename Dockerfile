@@ -49,15 +49,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copy project files into container
 COPY . .
 
-# Ensure vendor/ exists (Composer dependencies must be installed before build)
-RUN test -f vendor/autoload.php || (echo "❌ Missing vendor/autoload.php. Run 'composer install' locally before building." && exit 1)
+# Install Composer dependencies
+RUN composer install --no-dev --optimize-autoloader
 
 # Set correct permissions for Drupal
-RUN if [ -d /var/www/html ]; then \
-      chown -R www-data:www-data /var/www/html && \
-      find /var/www/html -type d -exec chmod 755 {} \; && \
-      find /var/www/html -type f -exec chmod 644 {} \; \
-    ; fi
+RUN chown -R www-data:www-data /var/www/html \
+    && find /var/www/html -type d -exec chmod 755 {} \; \
+    && find /var/www/html -type f -exec chmod 644 {} \;
 
 # Configure PHP (OPcache + recommended settings for Drupal)
 RUN echo "memory_limit=512M\n\
@@ -65,4 +63,16 @@ upload_max_filesize=64M\n\
 post_max_size=64M\n\
 max_execution_time=300\n\
 opcache.enable=1\n\
-opcache
+opcache.memory_consumption=256\n\
+opcache.max_accelerated_files=20000\n\
+opcache.revalidate_freq=0" > /usr/local/etc/php/conf.d/drupal.ini
+
+# Add entrypoint script to inject Cloud Run's $PORT
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Expose Cloud Run port
+EXPOSE 8080
+
+# Start Apache via entrypoint
+CMD ["docker-entrypoint.sh"]
