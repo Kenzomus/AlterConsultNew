@@ -1,8 +1,16 @@
-# Use official PHP 8.3 Apache image
-FROM php:8.3-apache
+# ------------------------------------------------------
+# Stage 1: Composer Dependencies
+# ------------------------------------------------------
+FROM composer:2 AS vendor
 
-# Set working directory to Drupal root
-WORKDIR /var/www/html
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+
+# ------------------------------------------------------
+# Stage 2: PHP + Apache + Drupal
+# ------------------------------------------------------
+FROM php:8.3-apache
 
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
@@ -24,19 +32,16 @@ RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/web|' /etc/a
     Require all granted\n\
 </Directory>" >> /etc/apache2/apache2.conf
 
-# Install Composer globally
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Set working directory
+WORKDIR /var/www/html
 
-# Copy only Composer files first to leverage Docker layer caching
-COPY composer.json composer.lock ./
-
-# Install Composer dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# Copy the rest of the project
+# Copy Drupal source
 COPY . .
 
-# Set correct permissions for Drupal
+# Copy vendor directory from Composer build stage
+COPY --from=vendor /app/vendor /var/www/html/vendor
+
+# Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && find /var/www/html -type d -exec chmod 755 {} \; \
     && find /var/www/html -type f -exec chmod 644 {} \;
