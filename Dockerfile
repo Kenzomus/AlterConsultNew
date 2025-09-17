@@ -5,33 +5,14 @@ FROM php:8.3-apache
 WORKDIR /var/www/html
 
 # Install system dependencies and PHP extensions
-RUN set -ex \
-    && apt-get update \
-    && apt-get install -y \
-        libpng-dev \
-        libjpeg-dev \
-        libfreetype6-dev \
-        libwebp-dev \
-        libzip-dev \
-        zip unzip git curl vim nano pkg-config \
-        libonig-dev \
-        libicu-dev \
-        libxml2-dev \
-        default-mysql-client \
-    \
-    # Configure GD with all supported formats
-    && docker-php-ext-configure gd \
-        --with-freetype \
-        --with-jpeg \
-        --with-webp \
-    \
-    # Install PHP extensions
+RUN apt-get update && apt-get install -y \
+    libpng-dev libjpeg-dev libfreetype6-dev libwebp-dev \
+    libzip-dev zip unzip git curl vim nano pkg-config \
+    libonig-dev libicu-dev libxml2-dev default-mysql-client \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) \
         gd zip pdo_mysql mbstring exif pcntl bcmath opcache intl \
-    \
-    # Clean up
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache modules required for Drupal
 RUN a2enmod rewrite headers
@@ -46,18 +27,21 @@ RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/web|' /etc/a
 # Install Composer globally
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy project files into container
-COPY . .
+# Copy only Composer files first to leverage Docker layer caching
+COPY composer.json composer.lock ./
 
 # Install Composer dependencies
 RUN composer install --no-dev --optimize-autoloader
+
+# Copy the rest of the project
+COPY . .
 
 # Set correct permissions for Drupal
 RUN chown -R www-data:www-data /var/www/html \
     && find /var/www/html -type d -exec chmod 755 {} \; \
     && find /var/www/html -type f -exec chmod 644 {} \;
 
-# Configure PHP (OPcache + recommended settings for Drupal)
+# Configure PHP for Drupal
 RUN echo "memory_limit=512M\n\
 upload_max_filesize=64M\n\
 post_max_size=64M\n\
