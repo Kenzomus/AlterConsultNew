@@ -1,4 +1,4 @@
-name: Deploy Drupal to Cloud Run
+name: Deploy to Cloud Run
 
 on:
   push:
@@ -6,33 +6,41 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up Google Cloud SDK
-      uses: google-github-actions/setup-gcloud@v1
-      with:
-        project_id: alter-consult-464302
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
-        export_default_credentials: true
+      # Authenticate to Google Cloud using Workload Identity Federation
+      - name: Google Auth
+        uses: google-github-actions/auth@v2
+        with:
+          token_format: access_token
+          workload_identity_provider: projects/155305720214/locations/global/workloadIdentityPools/github-pool/providers/github
+          service_account: 155305720214-compute@developer.gserviceaccount.com
 
-    - name: Build Docker image
-      run: |
-        docker build -t gcr.io/alter-consult-464302/alter-consult-drupal .
+      # Setup gcloud
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
 
-    - name: Push Docker image to GCR
-      run: |
-        docker push gcr.io/alter-consult-464302/alter-consult-drupal
+      # Build & push Docker image to Artifact Registry
+      - name: Build and Push Docker image
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+          docker build -t us-central1-docker.pkg.dev/alter-consult-464302/alter-consult-repo/alter-consult-drupal:${{ github.sha }} .
+          docker push us-central1-docker.pkg.dev/alter-consult-464302/alter-consult-repo/alter-consult-drupal:${{ github.sha }}
 
-    - name: Deploy to Cloud Run
-      run: |
-        gcloud run deploy alter-consult-drupal \
-          --image gcr.io/alter-consult-464302/alter-consult-drupal \
-          --platform managed \
-          --region us-central1 \
-          --allow-unauthenticated \
-          --timeout=600
+      # Deploy to Cloud Run
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy alter-consult-drupal \
+            --image us-central1-docker.pkg.dev/alter-consult-464302/alter-consult-repo/alter-consult-drupal:${{ github.sha }} \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated
