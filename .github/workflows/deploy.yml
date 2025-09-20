@@ -10,27 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: 'read'
-      id-token: 'write'
+      contents: read
+      id-token: write
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       # Authenticate to Google Cloud using Workload Identity Federation
-      - name: Google Auth
+      - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          token_format: access_token
           workload_identity_provider: projects/155305720214/locations/global/workloadIdentityPools/github-pool/providers/github
           service_account: 155305720214-compute@developer.gserviceaccount.com
 
-      # Setup gcloud
-      - name: Set up Cloud SDK
+      # Setup gcloud SDK
+      - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: alter-consult-464302
+          install_components: 'beta'
 
-      # Build & push Docker image to Artifact Registry
-      - name: Build and Push Docker image
+      # Build and push Docker image
+      - name: Build and push Docker image
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
           docker build -t us-central1-docker.pkg.dev/alter-consult-464302/alter-consult-repo/alter-consult-drupal:${{ github.sha }} .
