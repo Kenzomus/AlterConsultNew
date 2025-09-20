@@ -1,12 +1,17 @@
 #!/bin/bash
-set -e
 
-# Default to Cloud Run's $PORT, fallback to 8080 if not set
+# Default to 8080 if PORT is not set
 PORT=${PORT:-8080}
 
-# Update Apache to listen on $PORT
-sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf
-sed -i "s/:80/:${PORT}/" /etc/apache2/sites-available/000-default.conf
+# Rewrite Apache config to use dynamic port
+echo "Listen ${PORT}" > /etc/apache2/ports.conf
+echo "<VirtualHost *:${PORT}>
+    DocumentRoot /var/www/html/web
+    <Directory /var/www/html/web>
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>" > /etc/apache2/sites-available/000-default.conf
 
-echo "Starting Apache on port ${PORT}..."
+# Start Apache
 exec apache2-foreground

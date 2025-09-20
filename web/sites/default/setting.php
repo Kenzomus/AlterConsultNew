@@ -58,14 +58,15 @@
  * implementations with custom ones.
  */
 $databases['default']['default'] = [
-  'database' => getenv('DB_NAME'),
-  'username' => getenv('DB_USER'),
-  'password' => getenv('DB_PASSWORD'),
-  'host' => '/cloudsql/alter-consult-464302:us-central1:drupal-db',
   'driver' => 'mysql',
+  'database' => getenv('DB_NAME') ?: 'drupal',
+  'username' => getenv('DB_USER') ?: 'drupaluser',
+  'password' => getenv('DB_PASSWORD') ?: '',
+  'host' => sprintf('/cloudsql/%s', getenv('DB_CONNECTION_NAME') ?: 'alter-consult-464302:us-central1:drupal-db'),
+  'port' => '3306',
   'prefix' => '',
+  'collation' => 'utf8mb4_general_ci',
 ];
-
 
 /**
  * Database settings:
