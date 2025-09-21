@@ -1,4 +1,4 @@
-name: Deploy to Cloud Run
+name: Deploy Drupal to Cloud Run
 
 on:
   push:
@@ -6,43 +6,51 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     permissions:
       contents: read
-      id-token: write
-
+      id-token: write  # Required for Workload Identity Federation
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      # 1. Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      # Authenticate to Google Cloud using Workload Identity Federation
+      # 2. Authenticate with Google Cloud using Workload Identity Federation
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: projects/155305720214/locations/global/workloadIdentityPools/github-pool/providers/github
-          service_account: 155305720214-compute@developer.gserviceaccount.com
+          workload_identity_provider: "projects/155305720214/locations/global/workloadIdentityPools/github-pool/providers/github"
+          service_account: "155305720214-compute@developer.gserviceaccount.com"
 
-      # Setup gcloud SDK
-      - name: Setup gcloud CLI
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: alter-consult-464302
-          install_components: 'beta'
-
-      # Build and push Docker image
-      - name: Build and push Docker image
+      # 3. Set Google Cloud project
+      - name: Set up gcloud project
         run: |
-          gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
-          docker build -t us-central1-docker.pkg.dev/alter-consult-464302/alter-consult-repo/alter-consult-drupal:${{ github.sha }} .
-          docker push us-central1-docker.pkg.dev/alter-consult-464302/alter-consult-repo/alter-consult-drupal:${{ github.sha }}
+          gcloud config set project alter-consult-464302
+          gcloud config set run/region us-central1
 
-      # Deploy to Cloud Run
+      # 4. Configure Docker for Artifact Registry
+      - name: Configure Docker
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      # 5. Build Docker image
+      - name: Build Docker image
+        run: |
+          IMAGE_URI="us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest"
+          docker build -t $IMAGE_URI .
+
+      # 6. Push Docker image to Artifact Registry
+      - name: Push Docker image
+        run: |
+          IMAGE_URI="us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest"
+          docker push $IMAGE_URI
+
+      # 7. Deploy to Cloud Run
       - name: Deploy to Cloud Run
         run: |
+          IMAGE_URI="us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest"
           gcloud run deploy alter-consult-drupal \
-            --image us-central1-docker.pkg.dev/alter-consult-464302/alter-consult-repo/alter-consult-drupal:${{ github.sha }} \
+            --image $IMAGE_URI \
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated
