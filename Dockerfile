@@ -1,39 +1,36 @@
-# Use Google’s mirror of the official PHP 8.3 + Apache image (faster + avoids Docker Hub EOF issues)
-FROM gcr.io/google-appengine/php:8.3-apache
+# Stage 1: Base PHP image
+FROM php:8.3-apache
 
-# Install system dependencies and PHP extensions required by Drupal
-RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libwebp-dev \
-    libzip-dev \
-    zip unzip git curl vim nano pkg-config \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install -j$(nproc) gd zip pdo pdo_mysql \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install Composer (from official image, reliable copy)
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# Set workdir
+# Set working directory
 WORKDIR /var/www/html
 
-# Copy Drupal project files
-COPY . /var/www/html
+# Update system and install required packages and PHP extensions
+RUN apt-get update && apt-get install -y \
+        libpng-dev \
+        libjpeg-dev \
+        libfreetype6-dev \
+        libzip-dev \
+        zip unzip git curl \
+        && docker-php-ext-configure gd --with-freetype --with-jpeg \
+        && docker-php-ext-install gd zip pdo_mysql mbstring intl opcache \
+        && apt-get clean \
+        && rm -rf /var/lib/apt/lists/*
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# Fix permissions for Drupal
-RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
-
-# Apache will listen on Cloud Run’s required port
-ENV PORT=8080
-EXPOSE 8080
-
-# Enable Apache Rewrite (needed for Drupal clean URLs)
+# Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Start Apache
+# Install Composer globally
+COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
+
+# Copy Drupal code
+COPY . .
+
+# Ensure proper permissions
+RUN chown -R www-data:www-data /var/www/html
+
+# Expose the port that Cloud Run expects
+ENV PORT 8080
+EXPOSE 8080
+
+# Start Apache in foreground
 CMD ["apache2-foreground"]

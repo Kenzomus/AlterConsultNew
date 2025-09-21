@@ -8,49 +8,47 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
-      id-token: write  # Required for Workload Identity Federation
+      id-token: write   # Needed for Workload Identity Federation
+
     steps:
       # 1. Checkout code
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Authenticate with Google Cloud using Workload Identity Federation
-      - name: Authenticate to Google Cloud
+      # 2. Authenticate to Google Cloud using Workload Identity Federation
+      - name: Authenticate to GCP
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: "projects/155305720214/locations/global/workloadIdentityPools/github-pool/providers/github"
           service_account: "155305720214-compute@developer.gserviceaccount.com"
 
-      # 3. Set Google Cloud project
-      - name: Set up gcloud project
-        run: |
-          gcloud config set project alter-consult-464302
-          gcloud config set run/region us-central1
+      # 3. Configure gcloud
+      - name: Set GCP project
+        run: gcloud config set project alter-consult-464302
 
-      # 4. Configure Docker for Artifact Registry
+      # 4. Configure Docker to push to Artifact Registry
       - name: Configure Docker
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      # 5. Build Docker image
+      # 5. Build the Docker image
       - name: Build Docker image
         run: |
-          IMAGE_URI="us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest"
-          docker build -t $IMAGE_URI .
+          docker build -t us-central1-docker.pkg.dev/alter-consult-464302/alterconsult/alter-consult-drupal .
 
       # 6. Push Docker image to Artifact Registry
       - name: Push Docker image
         run: |
-          IMAGE_URI="us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest"
-          docker push $IMAGE_URI
+          docker push us-central1-docker.pkg.dev/alter-consult-464302/alterconsult/alter-consult-drupal
 
       # 7. Deploy to Cloud Run
       - name: Deploy to Cloud Run
         run: |
-          IMAGE_URI="us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest"
           gcloud run deploy alter-consult-drupal \
-            --image $IMAGE_URI \
+            --image us-central1-docker.pkg.dev/alter-consult-464302/alterconsult/alter-consult-drupal \
             --platform managed \
             --region us-central1 \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --port 8080
