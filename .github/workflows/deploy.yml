@@ -14,7 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Set up Google Cloud SDK
+      # 2️⃣ Authenticate with Google Cloud using service account key
       - name: Set up Google Cloud
         uses: google-github-actions/setup-gcloud@v2
         with:
@@ -31,7 +31,7 @@ jobs:
             --remove-env-vars=DB_PASSWORD,DB_USER,DB_NAME \
             --quiet || echo "No old env vars to remove"
 
-      # 4️⃣ Deploy to Cloud Run with Secret Manager for all DB credentials
+      # 4️⃣ Deploy to Cloud Run with Secret Manager for DB credentials
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy alterconsult \
@@ -44,7 +44,7 @@ jobs:
       # 5️⃣ Verify secrets are correctly injected
       - name: Verify injected secrets
         run: |
-          echo "Checking environment variables in Cloud Run service..."
+          echo "Listing environment variables for Cloud Run service..."
           gcloud run services describe alterconsult \
             --region us-central1 \
             --platform managed \
