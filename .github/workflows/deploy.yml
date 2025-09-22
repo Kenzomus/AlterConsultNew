@@ -14,15 +14,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Authenticate with Google Cloud using service account key
-      - name: Set up Google Cloud
+      # 2️⃣ Authenticate to Google Cloud using service account key
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      # 3️⃣ Set up gcloud CLI
+      - name: Set up gcloud CLI
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: alter-consult-464302
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
 
-      # 3️⃣ Remove any old literal environment variables that might conflict
+      # 4️⃣ Remove any old literal environment variables that might conflict
       - name: Remove old env vars from Cloud Run
         run: |
           gcloud run services update alterconsult \
@@ -31,7 +36,7 @@ jobs:
             --remove-env-vars=DB_PASSWORD,DB_USER,DB_NAME \
             --quiet || echo "No old env vars to remove"
 
-      # 4️⃣ Deploy to Cloud Run with Secret Manager for DB credentials
+      # 5️⃣ Deploy to Cloud Run with Secret Manager for DB credentials
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy alterconsult \
@@ -41,7 +46,7 @@ jobs:
             --update-secrets=DB_PASSWORD=drupal-db-password:latest,DB_USER=DB_USER:latest,DB_NAME=DB_NAME:latest \
             --quiet
 
-      # 5️⃣ Verify secrets are correctly injected
+      # 6️⃣ Verify secrets are correctly injected
       - name: Verify injected secrets
         run: |
           echo "Listing environment variables for Cloud Run service..."
