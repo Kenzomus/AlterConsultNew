@@ -1,36 +1,50 @@
-# Stage 1: Base PHP image
+# Stage 1: Build composer dependencies
+FROM composer:2 AS vendor
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --optimize-autoloader
+
+# Stage 2: Final image
 FROM php:8.3-apache
 
-# Set working directory
 WORKDIR /var/www/html
 
-# Update system and install required packages and PHP extensions
+# Install PHP extensions
 RUN apt-get update && apt-get install -y \
-        libpng-dev \
-        libjpeg-dev \
-        libfreetype6-dev \
-        libzip-dev \
-        zip unzip git curl \
-        && docker-php-ext-configure gd --with-freetype --with-jpeg \
-        && docker-php-ext-install gd zip pdo_mysql mbstring intl opcache \
-        && apt-get clean \
-        && rm -rf /var/lib/apt/lists/*
+    libpng-dev libjpeg-dev libfreetype6-dev libwebp-dev libzip-dev zip unzip git curl nano pkg-config \
+    libonig-dev libicu-dev libxml2-dev default-mysql-client \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j$(nproc) gd zip pdo_mysql mbstring exif pcntl bcmath opcache intl \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Enable Apache modules
+RUN a2enmod rewrite headers
 
-# Install Composer globally
-COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
+# Copy Drupal files + vendor
+COPY . /var/www/html
+COPY --from=vendor /app/vendor /var/www/html/vendor
 
-# Copy Drupal code
-COPY . .
-
-# Ensure proper permissions
+# Fix permissions
 RUN chown -R www-data:www-data /var/www/html
 
-# Expose the port that Cloud Run expects
-ENV PORT 8080
+# Cloud Run port configuration
+ENV PORT=8080
+RUN echo "Listen ${PORT}" > /etc/apache2/ports.conf \
+    && sed -i "s|DocumentRoot /var/www/html|DocumentRoot /var/www/html/web|g" /etc/apache2/sites-available/000-default.conf
+
 EXPOSE 8080
 
-# Start Apache in foreground
+# Recommended PHP settings
+RUN { \
+      echo "memory_limit=512M"; \
+      echo "upload_max_filesize=64M"; \
+      echo "post_max_size=64M"; \
+      echo "max_execution_time=300"; \
+      echo "opcache.enable=1"; \
+      echo "opcache.memory_consumption=256"; \
+      echo "opcache.max_accelerated_files=20000"; \
+      echo "opcache.revalidate_freq=0"; \
+    } > /usr/local/etc/php/conf.d/drupal.ini
+
+# Start Apache
 CMD ["apache2-foreground"]
