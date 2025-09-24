@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libxml2-dev \
     pkg-config \
-    libonig-dev \        # <--- Oniguruma required for mbstring
+    libonig-dev \
     zip unzip git curl vim nano \
     && rm -rf /var/lib/apt/lists/*
 
