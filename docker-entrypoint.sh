@@ -1,12 +1,15 @@
 #!/bin/bash
 set -e
 
-# Default to Cloud Run's $PORT, fallback to 8080 if not set
-PORT=${PORT:-8080}
+# Wait for DB to be ready
+if [ -n "$DB_HOST" ]; then
+  echo "Waiting for database at $DB_HOST..."
+  until mysqladmin ping -h "$DB_HOST" --silent; do
+    echo -n "."
+    sleep 2
+  done
+  echo "Database is up!"
+fi
 
-# Update Apache configs to use Cloud Run's $PORT
-sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf
-sed -i "s/:80/:${PORT}/" /etc/apache2/sites-available/000-default.conf
-
-echo "Starting Apache on port ${PORT}..."
-exec apache2-foreground
+# Execute the original CMD (apache2-foreground)
+exec "$@"

@@ -3,54 +3,54 @@ name: Deploy to Cloud Run
 on:
   push:
     branches:
-      - main  # deploy on push to main
+      - main
+      - master
+
+env:
+  PROJECT_ID: alter-consult-464302
+  REGION: us-central1
+  SERVICE: alterconsult
+  REPO: alterconsult-repo
+  IMAGE: gcr.io/alter-consult-464302/alter-consult-drupal11
+  CLOUDSQL_INSTANCE: alter-consult-464302:us-central1:drupal-db
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout source
+        uses: actions/checkout@v4
 
-      # 2️⃣ Authenticate to Google Cloud using service account key
       - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
+        uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # 3️⃣ Set up gcloud CLI
-      - name: Set up gcloud CLI
+      - name: Set up gcloud SDK
         uses: google-github-actions/setup-gcloud@v2
         with:
-          project_id: alter-consult-464302
-          export_default_credentials: true
+          project_id: ${{ env.PROJECT_ID }}
 
-      # 4️⃣ Remove any old literal environment variables that might conflict
-      - name: Remove old env vars from Cloud Run
+      - name: Configure Docker for gcloud
+        run: gcloud auth configure-docker gcr.io --quiet
+
+      - name: Build Docker image
         run: |
-          gcloud run services update alterconsult \
-            --region us-central1 \
-            --platform managed \
-            --remove-env-vars=DB_PASSWORD,DB_USER,DB_NAME \
-            --quiet || echo "No old env vars to remove"
+          docker build -t $IMAGE .
 
-      # 5️⃣ Deploy to Cloud Run with Secret Manager for DB credentials
+      - name: Push Docker image
+        run: |
+          docker push $IMAGE
+
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy alterconsult \
-            --image gcr.io/alter-consult-464302/alter-consult-drupal11 \
-            --region us-central1 \
+          gcloud run deploy $SERVICE \
+            --image $IMAGE \
+            --region $REGION \
             --platform managed \
             --update-secrets=DB_PASSWORD=drupal-db-password:latest,DB_USER=DB_USER:latest,DB_NAME=DB_NAME:latest \
+            --set-env-vars=DB_HOST=/cloudsql/${CLOUDSQL_INSTANCE} \
+            --add-cloudsql-instances=${CLOUDSQL_INSTANCE} \
+            --timeout=10m \
             --quiet
-
-      # 6️⃣ Verify secrets are correctly injected
-      - name: Verify injected secrets
-        run: |
-          echo "Listing environment variables for Cloud Run service..."
-          gcloud run services describe alterconsult \
-            --region us-central1 \
-            --platform managed \
-            --format="table(spec.template.spec.containers[0].env)"

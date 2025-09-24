@@ -1,67 +1,43 @@
-# Use official PHP with Apache
+# Base image
 FROM php:8.3-apache
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    zip \
-    libicu-dev \
-    libxml2-dev \
-    libzip-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libonig-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd intl pdo_mysql opcache zip \
-    && docker-php-ext-enable opcache \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Enable Apache rewrite
-RUN a2enmod rewrite headers
-
-# Suppress ServerName warning
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy composer first to leverage caching
-COPY composer.json composer.lock ./
+# -------------------------------
+# 1️⃣ Install system dependencies
+# -------------------------------
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libwebp-dev \
+    libzip-dev \
+    zip unzip git curl nano pkg-config \
+    mariadb-client \
+    && rm -rf /var/lib/apt/lists/*
 
-# Allow unlimited memory for Composer
-ENV COMPOSER_MEMORY_LIMIT=-1
+# -------------------------------
+# 2️⃣ Install PHP extensions
+# -------------------------------
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j$(nproc) gd zip pdo pdo_mysql mbstring xml opcache
 
-# Install Composer
-COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
+# -------------------------------
+# 3️⃣ Enable Apache modules
+# -------------------------------
+RUN a2enmod rewrite headers
 
-# Install dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+# -------------------------------
+# 4️⃣ Configure Cloud Run port
+# -------------------------------
+ENV PORT 8080
+RUN sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf \
+    && sed -i "s/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf
 
-# Copy project files
-COPY . .
-
-# Fix Apache document root for Drupal
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/web|' /etc/apache2/sites-available/000-default.conf \
- && echo "<Directory /var/www/html/web>\n\
-    Options Indexes FollowSymLinks\n\
-    AllowOverride All\n\
-    Require all granted\n\
-</Directory>" > /etc/apache2/conf-available/drupal.conf \
- && a2enconf drupal
-
-# Set proper permissions
-RUN chown -R www-data:www-data /var/www/html \
- && find /var/www/html -type d -exec chmod 755 {} \; \
- && find /var/www/html -type f -exec chmod 644 {} \;
-
-# Expose the Cloud Run port
-ENV PORT=8080
-EXPOSE 8080
-
-# Update Apache to listen on PORT
-RUN sed -i "s/80/\${PORT}/g" /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
-
-# Start Apache
-CMD ["apache2-foreground"]
+# -------------------------------
+# 5️⃣ Configure document root
+# -------------------------------
+ENV APACHE_DOCUMENT_ROOT /var/www/html/web
+RUN sed -ri -e 's!/var/www/html!/var/www/html/web!g' /etc/apa
