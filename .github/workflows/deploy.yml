@@ -32,4 +32,4 @@ jobs:
       # 4️⃣ Build Docker image
       - name: Build Docker image
         run: |
-          d
+          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/alter-consult-repo/alter-consult-image:latest .
