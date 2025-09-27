@@ -1,37 +1,45 @@
-# Use official PHP Apache base image
+# Use PHP 8.3 with Apache
 FROM php:8.3-apache
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git unzip libpng-dev libjpeg-dev libfreetype6-dev libzip-dev libonig-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd zip pdo pdo_mysql opcache \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Enable Apache rewrite
-RUN a2enmod rewrite
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy composer first (for caching)
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libwebp-dev \
+    libzip-dev \
+    libxml2-dev \
+    libonig-dev \
+    zip unzip git curl vim nano pkg-config \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy only composer files first
-COPY composer.json composer.lock ./
+# Configure and install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j$(nproc) gd zip pdo pdo_mysql mbstring xml opcache
 
-# Install PHP dependencies inside container
-RUN composer install --no-dev --optimize-autoloader
+# Enable Apache rewrite module
+RUN a2enmod rewrite
 
-# Now copy Drupal code
-COPY . .
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Fix permissions for Drupal
+# Copy Drupal files
+COPY . /var/www/html/
+
+# Install Composer dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Ensure settings.php exists
+RUN if [ ! -f web/sites/default/settings.php ]; then \
+        cp web/sites/default/default.settings.php web/sites/default/settings.php; \
+    fi
+
+# Set permissions
 RUN chown -R www-data:www-data /var/www/html \
-    && mkdir -p /var/www/html/web/sites/default/files \
-    && chown -R www-data:www-data /var/www/html/web/sites/default/files \
-    && find /var/www/html/web/sites/default/files -type d -exec chmod 775 {} \; \
-    && find /var/www/html/web/sites/default/files -type f -exec chmod 664 {} \;
+    && find web/sites/default/files -type d -exec chmod 775 {} \; \
+    && find web/sites/default/files -type f -exec chmod 664 {} \;
 
-EXPOSE 80
-CMD ["apache2-foreground"]
+# Set Apache document root
