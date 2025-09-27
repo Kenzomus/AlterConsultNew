@@ -2,48 +2,45 @@ name: Build and Deploy Drupal to Cloud Run
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write  # Required for Workload Identity Federation
+      id-token: write
 
     steps:
-      # 1️⃣ Checkout code
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v3
 
-      # 2️⃣ Set up Google Cloud CLI
-      - name: Set up gcloud
-        uses: google-github-actions/setup-gcloud@v2
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
         with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # 3️⃣ Configure Docker for Google Container Registry
-      - name: Configure Docker
-        run: gcloud auth configure-docker --quiet
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker us-docker.pkg.dev -q
 
-      # 4️⃣ Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/drupal-app:$GITHUB_SHA .
+          IMAGE="us-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/drupal-repo/drupal-app:${{ github.sha }}"
+          echo "Building $IMAGE"
+          docker build -t $IMAGE .
 
-      # 5️⃣ Push Docker image
       - name: Push Docker image
         run: |
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/drupal-app:$GITHUB_SHA
+          IMAGE="us-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/drupal-repo/drupal-app:${{ github.sha }}"
+          echo "Pushing $IMAGE"
+          docker push $IMAGE
 
-      # 6️⃣ Deploy to Cloud Run
       - name: Deploy to Cloud Run
         run: |
+          IMAGE="us-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/drupal-repo/drupal-app:${{ github.sha }}"
+          echo "Deploying $IMAGE"
           gcloud run deploy drupal-app \
-            --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/drupal-app:$GITHUB_SHA \
+            --image $IMAGE \
             --platform managed \
             --region ${{ secrets.CLOUD_RUN_REGION }} \
             --allow-unauthenticated \
