@@ -37,18 +37,4 @@ RUN if [ ! -f web/sites/default/settings.php ]; then \
         cp web/sites/default/default.settings.php web/sites/default/settings.php; \
     fi
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && find web/sites/default/files -type d -exec chmod 775 {} \; \
-    && find web/sites/default/files -type f -exec chmod 664 {} \;
-
-# Set Apache document root to /web
-ENV APACHE_DOCUMENT_ROOT /var/www/html/web
-EXPOSE 8080
-
-# Update Apache configs for Drupal /web folder
-RUN sed -ri -e 's!/var/www/html!/var/www/html/web!g' /etc/apache2/sites-available/*.conf \
-    && sed -ri -e 's!/var/www/!/var/www/html/web!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
-# Default command
-CMD ["apache2-foreground"]
+# Set permissions (only if files dir
