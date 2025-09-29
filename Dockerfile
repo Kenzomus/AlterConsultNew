@@ -20,8 +20,12 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable gd zip pdo_mysql intl opcache \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache rewrite (needed for Drupal pretty URLs)
+# Enable Apache rewrite module
 RUN a2enmod rewrite
+
+# Set Apache DocumentRoot to Drupal's /web subdirectory
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/web|g' /etc/apache2/sites-available/000-default.conf \
+    && echo '<Directory /var/www/html/web>\nOptions Indexes FollowSymLinks\nAllowOverride All\nRequire all granted\n</Directory>' >> /etc/apache2/apache2.conf
 
 # Set working directory
 WORKDIR /var/www/html
@@ -30,7 +34,8 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 # Set correct permissions
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html/web
 
 # Expose port 8080 for Cloud Run
 EXPOSE 8080
