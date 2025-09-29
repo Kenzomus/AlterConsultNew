@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable gd zip pdo_mysql intl opcache \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
@@ -33,9 +36,13 @@ WORKDIR /var/www/html
 # Copy project files into container
 COPY . /var/www/html
 
+# Install Drupal dependencies
+RUN composer install --no-dev --optimize-autoloader
+
 # Set correct permissions
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/web
+    && chmod -R 755 /var/www/html/web \
+    && find /var/www/html/web -type f -exec chmod 644 {} \;
 
 # Expose port 8080 for Cloud Run
 EXPOSE 8080
