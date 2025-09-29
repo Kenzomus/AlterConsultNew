@@ -53,6 +53,7 @@ jobs:
             --cache-to=type=local,dest=/tmp/.buildx-cache-new \
             -t "$IMAGE" \
             --push \
+            .
       # 7️⃣ Deploy to Cloud Run
 
       - name: Deploy to Cloud Run
