@@ -50,4 +50,14 @@ jobs:
           docker buildx create --use
           docker buildx build \
             --cache-from=type=local,src=/tmp/.buildx-cache \
-            --cache-to=type=local,dest=/tmp/.buildx-cache-n
+            --cache-to=type=local,dest=/tmp/.buildx-cache-new \
+            -t "$IMAGE" \
+            --push \
+      # 7️⃣ Deploy to Cloud Run
+
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: drupal-app
+          image: gcr.io/${{ secrets.GCP_PROJECT_ID }}/drupal-app:${{ github.sha }}
+          region: us-central1  # or your preferred region
