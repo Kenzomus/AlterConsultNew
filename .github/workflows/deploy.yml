@@ -1,4 +1,4 @@
-```yaml
+
 name: Deploy to Cloud Run
 
 on:
@@ -46,4 +46,4 @@ jobs:
         env:
           GCP_REGION: ${{ secrets.GCP_REGION }}
           GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
-```
+
