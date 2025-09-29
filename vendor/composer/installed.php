@@ -3,7 +3,7 @@
         'name' => 'alter-consult/drupal',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'cb2809b39ea397852bfdde7c6d889691bdd969f1',
+        'reference' => '4e237f565d4697cbe64ea680ed9e050143ea7435',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'alter-consult/drupal' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'cb2809b39ea397852bfdde7c6d889691bdd969f1',
+            'reference' => '4e237f565d4697cbe64ea680ed9e050143ea7435',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
