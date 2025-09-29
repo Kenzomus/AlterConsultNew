@@ -36,13 +36,17 @@ WORKDIR /var/www/html
 # Copy project files into container
 COPY . /var/www/html
 
-# Install Drupal dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# Set correct permissions
+# Set correct permissions before Composer install
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/web \
     && find /var/www/html/web -type f -exec chmod 644 {} \;
+
+# Install Drupal dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+# Ensure installer can write settings and services
+RUN chmod -R 775 /var/www/html/web/sites/default \
+    && chown -R www-data:www-data /var/www/html/web/sites/default
 
 # Expose port 8080 for Cloud Run
 EXPOSE 8080
