@@ -42,7 +42,14 @@ RUN chown -R www-data:www-data /var/www/html \
     && find /var/www/html/web -type f -exec chmod 644 {} \;
 
 # Install Drupal dependencies
+# Copy only composer files first
+COPY composer.json composer.lock /var/www/html/
+
+# Install dependencies before copying full project
 RUN composer install --no-dev --optimize-autoloader
+
+# Now copy the full project
+COPY . /var/www/html
 
 # Ensure installer can write settings and services
 RUN chmod -R 775 /var/www/html/web/sites/default \
