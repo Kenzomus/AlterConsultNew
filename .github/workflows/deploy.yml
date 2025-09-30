@@ -21,21 +21,21 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
 
-      - name: Configure Docker for Google Cloud
-        run: gcloud auth configure-docker
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
       - name: Build Docker image
         run: |
-          docker build -t gcr.io/alter-consult-drupal/alter-consult-drupal:latest .
+          docker build -t us-central1-docker.pkg.dev/alter-consult-drupal/alterconsult-repo/alter-consult-drupal:latest .
 
-      - name: Push Docker image to Google Container Registry
+      - name: Push Docker image to Artifact Registry
         run: |
-          docker push gcr.io/alter-consult-drupal/alter-consult-drupal:latest
+          docker push us-central1-docker.pkg.dev/alter-consult-drupal/alterconsult-repo/alter-consult-drupal:latest
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy alter-consult-drupal \
-            --image gcr.io/alter-consult-drupal/alter-consult-drupal:latest \
+            --image us-central1-docker.pkg.dev/alter-consult-drupal/alterconsult-repo/alter-consult-drupal:latest \
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated \
