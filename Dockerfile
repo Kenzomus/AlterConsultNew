@@ -1,45 +1,33 @@
-# Base image: PHP 8.3 with Apache
+# Use official PHP 8.3 with Apache
 FROM php:8.3-apache
 
-# Install system dependencies and PHP extensions for Drupal
+# Install dependencies and GD extension
 RUN apt-get update && apt-get install -y \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libpng-dev \
-    libwebp-dev \
-    libxpm-dev \
-    libzip-dev \
-    unzip git curl vim nano pkg-config \
-    libicu-dev \
-    && docker-php-ext-configure gd \
-        --with-freetype \
-        --with-jpeg \
-        --with-webp \
-        --with-xpm \
-    && docker-php-ext-install -j$(nproc) gd zip pdo_mysql intl opcache \
-    && docker-php-ext-enable gd zip pdo_mysql intl opcache \
+    git unzip libpng-dev libjpeg-dev libfreetype6-dev libwebp-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-enable gd \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Composer globally
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Enable Apache rewrite module
+# Enable Apache Rewrite (needed for Drupal)
 RUN a2enmod rewrite
 
-# Set working directory to Drupal project root
+# Set working directory
 WORKDIR /var/www/html
 
-# Copy only composer files first to leverage Docker layer caching
-COPY composer.json composer.lock /var/www/html/
+# Copy project files
+COPY . .
 
-# Install dependencies before copying full project
-RUN composer install --no-dev --optimize-autoloader
+# Install Composer (latest stable)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Copy full project into container
-COPY . /var/www/html
+# Expose port 8080 for Cloud Run
+EXPOSE 8080
 
-# Set Apache DocumentRoot to Drupal's /web subdirectory
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/web|g' /etc/apache2/sites-available/000-default.conf \
-    && echo '<Directory /var/www/html/web>\nOptions Indexes FollowSymLinks\nAllowOverride All\nRequire all granted\n</Directory>' >> /etc/apache2/apache2.conf
+# Apache listens on 8080 for Cloud Run
+RUN sed -i 's/80/8080/g' /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
 
-# Set correct
+# Set correct permissions for Drupal
+RUN chown -R www-data:www-data /var/www/html
+
+CMD ["apache2-foreground"]

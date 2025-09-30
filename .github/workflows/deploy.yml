@@ -1,4 +1,3 @@
-
 name: Deploy Drupal to Google Cloud Run
 
 on:
@@ -9,9 +8,16 @@ on:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+
     steps:
+      # 1. Checkout repo
       - uses: actions/checkout@v3
 
+      # 2. Fix Git safe.directory (avoids "dubious ownership")
+      - name: Fix Git safe directory
+        run: git config --global --add safe.directory /app
+
+      # 3. Set up PHP for composer install
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -19,37 +25,27 @@ jobs:
           extensions: mbstring, intl, pdo_mysql, gd
           coverage: none
 
-      - name: Set up Composer
+      # 4. Install Composer
+      - name: Install Composer
         uses: php-actions/composer@v6
         with:
           version: latest
 
+      # 5. Install dependencies
       - name: Install dependencies
         run: composer install --no-dev --prefer-dist --optimize-autoloader
 
+      # 6. Authenticate with Google Cloud
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-      - name: Backup Cloud SQL Database
-        run: |
-          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-          BACKUP_FILE="drupal-backup-$TIMESTAMP.sql.gz"
-          echo "Backing up Cloud SQL database..."
-          gcloud sql export sql ${{ secrets.CLOUD_SQL_INSTANCE }} gs://${{ secrets.GCS_BACKUP_BUCKET }}/$BACKUP_FILE --database=${{ secrets.CLOUD_SQL_DATABASE }}
-          echo "Backup stored in GCS: $BACKUP_FILE"
-
-      - name: Backup Drupal Configuration
-        run: |
-          echo "Exporting Drupal config..."
-          drush cex -y
-          tar -czf drupal-config-backup.tar.gz config/
-          gsutil cp drupal-config-backup.tar.gz gs://${{ secrets.GCS_BACKUP_BUCKET }}/config-backup-$(date +%Y%m%d-%H%M%S).tar.gz
-
+      # 7. Configure Docker to use Artifact Registry
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
+      # 8. Build & Push Docker Image
       - name: Build and Push Docker image
         run: |
           IMAGE="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/drupal-repo/drupal-app:${GITHUB_SHA}"
@@ -58,6 +54,7 @@ jobs:
           docker push "$IMAGE"
           echo "IMAGE=$IMAGE" >> $GITHUB_ENV
 
+      # 9. Deploy to Cloud Run
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
@@ -67,16 +64,16 @@ jobs:
           allow-unauthenticated: true
           flags: --port=8080
 
+      # 10. Cleanup old images (keep last 5)
       - name: Cleanup old Artifact Registry images
         run: |
           echo "Cleaning up old images in Artifact Registry..."
           gcloud artifacts docker images list \
             us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/drupal-repo/drupal-app \
             --sort-by=~UPDATE_TIME \
-            --format="value(version)" | tail -n +6 | \
+            --format="value(DIGEST)" | tail -n +6 | \
           while read digest; do
             gcloud artifacts docker images delete \
               us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/drupal-repo/drupal-app@$digest \
               --quiet || true
           done
-
