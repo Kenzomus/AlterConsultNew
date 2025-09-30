@@ -14,9 +14,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Google Cloud credentials
+      - name: Write service account key to file
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
         run: |
-          echo "${{ secrets.GCP_SA_KEY }}" > "${HOME}/gcp-key.json"
+          echo "$GCP_SA_KEY" | tr -d '\r' > "${HOME}/gcp-key.json"
+
+      - name: Authenticate with Google Cloud
+        run: |
           gcloud auth activate-service-account --key-file="${HOME}/gcp-key.json"
           gcloud config set project alter-consult-464302
 
@@ -29,8 +34,6 @@ jobs:
           docker build -t us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest .
 
       - name: Push Docker image to Artifact Registry
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: "${HOME}/gcp-key.json"
         run: |
           docker push us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest
 
