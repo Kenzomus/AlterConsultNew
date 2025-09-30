@@ -1,4 +1,4 @@
-name: Deploy Drupal to Google Cloud Run
+name: Deploy to Cloud Run
 
 on:
   push:
@@ -6,74 +6,37 @@ on:
       - main
 
 jobs:
-  build-deploy:
+  build-and-deploy:
+    name: Build and Deploy to Cloud Run
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repo
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # 2. Fix Git safe.directory (avoids "dubious ownership")
-      - name: Fix Git safe directory
-        run: git config --global --add safe.directory /app
-
-      # 3. Set up PHP for composer install
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
         with:
-          php-version: '8.3'
-          extensions: mbstring, intl, pdo_mysql, gd
-          coverage: none
+          project_id: alter-consult-drupal
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
 
-      # 4. Install Composer
-      - name: Install Composer
-        uses: php-actions/composer@v6
-        with:
-          version: latest
+      - name: Configure Docker for Google Cloud
+        run: gcloud auth configure-docker
 
-      # 5. Install dependencies
-      - name: Install dependencies
-        run: composer install --no-dev --prefer-dist --optimize-autoloader
-
-      # 6. Authenticate with Google Cloud
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
-
-      # 7. Configure Docker to use Artifact Registry
-      - name: Configure Docker for Artifact Registry
-        run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
-
-      # 8. Build & Push Docker Image
-      - name: Build and Push Docker image
+      - name: Build Docker image
         run: |
-          IMAGE="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/drupal-repo/drupal-app:${GITHUB_SHA}"
-          echo "Building and pushing $IMAGE"
-          docker build -t "$IMAGE" .
-          docker push "$IMAGE"
-          echo "IMAGE=$IMAGE" >> $GITHUB_ENV
+          docker build -t gcr.io/alter-consult-drupal/alter-consult-drupal:latest .
 
-      # 9. Deploy to Cloud Run
+      - name: Push Docker image to Google Container Registry
+        run: |
+          docker push gcr.io/alter-consult-drupal/alter-consult-drupal:latest
+
       - name: Deploy to Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v2
-        with:
-          service: drupal-app
-          image: ${{ env.IMAGE }}
-          region: ${{ secrets.GCP_REGION }}
-          allow-unauthenticated: true
-          flags: --port=8080
-
-      # 10. Cleanup old images (keep last 5)
-      - name: Cleanup old Artifact Registry images
         run: |
-          echo "Cleaning up old images in Artifact Registry..."
-          gcloud artifacts docker images list \
-            us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/drupal-repo/drupal-app \
-            --sort-by=~UPDATE_TIME \
-            --format="value(DIGEST)" | tail -n +6 | \
-          while read digest; do
-            gcloud artifacts docker images delete \
-              us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/drupal-repo/drupal-app@$digest \
-              --quiet || true
-          done
+          gcloud run deploy alter-consult-drupal \
+            --image gcr.io/alter-consult-drupal/alter-consult-drupal:latest \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated \
+            --port 8080
