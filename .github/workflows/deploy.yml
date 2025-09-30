@@ -17,7 +17,7 @@ jobs:
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: alter-consult-drupal
+          project_id: alter-consult-464302
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           export_default_credentials: true
 
@@ -26,16 +26,16 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t us-central1-docker.pkg.dev/alter-consult-drupal/alterconsult-repo/alter-consult-drupal:latest .
+          docker build -t us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest .
 
       - name: Push Docker image to Artifact Registry
         run: |
-          docker push us-central1-docker.pkg.dev/alter-consult-drupal/alterconsult-repo/alter-consult-drupal:latest
+          docker push us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy alter-consult-drupal \
-            --image us-central1-docker.pkg.dev/alter-consult-drupal/alterconsult-repo/alter-consult-drupal:latest \
+            --image us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest \
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated \
