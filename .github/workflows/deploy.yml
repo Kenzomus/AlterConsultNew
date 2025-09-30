@@ -1,64 +1,81 @@
-name: Build and Deploy Drupal to Cloud Run
+name: Deploy Drupal to Google Cloud Run
 
 on:
-  push:
-    branches: [ "main" ]
+push:
+branches:
+- main
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write  # Required for Workload Identity Federation
+build-deploy:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v3
 
-    steps:
-      # 1️⃣ Checkout repository
-      - name: Checkout repository
-        uses: actions/checkout@v3
 
-      # 2️⃣ Authenticate to Google Cloud
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
+  - name: Set up PHP
+    uses: shivammathur/setup-php@v2
+    with:
+      php-version: '8.3'
+      extensions: mbstring, intl, pdo_mysql, gd
+      coverage: none
 
-      # 3️⃣ Configure Docker for GCR
-      - name: Configure Docker for gcr.io
-        run: gcloud auth configure-docker gcr.io -q
+  - name: Set up Composer
+    uses: php-actions/composer@v6
+    with:
+      version: latest
 
-      # 4️⃣ Cache Composer dependencies
-      - name: Cache Composer dependencies
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: composer-${{ hashFiles('composer.lock') }}
-          restore-keys: composer-
+  - name: Install dependencies
+    run: composer install --no-dev --prefer-dist --optimize-autoloader
 
-      # 5️⃣ Cache Docker layers (optional)
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: docker-${{ github.sha }}
-          restore-keys: docker-
+  - name: Authenticate with Google Cloud
+    uses: google-github-actions/auth@v2
+    with:
+      credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-      # 6️⃣ Build Docker image with buildx and caching
-      - name: Build Docker image
-        run: |
-          IMAGE="gcr.io/${{ secrets.GCP_PROJECT_ID }}/drupal-app:${{ github.sha }}"
-          echo "Building $IMAGE"
-          docker buildx create --use
-          docker buildx build \
-            --cache-from=type=local,src=/tmp/.buildx-cache \
-            --cache-to=type=local,dest=/tmp/.buildx-cache-new \
-            -t "$IMAGE" \
-            --push \
-            .
-      # 7️⃣ Deploy to Cloud Run
+  - name: Backup Cloud SQL Database
+    run: |
+      TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+      BACKUP_FILE="drupal-backup-$TIMESTAMP.sql.gz"
+      echo "Backing up Cloud SQL database..."
+      gcloud sql export sql ${{ secrets.CLOUD_SQL_INSTANCE }} gs://${{ secrets.GCS_BACKUP_BUCKET }}/$BACKUP_FILE --database=${{ secrets.CLOUD_SQL_DATABASE }}
+      echo "Backup stored in GCS: $BACKUP_FILE"
 
-      - name: Deploy to Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v2
-        with:
-          service: drupal-app
-          image: gcr.io/${{ secrets.GCP_PROJECT_ID }}/drupal-app:${{ github.sha }}
-          region: us-central1  # or your preferred region
+  - name: Backup Drupal Configuration
+    run: |
+      echo "Exporting Drupal config..."
+      drush cex -y
+      tar -czf drupal-config-backup.tar.gz config/
+      gsutil cp drupal-config-backup.tar.gz gs://${{ secrets.GCS_BACKUP_BUCKET }}/config-backup-$(date +%Y%m%d-%H%M%S).tar.gz
+
+  - name: Configure Docker for Artifact Registry
+    run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+
+  - name: Build and Push Docker image
+    run: |
+      IMAGE="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/drupal-repo/drupal-app:${GITHUB_SHA}"
+      echo "Building and pushing $IMAGE"
+      docker build -t "$IMAGE" .
+      docker push "$IMAGE"
+      echo "IMAGE=$IMAGE" >> $GITHUB_ENV
+
+  - name: Deploy to Cloud Run
+    uses: google-github-actions/deploy-cloudrun@v2
+    with:
+      service: drupal-app
+      image: ${{ env.IMAGE }}
+      region: ${{ secrets.GCP_REGION }}
+      allow-unauthenticated: true
+      flags: --port=8080
+
+  - name: Cleanup old Artifact Registry images
+    run: |
+      echo "Cleaning up old images in Artifact Registry..."
+      gcloud artifacts docker images list \
+        us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/drupal-repo/drupal-app \
+        --sort-by=~UPDATE_TIME \
+        --format="value(version)" | tail -n +6 | \
+      while read digest; do
+        gcloud artifacts docker images delete \
+          us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/drupal-repo/drupal-app@$digest \
+          --quiet || true
+      done
