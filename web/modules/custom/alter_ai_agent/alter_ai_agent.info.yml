@@ -1,0 +1,7 @@
+name: 'Alter AI Agent'
+type: module
+description: 'AI-powered client intake and internal project analysis for Alter Consult.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal:openai

@@ -1,0 +1,15 @@
+alter_ai_agent.client_form:
+  path: '/client-form'
+  defaults:
+    _form: '\Drupal\alter_ai_agent\Form\ClientInfoForm'
+    _title: 'Client Info Form'
+  requirements:
+    _permission: 'access content'
+
+alter_ai_agent.dashboard:
+  path: '/alter-ai-dashboard'
+  defaults:
+    _controller: '\Drupal\alter_ai_agent\Controller\DashboardController::dashboard'
+    _title: 'AI Dashboard'
+  requirements:
+    _permission: 'administer site configuration'

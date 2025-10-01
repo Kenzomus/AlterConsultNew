@@ -1,0 +1,47 @@
+<?php
+
+use Drupal\Core\Database\Database;
+
+/**
+ * Implements hook_schema() to create custom tables.
+ */
+function alter_ai_agent_schema() {
+  $schema['alter_ai_clients'] = [
+    'fields' => [
+      'id' => ['type' => 'serial', 'not null' => TRUE],
+      'name' => ['type' => 'varchar', 'length' => 255],
+      'email' => ['type' => 'varchar', 'length' => 255],
+      'phone' => ['type' => 'varchar', 'length' => 50],
+      'website' => ['type' => 'varchar', 'length' => 255, 'not null' => FALSE],
+      'social_links' => ['type' => 'text', 'size' => 'big', 'not null' => FALSE],
+      'project_details' => ['type' => 'text', 'size' => 'big'],
+      'marketing_source' => ['type' => 'varchar', 'length' => 255],
+      'created_at' => ['type' => 'datetime'],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  $schema['alter_ai_interactions'] = [
+    'fields' => [
+      'id' => ['type' => 'serial', 'not null' => TRUE],
+      'client_id' => ['type' => 'int', 'not null' => TRUE],
+      'interaction_type' => ['type' => 'varchar', 'length' => 100],
+      'interaction_details' => ['type' => 'text'],
+      'created_at' => ['type' => 'datetime'],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  $schema['alter_ai_prd'] = [
+    'fields' => [
+      'id' => ['type' => 'serial', 'not null' => TRUE],
+      'client_id' => ['type' => 'int', 'not null' => TRUE],
+      'prd_content' => ['type' => 'text'],
+      'status' => ['type' => 'varchar', 'length' => 50, 'default' => 'Draft'],
+      'created_at' => ['type' => 'datetime'],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  return $schema;
+}
