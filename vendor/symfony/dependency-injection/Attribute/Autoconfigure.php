@@ -19,6 +19,7 @@ namespace Symfony\Component\DependencyInjection\Attribute;
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::IS_REPEATABLE)]
 class Autoconfigure
 {
+<<<<<<< HEAD
     /**
      * @param array<array-key, array<array-key, mixed>>|string[]|null $tags         The tags to add to the service
      * @param array<array<mixed>>|null                                $calls        The calls to be made when instantiating the service
@@ -31,6 +32,8 @@ class Autoconfigure
      * @param array{string, string}|string|null                       $configurator A PHP function, reference or an array containing a class/reference and a method to call after the service is fully initialized
      * @param string|null                                             $constructor  The public static method to use to instantiate the service
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         public ?array $tags = null,
         public ?array $calls = null,

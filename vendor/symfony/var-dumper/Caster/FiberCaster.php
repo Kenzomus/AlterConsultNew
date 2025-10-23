@@ -20,7 +20,14 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 final class FiberCaster
 {
+<<<<<<< HEAD
     public static function castFiber(\Fiber $fiber, array $a, Stub $stub, bool $isNested, int $filter = 0): array
+=======
+    /**
+     * @return array
+     */
+    public static function castFiber(\Fiber $fiber, array $a, Stub $stub, bool $isNested, int $filter = 0)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $prefix = Caster::PREFIX_VIRTUAL;
 

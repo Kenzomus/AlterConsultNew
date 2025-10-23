@@ -25,8 +25,12 @@ class ExportNamedDeclaration extends Node implements ModuleDeclaration
     protected $propertiesMap = array(
         "declaration" => true,
         "specifiers" => true,
+<<<<<<< HEAD
         "source" => true,
         "attributes" => true
+=======
+        "source" => true
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     );
     
     /**
@@ -44,6 +48,7 @@ class ExportNamedDeclaration extends Node implements ModuleDeclaration
     protected $specifiers = array();
     
     /**
+<<<<<<< HEAD
      * Attributes array
      * 
      * @var array
@@ -51,6 +56,8 @@ class ExportNamedDeclaration extends Node implements ModuleDeclaration
     protected $attributes = array();
     
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * The export source
      * 
      * @var Literal 
@@ -128,6 +135,7 @@ class ExportNamedDeclaration extends Node implements ModuleDeclaration
         $this->source = $source;
         return $this;
     }
+<<<<<<< HEAD
     
     /**
      * Returns the attributes array
@@ -152,4 +160,6 @@ class ExportNamedDeclaration extends Node implements ModuleDeclaration
         $this->attributes = $attributes;
         return $this;
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

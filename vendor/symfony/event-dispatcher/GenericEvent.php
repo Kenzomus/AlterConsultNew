@@ -25,16 +25,29 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
 {
+<<<<<<< HEAD
+=======
+    protected $subject;
+    protected $arguments;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * Encapsulate an event with $subject and $arguments.
      *
      * @param mixed $subject   The subject of the event, usually an object or a callable
      * @param array $arguments Arguments to store in the event
      */
+<<<<<<< HEAD
     public function __construct(
         protected mixed $subject = null,
         protected array $arguments = [],
     ) {
+=======
+    public function __construct(mixed $subject = null, array $arguments = [])
+    {
+        $this->subject = $subject;
+        $this->arguments = $arguments;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**

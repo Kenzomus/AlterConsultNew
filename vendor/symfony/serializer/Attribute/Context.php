@@ -14,6 +14,15 @@ namespace Symfony\Component\Serializer\Attribute;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
 /**
+<<<<<<< HEAD
+=======
+ * Annotation class for @Context().
+ *
+ * @Annotation
+ * @NamedArgumentConstructor
+ * @Target({"PROPERTY", "METHOD"})
+ *
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  * @author Maxime Steinhausser <maxime.steinhausser@gmail.com>
  */
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
@@ -22,10 +31,14 @@ class Context
     private array $groups;
 
     /**
+<<<<<<< HEAD
      * @param array<string, mixed> $context                The common context to use when serializing or deserializing
      * @param array<string, mixed> $normalizationContext   The context to use when serializing
      * @param array<string, mixed> $denormalizationContext The context to use when deserializing
      * @param string|string[]      $groups                 The groups to use when serializing or deserializing
+=======
+     * @param string|string[] $groups
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      *
      * @throws InvalidArgumentException
      */

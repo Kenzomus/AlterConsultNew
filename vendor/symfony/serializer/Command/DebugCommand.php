@@ -75,14 +75,24 @@ class DebugCommand extends Command
             ];
         }
 
+<<<<<<< HEAD
         $io->section($title);
 
         if (!$rows) {
+=======
+        if (!$rows) {
+            $io->section($title);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $io->text('No Serializer data were found for this class.');
 
             return;
         }
 
+<<<<<<< HEAD
+=======
+        $io->section($title);
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $table = new Table($output);
         $table->setHeaders(['Property', 'Options']);
         $table->setRows($rows);
@@ -96,23 +106,32 @@ class DebugCommand extends Command
     {
         $data = [];
 
+<<<<<<< HEAD
         $mapping = $classMetadata->getClassDiscriminatorMapping();
         $typeProperty = $mapping?->getTypeProperty();
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         foreach ($classMetadata->getAttributesMetadata() as $attributeMetadata) {
             $data[$attributeMetadata->getName()] = [
                 'groups' => $attributeMetadata->getGroups(),
                 'maxDepth' => $attributeMetadata->getMaxDepth(),
                 'serializedName' => $attributeMetadata->getSerializedName(),
+<<<<<<< HEAD
                 'serializedPath' => $attributeMetadata->getSerializedPath() ? (string) $attributeMetadata->getSerializedPath() : null,
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 'ignore' => $attributeMetadata->isIgnored(),
                 'normalizationContexts' => $attributeMetadata->getNormalizationContexts(),
                 'denormalizationContexts' => $attributeMetadata->getDenormalizationContexts(),
             ];
+<<<<<<< HEAD
 
             if ($mapping && $typeProperty === $attributeMetadata->getName()) {
                 $data[$attributeMetadata->getName()]['discriminatorMap'] = $mapping->getTypesMapping();
             }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return $data;

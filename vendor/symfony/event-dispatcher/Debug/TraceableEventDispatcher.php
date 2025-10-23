@@ -30,10 +30,17 @@ use Symfony\Contracts\Service\ResetInterface;
  */
 class TraceableEventDispatcher implements EventDispatcherInterface, ResetInterface
 {
+<<<<<<< HEAD
+=======
+    protected $logger;
+    protected $stopwatch;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * @var \SplObjectStorage<WrappedListener, array{string, string}>|null
      */
     private ?\SplObjectStorage $callStack = null;
+<<<<<<< HEAD
     private array $wrappedListeners = [];
     private array $orphanedEvents = [];
     private string $currentRequestHash = '';
@@ -48,16 +55,50 @@ class TraceableEventDispatcher implements EventDispatcherInterface, ResetInterfa
     }
 
     public function addListener(string $eventName, callable|array $listener, int $priority = 0): void
+=======
+    private EventDispatcherInterface $dispatcher;
+    private array $wrappedListeners = [];
+    private array $orphanedEvents = [];
+    private ?RequestStack $requestStack;
+    private string $currentRequestHash = '';
+
+    public function __construct(EventDispatcherInterface $dispatcher, Stopwatch $stopwatch, ?LoggerInterface $logger = null, ?RequestStack $requestStack = null)
+    {
+        $this->dispatcher = $dispatcher;
+        $this->stopwatch = $stopwatch;
+        $this->logger = $logger;
+        $this->requestStack = $requestStack;
+    }
+
+    /**
+     * @return void
+     */
+    public function addListener(string $eventName, callable|array $listener, int $priority = 0)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->dispatcher->addListener($eventName, $listener, $priority);
     }
 
+<<<<<<< HEAD
     public function addSubscriber(EventSubscriberInterface $subscriber): void
+=======
+    /**
+     * @return void
+     */
+    public function addSubscriber(EventSubscriberInterface $subscriber)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->dispatcher->addSubscriber($subscriber);
     }
 
+<<<<<<< HEAD
     public function removeListener(string $eventName, callable|array $listener): void
+=======
+    /**
+     * @return void
+     */
+    public function removeListener(string $eventName, callable|array $listener)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (isset($this->wrappedListeners[$eventName])) {
             foreach ($this->wrappedListeners[$eventName] as $index => $wrappedListener) {
@@ -72,7 +113,14 @@ class TraceableEventDispatcher implements EventDispatcherInterface, ResetInterfa
         $this->dispatcher->removeListener($eventName, $listener);
     }
 
+<<<<<<< HEAD
     public function removeSubscriber(EventSubscriberInterface $subscriber): void
+=======
+    /**
+     * @return void
+     */
+    public function removeSubscriber(EventSubscriberInterface $subscriber)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->dispatcher->removeSubscriber($subscriber);
     }
@@ -104,9 +152,12 @@ class TraceableEventDispatcher implements EventDispatcherInterface, ResetInterfa
 
     public function dispatch(object $event, ?string $eventName = null): object
     {
+<<<<<<< HEAD
         if ($this->disabled?->__invoke()) {
             return $this->dispatcher->dispatch($event, $eventName);
         }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $eventName ??= $event::class;
 
         $this->callStack ??= new \SplObjectStorage();
@@ -213,7 +264,14 @@ class TraceableEventDispatcher implements EventDispatcherInterface, ResetInterfa
         return array_merge(...array_values($this->orphanedEvents));
     }
 
+<<<<<<< HEAD
     public function reset(): void
+=======
+    /**
+     * @return void
+     */
+    public function reset()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->callStack = null;
         $this->orphanedEvents = [];
@@ -233,15 +291,29 @@ class TraceableEventDispatcher implements EventDispatcherInterface, ResetInterfa
 
     /**
      * Called before dispatching the event.
+<<<<<<< HEAD
      */
     protected function beforeDispatch(string $eventName, object $event): void
+=======
+     *
+     * @return void
+     */
+    protected function beforeDispatch(string $eventName, object $event)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
     }
 
     /**
      * Called after dispatching the event.
+<<<<<<< HEAD
      */
     protected function afterDispatch(string $eventName, object $event): void
+=======
+     *
+     * @return void
+     */
+    protected function afterDispatch(string $eventName, object $event)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
     }
 

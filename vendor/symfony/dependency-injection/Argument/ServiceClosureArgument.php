@@ -32,7 +32,14 @@ class ServiceClosureArgument implements ArgumentInterface
         return $this->values;
     }
 
+<<<<<<< HEAD
     public function setValues(array $values): void
+=======
+    /**
+     * @return void
+     */
+    public function setValues(array $values)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ([0] !== array_keys($values)) {
             throw new InvalidArgumentException('A ServiceClosureArgument must hold one and only one value.');

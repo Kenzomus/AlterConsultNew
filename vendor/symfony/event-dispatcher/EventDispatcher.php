@@ -123,13 +123,27 @@ class EventDispatcher implements EventDispatcherInterface
         return false;
     }
 
+<<<<<<< HEAD
     public function addListener(string $eventName, callable|array $listener, int $priority = 0): void
+=======
+    /**
+     * @return void
+     */
+    public function addListener(string $eventName, callable|array $listener, int $priority = 0)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->listeners[$eventName][$priority][] = $listener;
         unset($this->sorted[$eventName], $this->optimized[$eventName]);
     }
 
+<<<<<<< HEAD
     public function removeListener(string $eventName, callable|array $listener): void
+=======
+    /**
+     * @return void
+     */
+    public function removeListener(string $eventName, callable|array $listener)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (empty($this->listeners[$eventName])) {
             return;
@@ -157,7 +171,14 @@ class EventDispatcher implements EventDispatcherInterface
         }
     }
 
+<<<<<<< HEAD
     public function addSubscriber(EventSubscriberInterface $subscriber): void
+=======
+    /**
+     * @return void
+     */
+    public function addSubscriber(EventSubscriberInterface $subscriber)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($subscriber->getSubscribedEvents() as $eventName => $params) {
             if (\is_string($params)) {
@@ -172,7 +193,14 @@ class EventDispatcher implements EventDispatcherInterface
         }
     }
 
+<<<<<<< HEAD
     public function removeSubscriber(EventSubscriberInterface $subscriber): void
+=======
+    /**
+     * @return void
+     */
+    public function removeSubscriber(EventSubscriberInterface $subscriber)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($subscriber->getSubscribedEvents() as $eventName => $params) {
             if (\is_array($params) && \is_array($params[0])) {
@@ -194,8 +222,15 @@ class EventDispatcher implements EventDispatcherInterface
      * @param callable[] $listeners The event listeners
      * @param string     $eventName The name of the event to dispatch
      * @param object     $event     The event object to pass to the event handlers/listeners
+<<<<<<< HEAD
      */
     protected function callListeners(iterable $listeners, string $eventName, object $event): void
+=======
+     *
+     * @return void
+     */
+    protected function callListeners(iterable $listeners, string $eventName, object $event)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $stoppable = $event instanceof StoppableEventInterface;
 

@@ -21,11 +21,15 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  * @author Joseph Bielawski <stloyd@gmail.com>
+<<<<<<< HEAD
  * @author Ninos Ego <me@ninosego.de>
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 class IpValidator extends ConstraintValidator
 {
     /**
+<<<<<<< HEAD
      * Checks whether an IP address is valid.
      *
      * @internal
@@ -66,6 +70,11 @@ class IpValidator extends ConstraintValidator
     }
 
     public function validate(mixed $value, Constraint $constraint): void
+=======
+     * @return void
+     */
+    public function validate(mixed $value, Constraint $constraint)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$constraint instanceof Ip) {
             throw new UnexpectedTypeException($constraint, Ip::class);
@@ -85,7 +94,26 @@ class IpValidator extends ConstraintValidator
             $value = ($constraint->normalizer)($value);
         }
 
+<<<<<<< HEAD
         if (!self::checkIp($value, $constraint->version)) {
+=======
+        $flag = match ($constraint->version) {
+            Ip::V4 => \FILTER_FLAG_IPV4,
+            Ip::V6 => \FILTER_FLAG_IPV6,
+            Ip::V4_NO_PRIV => \FILTER_FLAG_IPV4 | \FILTER_FLAG_NO_PRIV_RANGE,
+            Ip::V6_NO_PRIV => \FILTER_FLAG_IPV6 | \FILTER_FLAG_NO_PRIV_RANGE,
+            Ip::ALL_NO_PRIV => \FILTER_FLAG_NO_PRIV_RANGE,
+            Ip::V4_NO_RES => \FILTER_FLAG_IPV4 | \FILTER_FLAG_NO_RES_RANGE,
+            Ip::V6_NO_RES => \FILTER_FLAG_IPV6 | \FILTER_FLAG_NO_RES_RANGE,
+            Ip::ALL_NO_RES => \FILTER_FLAG_NO_RES_RANGE,
+            Ip::V4_ONLY_PUBLIC => \FILTER_FLAG_IPV4 | \FILTER_FLAG_NO_PRIV_RANGE | \FILTER_FLAG_NO_RES_RANGE,
+            Ip::V6_ONLY_PUBLIC => \FILTER_FLAG_IPV6 | \FILTER_FLAG_NO_PRIV_RANGE | \FILTER_FLAG_NO_RES_RANGE,
+            Ip::ALL_ONLY_PUBLIC => \FILTER_FLAG_NO_PRIV_RANGE | \FILTER_FLAG_NO_RES_RANGE,
+            default => 0,
+        };
+
+        if (!filter_var($value, \FILTER_VALIDATE_IP, $flag)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $this->formatValue($value))
                 ->setCode(Ip::INVALID_IP_ERROR)

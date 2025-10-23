@@ -23,18 +23,32 @@ use Symfony\Component\Yaml\Tag\TaggedValue;
 class Dumper
 {
     /**
+<<<<<<< HEAD
      * @param int $indentation The amount of spaces to use for indentation of nested nodes
      */
     public function __construct(private int $indentation = 4)
+=======
+     * The amount of spaces to use for indentation of nested nodes.
+     */
+    private int $indentation;
+
+    public function __construct(int $indentation = 4)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($indentation < 1) {
             throw new \InvalidArgumentException('The indentation must be greater than zero.');
         }
+<<<<<<< HEAD
+=======
+
+        $this->indentation = $indentation;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
      * Dumps a PHP value to YAML.
      *
+<<<<<<< HEAD
      * @param mixed                     $input  The PHP value
      * @param int                       $inline The level where you switch to inline YAML
      * @param int                       $indent The level of indentation (used internally)
@@ -51,11 +65,21 @@ class Dumper
 
     private function doDump(mixed $input, int $inline = 0, int $indent = 0, int $flags = 0, int $nestingLevel = 0): string
     {
+=======
+     * @param mixed $input  The PHP value
+     * @param int   $inline The level where you switch to inline YAML
+     * @param int   $indent The level of indentation (used internally)
+     * @param int   $flags  A bit field of Yaml::DUMP_* constants to customize the dumped YAML string
+     */
+    public function dump(mixed $input, int $inline = 0, int $indent = 0, int $flags = 0): string
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $output = '';
         $prefix = $indent ? str_repeat(' ', $indent) : '';
         $dumpObjectAsInlineMap = true;
 
         if (Yaml::DUMP_OBJECT_AS_MAP & $flags && ($input instanceof \ArrayObject || $input instanceof \stdClass)) {
+<<<<<<< HEAD
             $dumpObjectAsInlineMap = !(array) $input;
         }
 
@@ -66,6 +90,17 @@ class Dumper
         } else {
             $dumpAsMap = Inline::isHash($input);
             $compactNestedMapping = Yaml::DUMP_COMPACT_NESTED_MAPPING & $flags && !$dumpAsMap;
+=======
+            $dumpObjectAsInlineMap = empty((array) $input);
+        }
+
+        if ($inline <= 0 || (!\is_array($input) && !$input instanceof TaggedValue && $dumpObjectAsInlineMap) || empty($input)) {
+            $output .= $prefix.Inline::dump($input, $flags);
+        } elseif ($input instanceof TaggedValue) {
+            $output .= $this->dumpTaggedValue($input, $inline, $indent, $flags, $prefix);
+        } else {
+            $dumpAsMap = Inline::isHash($input);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
             foreach ($input as $key => $value) {
                 if ('' !== $output && "\n" !== $output[-1]) {
@@ -115,10 +150,17 @@ class Dumper
                     }
 
                     if ($inline - 1 <= 0 || null === $value->getValue() || \is_scalar($value->getValue())) {
+<<<<<<< HEAD
                         $output .= ' '.$this->doDump($value->getValue(), $inline - 1, 0, $flags, $nestingLevel + 1)."\n";
                     } else {
                         $output .= "\n";
                         $output .= $this->doDump($value->getValue(), $inline - 1, $dumpAsMap ? $indent + $this->indentation : $indent + 2, $flags, $nestingLevel + 1);
+=======
+                        $output .= ' '.$this->dump($value->getValue(), $inline - 1, 0, $flags)."\n";
+                    } else {
+                        $output .= "\n";
+                        $output .= $this->dump($value->getValue(), $inline - 1, $dumpAsMap ? $indent + $this->indentation : $indent + 2, $flags);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     }
 
                     continue;
@@ -127,16 +169,28 @@ class Dumper
                 $dumpObjectAsInlineMap = true;
 
                 if (Yaml::DUMP_OBJECT_AS_MAP & $flags && ($value instanceof \ArrayObject || $value instanceof \stdClass)) {
+<<<<<<< HEAD
                     $dumpObjectAsInlineMap = !(array) $value;
                 }
 
                 $willBeInlined = $inline - 1 <= 0 || !\is_array($value) && $dumpObjectAsInlineMap || !$value;
+=======
+                    $dumpObjectAsInlineMap = empty((array) $value);
+                }
+
+                $willBeInlined = $inline - 1 <= 0 || !\is_array($value) && $dumpObjectAsInlineMap || empty($value);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
                 $output .= \sprintf('%s%s%s%s',
                     $prefix,
                     $dumpAsMap ? Inline::dump($key, $flags).':' : '-',
+<<<<<<< HEAD
                     $willBeInlined || ($compactNestedMapping && \is_array($value) && Inline::isHash($value)) ? ' ' : "\n",
                     $compactNestedMapping && \is_array($value) && Inline::isHash($value) ? substr($this->doDump($value, $inline - 1, $indent + 2, $flags, $nestingLevel + 1), $indent + 2) : $this->doDump($value, $inline - 1, $willBeInlined ? 0 : $indent + $this->indentation, $flags, $nestingLevel + 1)
+=======
+                    $willBeInlined ? ' ' : "\n",
+                    $this->dump($value, $inline - 1, $willBeInlined ? 0 : $indent + $this->indentation, $flags)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ).($willBeInlined ? "\n" : '');
             }
         }
@@ -144,7 +198,11 @@ class Dumper
         return $output;
     }
 
+<<<<<<< HEAD
     private function dumpTaggedValue(TaggedValue $value, int $inline, int $indent, int $flags, string $prefix, int $nestingLevel): string
+=======
+    private function dumpTaggedValue(TaggedValue $value, int $inline, int $indent, int $flags, string $prefix): string
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $output = \sprintf('%s!%s', $prefix ? $prefix.' ' : '', $value->getTag());
 
@@ -160,10 +218,17 @@ class Dumper
         }
 
         if ($inline - 1 <= 0 || null === $value->getValue() || \is_scalar($value->getValue())) {
+<<<<<<< HEAD
             return $output.' '.$this->doDump($value->getValue(), $inline - 1, 0, $flags, $nestingLevel + 1)."\n";
         }
 
         return $output."\n".$this->doDump($value->getValue(), $inline - 1, $indent, $flags, $nestingLevel + 1);
+=======
+            return $output.' '.$this->dump($value->getValue(), $inline - 1, 0, $flags)."\n";
+        }
+
+        return $output."\n".$this->dump($value->getValue(), $inline - 1, $indent, $flags);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     private function getBlockIndentationIndicator(string $value): string
@@ -175,7 +240,11 @@ class Dumper
         // http://www.yaml.org/spec/1.2/spec.html#id2793979
         foreach ($lines as $line) {
             if ('' !== trim($line, ' ')) {
+<<<<<<< HEAD
                 return str_starts_with($line, ' ') ? (string) $this->indentation : '';
+=======
+                return (' ' === substr($line, 0, 1)) ? (string) $this->indentation : '';
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
         }
 

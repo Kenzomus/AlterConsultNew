@@ -20,10 +20,18 @@ use Psr\Container\ContainerInterface;
  */
 class ContainerLoader extends ObjectLoader
 {
+<<<<<<< HEAD
     public function __construct(
         private ContainerInterface $container,
         ?string $env = null,
     ) {
+=======
+    private ContainerInterface $container;
+
+    public function __construct(ContainerInterface $container, ?string $env = null)
+    {
+        $this->container = $container;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($env);
     }
 

@@ -26,6 +26,7 @@ class MapRequestPayload extends ValueResolver
 {
     public ArgumentMetadata $metadata;
 
+<<<<<<< HEAD
     /**
      * @param array<string>|string|null               $acceptFormat               The payload formats to accept (i.e. "json", "xml")
      * @param array<string, mixed>                    $serializationContext       The serialization context to use when deserializing the payload
@@ -34,13 +35,18 @@ class MapRequestPayload extends ValueResolver
      * @param int                                     $validationFailedStatusCode The HTTP code to return if the validation fails
      * @param class-string|string|null                $type                       The element type for array deserialization
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         public readonly array|string|null $acceptFormat = null,
         public readonly array $serializationContext = [],
         public readonly string|GroupSequence|array|null $validationGroups = null,
         string $resolver = RequestPayloadValueResolver::class,
         public readonly int $validationFailedStatusCode = Response::HTTP_UNPROCESSABLE_ENTITY,
+<<<<<<< HEAD
         public readonly ?string $type = null,
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     ) {
         parent::__construct($resolver);
     }

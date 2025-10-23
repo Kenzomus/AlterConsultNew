@@ -42,7 +42,21 @@ class UrlGenerator implements UrlGeneratorInterface, ConfigurableRequirementsInt
         '%2A' => '*',
     ];
 
+<<<<<<< HEAD
     protected ?bool $strictRequirements = true;
+=======
+    protected $routes;
+    protected $context;
+
+    /**
+     * @var bool|null
+     */
+    protected $strictRequirements = true;
+
+    protected $logger;
+
+    private ?string $defaultLocale;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * This array defines the characters (besides alphanumeric ones) that will not be percent-encoded in the path segment of the generated URL.
@@ -52,7 +66,11 @@ class UrlGenerator implements UrlGeneratorInterface, ConfigurableRequirementsInt
      * "?" and "#" (would be interpreted wrongly as query and fragment identifier),
      * "'" and """ (are used as delimiters in HTML).
      */
+<<<<<<< HEAD
     protected array $decodedChars = [
+=======
+    protected $decodedChars = [
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         // the slash can be used to designate a hierarchical structure and we want allow using it with this meaning
         // some webservers don't allow the slash in encoded form in the path for security reasons anyway
         // see http://stackoverflow.com/questions/4069002/http-400-if-2f-part-of-get-url-in-jboss
@@ -73,6 +91,7 @@ class UrlGenerator implements UrlGeneratorInterface, ConfigurableRequirementsInt
         '%7C' => '|',
     ];
 
+<<<<<<< HEAD
     public function __construct(
         protected RouteCollection $routes,
         protected RequestContext $context,
@@ -82,6 +101,20 @@ class UrlGenerator implements UrlGeneratorInterface, ConfigurableRequirementsInt
     }
 
     public function setContext(RequestContext $context): void
+=======
+    public function __construct(RouteCollection $routes, RequestContext $context, ?LoggerInterface $logger = null, ?string $defaultLocale = null)
+    {
+        $this->routes = $routes;
+        $this->context = $context;
+        $this->logger = $logger;
+        $this->defaultLocale = $defaultLocale;
+    }
+
+    /**
+     * @return void
+     */
+    public function setContext(RequestContext $context)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->context = $context;
     }
@@ -91,7 +124,14 @@ class UrlGenerator implements UrlGeneratorInterface, ConfigurableRequirementsInt
         return $this->context;
     }
 
+<<<<<<< HEAD
     public function setStrictRequirements(?bool $enabled): void
+=======
+    /**
+     * @return void
+     */
+    public function setStrictRequirements(?bool $enabled)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->strictRequirements = $enabled;
     }
@@ -266,7 +306,11 @@ class UrlGenerator implements UrlGeneratorInterface, ConfigurableRequirementsInt
                 if ($vars = get_object_vars($v)) {
                     array_walk_recursive($vars, $caster);
                     $v = $vars;
+<<<<<<< HEAD
                 } elseif ($v instanceof \Stringable) {
+=======
+                } elseif (method_exists($v, '__toString')) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     $v = (string) $v;
                 }
             }

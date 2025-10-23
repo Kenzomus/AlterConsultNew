@@ -45,6 +45,10 @@ class Table
     private array $rows = [];
     private array $effectiveColumnWidths = [];
     private int $numberOfColumns;
+<<<<<<< HEAD
+=======
+    private OutputInterface $output;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private TableStyle $style;
     private array $columnStyles = [];
     private array $columnWidths = [];
@@ -54,9 +58,16 @@ class Table
 
     private static array $styles;
 
+<<<<<<< HEAD
     public function __construct(
         private OutputInterface $output,
     ) {
+=======
+    public function __construct(OutputInterface $output)
+    {
+        $this->output = $output;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         self::$styles ??= self::initStyles();
 
         $this->setStyle('default');
@@ -64,8 +75,15 @@ class Table
 
     /**
      * Sets a style definition.
+<<<<<<< HEAD
      */
     public static function setStyleDefinition(string $name, TableStyle $style): void
+=======
+     *
+     * @return void
+     */
+    public static function setStyleDefinition(string $name, TableStyle $style)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         self::$styles ??= self::initStyles();
 
@@ -190,7 +208,11 @@ class Table
     /**
      * @return $this
      */
+<<<<<<< HEAD
     public function setRows(array $rows): static
+=======
+    public function setRows(array $rows)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->rows = [];
 
@@ -308,8 +330,15 @@ class Table
      *     | 9971-5-0210-0 | A Tale of Two Cities  | Charles Dickens  |
      *     | 960-425-059-0 | The Lord of the Rings | J. R. R. Tolkien |
      *     +---------------+-----------------------+------------------+
+<<<<<<< HEAD
      */
     public function render(): void
+=======
+     *
+     * @return void
+     */
+    public function render()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $divider = new TableSeparator();
         $isCellWithColspan = static fn ($cell) => $cell instanceof TableCell && $cell->getColspan() >= 2;
@@ -417,7 +446,11 @@ class Table
                     continue;
                 }
 
+<<<<<<< HEAD
                 if ($isHeader && !$isHeaderSeparatorRendered && $this->style->displayOutsideBorder()) {
+=======
+                if ($isHeader && !$isHeaderSeparatorRendered) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     $this->renderRowSeparator(
                         self::SEPARATOR_TOP,
                         $hasTitle ? $this->headerTitle : null,
@@ -449,10 +482,14 @@ class Table
                 }
             }
         }
+<<<<<<< HEAD
 
         if ($this->getStyle()->displayOutsideBorder()) {
             $this->renderRowSeparator(self::SEPARATOR_BOTTOM, $this->footerTitle, $this->style->getFooterTitleFormat());
         }
+=======
+        $this->renderRowSeparator(self::SEPARATOR_BOTTOM, $this->footerTitle, $this->style->getFooterTitleFormat());
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         $this->cleanup();
         $this->rendered = true;
@@ -759,7 +796,11 @@ class Table
 
         foreach ($unmergedRows as $unmergedRowKey => $unmergedRow) {
             // we need to know if $unmergedRow will be merged or inserted into $rows
+<<<<<<< HEAD
             if (isset($rows[$unmergedRowKey]) && \is_array($rows[$unmergedRowKey]) && ($this->getNumberOfColumns($rows[$unmergedRowKey]) + $this->getNumberOfColumns($unmergedRow) <= $this->numberOfColumns)) {
+=======
+            if (isset($rows[$unmergedRowKey]) && \is_array($rows[$unmergedRowKey]) && ($this->getNumberOfColumns($rows[$unmergedRowKey]) + $this->getNumberOfColumns($unmergedRows[$unmergedRowKey]) <= $this->numberOfColumns)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 foreach ($unmergedRow as $cellKey => $cell) {
                     // insert cell into row at cellKey position
                     array_splice($rows[$unmergedRowKey], $cellKey, 0, [$cell]);
@@ -767,8 +808,13 @@ class Table
             } else {
                 $row = $this->copyRow($rows, $unmergedRowKey - 1);
                 foreach ($unmergedRow as $column => $cell) {
+<<<<<<< HEAD
                     if ($cell) {
                         $row[$column] = $cell;
+=======
+                    if (!empty($cell)) {
+                        $row[$column] = $unmergedRow[$column];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     }
                 }
                 array_splice($rows, $unmergedRowKey, 0, [$row]);
@@ -908,12 +954,15 @@ class Table
      */
     private static function initStyles(): array
     {
+<<<<<<< HEAD
         $markdown = new TableStyle();
         $markdown
             ->setDefaultCrossingChar('|')
             ->setDisplayOutsideBorder(false)
         ;
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $borderless = new TableStyle();
         $borderless
             ->setHorizontalBorderChars('=')
@@ -951,7 +1000,10 @@ class Table
 
         return [
             'default' => new TableStyle(),
+<<<<<<< HEAD
             'markdown' => $markdown,
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             'borderless' => $borderless,
             'compact' => $compact,
             'symfony-style-guide' => $styleGuide,

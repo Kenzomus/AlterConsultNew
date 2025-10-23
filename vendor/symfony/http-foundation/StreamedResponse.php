@@ -14,7 +14,11 @@ namespace Symfony\Component\HttpFoundation;
 /**
  * StreamedResponse represents a streamed HTTP response.
  *
+<<<<<<< HEAD
  * A StreamedResponse uses a callback or an iterable of strings for its content.
+=======
+ * A StreamedResponse uses a callback for its content.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * The callback should use the standard PHP functions like echo
  * to stream the response back to the client. The flush() function
@@ -26,6 +30,7 @@ namespace Symfony\Component\HttpFoundation;
  */
 class StreamedResponse extends Response
 {
+<<<<<<< HEAD
     protected ?\Closure $callback = null;
     protected bool $streamed = false;
 
@@ -43,12 +48,28 @@ class StreamedResponse extends Response
             $this->setCallback($callbackOrChunks);
         } elseif ($callbackOrChunks) {
             $this->setChunks($callbackOrChunks);
+=======
+    protected $callback;
+    protected $streamed;
+    private bool $headersSent;
+
+    /**
+     * @param int $status The HTTP status code (200 "OK" by default)
+     */
+    public function __construct(?callable $callback = null, int $status = 200, array $headers = [])
+    {
+        parent::__construct(null, $status, $headers);
+
+        if (null !== $callback) {
+            $this->setCallback($callback);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
         $this->streamed = false;
         $this->headersSent = false;
     }
 
     /**
+<<<<<<< HEAD
      * @param iterable<string> $chunks
      */
     public function setChunks(iterable $chunks): static
@@ -65,6 +86,8 @@ class StreamedResponse extends Response
     }
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Sets the PHP callback associated with this Response.
      *
      * @return $this
@@ -92,12 +115,20 @@ class StreamedResponse extends Response
      *
      * @return $this
      */
+<<<<<<< HEAD
     public function sendHeaders(?int $statusCode = null): static
+=======
+    public function sendHeaders(/* int $statusCode = null */): static
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($this->headersSent) {
             return $this;
         }
 
+<<<<<<< HEAD
+=======
+        $statusCode = \func_num_args() > 0 ? func_get_arg(0) : null;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if ($statusCode < 100 || $statusCode >= 200) {
             $this->headersSent = true;
         }

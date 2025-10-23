@@ -41,7 +41,11 @@ class Matches
      * @param Node $node
      * @param Node|null $parent
      */
+<<<<<<< HEAD
     public function addMatch(Node $node, $parent = null)
+=======
+    public function addMatch(Node $node, Node $parent = null)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->matches[] = array($node, $parent);
     }

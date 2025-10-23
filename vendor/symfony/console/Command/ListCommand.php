@@ -25,7 +25,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ListCommand extends Command
 {
+<<<<<<< HEAD
     protected function configure(): void
+=======
+    /**
+     * @return void
+     */
+    protected function configure()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this
             ->setName('list')

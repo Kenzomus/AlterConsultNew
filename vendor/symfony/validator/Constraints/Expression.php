@@ -13,14 +13,22 @@ namespace Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\ExpressionLanguage\Expression as ExpressionObject;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\LogicException;
 
 /**
+<<<<<<< HEAD
  * Validates a value using an expression from the Expression Language component.
  *
  * @see https://symfony.com/doc/current/components/expression_language.html
+=======
+ * @Annotation
+ * @Target({"CLASS", "PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Bernhard Schussek <bschussek@gmail.com>
@@ -34,6 +42,7 @@ class Expression extends Constraint
         self::EXPRESSION_FAILED_ERROR => 'EXPRESSION_FAILED_ERROR',
     ];
 
+<<<<<<< HEAD
     public string $message = 'This value is not valid.';
     public string|ExpressionObject|null $expression = null;
     public array $values = [];
@@ -47,13 +56,29 @@ class Expression extends Constraint
      * @param bool|null                                        $negate     Whether to fail if the expression evaluates to true (defaults to false)
      */
     #[HasNamedArguments]
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $message = 'This value is not valid.';
+    public $expression;
+    public $values = [];
+    public bool $negate = true;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         string|ExpressionObject|array|null $expression,
         ?string $message = null,
         ?array $values = null,
         ?array $groups = null,
         mixed $payload = null,
+<<<<<<< HEAD
         ?array $options = null,
+=======
+        array $options = [],
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         ?bool $negate = null,
     ) {
         if (!class_exists(ExpressionLanguage::class)) {
@@ -61,6 +86,7 @@ class Expression extends Constraint
         }
 
         if (\is_array($expression)) {
+<<<<<<< HEAD
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
 
             $options = array_merge($expression, $options ?? []);
@@ -74,6 +100,11 @@ class Expression extends Constraint
             if (null !== $expression) {
                 $options['value'] = $expression;
             }
+=======
+            $options = array_merge($expression, $options);
+        } elseif (null !== $expression) {
+            $options['value'] = $expression;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         parent::__construct($options, $groups, $payload);

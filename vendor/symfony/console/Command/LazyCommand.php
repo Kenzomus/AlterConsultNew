@@ -27,6 +27,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class LazyCommand extends Command
 {
     private \Closure|Command $command;
+<<<<<<< HEAD
 
     public function __construct(
         string $name,
@@ -36,12 +37,22 @@ final class LazyCommand extends Command
         \Closure $commandFactory,
         private ?bool $isEnabled = true,
     ) {
+=======
+    private ?bool $isEnabled;
+
+    public function __construct(string $name, array $aliases, string $description, bool $isHidden, \Closure $commandFactory, ?bool $isEnabled = true)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->setName($name)
             ->setAliases($aliases)
             ->setHidden($isHidden)
             ->setDescription($description);
 
         $this->command = $commandFactory;
+<<<<<<< HEAD
+=======
+        $this->isEnabled = $isEnabled;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function ignoreValidationErrors(): void
@@ -49,8 +60,16 @@ final class LazyCommand extends Command
         $this->getCommand()->ignoreValidationErrors();
     }
 
+<<<<<<< HEAD
     public function setApplication(?Application $application): void
     {
+=======
+    public function setApplication(?Application $application = null): void
+    {
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if ($this->command instanceof parent) {
             $this->command->setApplication($application);
         }
@@ -117,8 +136,14 @@ final class LazyCommand extends Command
     /**
      * @param array|\Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
      */
+<<<<<<< HEAD
     public function addArgument(string $name, ?int $mode = null, string $description = '', mixed $default = null, array|\Closure $suggestedValues = []): static
     {
+=======
+    public function addArgument(string $name, ?int $mode = null, string $description = '', mixed $default = null /* array|\Closure $suggestedValues = [] */): static
+    {
+        $suggestedValues = 5 <= \func_num_args() ? func_get_arg(4) : [];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->getCommand()->addArgument($name, $mode, $description, $default, $suggestedValues);
 
         return $this;
@@ -127,8 +152,14 @@ final class LazyCommand extends Command
     /**
      * @param array|\Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
      */
+<<<<<<< HEAD
     public function addOption(string $name, string|array|null $shortcut = null, ?int $mode = null, string $description = '', mixed $default = null, array|\Closure $suggestedValues = []): static
     {
+=======
+    public function addOption(string $name, string|array|null $shortcut = null, ?int $mode = null, string $description = '', mixed $default = null /* array|\Closure $suggestedValues = [] */): static
+    {
+        $suggestedValues = 6 <= \func_num_args() ? func_get_arg(5) : [];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->getCommand()->addOption($name, $shortcut, $mode, $description, $default, $suggestedValues);
 
         return $this;

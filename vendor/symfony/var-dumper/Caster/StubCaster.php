@@ -19,12 +19,22 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  * @author Nicolas Grekas <p@tchwork.com>
  *
  * @final
+<<<<<<< HEAD
  *
  * @internal since Symfony 7.3
  */
 class StubCaster
 {
     public static function castStub(Stub $c, array $a, Stub $stub, bool $isNested): array
+=======
+ */
+class StubCaster
+{
+    /**
+     * @return array
+     */
+    public static function castStub(Stub $c, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($isNested) {
             $stub->type = $c->type;
@@ -45,12 +55,26 @@ class StubCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castCutArray(CutArrayStub $c, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castCutArray(CutArrayStub $c, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $isNested ? $c->preservedSubset : $a;
     }
 
+<<<<<<< HEAD
     public static function cutInternals($obj, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function cutInternals($obj, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($isNested) {
             $stub->cut += \count($a);
@@ -61,7 +85,14 @@ class StubCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castEnum(EnumStub $c, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castEnum(EnumStub $c, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($isNested) {
             $stub->class = $c->dumpKeys ? '' : null;
@@ -84,7 +115,14 @@ class StubCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castScalar(ScalarStub $scalarStub, array $a, Stub $stub): array
+=======
+    /**
+     * @return array
+     */
+    public static function castScalar(ScalarStub $scalarStub, array $a, Stub $stub)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $stub->type = Stub::TYPE_SCALAR;
         $stub->attr['value'] = $scalarStub->value;

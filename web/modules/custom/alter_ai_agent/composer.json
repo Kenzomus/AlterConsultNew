@@ -1,0 +1,13 @@
+{
+  "name": "custom/alter_ai_agent",
+  "type": "drupal-module",
+  "description": "AI agent to interact with prospective clients",
+  "require": {
+    "drupal/openai": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Drupal\\alter_ai_agent\\": "src/"
+    }
+  }
+}

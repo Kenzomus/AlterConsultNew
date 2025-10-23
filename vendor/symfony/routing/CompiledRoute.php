@@ -18,6 +18,18 @@ namespace Symfony\Component\Routing;
  */
 class CompiledRoute implements \Serializable
 {
+<<<<<<< HEAD
+=======
+    private array $variables;
+    private array $tokens;
+    private string $staticPrefix;
+    private string $regex;
+    private array $pathVariables;
+    private array $hostVariables;
+    private ?string $hostRegex;
+    private array $hostTokens;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * @param string      $staticPrefix  The static prefix of the compiled route
      * @param string      $regex         The regular expression to use to match this route
@@ -28,6 +40,7 @@ class CompiledRoute implements \Serializable
      * @param array       $hostVariables An array of host variables
      * @param array       $variables     An array of variables (variables defined in the path and in the host patterns)
      */
+<<<<<<< HEAD
     public function __construct(
         private string $staticPrefix,
         private string $regex,
@@ -38,6 +51,18 @@ class CompiledRoute implements \Serializable
         private array $hostVariables = [],
         private array $variables = [],
     ) {
+=======
+    public function __construct(string $staticPrefix, string $regex, array $tokens, array $pathVariables, ?string $hostRegex = null, array $hostTokens = [], array $hostVariables = [], array $variables = [])
+    {
+        $this->staticPrefix = $staticPrefix;
+        $this->regex = $regex;
+        $this->tokens = $tokens;
+        $this->pathVariables = $pathVariables;
+        $this->hostRegex = $hostRegex;
+        $this->hostTokens = $hostTokens;
+        $this->hostVariables = $hostVariables;
+        $this->variables = $variables;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function __serialize(): array

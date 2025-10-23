@@ -115,7 +115,11 @@ class ManageGitIgnore {
     // Appending to existing .gitignore files.
     if (file_exists($git_ignore_path)) {
       $contents = file_get_contents($git_ignore_path);
+<<<<<<< HEAD
       if (!empty($contents) && !str_ends_with($contents, "\n")) {
+=======
+      if (!empty($contents) && substr($contents, -1) != "\n") {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $contents .= "\n";
       }
     }

@@ -12,7 +12,10 @@
 
 namespace Twig\Node;
 
+<<<<<<< HEAD
 use Twig\Attribute\YieldReady;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Compiler;
 use Twig\Node\Expression\AbstractExpression;
 
@@ -21,17 +24,27 @@ use Twig\Node\Expression\AbstractExpression;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 #[YieldReady]
 class IncludeNode extends Node implements NodeOutputInterface
 {
     public function __construct(AbstractExpression $expr, ?AbstractExpression $variables, bool $only, bool $ignoreMissing, int $lineno)
+=======
+class IncludeNode extends Node implements NodeOutputInterface
+{
+    public function __construct(AbstractExpression $expr, ?AbstractExpression $variables, bool $only, bool $ignoreMissing, int $lineno, string $tag = null)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $nodes = ['expr' => $expr];
         if (null !== $variables) {
             $nodes['variables'] = $variables;
         }
 
+<<<<<<< HEAD
         parent::__construct($nodes, ['only' => $only, 'ignore_missing' => $ignoreMissing], $lineno);
+=======
+        parent::__construct($nodes, ['only' => $only, 'ignore_missing' => $ignoreMissing], $lineno, $tag);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function compile(Compiler $compiler): void
@@ -42,12 +55,22 @@ class IncludeNode extends Node implements NodeOutputInterface
             $template = $compiler->getVarName();
 
             $compiler
+<<<<<<< HEAD
                 ->write("try {\n")
                 ->indent()
                 ->write(\sprintf('$%s = ', $template))
             ;
 
             $this->addGetTemplate($compiler, $template);
+=======
+                ->write(sprintf("$%s = null;\n", $template))
+                ->write("try {\n")
+                ->indent()
+                ->write(sprintf('$%s = ', $template))
+            ;
+
+            $this->addGetTemplate($compiler);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
             $compiler
                 ->raw(";\n")
@@ -55,6 +78,7 @@ class IncludeNode extends Node implements NodeOutputInterface
                 ->write("} catch (LoaderError \$e) {\n")
                 ->indent()
                 ->write("// ignore missing template\n")
+<<<<<<< HEAD
                 ->write(\sprintf("\$$template = null;\n", $template))
                 ->outdent()
                 ->write("}\n")
@@ -63,6 +87,14 @@ class IncludeNode extends Node implements NodeOutputInterface
                 ->write(\sprintf('yield from $%s->unwrap()->yield(', $template))
             ;
 
+=======
+                ->outdent()
+                ->write("}\n")
+                ->write(sprintf("if ($%s) {\n", $template))
+                ->indent()
+                ->write(sprintf('$%s->display(', $template))
+            ;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->addTemplateArguments($compiler);
             $compiler
                 ->raw(");\n")
@@ -70,14 +102,20 @@ class IncludeNode extends Node implements NodeOutputInterface
                 ->write("}\n")
             ;
         } else {
+<<<<<<< HEAD
             $compiler->write('yield from ');
             $this->addGetTemplate($compiler);
             $compiler->raw('->unwrap()->yield(');
+=======
+            $this->addGetTemplate($compiler);
+            $compiler->raw('->display(');
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->addTemplateArguments($compiler);
             $compiler->raw(");\n");
         }
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
@@ -87,26 +125,47 @@ class IncludeNode extends Node implements NodeOutputInterface
             ->raw('$this->load(')
             ->subcompile($this->getNode('expr'))
             ->raw(', ')
+=======
+    protected function addGetTemplate(Compiler $compiler)
+    {
+        $compiler
+            ->write('$this->loadTemplate(')
+            ->subcompile($this->getNode('expr'))
+            ->raw(', ')
+            ->repr($this->getTemplateName())
+            ->raw(', ')
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ->repr($this->getTemplateLine())
             ->raw(')')
         ;
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected function addTemplateArguments(Compiler $compiler)
     {
         if (!$this->hasNode('variables')) {
             $compiler->raw(false === $this->getAttribute('only') ? '$context' : '[]');
         } elseif (false === $this->getAttribute('only')) {
             $compiler
+<<<<<<< HEAD
                 ->raw('CoreExtension::merge($context, ')
+=======
+                ->raw('twig_array_merge($context, ')
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ->subcompile($this->getNode('variables'))
                 ->raw(')')
             ;
         } else {
+<<<<<<< HEAD
             $compiler->raw('CoreExtension::toArray(');
+=======
+            $compiler->raw('twig_to_array(');
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $compiler->subcompile($this->getNode('variables'));
             $compiler->raw(')');
         }

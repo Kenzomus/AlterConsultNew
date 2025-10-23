@@ -21,6 +21,11 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
  */
 class MemcachedSessionHandler extends AbstractSessionHandler
 {
+<<<<<<< HEAD
+=======
+    private \Memcached $memcached;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * Time to live in seconds.
      */
@@ -40,10 +45,17 @@ class MemcachedSessionHandler extends AbstractSessionHandler
      *
      * @throws \InvalidArgumentException When unsupported options are passed
      */
+<<<<<<< HEAD
     public function __construct(
         private \Memcached $memcached,
         array $options = [],
     ) {
+=======
+    public function __construct(\Memcached $memcached, array $options = [])
+    {
+        $this->memcached = $memcached;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if ($diff = array_diff(array_keys($options), ['prefix', 'expiretime', 'ttl'])) {
             throw new \InvalidArgumentException(\sprintf('The following options are not supported "%s".', implode(', ', $diff)));
         }

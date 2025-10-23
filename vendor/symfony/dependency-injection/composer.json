@@ -16,6 +16,7 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=8.2",
         "psr/container": "^1.1|^2.0",
         "symfony/deprecation-contracts": "^2.5|^3",
@@ -32,6 +33,25 @@
         "symfony/config": "<6.4",
         "symfony/finder": "<6.4",
         "symfony/yaml": "<6.4"
+=======
+        "php": ">=8.1",
+        "psr/container": "^1.1|^2.0",
+        "symfony/deprecation-contracts": "^2.5|^3",
+        "symfony/service-contracts": "^2.5|^3.0",
+        "symfony/var-exporter": "^6.4.20|^7.2.5"
+    },
+    "require-dev": {
+        "symfony/yaml": "^5.4|^6.0|^7.0",
+        "symfony/config": "^6.1|^7.0",
+        "symfony/expression-language": "^5.4|^6.0|^7.0"
+    },
+    "conflict": {
+        "ext-psr": "<1.1|>=2",
+        "symfony/config": "<6.1",
+        "symfony/finder": "<5.4",
+        "symfony/proxy-manager-bridge": "<6.3",
+        "symfony/yaml": "<5.4"
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     },
     "provide": {
         "psr/container-implementation": "1.1|2.0",

@@ -34,6 +34,14 @@ use function Symfony\Component\String\s;
  */
 class QuestionHelper extends Helper
 {
+<<<<<<< HEAD
+=======
+    /**
+     * @var resource|null
+     */
+    private $inputStream;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private static bool $stty = true;
     private static bool $stdinIsInteractive;
 
@@ -54,6 +62,7 @@ class QuestionHelper extends Helper
             return $this->getDefaultAnswer($question);
         }
 
+<<<<<<< HEAD
         $inputStream = $input instanceof StreamableInputInterface ? $input->getStream() : null;
         $inputStream ??= \STDIN;
 
@@ -63,6 +72,18 @@ class QuestionHelper extends Helper
             }
 
             $interviewer = fn () => $this->doAsk($inputStream, $output, $question);
+=======
+        if ($input instanceof StreamableInputInterface && $stream = $input->getStream()) {
+            $this->inputStream = $stream;
+        }
+
+        try {
+            if (!$question->getValidator()) {
+                return $this->doAsk($output, $question);
+            }
+
+            $interviewer = fn () => $this->doAsk($output, $question);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
             return $this->validateAttempts($interviewer, $output, $question);
         } catch (MissingInputException $exception) {
@@ -83,8 +104,15 @@ class QuestionHelper extends Helper
 
     /**
      * Prevents usage of stty.
+<<<<<<< HEAD
      */
     public static function disableStty(): void
+=======
+     *
+     * @return void
+     */
+    public static function disableStty()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         self::$stty = false;
     }
@@ -92,6 +120,7 @@ class QuestionHelper extends Helper
     /**
      * Asks the question to the user.
      *
+<<<<<<< HEAD
      * @param resource $inputStream
      *
      * @throws RuntimeException In case the fallback is deactivated and the response cannot be hidden
@@ -100,6 +129,15 @@ class QuestionHelper extends Helper
     {
         $this->writePrompt($output, $question);
 
+=======
+     * @throws RuntimeException In case the fallback is deactivated and the response cannot be hidden
+     */
+    private function doAsk(OutputInterface $output, Question $question): mixed
+    {
+        $this->writePrompt($output, $question);
+
+        $inputStream = $this->inputStream ?: \STDIN;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $autocomplete = $question->getAutocompleterCallback();
 
         if (null === $autocomplete || !self::$stty || !Terminal::hasSttyAvailable()) {
@@ -183,8 +221,15 @@ class QuestionHelper extends Helper
 
     /**
      * Outputs the question prompt.
+<<<<<<< HEAD
      */
     protected function writePrompt(OutputInterface $output, Question $question): void
+=======
+     *
+     * @return void
+     */
+    protected function writePrompt(OutputInterface $output, Question $question)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $message = $question->getQuestion();
 
@@ -219,8 +264,15 @@ class QuestionHelper extends Helper
 
     /**
      * Outputs an error message.
+<<<<<<< HEAD
      */
     protected function writeError(OutputInterface $output, \Exception $error): void
+=======
+     *
+     * @return void
+     */
+    protected function writeError(OutputInterface $output, \Exception $error)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (null !== $this->getHelperSet() && $this->getHelperSet()->has('formatter')) {
             $message = $this->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error');

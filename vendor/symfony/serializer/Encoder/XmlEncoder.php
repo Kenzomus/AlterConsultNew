@@ -59,8 +59,11 @@ class XmlEncoder implements EncoderInterface, DecoderInterface, NormalizationAwa
     public const TYPE_CAST_ATTRIBUTES = 'xml_type_cast_attributes';
     public const VERSION = 'xml_version';
     public const CDATA_WRAPPING = 'cdata_wrapping';
+<<<<<<< HEAD
     public const CDATA_WRAPPING_PATTERN = 'cdata_wrapping_pattern';
     public const IGNORE_EMPTY_ATTRIBUTES = 'ignore_empty_attributes';
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     private array $defaultContext = [
         self::AS_COLLECTION => false,
@@ -72,8 +75,11 @@ class XmlEncoder implements EncoderInterface, DecoderInterface, NormalizationAwa
         self::ROOT_NODE_NAME => 'response',
         self::TYPE_CAST_ATTRIBUTES => true,
         self::CDATA_WRAPPING => true,
+<<<<<<< HEAD
         self::CDATA_WRAPPING_PATTERN => '/[<>&]/',
         self::IGNORE_EMPTY_ATTRIBUTES => false,
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     ];
 
     public function __construct(array $defaultContext = [])
@@ -86,7 +92,11 @@ class XmlEncoder implements EncoderInterface, DecoderInterface, NormalizationAwa
         $encoderIgnoredNodeTypes = $context[self::ENCODER_IGNORED_NODE_TYPES] ?? $this->defaultContext[self::ENCODER_IGNORED_NODE_TYPES];
         $ignorePiNode = \in_array(\XML_PI_NODE, $encoderIgnoredNodeTypes, true);
         if ($data instanceof \DOMDocument) {
+<<<<<<< HEAD
             return $this->saveXml($data, $ignorePiNode ? $data->documentElement : null);
+=======
+            return $data->saveXML($ignorePiNode ? $data->documentElement : null);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $xmlRootNodeName = $context[self::ROOT_NODE_NAME] ?? $this->defaultContext[self::ROOT_NODE_NAME];
@@ -101,7 +111,11 @@ class XmlEncoder implements EncoderInterface, DecoderInterface, NormalizationAwa
             $this->appendNode($dom, $data, $format, $context, $xmlRootNodeName);
         }
 
+<<<<<<< HEAD
         return $this->saveXml($dom, $ignorePiNode ? $dom->documentElement : null, $context[self::SAVE_OPTIONS] ?? $this->defaultContext[self::SAVE_OPTIONS]);
+=======
+        return $dom->saveXML($ignorePiNode ? $dom->documentElement : null, $context[self::SAVE_OPTIONS] ?? $this->defaultContext[self::SAVE_OPTIONS]);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function decode(string $data, string $format, array $context = []): mixed
@@ -154,8 +168,14 @@ class XmlEncoder implements EncoderInterface, DecoderInterface, NormalizationAwa
         }
 
         $data = array_merge($this->parseXmlAttributes($rootNode, $context), ['#' => $rootNode->nodeValue]);
+<<<<<<< HEAD
 
         return $this->addXmlNamespaces($data, $rootNode, $dom);
+=======
+        $data = $this->addXmlNamespaces($data, $rootNode, $dom);
+
+        return $data;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function supportsEncoding(string $format): bool
@@ -199,9 +219,19 @@ class XmlEncoder implements EncoderInterface, DecoderInterface, NormalizationAwa
 
     final protected function appendDocumentFragment(\DOMNode $node, \DOMDocumentFragment $fragment): bool
     {
+<<<<<<< HEAD
         $node->appendChild($fragment);
 
         return true;
+=======
+        if ($fragment instanceof \DOMDocumentFragment) {
+            $node->appendChild($fragment);
+
+            return true;
+        }
+
+        return false;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     final protected function appendComment(\DOMNode $node, string $data): bool
@@ -357,6 +387,7 @@ class XmlEncoder implements EncoderInterface, DecoderInterface, NormalizationAwa
                     if (\is_bool($data)) {
                         $data = (int) $data;
                     }
+<<<<<<< HEAD
 
                     if ($context[self::IGNORE_EMPTY_ATTRIBUTES] ?? $this->defaultContext[self::IGNORE_EMPTY_ATTRIBUTES]) {
                         if (null === $data || '' === $data) {
@@ -364,6 +395,8 @@ class XmlEncoder implements EncoderInterface, DecoderInterface, NormalizationAwa
                         }
                     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     $parentNode->setAttribute($attributeName, $data);
                 } elseif ('#' === $key) {
                     $append = $this->selectNodeType($parentNode, $data, $format, $context);
@@ -443,7 +476,11 @@ class XmlEncoder implements EncoderInterface, DecoderInterface, NormalizationAwa
      */
     private function needsCdataWrapping(string $val, array $context): bool
     {
+<<<<<<< HEAD
         return ($context[self::CDATA_WRAPPING] ?? $this->defaultContext[self::CDATA_WRAPPING]) && preg_match($context[self::CDATA_WRAPPING_PATTERN] ?? $this->defaultContext[self::CDATA_WRAPPING_PATTERN], $val);
+=======
+        return ($context[self::CDATA_WRAPPING] ?? $this->defaultContext[self::CDATA_WRAPPING]) && preg_match('/[<>&]/', $val);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -508,6 +545,7 @@ class XmlEncoder implements EncoderInterface, DecoderInterface, NormalizationAwa
 
         return $document;
     }
+<<<<<<< HEAD
 
     /**
      * @throws NotEncodableValueException
@@ -527,4 +565,6 @@ class XmlEncoder implements EncoderInterface, DecoderInterface, NormalizationAwa
             restore_error_handler();
         }
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

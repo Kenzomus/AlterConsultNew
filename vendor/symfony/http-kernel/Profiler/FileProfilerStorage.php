@@ -42,8 +42,17 @@ class FileProfilerStorage implements ProfilerStorageInterface
         }
     }
 
+<<<<<<< HEAD
     public function find(?string $ip, ?string $url, ?int $limit, ?string $method, ?int $start = null, ?int $end = null, ?string $statusCode = null, ?\Closure $filter = null): array
     {
+=======
+    /**
+     * @param \Closure|null $filter A filter to apply on the list of tokens
+     */
+    public function find(?string $ip, ?string $url, ?int $limit, ?string $method, ?int $start = null, ?int $end = null, ?string $statusCode = null/* , \Closure $filter = null */): array
+    {
+        $filter = 7 < \func_num_args() ? func_get_arg(7) : null;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $file = $this->getIndexFilename();
 
         if (!file_exists($file)) {
@@ -74,11 +83,19 @@ class FileProfilerStorage implements ProfilerStorageInterface
                 continue;
             }
 
+<<<<<<< HEAD
             if ($start && $csvTime < $start) {
                 continue;
             }
 
             if ($end && $csvTime > $end) {
+=======
+            if (!empty($start) && $csvTime < $start) {
+                continue;
+            }
+
+            if (!empty($end) && $csvTime > $end) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 continue;
             }
 
@@ -105,7 +122,14 @@ class FileProfilerStorage implements ProfilerStorageInterface
         return array_values($result);
     }
 
+<<<<<<< HEAD
     public function purge(): void
+=======
+    /**
+     * @return void
+     */
+    public function purge()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $flags = \FilesystemIterator::SKIP_DOTS;
         $iterator = new \RecursiveDirectoryIterator($this->folder, $flags);
@@ -262,7 +286,14 @@ class FileProfilerStorage implements ProfilerStorageInterface
         return '' === $line ? null : $line;
     }
 
+<<<<<<< HEAD
     protected function createProfileFromData(string $token, array $data, ?Profile $parent = null): Profile
+=======
+    /**
+     * @return Profile
+     */
+    protected function createProfileFromData(string $token, array $data, ?Profile $parent = null)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $profile = new Profile($token);
         $profile->setIp($data['ip']);

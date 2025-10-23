@@ -16,9 +16,23 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Proxy;
  */
 abstract class AbstractProxy
 {
+<<<<<<< HEAD
     protected bool $wrapper = false;
 
     protected ?string $saveHandlerName = null;
+=======
+    /**
+     * Flag if handler wraps an internal PHP session handler (using \SessionHandler).
+     *
+     * @var bool
+     */
+    protected $wrapper = false;
+
+    /**
+     * @var string
+     */
+    protected $saveHandlerName;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Gets the session.save_handler name.
@@ -63,9 +77,17 @@ abstract class AbstractProxy
     /**
      * Sets the session ID.
      *
+<<<<<<< HEAD
      * @throws \LogicException
      */
     public function setId(string $id): void
+=======
+     * @return void
+     *
+     * @throws \LogicException
+     */
+    public function setId(string $id)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($this->isActive()) {
             throw new \LogicException('Cannot change the ID of an active session.');
@@ -85,9 +107,17 @@ abstract class AbstractProxy
     /**
      * Sets the session name.
      *
+<<<<<<< HEAD
      * @throws \LogicException
      */
     public function setName(string $name): void
+=======
+     * @return void
+     *
+     * @throws \LogicException
+     */
+    public function setName(string $name)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($this->isActive()) {
             throw new \LogicException('Cannot change the name of an active session.');

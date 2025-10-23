@@ -37,8 +37,19 @@ class VarDumper
      */
     private static $handler;
 
+<<<<<<< HEAD
     public static function dump(mixed $var, ?string $label = null): mixed
     {
+=======
+    /**
+     * @param string|null $label
+     *
+     * @return mixed
+     */
+    public static function dump(mixed $var/* , string $label = null */)
+    {
+        $label = 2 <= \func_num_args() ? func_get_arg(1) : null;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (null === self::$handler) {
             self::register();
         }
@@ -46,8 +57,16 @@ class VarDumper
         return (self::$handler)($var, $label);
     }
 
+<<<<<<< HEAD
     public static function setHandler(?callable $callable): ?callable
     {
+=======
+    public static function setHandler(?callable $callable = null): ?callable
+    {
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/var-dumper', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $prevHandler = self::$handler;
 
         // Prevent replacing the handler with expected format as soon as the env var was set:

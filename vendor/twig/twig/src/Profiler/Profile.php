@@ -20,15 +20,29 @@ final class Profile implements \IteratorAggregate, \Serializable
     public const BLOCK = 'block';
     public const TEMPLATE = 'template';
     public const MACRO = 'macro';
+<<<<<<< HEAD
+=======
+
+    private $template;
+    private $name;
+    private $type;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private $starts = [];
     private $ends = [];
     private $profiles = [];
 
+<<<<<<< HEAD
     public function __construct(
         private string $template = 'main',
         private string $type = self::ROOT,
         private string $name = 'main',
     ) {
+=======
+    public function __construct(string $template = 'main', string $type = self::ROOT, string $name = 'main')
+    {
+        $this->template = $template;
+        $this->type = $type;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->name = str_starts_with($name, '__internal_') ? 'INTERNAL' : $name;
         $this->enter();
     }
@@ -100,6 +114,7 @@ final class Profile implements \IteratorAggregate, \Serializable
     }
 
     /**
+<<<<<<< HEAD
      * Returns the start time in microseconds.
      */
     public function getStartTime(): float
@@ -116,6 +131,8 @@ final class Profile implements \IteratorAggregate, \Serializable
     }
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Returns the memory usage in bytes.
      */
     public function getMemoryUsage(): int
@@ -189,6 +206,10 @@ final class Profile implements \IteratorAggregate, \Serializable
      */
     public function __unserialize(array $data): void
     {
+<<<<<<< HEAD
         [$this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles] = $data;
+=======
+        list($this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles) = $data;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

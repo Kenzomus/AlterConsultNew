@@ -412,6 +412,7 @@ class Route implements \Serializable
 
     private function extractInlineDefaultsAndRequirements(string $pattern): string
     {
+<<<<<<< HEAD
         if (false === strpbrk($pattern, '?<:')) {
             return $pattern;
         }
@@ -427,16 +428,31 @@ class Route implements \Serializable
             }
             if (isset($m[4][0])) {
                 $mapping[$m[2]] = isset($m[5][0]) ? [$m[4], substr($m[5], 1)] : $mapping[$m[2]] = [$m[4], $m[2]];
+=======
+        if (false === strpbrk($pattern, '?<')) {
+            return $pattern;
+        }
+
+        return preg_replace_callback('#\{(!?)([\w\x80-\xFF]++)(<.*?>)?(\?[^\}]*+)?\}#', function ($m) {
+            if (isset($m[4][0])) {
+                $this->setDefault($m[2], '?' !== $m[4] ? substr($m[4], 1) : null);
+            }
+            if (isset($m[3][0])) {
+                $this->setRequirement($m[2], substr($m[3], 1, -1));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
 
             return '{'.$m[1].$m[2].'}';
         }, $pattern);
+<<<<<<< HEAD
 
         if ($mapping) {
             $this->setDefault('_route_mapping', $mapping);
         }
 
         return $pattern;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     private function sanitizeRequirement(string $key, string $regex): string

@@ -143,7 +143,11 @@ class Handler {
 
     // Call any pre-scaffold scripts that may be defined.
     $dispatcher = $this->composer->getEventDispatcher();
+<<<<<<< HEAD
     $dispatcher->dispatchScript(self::PRE_DRUPAL_SCAFFOLD_CMD);
+=======
+    $dispatcher->dispatch(self::PRE_DRUPAL_SCAFFOLD_CMD);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     // Fetch the list of file mappings from each allowed package and normalize
     // them.
@@ -178,7 +182,11 @@ class Handler {
     $gitIgnoreManager->manageIgnored($scaffold_results, $scaffold_options);
 
     // Call post-scaffold scripts.
+<<<<<<< HEAD
     $dispatcher->dispatchScript(self::POST_DRUPAL_SCAFFOLD_CMD);
+=======
+    $dispatcher->dispatch(self::POST_DRUPAL_SCAFFOLD_CMD);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
   }
 
   /**
@@ -196,7 +204,11 @@ class Handler {
   /**
    * Gets a consolidated list of file mappings from all allowed packages.
    *
+<<<<<<< HEAD
    * @param \Composer\Package\PackageInterface[] $allowed_packages
+=======
+   * @param \Composer\Package\Package[] $allowed_packages
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
    *   A multidimensional array of file mappings, as returned by
    *   self::getAllowedPackages().
    *

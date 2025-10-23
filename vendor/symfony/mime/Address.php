@@ -117,6 +117,7 @@ final class Address
 
         return $addrs;
     }
+<<<<<<< HEAD
 
     /**
      * Returns true if this address' localpart contains at least one
@@ -137,4 +138,6 @@ final class Address
     {
         return (bool) preg_match('/[\x80-\xFF].*@/', $this->address);
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

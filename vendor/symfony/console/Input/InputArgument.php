@@ -25,6 +25,7 @@ use Symfony\Component\Console\Exception\LogicException;
  */
 class InputArgument
 {
+<<<<<<< HEAD
     /**
      * Providing an argument is required (e.g. just 'app:foo' is not allowed).
      */
@@ -46,12 +47,28 @@ class InputArgument
     /**
      * @param string                                                                        $name            The argument name
      * @param int-mask-of<InputArgument::*>|null                                            $mode            The argument mode: a bit mask of self::REQUIRED, self::OPTIONAL and self::IS_ARRAY
+=======
+    public const REQUIRED = 1;
+    public const OPTIONAL = 2;
+    public const IS_ARRAY = 4;
+
+    private string $name;
+    private int $mode;
+    private string|int|bool|array|float|null $default;
+    private array|\Closure $suggestedValues;
+    private string $description;
+
+    /**
+     * @param string                                                                        $name            The argument name
+     * @param int|null                                                                      $mode            The argument mode: a bit mask of self::REQUIRED, self::OPTIONAL and self::IS_ARRAY
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @param string                                                                        $description     A description text
      * @param string|bool|int|float|array|null                                              $default         The default value (for self::OPTIONAL mode only)
      * @param array|\Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
      *
      * @throws InvalidArgumentException When argument mode is not valid
      */
+<<<<<<< HEAD
     public function __construct(
         private string $name,
         ?int $mode = null,
@@ -66,6 +83,20 @@ class InputArgument
         }
 
         $this->mode = $mode;
+=======
+    public function __construct(string $name, ?int $mode = null, string $description = '', string|bool|int|float|array|null $default = null, \Closure|array $suggestedValues = [])
+    {
+        if (null === $mode) {
+            $mode = self::OPTIONAL;
+        } elseif ($mode > 7 || $mode < 1) {
+            throw new InvalidArgumentException(\sprintf('Argument mode "%s" is not valid.', $mode));
+        }
+
+        $this->name = $name;
+        $this->mode = $mode;
+        $this->description = $description;
+        $this->suggestedValues = $suggestedValues;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         $this->setDefault($default);
     }
@@ -100,9 +131,22 @@ class InputArgument
 
     /**
      * Sets the default value.
+<<<<<<< HEAD
      */
     public function setDefault(string|bool|int|float|array|null $default): void
     {
+=======
+     *
+     * @return void
+     *
+     * @throws LogicException When incorrect default value is given
+     */
+    public function setDefault(string|bool|int|float|array|null $default = null)
+    {
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if ($this->isRequired() && null !== $default) {
             throw new LogicException('Cannot set a default value except for InputArgument::OPTIONAL mode.');
         }
@@ -126,16 +170,23 @@ class InputArgument
         return $this->default;
     }
 
+<<<<<<< HEAD
     /**
      * Returns true if the argument has values for input completion.
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function hasCompletion(): bool
     {
         return [] !== $this->suggestedValues;
     }
 
     /**
+<<<<<<< HEAD
      * Supplies suggestions when command resolves possible completion options for input.
+=======
+     * Adds suggestions to $suggestions for the current completion input.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      *
      * @see Command::complete()
      */

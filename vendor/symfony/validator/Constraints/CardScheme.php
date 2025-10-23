@@ -11,11 +11,21 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * Validates a credit card number for a given credit card company.
+=======
+use Symfony\Component\Validator\Constraint;
+
+/**
+ * Metadata for the CardSchemeValidator.
+ *
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Tim Nagel <t.nagel@infinite.net.au>
  * @author Bernhard Schussek <bschussek@gmail.com>
@@ -44,6 +54,7 @@ class CardScheme extends Constraint
         self::INVALID_FORMAT_ERROR => 'INVALID_FORMAT_ERROR',
     ];
 
+<<<<<<< HEAD
     public string $message = 'Unsupported card type or invalid card number.';
     public array|string|null $schemes = null;
 
@@ -69,6 +80,22 @@ class CardScheme extends Constraint
             if (null !== $schemes) {
                 $options['value'] = $schemes;
             }
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $message = 'Unsupported card type or invalid card number.';
+    public $schemes;
+
+    public function __construct(array|string|null $schemes, ?string $message = null, ?array $groups = null, mixed $payload = null, array $options = [])
+    {
+        if (\is_array($schemes) && \is_string(key($schemes))) {
+            $options = array_merge($schemes, $options);
+        } elseif (null !== $schemes) {
+            $options['value'] = $schemes;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         parent::__construct($options, $groups, $payload);

@@ -27,6 +27,7 @@ class ServicesConfigurator extends AbstractConfigurator
     public const FACTORY = 'services';
 
     private Definition $defaults;
+<<<<<<< HEAD
     private array $instanceof;
     private string $anonymousHash;
     private int $anonymousCount;
@@ -40,6 +41,22 @@ class ServicesConfigurator extends AbstractConfigurator
     ) {
         $this->defaults = new Definition();
         $this->instanceof = &$instanceof;
+=======
+    private ContainerBuilder $container;
+    private PhpFileLoader $loader;
+    private array $instanceof;
+    private ?string $path;
+    private string $anonymousHash;
+    private int $anonymousCount;
+
+    public function __construct(ContainerBuilder $container, PhpFileLoader $loader, array &$instanceof, ?string $path = null, int &$anonymousCount = 0)
+    {
+        $this->defaults = new Definition();
+        $this->container = $container;
+        $this->loader = $loader;
+        $this->instanceof = &$instanceof;
+        $this->path = $path;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->anonymousHash = ContainerBuilder::hash($path ?: mt_rand());
         $this->anonymousCount = &$anonymousCount;
         $instanceof = [];

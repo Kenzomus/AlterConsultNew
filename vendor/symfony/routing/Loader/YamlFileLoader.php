@@ -112,8 +112,15 @@ class YamlFileLoader extends FileLoader
 
     /**
      * Parses a route and adds it to the RouteCollection.
+<<<<<<< HEAD
      */
     protected function parseRoute(RouteCollection $collection, string $name, array $config, string $path): void
+=======
+     *
+     * @return void
+     */
+    protected function parseRoute(RouteCollection $collection, string $name, array $config, string $path)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (isset($config['alias'])) {
             $alias = $collection->addAlias($name, $config['alias']);
@@ -172,8 +179,15 @@ class YamlFileLoader extends FileLoader
 
     /**
      * Parses an import and adds the routes in the resource to the RouteCollection.
+<<<<<<< HEAD
      */
     protected function parseImport(RouteCollection $collection, array $config, string $path, string $file): void
+=======
+     *
+     * @return void
+     */
+    protected function parseImport(RouteCollection $collection, array $config, string $path, string $file)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $type = $config['type'] ?? null;
         $prefix = $config['prefix'] ?? '';
@@ -240,10 +254,19 @@ class YamlFileLoader extends FileLoader
     }
 
     /**
+<<<<<<< HEAD
      * @throws \InvalidArgumentException If one of the provided config keys is not supported,
      *                                   something is missing or the combination is nonsense
      */
     protected function validate(mixed $config, string $name, string $path): void
+=======
+     * @return void
+     *
+     * @throws \InvalidArgumentException If one of the provided config keys is not supported,
+     *                                   something is missing or the combination is nonsense
+     */
+    protected function validate(mixed $config, string $name, string $path)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!\is_array($config)) {
             throw new \InvalidArgumentException(\sprintf('The definition of "%s" in "%s" must be a YAML array.', $name, $path));

@@ -28,7 +28,11 @@ use Symfony\Component\Serializer\SerializerAwareTrait;
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
+<<<<<<< HEAD
 abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface
+=======
+abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface, CacheableSupportsMethodInterface
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     use ObjectToPopulateTrait;
     use SerializerAwareTrait;
@@ -119,6 +123,7 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
     public const REQUIRE_ALL_PROPERTIES = 'require_all_properties';
 
     /**
+<<<<<<< HEAD
      * Flag to control whether a non-boolean value should be filtered using the
      * filter_var function with the {@see https://www.php.net/manual/fr/filter.filters.validate.php}
      * \FILTER_VALIDATE_BOOL filter before casting it to a boolean.
@@ -129,11 +134,17 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
     public const FILTER_BOOL = 'filter_bool';
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @internal
      */
     protected const CIRCULAR_REFERENCE_LIMIT_COUNTERS = 'circular_reference_limit_counters';
 
+<<<<<<< HEAD
     protected array $defaultContext = [
+=======
+    protected $defaultContext = [
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         self::ALLOW_EXTRA_ATTRIBUTES => true,
         self::CIRCULAR_REFERENCE_HANDLER => null,
         self::CIRCULAR_REFERENCE_LIMIT => 1,
@@ -141,6 +152,7 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
     ];
 
     /**
+<<<<<<< HEAD
      * Sets the {@link ClassMetadataFactoryInterface} to use.
      */
     public function __construct(
@@ -148,6 +160,24 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
         protected ?NameConverterInterface $nameConverter = null,
         array $defaultContext = [],
     ) {
+=======
+     * @var ClassMetadataFactoryInterface|null
+     */
+    protected $classMetadataFactory;
+
+    /**
+     * @var NameConverterInterface|null
+     */
+    protected $nameConverter;
+
+    /**
+     * Sets the {@link ClassMetadataFactoryInterface} to use.
+     */
+    public function __construct(?ClassMetadataFactoryInterface $classMetadataFactory = null, ?NameConverterInterface $nameConverter = null, array $defaultContext = [])
+    {
+        $this->classMetadataFactory = $classMetadataFactory;
+        $this->nameConverter = $nameConverter;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->defaultContext = array_merge($this->defaultContext, $defaultContext);
 
         $this->validateCallbackContext($this->defaultContext, 'default');
@@ -158,25 +188,53 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @deprecated since Symfony 6.3, use "getSupportedTypes()" instead
+     */
+    public function hasCacheableSupportsMethod(): bool
+    {
+        trigger_deprecation('symfony/serializer', '6.3', 'The "%s()" method is deprecated, implement "%s::getSupportedTypes()" instead.', __METHOD__, get_debug_type($this));
+
+        return false;
+    }
+
+    /**
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Detects if the configured circular reference limit is reached.
      *
      * @throws CircularReferenceException
      */
     protected function isCircularReference(object $object, array &$context): bool
     {
+<<<<<<< HEAD
         $objectId = spl_object_id($object);
 
         $circularReferenceLimit = $context[self::CIRCULAR_REFERENCE_LIMIT] ?? $this->defaultContext[self::CIRCULAR_REFERENCE_LIMIT];
         if (isset($context[self::CIRCULAR_REFERENCE_LIMIT_COUNTERS][$objectId])) {
             if ($context[self::CIRCULAR_REFERENCE_LIMIT_COUNTERS][$objectId] >= $circularReferenceLimit) {
                 unset($context[self::CIRCULAR_REFERENCE_LIMIT_COUNTERS][$objectId]);
+=======
+        $objectHash = spl_object_hash($object);
+
+        $circularReferenceLimit = $context[self::CIRCULAR_REFERENCE_LIMIT] ?? $this->defaultContext[self::CIRCULAR_REFERENCE_LIMIT];
+        if (isset($context[self::CIRCULAR_REFERENCE_LIMIT_COUNTERS][$objectHash])) {
+            if ($context[self::CIRCULAR_REFERENCE_LIMIT_COUNTERS][$objectHash] >= $circularReferenceLimit) {
+                unset($context[self::CIRCULAR_REFERENCE_LIMIT_COUNTERS][$objectHash]);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
                 return true;
             }
 
+<<<<<<< HEAD
             ++$context[self::CIRCULAR_REFERENCE_LIMIT_COUNTERS][$objectId];
         } else {
             $context[self::CIRCULAR_REFERENCE_LIMIT_COUNTERS][$objectId] = 1;
+=======
+            ++$context[self::CIRCULAR_REFERENCE_LIMIT_COUNTERS][$objectHash];
+        } else {
+            $context[self::CIRCULAR_REFERENCE_LIMIT_COUNTERS][$objectHash] = 1;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return false;
@@ -211,7 +269,11 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
      *
      * @throws LogicException if the 'allow_extra_attributes' context variable is false and no class metadata factory is provided
      */
+<<<<<<< HEAD
     protected function getAllowedAttributes(string|object $classOrObject, array $context, bool $attributesAsString = false): array|bool
+=======
+    protected function getAllowedAttributes(string|object $classOrObject, array $context, bool $attributesAsString = false)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $allowExtraAttributes = $context[self::ALLOW_EXTRA_ATTRIBUTES] ?? $this->defaultContext[self::ALLOW_EXTRA_ATTRIBUTES];
         if (!$this->classMetadataFactory) {
@@ -226,7 +288,10 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
 
         $allowedAttributes = [];
         $ignoreUsed = false;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         foreach ($this->classMetadataFactory->getMetadataFor($classOrObject)->getAttributesMetadata() as $attributeMetadata) {
             if ($ignore = $attributeMetadata->isIgnored()) {
                 $ignoreUsed = true;
@@ -235,7 +300,11 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
             // If you update this check, update accordingly the one in Symfony\Component\PropertyInfo\Extractor\SerializerExtractor::getProperties()
             if (
                 !$ignore
+<<<<<<< HEAD
                 && ([] === $groups || \in_array('*', $groups, true) || array_intersect($attributeMetadata->getGroups(), $groups))
+=======
+                && ([] === $groups || array_intersect(array_merge($attributeMetadata->getGroups(), ['*']), $groups))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 && $this->isAllowedAttribute($classOrObject, $name = $attributeMetadata->getName(), null, $context)
             ) {
                 $allowedAttributes[] = $attributesAsString ? $name : $attributeMetadata;
@@ -259,11 +328,21 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
 
     /**
      * Is this attribute allowed?
+<<<<<<< HEAD
      */
     protected function isAllowedAttribute(object|string $classOrObject, string $attribute, ?string $format = null, array $context = []): bool
     {
         $ignoredAttributes = $context[self::IGNORED_ATTRIBUTES] ?? $this->defaultContext[self::IGNORED_ATTRIBUTES];
         if (\in_array($attribute, $ignoredAttributes, true)) {
+=======
+     *
+     * @return bool
+     */
+    protected function isAllowedAttribute(object|string $classOrObject, string $attribute, ?string $format = null, array $context = [])
+    {
+        $ignoredAttributes = $context[self::IGNORED_ATTRIBUTES] ?? $this->defaultContext[self::IGNORED_ATTRIBUTES];
+        if (\in_array($attribute, $ignoredAttributes)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return false;
         }
 
@@ -306,10 +385,19 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
      * is removed from the context before being returned to avoid side effects
      * when recursively normalizing an object graph.
      *
+<<<<<<< HEAD
      * @throws RuntimeException
      * @throws MissingConstructorArgumentsException
      */
     protected function instantiateObject(array &$data, string $class, array &$context, \ReflectionClass $reflectionClass, array|bool $allowedAttributes, ?string $format = null): object
+=======
+     * @return object
+     *
+     * @throws RuntimeException
+     * @throws MissingConstructorArgumentsException
+     */
+    protected function instantiateObject(array &$data, string $class, array &$context, \ReflectionClass $reflectionClass, array|bool $allowedAttributes, ?string $format = null)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (null !== $object = $this->extractObjectToPopulate($class, $context, self::OBJECT_TO_POPULATE)) {
             unset($context[self::OBJECT_TO_POPULATE]);
@@ -336,7 +424,11 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
                 $attributeContext = $this->getAttributeDenormalizationContext($class, $paramName, $context);
                 $key = $this->nameConverter ? $this->nameConverter->normalize($paramName, $class, $format, $context) : $paramName;
 
+<<<<<<< HEAD
                 $allowed = false === $allowedAttributes || \in_array($paramName, $allowedAttributes, true);
+=======
+                $allowed = false === $allowedAttributes || \in_array($paramName, $allowedAttributes);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $ignored = !$this->isAllowedAttribute($class, $paramName, $format, $context);
                 if ($constructorParameter->isVariadic()) {
                     if ($allowed && !$ignored && (isset($data[$key]) || \array_key_exists($key, $data))) {
@@ -481,9 +573,13 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
             return null;
         }
 
+<<<<<<< HEAD
         $parameterData = $this->applyCallbacks($parameterData, $class->getName(), $parameterName, $format, $context);
 
         return $this->applyFilterBool($parameter, $parameterData, $context);
+=======
+        return $this->applyCallbacks($parameterData, $class->getName(), $parameterName, $format, $context);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -534,6 +630,7 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
         return $callback ? $callback($value, $object, $attribute, $format, $context) : $value;
     }
 
+<<<<<<< HEAD
     final protected function applyFilterBool(\ReflectionParameter $parameter, mixed $value, array $context): mixed
     {
         if (!($context[self::FILTER_BOOL] ?? false)) {
@@ -547,6 +644,8 @@ abstract class AbstractNormalizer implements NormalizerInterface, DenormalizerIn
         return filter_var($value, \FILTER_VALIDATE_BOOL, \FILTER_NULL_ON_FAILURE) ?? $value;
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * Computes the normalization context merged with current one. Metadata always wins over global context, as more specific.
      *

@@ -299,7 +299,10 @@ class Renderer
                     $code .= " as " . $this->renderNode($exported);
                 }
                 $code .= " from " . $this->renderNode($node->getSource());
+<<<<<<< HEAD
                 $code .= $this->renderImportAttributes($node);
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             break;
             case "ExportDefaultDeclaration":
                 $declaration = $node->getDeclaration();
@@ -327,7 +330,10 @@ class Renderer
                                  "from " .
                                  $this->renderNode($source);
                     }
+<<<<<<< HEAD
                     $code .= $this->renderImportAttributes($node);
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 }
             break;
             case "ExportSpecifier":
@@ -408,6 +414,7 @@ class Renderer
                          $this->renderStatementBlock($node, $node->getBody(), true);
             break;
             case "ImportExpression":
+<<<<<<< HEAD
                 $options = $node->getOptions();
                 $code .= "import(" .
                          $this->renderOpts->sirb .
@@ -417,6 +424,11 @@ class Renderer
                             "," . $this->renderOpts->sao . $this->renderNode($options) :
                             ""
                          ) .
+=======
+                $code .= "import(" .
+                         $this->renderOpts->sirb .
+                         $this->renderNode($node->getSource()) .
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                          $this->renderOpts->sirb .
                          ")";
             break;
@@ -447,12 +459,15 @@ class Renderer
                              );
                 }
             break;
+<<<<<<< HEAD
             case "ImportAttribute":
                 $code .= $this->renderNode($node->getKey()) .
                          ":" .
                          $this->renderOpts->sao .
                          $this->renderNode($node->getValue());
             break;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             case "ImportDeclaration":
                 $code .= "import ";
                 $specifiers = $node->getSpecifiers();
@@ -486,7 +501,10 @@ class Renderer
                     $code .= implode($sep, $parts) . " from ";
                 }
                 $code .= $this->renderNode($node->getSource());
+<<<<<<< HEAD
                 $code .= $this->renderImportAttributes($node);
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             break;
             case "ImportDefaultSpecifier":
                 $code .= $this->renderNode($node->getLocal());
@@ -1189,6 +1207,7 @@ class Renderer
     }
 
     /**
+<<<<<<< HEAD
      * Render import attributes of the given node
      * 
      * @param Syntax\Node\Node  $node Node
@@ -1212,6 +1231,8 @@ class Renderer
     }
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Removes an empty line at the end of the given code, if present
      * 
      * @param string  $code   Code

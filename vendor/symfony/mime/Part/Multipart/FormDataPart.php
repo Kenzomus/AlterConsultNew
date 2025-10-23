@@ -22,6 +22,7 @@ use Symfony\Component\Mime\Part\TextPart;
  */
 final class FormDataPart extends AbstractMultipartPart
 {
+<<<<<<< HEAD
     /**
      * @param array<string|array|TextPart> $fields
      */
@@ -30,6 +31,19 @@ final class FormDataPart extends AbstractMultipartPart
     ) {
         parent::__construct();
 
+=======
+    private array $fields = [];
+
+    /**
+     * @param array<string|array|TextPart> $fields
+     */
+    public function __construct(array $fields = [])
+    {
+        parent::__construct();
+
+        $this->fields = $fields;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         // HTTP does not support \r\n in header values
         $this->getHeaders()->setMaxLineLength(\PHP_INT_MAX);
     }

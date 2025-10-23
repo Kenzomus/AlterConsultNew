@@ -45,14 +45,25 @@ use Symfony\Component\Validator\Util\PropertyPath;
  */
 class RecursiveContextualValidator implements ContextualValidatorInterface
 {
+<<<<<<< HEAD
     private string $defaultPropertyPath;
     private array $defaultGroups;
+=======
+    private ExecutionContextInterface $context;
+    private string $defaultPropertyPath;
+    private array $defaultGroups;
+    private MetadataFactoryInterface $metadataFactory;
+    private ConstraintValidatorFactoryInterface $validatorFactory;
+    private array $objectInitializers;
+    private ?ContainerInterface $groupProviderLocator;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Creates a validator for the given context.
      *
      * @param ObjectInitializerInterface[] $objectInitializers The object initializers
      */
+<<<<<<< HEAD
     public function __construct(
         private ExecutionContextInterface $context,
         private MetadataFactoryInterface $metadataFactory,
@@ -62,6 +73,17 @@ class RecursiveContextualValidator implements ContextualValidatorInterface
     ) {
         $this->defaultPropertyPath = $context->getPropertyPath();
         $this->defaultGroups = [$context->getGroup() ?: Constraint::DEFAULT_GROUP];
+=======
+    public function __construct(ExecutionContextInterface $context, MetadataFactoryInterface $metadataFactory, ConstraintValidatorFactoryInterface $validatorFactory, array $objectInitializers = [], ?ContainerInterface $groupProviderLocator = null)
+    {
+        $this->context = $context;
+        $this->defaultPropertyPath = $context->getPropertyPath();
+        $this->defaultGroups = [$context->getGroup() ?: Constraint::DEFAULT_GROUP];
+        $this->metadataFactory = $metadataFactory;
+        $this->validatorFactory = $validatorFactory;
+        $this->objectInitializers = $objectInitializers;
+        $this->groupProviderLocator = $groupProviderLocator;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function atPath(string $path): static

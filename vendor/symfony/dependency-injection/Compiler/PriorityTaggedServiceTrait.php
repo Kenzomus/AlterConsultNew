@@ -50,7 +50,10 @@ trait PriorityTaggedServiceTrait
             $tagName = $tagName->getTag();
         }
 
+<<<<<<< HEAD
         $parameterBag = $container->getParameterBag();
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $i = 0;
         $services = [];
 
@@ -64,7 +67,10 @@ trait PriorityTaggedServiceTrait
             $definition = $container->getDefinition($serviceId);
             $class = $definition->getClass();
             $class = $container->getParameterBag()->resolveValue($class) ?: null;
+<<<<<<< HEAD
             $reflector = null !== $class ? $container->getReflectionClass($class) : null;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $checkTaggedItem = !$definition->hasTag($definition->isAutoconfigured() ? 'container.ignore_attributes' : $tagName);
 
             foreach ($attributes as $attribute) {
@@ -72,8 +78,13 @@ trait PriorityTaggedServiceTrait
 
                 if (isset($attribute['priority'])) {
                     $priority = $attribute['priority'];
+<<<<<<< HEAD
                 } elseif (null === $defaultPriority && $defaultPriorityMethod && $reflector) {
                     $defaultPriority = PriorityTaggedServiceUtil::getDefault($serviceId, $reflector, $defaultPriorityMethod, $tagName, 'priority', $checkTaggedItem);
+=======
+                } elseif (null === $defaultPriority && $defaultPriorityMethod && $class) {
+                    $defaultPriority = PriorityTaggedServiceUtil::getDefault($container, $serviceId, $class, $defaultPriorityMethod, $tagName, 'priority', $checkTaggedItem);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 }
                 $priority ??= $defaultPriority ??= 0;
 
@@ -83,6 +94,7 @@ trait PriorityTaggedServiceTrait
                 }
 
                 if (null !== $indexAttribute && isset($attribute[$indexAttribute])) {
+<<<<<<< HEAD
                     $index = $parameterBag->resolveValue($attribute[$indexAttribute]);
                 }
                 if (null === $index && null === $defaultIndex && $defaultPriorityMethod && $reflector) {
@@ -107,6 +119,17 @@ trait PriorityTaggedServiceTrait
                     $services[] = [$instance->priority ?? 0, ++$i, $instance->index ?? $serviceId, $serviceId, $class];
                 }
             }
+=======
+                    $index = $attribute[$indexAttribute];
+                } elseif (null === $defaultIndex && $defaultPriorityMethod && $class) {
+                    $defaultIndex = PriorityTaggedServiceUtil::getDefault($container, $serviceId, $class, $defaultIndexMethod ?? 'getDefaultName', $tagName, $indexAttribute, $checkTaggedItem);
+                }
+                $decorated = $definition->getTag('container.decorator')[0]['id'] ?? null;
+                $index = $index ?? $defaultIndex ?? $defaultIndex = $decorated ?? $serviceId;
+
+                $services[] = [$priority, ++$i, $index, $serviceId, $class];
+            }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         uasort($services, static fn ($a, $b) => $b[0] <=> $a[0] ?: $a[1] <=> $b[1]);
@@ -137,11 +160,17 @@ trait PriorityTaggedServiceTrait
  */
 class PriorityTaggedServiceUtil
 {
+<<<<<<< HEAD
     public static function getDefault(string $serviceId, \ReflectionClass $r, string $defaultMethod, string $tagName, ?string $indexAttribute, bool $checkTaggedItem): string|int|null
     {
         $class = $r->getName();
 
         if (!$checkTaggedItem && !$r->hasMethod($defaultMethod)) {
+=======
+    public static function getDefault(ContainerBuilder $container, string $serviceId, string $class, string $defaultMethod, string $tagName, ?string $indexAttribute, bool $checkTaggedItem): string|int|null
+    {
+        if (!($r = $container->getReflectionClass($class)) || (!$checkTaggedItem && !$r->hasMethod($defaultMethod))) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return null;
         }
 

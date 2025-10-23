@@ -22,6 +22,7 @@ class_exists(NativeSessionStorage::class);
  */
 class NativeSessionStorageFactory implements SessionStorageFactoryInterface
 {
+<<<<<<< HEAD
     /**
      * @see NativeSessionStorage constructor.
      */
@@ -31,6 +32,22 @@ class NativeSessionStorageFactory implements SessionStorageFactoryInterface
         private ?MetadataBag $metaBag = null,
         private bool $secure = false,
     ) {
+=======
+    private array $options;
+    private AbstractProxy|\SessionHandlerInterface|null $handler;
+    private ?MetadataBag $metaBag;
+    private bool $secure;
+
+    /**
+     * @see NativeSessionStorage constructor.
+     */
+    public function __construct(array $options = [], AbstractProxy|\SessionHandlerInterface|null $handler = null, ?MetadataBag $metaBag = null, bool $secure = false)
+    {
+        $this->options = $options;
+        $this->handler = $handler;
+        $this->metaBag = $metaBag;
+        $this->secure = $secure;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function createStorage(?Request $request): SessionStorageInterface

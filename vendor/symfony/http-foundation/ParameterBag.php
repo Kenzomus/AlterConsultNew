@@ -23,17 +23,31 @@ use Symfony\Component\HttpFoundation\Exception\UnexpectedValueException;
  */
 class ParameterBag implements \IteratorAggregate, \Countable
 {
+<<<<<<< HEAD
     public function __construct(
         protected array $parameters = [],
     ) {
+=======
+    /**
+     * Parameter storage.
+     */
+    protected $parameters;
+
+    public function __construct(array $parameters = [])
+    {
+        $this->parameters = $parameters;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
      * Returns the parameters.
      *
      * @param string|null $key The name of the parameter to return or null to get them all
+<<<<<<< HEAD
      *
      * @throws BadRequestException if the value is not an array
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function all(?string $key = null): array
     {
@@ -58,16 +72,30 @@ class ParameterBag implements \IteratorAggregate, \Countable
 
     /**
      * Replaces the current parameters by a new set.
+<<<<<<< HEAD
      */
     public function replace(array $parameters = []): void
+=======
+     *
+     * @return void
+     */
+    public function replace(array $parameters = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->parameters = $parameters;
     }
 
     /**
      * Adds parameters.
+<<<<<<< HEAD
      */
     public function add(array $parameters = []): void
+=======
+     *
+     * @return void
+     */
+    public function add(array $parameters = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->parameters = array_replace($this->parameters, $parameters);
     }
@@ -77,7 +105,14 @@ class ParameterBag implements \IteratorAggregate, \Countable
         return \array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
     }
 
+<<<<<<< HEAD
     public function set(string $key, mixed $value): void
+=======
+    /**
+     * @return void
+     */
+    public function set(string $key, mixed $value)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->parameters[$key] = $value;
     }
@@ -92,16 +127,26 @@ class ParameterBag implements \IteratorAggregate, \Countable
 
     /**
      * Removes a parameter.
+<<<<<<< HEAD
      */
     public function remove(string $key): void
+=======
+     *
+     * @return void
+     */
+    public function remove(string $key)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         unset($this->parameters[$key]);
     }
 
     /**
      * Returns the alphabetic characters of the parameter value.
+<<<<<<< HEAD
      *
      * @throws UnexpectedValueException if the value cannot be converted to string
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function getAlpha(string $key, string $default = ''): string
     {
@@ -110,8 +155,11 @@ class ParameterBag implements \IteratorAggregate, \Countable
 
     /**
      * Returns the alphabetic characters and digits of the parameter value.
+<<<<<<< HEAD
      *
      * @throws UnexpectedValueException if the value cannot be converted to string
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function getAlnum(string $key, string $default = ''): string
     {
@@ -120,8 +168,11 @@ class ParameterBag implements \IteratorAggregate, \Countable
 
     /**
      * Returns the digits of the parameter value.
+<<<<<<< HEAD
      *
      * @throws UnexpectedValueException if the value cannot be converted to string
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function getDigits(string $key, string $default = ''): string
     {
@@ -130,8 +181,11 @@ class ParameterBag implements \IteratorAggregate, \Countable
 
     /**
      * Returns the parameter as string.
+<<<<<<< HEAD
      *
      * @throws UnexpectedValueException if the value cannot be converted to string
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function getString(string $key, string $default = ''): string
     {
@@ -145,18 +199,29 @@ class ParameterBag implements \IteratorAggregate, \Countable
 
     /**
      * Returns the parameter value converted to integer.
+<<<<<<< HEAD
      *
      * @throws UnexpectedValueException if the value cannot be converted to integer
      */
     public function getInt(string $key, int $default = 0): int
     {
         return $this->filter($key, $default, \FILTER_VALIDATE_INT, ['flags' => \FILTER_REQUIRE_SCALAR]);
+=======
+     */
+    public function getInt(string $key, int $default = 0): int
+    {
+        // In 7.0 remove the fallback to 0, in case of failure an exception will be thrown
+        return $this->filter($key, $default, \FILTER_VALIDATE_INT, ['flags' => \FILTER_REQUIRE_SCALAR]) ?: 0;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
      * Returns the parameter value converted to boolean.
+<<<<<<< HEAD
      *
      * @throws UnexpectedValueException if the value cannot be converted to a boolean
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function getBoolean(string $key, bool $default = false): bool
     {
@@ -172,10 +237,13 @@ class ParameterBag implements \IteratorAggregate, \Countable
      * @param ?T              $default
      *
      * @return ?T
+<<<<<<< HEAD
      *
      * @psalm-return ($default is null ? T|null : T)
      *
      * @throws UnexpectedValueException if the parameter value cannot be converted to an enum
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function getEnum(string $key, string $class, ?\BackedEnum $default = null): ?\BackedEnum
     {
@@ -199,9 +267,12 @@ class ParameterBag implements \IteratorAggregate, \Countable
      * @param int|array{flags?: int, options?: array} $options Flags from FILTER_* constants
      *
      * @see https://php.net/filter-var
+<<<<<<< HEAD
      *
      * @throws UnexpectedValueException if the parameter value is a non-stringable object
      * @throws UnexpectedValueException if the parameter value is invalid and \FILTER_NULL_ON_FAILURE is not set
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function filter(string $key, mixed $default = null, int $filter = \FILTER_DEFAULT, mixed $options = []): mixed
     {
@@ -235,7 +306,17 @@ class ParameterBag implements \IteratorAggregate, \Countable
             return $value;
         }
 
+<<<<<<< HEAD
         throw new \UnexpectedValueException(\sprintf('Parameter value "%s" is invalid and flag "FILTER_NULL_ON_FAILURE" was not set.', $key));
+=======
+        $method = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS | \DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1];
+        $method = ($method['object'] ?? null) === $this ? $method['function'] : 'filter';
+        $hint = 'filter' === $method ? 'pass' : 'use method "filter()" with';
+
+        trigger_deprecation('symfony/http-foundation', '6.3', 'Ignoring invalid values when using "%s::%s(\'%s\')" is deprecated and will throw an "%s" in 7.0; '.$hint.' flag "FILTER_NULL_ON_FAILURE" to keep ignoring them.', $this::class, $method, $key, UnexpectedValueException::class);
+
+        return false;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**

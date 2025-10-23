@@ -58,7 +58,13 @@ class CramMd5Authenticator implements AuthenticatorInterface
         $kopad = substr($secret, 0, 64) ^ str_repeat(\chr(0x5C), 64);
 
         $inner = pack('H32', md5($kipad.$challenge));
+<<<<<<< HEAD
 
         return md5($kopad.$inner);
+=======
+        $digest = md5($kopad.$inner);
+
+        return $digest;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

@@ -22,11 +22,20 @@ use Symfony\Component\Validator\Exception\ValidatorException;
  */
 class ContainerConstraintValidatorFactory implements ConstraintValidatorFactoryInterface
 {
+<<<<<<< HEAD
     private array $validators;
 
     public function __construct(
         private ContainerInterface $container,
     ) {
+=======
+    private ContainerInterface $container;
+    private array $validators;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->validators = [];
     }
 

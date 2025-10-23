@@ -27,12 +27,21 @@ use Symfony\Component\Console\Exception\RuntimeException;
  */
 abstract class Input implements InputInterface, StreamableInputInterface
 {
+<<<<<<< HEAD
     protected InputDefinition $definition;
     /** @var resource */
     protected $stream;
     protected array $options = [];
     protected array $arguments = [];
     protected bool $interactive = true;
+=======
+    protected $definition;
+    /** @var resource */
+    protected $stream;
+    protected $options = [];
+    protected $arguments = [];
+    protected $interactive = true;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     public function __construct(?InputDefinition $definition = null)
     {
@@ -44,7 +53,14 @@ abstract class Input implements InputInterface, StreamableInputInterface
         }
     }
 
+<<<<<<< HEAD
     public function bind(InputDefinition $definition): void
+=======
+    /**
+     * @return void
+     */
+    public function bind(InputDefinition $definition)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->arguments = [];
         $this->options = [];
@@ -55,10 +71,22 @@ abstract class Input implements InputInterface, StreamableInputInterface
 
     /**
      * Processes command line arguments.
+<<<<<<< HEAD
      */
     abstract protected function parse(): void;
 
     public function validate(): void
+=======
+     *
+     * @return void
+     */
+    abstract protected function parse();
+
+    /**
+     * @return void
+     */
+    public function validate()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $definition = $this->definition;
         $givenArguments = $this->arguments;
@@ -75,7 +103,14 @@ abstract class Input implements InputInterface, StreamableInputInterface
         return $this->interactive;
     }
 
+<<<<<<< HEAD
     public function setInteractive(bool $interactive): void
+=======
+    /**
+     * @return void
+     */
+    public function setInteractive(bool $interactive)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->interactive = $interactive;
     }
@@ -94,7 +129,14 @@ abstract class Input implements InputInterface, StreamableInputInterface
         return $this->arguments[$name] ?? $this->definition->getArgument($name)->getDefault();
     }
 
+<<<<<<< HEAD
     public function setArgument(string $name, mixed $value): void
+=======
+    /**
+     * @return void
+     */
+    public function setArgument(string $name, mixed $value)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$this->definition->hasArgument($name)) {
             throw new InvalidArgumentException(\sprintf('The "%s" argument does not exist.', $name));
@@ -130,7 +172,14 @@ abstract class Input implements InputInterface, StreamableInputInterface
         return \array_key_exists($name, $this->options) ? $this->options[$name] : $this->definition->getOption($name)->getDefault();
     }
 
+<<<<<<< HEAD
     public function setOption(string $name, mixed $value): void
+=======
+    /**
+     * @return void
+     */
+    public function setOption(string $name, mixed $value)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($this->definition->hasNegation($name)) {
             $this->options[$this->definition->negationToName($name)] = !$value;
@@ -158,8 +207,15 @@ abstract class Input implements InputInterface, StreamableInputInterface
 
     /**
      * @param resource $stream
+<<<<<<< HEAD
      */
     public function setStream($stream): void
+=======
+     *
+     * @return void
+     */
+    public function setStream($stream)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->stream = $stream;
     }

@@ -23,6 +23,12 @@ use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Exception\PartialDenormalizationException;
 use Symfony\Component\Serializer\Exception\UnsupportedFormatException;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+<<<<<<< HEAD
+=======
+use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
+use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
@@ -43,7 +49,11 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * @author Lukas Kahwe Smith <smith@pooteeweet.org>
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
+<<<<<<< HEAD
 class Serializer implements SerializerInterface, NormalizerInterface, DenormalizerInterface, ContextAwareEncoderInterface, ContextAwareDecoderInterface
+=======
+class Serializer implements SerializerInterface, ContextAwareNormalizerInterface, ContextAwareDenormalizerInterface, ContextAwareEncoderInterface, ContextAwareDecoderInterface
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     /**
      * Flag to control whether an empty array should be transformed to an
@@ -58,9 +68,21 @@ class Serializer implements SerializerInterface, NormalizerInterface, Denormaliz
         'string' => true,
     ];
 
+<<<<<<< HEAD
     protected ChainEncoder $encoder;
 
     protected ChainDecoder $decoder;
+=======
+    /**
+     * @var ChainEncoder
+     */
+    protected $encoder;
+
+    /**
+     * @var ChainDecoder
+     */
+    protected $decoder;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @var array<string, array<string, array<bool>>>
@@ -280,6 +302,22 @@ class Serializer implements SerializerInterface, NormalizerInterface, Denormaliz
                     continue;
                 }
 
+<<<<<<< HEAD
+=======
+                if (!method_exists($normalizer, 'getSupportedTypes')) {
+                    trigger_deprecation('symfony/serializer', '6.3', '"%s" should implement "NormalizerInterface::getSupportedTypes(?string $format): array".', $normalizer::class);
+
+                    if (!$normalizer instanceof CacheableSupportsMethodInterface || !$normalizer->hasCacheableSupportsMethod()) {
+                        $this->normalizerCache[$format][$type][$k] = false;
+                    } elseif ($normalizer->supportsNormalization($data, $format, $context)) {
+                        $this->normalizerCache[$format][$type][$k] = true;
+                        break;
+                    }
+
+                    continue;
+                }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $supportedTypes = $normalizer->getSupportedTypes($format);
 
                 foreach ($supportedTypes as $supportedType => $isCacheable) {
@@ -337,6 +375,22 @@ class Serializer implements SerializerInterface, NormalizerInterface, Denormaliz
                     continue;
                 }
 
+<<<<<<< HEAD
+=======
+                if (!method_exists($normalizer, 'getSupportedTypes')) {
+                    trigger_deprecation('symfony/serializer', '6.3', '"%s" should implement "DenormalizerInterface::getSupportedTypes(?string $format): array".', $normalizer::class);
+
+                    if (!$normalizer instanceof CacheableSupportsMethodInterface || !$normalizer->hasCacheableSupportsMethod()) {
+                        $this->denormalizerCache[$format][$class][$k] = false;
+                    } elseif ($normalizer->supportsDenormalization(null, $class, $format, $context)) {
+                        $this->denormalizerCache[$format][$class][$k] = true;
+                        break;
+                    }
+
+                    continue;
+                }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $supportedTypes = $normalizer->getSupportedTypes($format);
 
                 $doesClassRepresentCollection = str_ends_with($class, '[]');

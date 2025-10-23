@@ -25,6 +25,15 @@ interface HttpKernelInterface
     public const SUB_REQUEST = 2;
 
     /**
+<<<<<<< HEAD
+=======
+     * @deprecated since symfony/http-kernel 5.3, use MAIN_REQUEST instead.
+     *             To ease the migration, this constant won't be removed until Symfony 7.0.
+     */
+    public const MASTER_REQUEST = self::MAIN_REQUEST;
+
+    /**
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Handles a Request to convert it to a Response.
      *
      * When $catch is true, the implementation must catch all exceptions

@@ -16,10 +16,17 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=8.2"
     },
     "require-dev": {
         "symfony/filesystem": "^6.4|^7.0"
+=======
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "symfony/filesystem": "^6.0|^7.0"
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     },
     "autoload": {
         "psr-4": { "Symfony\\Component\\Finder\\": "" },

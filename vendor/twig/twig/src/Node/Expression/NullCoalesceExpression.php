@@ -12,6 +12,7 @@
 namespace Twig\Node\Expression;
 
 use Twig\Compiler;
+<<<<<<< HEAD
 use Twig\Node\EmptyNode;
 use Twig\Node\Expression\Binary\AndBinary;
 use Twig\Node\Expression\Binary\NullCoalesceBinary;
@@ -40,11 +41,28 @@ class NullCoalesceExpression extends ConditionalExpression
         }
 
         $test = new DefinedTest(clone $left, new TwigTest('defined'), new EmptyNode(), $left->getTemplateLine());
+=======
+use Twig\Node\Expression\Binary\AndBinary;
+use Twig\Node\Expression\Test\DefinedTest;
+use Twig\Node\Expression\Test\NullTest;
+use Twig\Node\Expression\Unary\NotUnary;
+use Twig\Node\Node;
+
+class NullCoalesceExpression extends ConditionalExpression
+{
+    public function __construct(Node $left, Node $right, int $lineno)
+    {
+        $test = new DefinedTest(clone $left, 'defined', new Node(), $left->getTemplateLine());
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         // for "block()", we don't need the null test as the return value is always a string
         if (!$left instanceof BlockReferenceExpression) {
             $test = new AndBinary(
                 $test,
+<<<<<<< HEAD
                 new NotUnary(new NullTest($left, new TwigTest('null'), new EmptyNode(), $left->getTemplateLine()), $left->getTemplateLine()),
+=======
+                new NotUnary(new NullTest($left, 'null', new Node(), $left->getTemplateLine()), $left->getTemplateLine()),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $left->getTemplateLine()
             );
         }
@@ -61,7 +79,11 @@ class NullCoalesceExpression extends ConditionalExpression
          * cases might be implemented as an optimizer node visitor, but has not been done
          * as benefits are probably not worth the added complexity.
          */
+<<<<<<< HEAD
         if ($this->getNode('expr2') instanceof ContextVariable) {
+=======
+        if ($this->getNode('expr2') instanceof NameExpression) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->getNode('expr2')->setAttribute('always_defined', true);
             $compiler
                 ->raw('((')

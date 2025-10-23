@@ -24,8 +24,12 @@ class ImportDeclaration extends Node implements ModuleDeclaration
      */
     protected $propertiesMap = array(
         "specifiers" => true,
+<<<<<<< HEAD
         "source" => true,
         "attributes" => true
+=======
+        "source" => true
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     );
     
     /**
@@ -43,6 +47,7 @@ class ImportDeclaration extends Node implements ModuleDeclaration
     protected $source;
     
     /**
+<<<<<<< HEAD
      * Attributes array
      * 
      * @var array
@@ -50,6 +55,8 @@ class ImportDeclaration extends Node implements ModuleDeclaration
     protected $attributes = array();
     
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Returns the import specifiers array
      * 
      * @return array
@@ -102,6 +109,7 @@ class ImportDeclaration extends Node implements ModuleDeclaration
         $this->source = $source;
         return $this;
     }
+<<<<<<< HEAD
     
     /**
      * Returns the attributes array
@@ -126,4 +134,6 @@ class ImportDeclaration extends Node implements ModuleDeclaration
         $this->attributes = $attributes;
         return $this;
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

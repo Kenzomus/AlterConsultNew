@@ -13,6 +13,7 @@ namespace Symfony\Component\ErrorHandler\Error;
 
 class FatalError extends \Error
 {
+<<<<<<< HEAD
     /**
      * @param array $error An array as returned by error_get_last()
      */
@@ -26,6 +27,19 @@ class FatalError extends \Error
     ) {
         parent::__construct($message, $code);
 
+=======
+    private array $error;
+
+    /**
+     * @param array $error An array as returned by error_get_last()
+     */
+    public function __construct(string $message, int $code, array $error, ?int $traceOffset = null, bool $traceArgs = true, ?array $trace = null)
+    {
+        parent::__construct($message, $code);
+
+        $this->error = $error;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (null !== $trace) {
             if (!$traceArgs) {
                 foreach ($trace as &$frame) {

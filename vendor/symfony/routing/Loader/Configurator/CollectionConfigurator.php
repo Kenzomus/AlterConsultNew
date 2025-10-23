@@ -23,6 +23,7 @@ class CollectionConfigurator
     use Traits\HostTrait;
     use Traits\RouteTrait;
 
+<<<<<<< HEAD
     private string|array|null $host = null;
 
     public function __construct(
@@ -34,6 +35,21 @@ class CollectionConfigurator
         $this->name = $name;
         $this->collection = new RouteCollection();
         $this->route = new Route('');
+=======
+    private RouteCollection $parent;
+    private ?CollectionConfigurator $parentConfigurator;
+    private ?array $parentPrefixes;
+    private string|array|null $host = null;
+
+    public function __construct(RouteCollection $parent, string $name, ?self $parentConfigurator = null, ?array $parentPrefixes = null)
+    {
+        $this->parent = $parent;
+        $this->name = $name;
+        $this->collection = new RouteCollection();
+        $this->route = new Route('');
+        $this->parentConfigurator = $parentConfigurator; // for GC control
+        $this->parentPrefixes = $parentPrefixes;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function __sleep(): array
@@ -41,7 +57,14 @@ class CollectionConfigurator
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
+<<<<<<< HEAD
     public function __wakeup(): void
+=======
+    /**
+     * @return void
+     */
+    public function __wakeup()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
     }

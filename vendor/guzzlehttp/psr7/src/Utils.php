@@ -251,6 +251,7 @@ final class Utils
     }
 
     /**
+<<<<<<< HEAD
      * Redact the password in the user info part of a URI.
      */
     public static function redactUserInfo(UriInterface $uri): UriInterface
@@ -265,6 +266,8 @@ final class Utils
     }
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Create a new stream based on the input type.
      *
      * Options is an associative array that can contain the following keys:

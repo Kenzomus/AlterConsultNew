@@ -16,10 +16,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ResponseHeaderSame extends Constraint
 {
+<<<<<<< HEAD
     public function __construct(
         private string $headerName,
         private string $expectedValue,
     ) {
+=======
+    private string $headerName;
+    private string $expectedValue;
+
+    public function __construct(string $headerName, string $expectedValue)
+    {
+        $this->headerName = $headerName;
+        $this->expectedValue = $expectedValue;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function toString(): string

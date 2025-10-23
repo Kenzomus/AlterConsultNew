@@ -140,7 +140,11 @@ class Terminal
                 // or [w, h] from "wxh"
                 self::$width = (int) $matches[1];
                 self::$height = isset($matches[4]) ? (int) $matches[4] : (int) $matches[2];
+<<<<<<< HEAD
             } elseif (!sapi_windows_vt100_support(fopen('php://stdout', 'w')) && self::hasSttyAvailable()) {
+=======
+            } elseif (!self::hasVt100Support() && self::hasSttyAvailable()) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 // only use stty on Windows if the terminal does not support vt100 (e.g. Windows 7 + git-bash)
                 // testing for stty in a Windows 10 vt100-enabled console will implicitly disable vt100 support on STDOUT
                 self::initDimensionsUsingStty();
@@ -155,6 +159,17 @@ class Terminal
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Returns whether STDOUT has vt100 support (some Windows 10+ configurations).
+     */
+    private static function hasVt100Support(): bool
+    {
+        return \function_exists('sapi_windows_vt100_support') && sapi_windows_vt100_support(fopen('php://stdout', 'w'));
+    }
+
+    /**
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Initializes dimensions using the output of an stty columns line.
      */
     private static function initDimensionsUsingStty(): void

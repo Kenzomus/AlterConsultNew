@@ -36,7 +36,14 @@ class ResolveBindingsPass extends AbstractRecursivePass
     private array $unusedBindings = [];
     private array $errorMessages = [];
 
+<<<<<<< HEAD
     public function process(ContainerBuilder $container): void
+=======
+    /**
+     * @return void
+     */
+    public function process(ContainerBuilder $container)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->usedBindings = $container->getRemovedBindingIds();
 

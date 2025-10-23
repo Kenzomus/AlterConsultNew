@@ -21,7 +21,14 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class DateTimeValidator extends DateValidator
 {
+<<<<<<< HEAD
     public function validate(mixed $value, Constraint $constraint): void
+=======
+    /**
+     * @return void
+     */
+    public function validate(mixed $value, Constraint $constraint)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$constraint instanceof DateTime) {
             throw new UnexpectedTypeException($constraint, DateTime::class);
@@ -44,7 +51,10 @@ class DateTimeValidator extends DateValidator
         if (0 < $errors['error_count']) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $this->formatValue($value))
+<<<<<<< HEAD
                 ->setParameter('{{ format }}', $this->formatValue($constraint->format))
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ->setCode(DateTime::INVALID_FORMAT_ERROR)
                 ->addViolation();
 
@@ -59,19 +69,28 @@ class DateTimeValidator extends DateValidator
             if ('The parsed date was invalid' === $warning) {
                 $this->context->buildViolation($constraint->message)
                     ->setParameter('{{ value }}', $this->formatValue($value))
+<<<<<<< HEAD
                     ->setParameter('{{ format }}', $this->formatValue($constraint->format))
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     ->setCode(DateTime::INVALID_DATE_ERROR)
                     ->addViolation();
             } elseif ('The parsed time was invalid' === $warning) {
                 $this->context->buildViolation($constraint->message)
                     ->setParameter('{{ value }}', $this->formatValue($value))
+<<<<<<< HEAD
                     ->setParameter('{{ format }}', $this->formatValue($constraint->format))
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     ->setCode(DateTime::INVALID_TIME_ERROR)
                     ->addViolation();
             } else {
                 $this->context->buildViolation($constraint->message)
                     ->setParameter('{{ value }}', $this->formatValue($value))
+<<<<<<< HEAD
                     ->setParameter('{{ format }}', $this->formatValue($constraint->format))
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     ->setCode(DateTime::INVALID_FORMAT_ERROR)
                     ->addViolation();
             }

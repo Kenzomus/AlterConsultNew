@@ -28,7 +28,14 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
  */
 abstract class DataCollector implements DataCollectorInterface
 {
+<<<<<<< HEAD
     protected array|Data $data = [];
+=======
+    /**
+     * @var array|Data
+     */
+    protected $data = [];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     private ClonerInterface $cloner;
 
@@ -55,9 +62,15 @@ abstract class DataCollector implements DataCollectorInterface
     /**
      * @return callable[] The casters to add to the cloner
      */
+<<<<<<< HEAD
     protected function getCasters(): array
     {
         return [
+=======
+    protected function getCasters()
+    {
+        $casters = [
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             '*' => function ($v, array $a, Stub $s, $isNested) {
                 if (!$v instanceof Stub) {
                     $b = $a;
@@ -82,6 +95,11 @@ abstract class DataCollector implements DataCollectorInterface
                 return $a;
             },
         ] + ReflectionCaster::UNSET_CLOSURE_FILE_INFO;
+<<<<<<< HEAD
+=======
+
+        return $casters;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function __sleep(): array
@@ -89,7 +107,14 @@ abstract class DataCollector implements DataCollectorInterface
         return ['data'];
     }
 
+<<<<<<< HEAD
     public function __wakeup(): void
+=======
+    /**
+     * @return void
+     */
+    public function __wakeup()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
     }
 

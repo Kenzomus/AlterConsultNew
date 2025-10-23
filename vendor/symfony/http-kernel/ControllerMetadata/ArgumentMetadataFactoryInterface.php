@@ -19,7 +19,15 @@ namespace Symfony\Component\HttpKernel\ControllerMetadata;
 interface ArgumentMetadataFactoryInterface
 {
     /**
+<<<<<<< HEAD
      * @return ArgumentMetadata[]
      */
     public function createArgumentMetadata(string|object|array $controller, ?\ReflectionFunctionAbstract $reflector = null): array;
+=======
+     * @param \ReflectionFunctionAbstract|null $reflector
+     *
+     * @return ArgumentMetadata[]
+     */
+    public function createArgumentMetadata(string|object|array $controller/* , \ReflectionFunctionAbstract $reflector = null */): array;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

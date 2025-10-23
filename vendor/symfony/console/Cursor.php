@@ -18,16 +18,26 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class Cursor
 {
+<<<<<<< HEAD
+=======
+    private OutputInterface $output;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /** @var resource */
     private $input;
 
     /**
      * @param resource|null $input
      */
+<<<<<<< HEAD
     public function __construct(
         private OutputInterface $output,
         $input = null,
     ) {
+=======
+    public function __construct(OutputInterface $output, $input = null)
+    {
+        $this->output = $output;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->input = $input ?? (\defined('STDIN') ? \STDIN : fopen('php://input', 'r+'));
     }
 

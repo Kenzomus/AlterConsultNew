@@ -17,12 +17,26 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ResponseCookieValueSame extends Constraint
 {
+<<<<<<< HEAD
     public function __construct(
         private string $name,
         private string $value,
         private string $path = '/',
         private ?string $domain = null,
     ) {
+=======
+    private string $name;
+    private string $value;
+    private string $path;
+    private ?string $domain;
+
+    public function __construct(string $name, string $value, string $path = '/', ?string $domain = null)
+    {
+        $this->name = $name;
+        $this->value = $value;
+        $this->path = $path;
+        $this->domain = $domain;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function toString(): string
@@ -34,8 +48,14 @@ final class ResponseCookieValueSame extends Constraint
         if ($this->domain) {
             $str .= \sprintf(' for domain "%s"', $this->domain);
         }
+<<<<<<< HEAD
 
         return $str.\sprintf(' with value "%s"', $this->value);
+=======
+        $str .= \sprintf(' with value "%s"', $this->value);
+
+        return $str;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**

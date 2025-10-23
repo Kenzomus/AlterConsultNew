@@ -21,7 +21,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class RemoveEmptyControllerArgumentLocatorsPass implements CompilerPassInterface
 {
+<<<<<<< HEAD
     public function process(ContainerBuilder $container): void
+=======
+    /**
+     * @return void
+     */
+    public function process(ContainerBuilder $container)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $controllerLocator = $container->findDefinition('argument_resolver.controller_locator');
         $controllers = $controllerLocator->getArgument(0);
@@ -29,10 +36,13 @@ class RemoveEmptyControllerArgumentLocatorsPass implements CompilerPassInterface
         foreach ($controllers as $controller => $argumentRef) {
             $argumentLocator = $container->getDefinition((string) $argumentRef->getValues()[0]);
 
+<<<<<<< HEAD
             if ($argumentLocator->getFactory()) {
                 $argumentLocator = $container->getDefinition($argumentLocator->getFactory()[0]);
             }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if (!$argumentLocator->getArgument(0)) {
                 // remove empty argument locators
                 $reason = \sprintf('Removing service-argument resolver for controller "%s": no corresponding services exist for the referenced types.', $controller);

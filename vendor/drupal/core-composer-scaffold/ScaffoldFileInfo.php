@@ -127,7 +127,10 @@ class ScaffoldFileInfo {
    * Returns TRUE if the target does not exist or has changed.
    *
    * @return bool
+<<<<<<< HEAD
    *   TRUE if the target does not exist or has changed, FALSE otherwise.
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
    */
   final public function hasChanged() {
     $path = $this->destination()->fullPath();

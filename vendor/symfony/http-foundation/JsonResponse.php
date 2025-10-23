@@ -24,14 +24,23 @@ namespace Symfony\Component\HttpFoundation;
  */
 class JsonResponse extends Response
 {
+<<<<<<< HEAD
     protected mixed $data;
     protected ?string $callback = null;
+=======
+    protected $data;
+    protected $callback;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     // Encode <, >, ', &, and " characters in the JSON, making it also safe to be embedded into HTML.
     // 15 === JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT
     public const DEFAULT_ENCODING_OPTIONS = 15;
 
+<<<<<<< HEAD
     protected int $encodingOptions = self::DEFAULT_ENCODING_OPTIONS;
+=======
+    protected $encodingOptions = self::DEFAULT_ENCODING_OPTIONS;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @param bool $json If the data is already a JSON string
@@ -40,7 +49,11 @@ class JsonResponse extends Response
     {
         parent::__construct('', $status, $headers);
 
+<<<<<<< HEAD
         if ($json && !\is_string($data) && !is_numeric($data) && !$data instanceof \Stringable) {
+=======
+        if ($json && !\is_string($data) && !is_numeric($data) && !\is_callable([$data, '__toString'])) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             throw new \TypeError(\sprintf('"%s": If $json is set to true, argument $data must be a string or object implementing __toString(), "%s" given.', __METHOD__, get_debug_type($data)));
         }
 
@@ -75,8 +88,16 @@ class JsonResponse extends Response
      *
      * @throws \InvalidArgumentException When the callback name is not valid
      */
+<<<<<<< HEAD
     public function setCallback(?string $callback): static
     {
+=======
+    public function setCallback(?string $callback = null): static
+    {
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/http-foundation', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (null !== $callback) {
             // partially taken from https://geekality.net/2011/08/03/valid-javascript-identifier/
             // partially taken from https://github.com/willdurand/JsonpCallbackValidator

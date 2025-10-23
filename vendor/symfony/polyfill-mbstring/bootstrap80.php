@@ -93,7 +93,11 @@ if (!function_exists('mb_strstr')) {
     function mb_strstr(?string $haystack, ?string $needle, ?bool $before_needle = false, ?string $encoding = null): string|false { return p\Mbstring::mb_strstr((string) $haystack, (string) $needle, (bool) $before_needle, $encoding); }
 }
 if (!function_exists('mb_get_info')) {
+<<<<<<< HEAD
     function mb_get_info(?string $type = 'all'): array|string|int|false|null { return p\Mbstring::mb_get_info((string) $type); }
+=======
+    function mb_get_info(?string $type = 'all'): array|string|int|false { return p\Mbstring::mb_get_info((string) $type); }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }
 if (!function_exists('mb_http_output')) {
     function mb_http_output(?string $encoding = null): string|bool { return p\Mbstring::mb_http_output($encoding); }
@@ -132,6 +136,7 @@ if (!function_exists('mb_str_pad')) {
     function mb_str_pad(string $string, int $length, string $pad_string = ' ', int $pad_type = STR_PAD_RIGHT, ?string $encoding = null): string { return p\Mbstring::mb_str_pad($string, $length, $pad_string, $pad_type, $encoding); }
 }
 
+<<<<<<< HEAD
 if (!function_exists('mb_ucfirst')) {
     function mb_ucfirst(string $string, ?string $encoding = null): string { return p\Mbstring::mb_ucfirst($string, $encoding); }
 }
@@ -152,6 +157,8 @@ if (!function_exists('mb_rtrim')) {
     function mb_rtrim(string $string, ?string $characters = null, ?string $encoding = null): string { return p\Mbstring::mb_rtrim($string, $characters, $encoding); }
 }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 if (extension_loaded('mbstring')) {
     return;
 }

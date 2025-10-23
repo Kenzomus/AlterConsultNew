@@ -12,7 +12,10 @@
 
 namespace Twig\Node;
 
+<<<<<<< HEAD
 use Twig\Attribute\YieldReady;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Compiler;
 use Twig\Source;
 
@@ -20,6 +23,7 @@ use Twig\Source;
  * Represents a node in the AST.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+<<<<<<< HEAD
  *
  * @implements \IteratorAggregate<int|string, Node>
  */
@@ -29,12 +33,18 @@ class Node implements \Countable, \IteratorAggregate
     /**
      * @var array<string|int, Node>
      */
+=======
+ */
+class Node implements \Countable, \IteratorAggregate
+{
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected $nodes;
     protected $attributes;
     protected $lineno;
     protected $tag;
 
     private $sourceContext;
+<<<<<<< HEAD
     /** @var array<string, NameDeprecation> */
     private $nodeNameDeprecations = [];
     /** @var array<string, NameDeprecation> */
@@ -54,11 +64,26 @@ class Node implements \Countable, \IteratorAggregate
         foreach ($nodes as $name => $node) {
             if (!$node instanceof self) {
                 throw new \InvalidArgumentException(\sprintf('Using "%s" for the value of node "%s" of "%s" is not supported. You must pass a \Twig\Node\Node instance.', get_debug_type($node), $name, static::class));
+=======
+
+    /**
+     * @param array  $nodes      An array of named nodes
+     * @param array  $attributes An array of attributes (should not be nodes)
+     * @param int    $lineno     The line number
+     * @param string $tag        The tag name associated with the Node
+     */
+    public function __construct(array $nodes = [], array $attributes = [], int $lineno = 0, string $tag = null)
+    {
+        foreach ($nodes as $name => $node) {
+            if (!$node instanceof self) {
+                throw new \InvalidArgumentException(sprintf('Using "%s" for the value of node "%s" of "%s" is not supported. You must pass a \Twig\Node\Node instance.', \is_object($node) ? \get_class($node) : (null === $node ? 'null' : \gettype($node)), $name, static::class));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
         }
         $this->nodes = $nodes;
         $this->attributes = $attributes;
         $this->lineno = $lineno;
+<<<<<<< HEAD
 
         if (\func_num_args() > 3) {
             trigger_deprecation('twig/twig', '3.12', \sprintf('The "tag" constructor argument of the "%s" class is deprecated and ignored (check which TokenParser class set it to "%s"), the tag is now automatically set by the Parser when needed.', static::class, func_get_arg(3) ?: 'null'));
@@ -93,11 +118,29 @@ class Node implements \Countable, \IteratorAggregate
             $repr .= "\n  nodes:";
             foreach ($this->nodes as $name => $node) {
                 $len = \strlen($name) + 6;
+=======
+        $this->tag = $tag;
+    }
+
+    public function __toString()
+    {
+        $attributes = [];
+        foreach ($this->attributes as $name => $value) {
+            $attributes[] = sprintf('%s: %s', $name, str_replace("\n", '', var_export($value, true)));
+        }
+
+        $repr = [static::class.'('.implode(', ', $attributes)];
+
+        if (\count($this->nodes)) {
+            foreach ($this->nodes as $name => $node) {
+                $len = \strlen($name) + 4;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $noderepr = [];
                 foreach (explode("\n", (string) $node) as $line) {
                     $noderepr[] = str_repeat(' ', $len).$line;
                 }
 
+<<<<<<< HEAD
                 $repr .= \sprintf("\n    %s: %s", $name, ltrim(implode("\n", $noderepr)));
             }
         }
@@ -110,6 +153,17 @@ class Node implements \Countable, \IteratorAggregate
         foreach ($this->nodes as $name => $node) {
             $this->nodes[$name] = clone $node;
         }
+=======
+                $repr[] = sprintf('  %s: %s', $name, ltrim(implode("\n", $noderepr)));
+            }
+
+            $repr[] = ')';
+        } else {
+            $repr[0] .= ')';
+        }
+
+        return implode("\n", $repr);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -118,7 +172,11 @@ class Node implements \Countable, \IteratorAggregate
     public function compile(Compiler $compiler)
     {
         foreach ($this->nodes as $node) {
+<<<<<<< HEAD
             $compiler->subcompile($node);
+=======
+            $node->compile($compiler);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
     }
 
@@ -132,6 +190,7 @@ class Node implements \Countable, \IteratorAggregate
         return $this->tag;
     }
 
+<<<<<<< HEAD
     /**
      * @internal
      */
@@ -144,6 +203,8 @@ class Node implements \Countable, \IteratorAggregate
         $this->tag = $tag;
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function hasAttribute(string $name): bool
     {
         return \array_key_exists($name, $this->attributes);
@@ -152,6 +213,7 @@ class Node implements \Countable, \IteratorAggregate
     public function getAttribute(string $name)
     {
         if (!\array_key_exists($name, $this->attributes)) {
+<<<<<<< HEAD
             throw new \LogicException(\sprintf('Attribute "%s" does not exist for Node "%s".', $name, static::class));
         }
 
@@ -163,6 +225,9 @@ class Node implements \Countable, \IteratorAggregate
             } else {
                 trigger_deprecation($dep->getPackage(), $dep->getVersion(), 'Getting attribute "%s" on a "%s" class is deprecated.', $name, static::class);
             }
+=======
+            throw new \LogicException(sprintf('Attribute "%s" does not exist for Node "%s".', $name, static::class));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return $this->attributes[$name];
@@ -170,6 +235,7 @@ class Node implements \Countable, \IteratorAggregate
 
     public function setAttribute(string $name, $value): void
     {
+<<<<<<< HEAD
         $triggerDeprecation = \func_num_args() > 2 ? func_get_arg(2) : true;
         if ($triggerDeprecation && isset($this->attributeNameDeprecations[$name])) {
             $dep = $this->attributeNameDeprecations[$name];
@@ -188,19 +254,28 @@ class Node implements \Countable, \IteratorAggregate
         $this->attributeNameDeprecations[$name] = $dep;
     }
 
+=======
+        $this->attributes[$name] = $value;
+    }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function removeAttribute(string $name): void
     {
         unset($this->attributes[$name]);
     }
 
+<<<<<<< HEAD
     /**
      * @param string|int $name
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function hasNode(string $name): bool
     {
         return isset($this->nodes[$name]);
     }
 
+<<<<<<< HEAD
     /**
      * @param string|int $name
      */
@@ -218,11 +293,18 @@ class Node implements \Countable, \IteratorAggregate
             } else {
                 trigger_deprecation($dep->getPackage(), $dep->getVersion(), 'Getting node "%s" on a "%s" class is deprecated.', $name, static::class);
             }
+=======
+    public function getNode(string $name): self
+    {
+        if (!isset($this->nodes[$name])) {
+            throw new \LogicException(sprintf('Node "%s" does not exist for Node "%s".', $name, static::class));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return $this->nodes[$name];
     }
 
+<<<<<<< HEAD
     /**
      * @param string|int $name
      */
@@ -247,12 +329,20 @@ class Node implements \Countable, \IteratorAggregate
     /**
      * @param string|int $name
      */
+=======
+    public function setNode(string $name, self $node): void
+    {
+        $this->nodes[$name] = $node;
+    }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function removeNode(string $name): void
     {
         unset($this->nodes[$name]);
     }
 
     /**
+<<<<<<< HEAD
      * @param string|int $name
      */
     public function deprecateNode(string $name, NameDeprecation $dep): void
@@ -261,6 +351,8 @@ class Node implements \Countable, \IteratorAggregate
     }
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @return int
      */
     #[\ReturnTypeWillChange]

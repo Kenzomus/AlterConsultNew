@@ -11,11 +11,17 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * Checks that at least one of the given constraint is satisfied.
+=======
+/**
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Przemysław Bogusz <przemyslaw.bogusz@tubotax.pl>
  */
@@ -28,6 +34,7 @@ class AtLeastOneOf extends Composite
         self::AT_LEAST_ONE_OF_ERROR => 'AT_LEAST_ONE_OF_ERROR',
     ];
 
+<<<<<<< HEAD
     public array|Constraint $constraints = [];
     public string $message = 'This value should satisfy at least one of the following constraints:';
     public string $messageCollection = 'Each element of this collection should satisfy its own set of constraints.';
@@ -47,6 +54,20 @@ class AtLeastOneOf extends Composite
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
         }
 
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $constraints = [];
+    public $message = 'This value should satisfy at least one of the following constraints:';
+    public $messageCollection = 'Each element of this collection should satisfy its own set of constraints.';
+    public $includeInternalMessages = true;
+
+    public function __construct(mixed $constraints = null, ?array $groups = null, mixed $payload = null, ?string $message = null, ?string $messageCollection = null, ?bool $includeInternalMessages = null)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($constraints ?? [], $groups, $payload);
 
         $this->message = $message ?? $this->message;

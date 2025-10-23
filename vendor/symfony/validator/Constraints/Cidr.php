@@ -11,19 +11,32 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 use Symfony\Component\Validator\Exception\InvalidArgumentException;
+=======
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 /**
  * Validates that a value is a valid CIDR notation.
  *
+<<<<<<< HEAD
  * @see https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing
  *
  * @author Sorin Pop <popsorin15@gmail.com>
  * @author Calin Bolea <calin.bolea@gmail.com>
  * @author Ninos Ego <me@ninosego.de>
+=======
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+ *
+ * @author Sorin Pop <popsorin15@gmail.com>
+ * @author Calin Bolea <calin.bolea@gmail.com>
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class Cidr extends Constraint
@@ -37,6 +50,7 @@ class Cidr extends Constraint
     ];
 
     private const NET_MAXES = [
+<<<<<<< HEAD
         Ip::V4 => 32,
         Ip::V6 => 128,
         Ip::ALL => 128,
@@ -76,6 +90,28 @@ class Cidr extends Constraint
     public $normalizer;
 
     #[HasNamedArguments]
+=======
+        Ip::ALL => 128,
+        Ip::V4 => 32,
+        Ip::V6 => 128,
+    ];
+
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $version = Ip::ALL;
+
+    public $message = 'This value is not a valid CIDR notation.';
+
+    public $netmaskRangeViolationMessage = 'The value of the netmask should be between {{ min }} and {{ max }}.';
+
+    public $netmaskMin = 0;
+
+    public $netmaskMax;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         ?array $options = null,
         ?string $version = null,
@@ -84,12 +120,16 @@ class Cidr extends Constraint
         ?string $message = null,
         ?array $groups = null,
         $payload = null,
+<<<<<<< HEAD
         ?callable $normalizer = null,
     ) {
         if (\is_array($options)) {
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
         }
 
+=======
+    ) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->version = $version ?? $options['version'] ?? $this->version;
 
         if (!\array_key_exists($this->version, self::NET_MAXES)) {
@@ -99,7 +139,10 @@ class Cidr extends Constraint
         $this->netmaskMin = $netmaskMin ?? $options['netmaskMin'] ?? $this->netmaskMin;
         $this->netmaskMax = $netmaskMax ?? $options['netmaskMax'] ?? self::NET_MAXES[$this->version];
         $this->message = $message ?? $this->message;
+<<<<<<< HEAD
         $this->normalizer = $normalizer ?? $this->normalizer;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         unset($options['netmaskMin'], $options['netmaskMax'], $options['version']);
 
@@ -107,10 +150,13 @@ class Cidr extends Constraint
             throw new ConstraintDefinitionException(\sprintf('The netmask range must be between 0 and %d.', self::NET_MAXES[$this->version]));
         }
 
+<<<<<<< HEAD
         if (null !== $this->normalizer && !\is_callable($this->normalizer)) {
             throw new InvalidArgumentException(\sprintf('The "normalizer" option must be a valid callable ("%s" given).', get_debug_type($this->normalizer)));
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($options, $groups, $payload);
     }
 }

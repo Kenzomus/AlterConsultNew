@@ -24,7 +24,14 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class UlidValidator extends ConstraintValidator
 {
+<<<<<<< HEAD
     public function validate(mixed $value, Constraint $constraint): void
+=======
+    /**
+     * @return void
+     */
+    public function validate(mixed $value, Constraint $constraint)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$constraint instanceof Ulid) {
             throw new UnexpectedTypeException($constraint, Ulid::class);
@@ -40,6 +47,7 @@ class UlidValidator extends ConstraintValidator
 
         $value = (string) $value;
 
+<<<<<<< HEAD
         [$requiredLength, $requiredCharset] = match ($constraint->format) {
             Ulid::FORMAT_BASE_32 => [26, '0123456789ABCDEFGHJKMNPQRSTVWXYZabcdefghjkmnpqrstvwxyz'],
             Ulid::FORMAT_BASE_58 => [22, '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'],
@@ -53,23 +61,36 @@ class UlidValidator extends ConstraintValidator
                     '{{ format }}' => $constraint->format,
                 ])
                 ->setCode($requiredLength > \strlen($value) ? Ulid::TOO_SHORT_ERROR : Ulid::TOO_LONG_ERROR)
+=======
+        if (26 !== \strlen($value)) {
+            $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ value }}', $this->formatValue($value))
+                ->setCode(26 > \strlen($value) ? Ulid::TOO_SHORT_ERROR : Ulid::TOO_LONG_ERROR)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ->addViolation();
 
             return;
         }
 
+<<<<<<< HEAD
         if (\strlen($value) !== strspn($value, $requiredCharset)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameters([
                     '{{ value }}' => $this->formatValue($value),
                     '{{ format }}' => $constraint->format,
                 ])
+=======
+        if (\strlen($value) !== strspn($value, '0123456789ABCDEFGHJKMNPQRSTVWXYZabcdefghjkmnpqrstvwxyz')) {
+            $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ value }}', $this->formatValue($value))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ->setCode(Ulid::INVALID_CHARACTERS_ERROR)
                 ->addViolation();
 
             return;
         }
 
+<<<<<<< HEAD
         if (Ulid::FORMAT_BASE_32 === $constraint->format) {
             // Largest valid ULID is '7ZZZZZZZZZZZZZZZZZZZZZZZZZ'
             // Cf https://github.com/ulid/spec#overflow-errors-when-parsing-base32-strings
@@ -92,6 +113,15 @@ class UlidValidator extends ConstraintValidator
                     ->setCode(Ulid::INVALID_FORMAT_ERROR)
                     ->addViolation();
             }
+=======
+        // Largest valid ULID is '7ZZZZZZZZZZZZZZZZZZZZZZZZZ'
+        // Cf https://github.com/ulid/spec#overflow-errors-when-parsing-base32-strings
+        if ($value[0] > '7') {
+            $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ value }}', $this->formatValue($value))
+                ->setCode(Ulid::TOO_LARGE_ERROR)
+                ->addViolation();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
     }
 }

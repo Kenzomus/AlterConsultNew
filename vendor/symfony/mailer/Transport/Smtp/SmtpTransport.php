@@ -14,7 +14,10 @@ namespace Symfony\Component\Mailer\Transport\Smtp;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Envelope;
+<<<<<<< HEAD
 use Symfony\Component\Mailer\Exception\InvalidArgumentException;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Mailer\Exception\LogicException;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -212,7 +215,11 @@ class SmtpTransport extends AbstractTransport
             }
 
             $envelope = $message->getEnvelope();
+<<<<<<< HEAD
             $this->doMailFromCommand($envelope->getSender()->getEncodedAddress(), $envelope->anyAddressHasUnicodeLocalpart());
+=======
+            $this->doMailFromCommand($envelope->getSender()->getEncodedAddress());
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             foreach ($envelope->getRecipients() as $recipient) {
                 $this->doRcptToCommand($recipient->getEncodedAddress());
             }
@@ -245,22 +252,37 @@ class SmtpTransport extends AbstractTransport
         }
     }
 
+<<<<<<< HEAD
     protected function serverSupportsSmtpUtf8(): bool
     {
         return false;
     }
 
     private function doHeloCommand(): void
+=======
+    /**
+     * @internal since version 6.1, to be made private in 7.0
+     *
+     * @final since version 6.1, to be made private in 7.0
+     */
+    protected function doHeloCommand(): void
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->executeCommand(\sprintf("HELO %s\r\n", $this->domain), [250]);
     }
 
+<<<<<<< HEAD
     private function doMailFromCommand(string $address, bool $smtputf8): void
     {
         if ($smtputf8 && !$this->serverSupportsSmtpUtf8()) {
             throw new InvalidArgumentException('Invalid addresses: non-ASCII characters not supported in local-part of email.');
         }
         $this->executeCommand(\sprintf("MAIL FROM:<%s>%s\r\n", $address, $smtputf8 ? ' SMTPUTF8' : ''), [250]);
+=======
+    private function doMailFromCommand(string $address): void
+    {
+        $this->executeCommand(\sprintf("MAIL FROM:<%s>\r\n", $address), [250]);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     private function doRcptToCommand(string $address): void
@@ -381,7 +403,14 @@ class SmtpTransport extends AbstractTransport
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
+<<<<<<< HEAD
     public function __wakeup(): void
+=======
+    /**
+     * @return void
+     */
+    public function __wakeup()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
     }

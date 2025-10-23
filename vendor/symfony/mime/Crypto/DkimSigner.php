@@ -31,11 +31,18 @@ final class DkimSigner
     public const ALGO_ED25519 = 'ed25519-sha256'; // RFC 8463
 
     private \OpenSSLAsymmetricKey $key;
+<<<<<<< HEAD
+=======
+    private string $domainName;
+    private string $selector;
+    private array $defaultOptions;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @param string $pk         The private key as a string or the path to the file containing the private key, should be prefixed with file:// (in PEM format)
      * @param string $passphrase A passphrase of the private key (if any)
      */
+<<<<<<< HEAD
     public function __construct(
         string $pk,
         private string $domainName,
@@ -43,11 +50,21 @@ final class DkimSigner
         private array $defaultOptions = [],
         string $passphrase = '',
     ) {
+=======
+    public function __construct(string $pk, string $domainName, string $selector, array $defaultOptions = [], string $passphrase = '')
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (!\extension_loaded('openssl')) {
             throw new \LogicException('PHP extension "openssl" is required to use DKIM.');
         }
         $this->key = openssl_pkey_get_private($pk, $passphrase) ?: throw new InvalidArgumentException('Unable to load DKIM private key: '.openssl_error_string());
+<<<<<<< HEAD
         $this->defaultOptions += [
+=======
+        $this->domainName = $domainName;
+        $this->selector = $selector;
+        $this->defaultOptions = $defaultOptions + [
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             'algorithm' => self::ALGO_SHA256,
             'signature_expiration_delay' => 0,
             'body_max_length' => \PHP_INT_MAX,

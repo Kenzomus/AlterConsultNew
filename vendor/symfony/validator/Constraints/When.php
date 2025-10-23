@@ -13,18 +13,27 @@ namespace Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\LogicException;
 
 /**
+<<<<<<< HEAD
  * Conditionally apply validation constraints based on an expression using the ExpressionLanguage syntax.
  *
  * @see https://symfony.com/doc/current/components/expression_language.html
+=======
+ * @Annotation
+ * @Target({"CLASS", "PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class When extends Composite
 {
+<<<<<<< HEAD
     public string|Expression|\Closure $expression;
     public array|Constraint $constraints = [];
     public array $values = [];
@@ -40,12 +49,20 @@ class When extends Composite
      */
     #[HasNamedArguments]
     public function __construct(string|Expression|array|\Closure $expression, array|Constraint|null $constraints = null, ?array $values = null, ?array $groups = null, $payload = null, ?array $options = null, array|Constraint $otherwise = [])
+=======
+    public $expression;
+    public $constraints = [];
+    public $values = [];
+
+    public function __construct(string|Expression|array $expression, array|Constraint|null $constraints = null, ?array $values = null, ?array $groups = null, $payload = null, array $options = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!class_exists(ExpressionLanguage::class)) {
             throw new LogicException(\sprintf('The "symfony/expression-language" component is required to use the "%s" constraint. Try running "composer require symfony/expression-language".', __CLASS__));
         }
 
         if (\is_array($expression)) {
+<<<<<<< HEAD
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
 
             $options = array_merge($expression, $options ?? []);
@@ -71,6 +88,21 @@ class When extends Composite
             $options['otherwise'] = [$options['otherwise']];
         }
 
+=======
+            $options = array_merge($expression, $options);
+        } else {
+            $options['expression'] = $expression;
+
+            if (null !== $constraints) {
+                $options['constraints'] = $constraints;
+            }
+        }
+
+        if (isset($options['constraints']) && !\is_array($options['constraints'])) {
+            $options['constraints'] = [$options['constraints']];
+        }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (null !== $groups) {
             $options['groups'] = $groups;
         }
@@ -94,8 +126,14 @@ class When extends Composite
         return [self::CLASS_CONSTRAINT, self::PROPERTY_CONSTRAINT];
     }
 
+<<<<<<< HEAD
     protected function getCompositeOption(): array|string
     {
         return ['constraints', 'otherwise'];
+=======
+    protected function getCompositeOption(): string
+    {
+        return 'constraints';
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

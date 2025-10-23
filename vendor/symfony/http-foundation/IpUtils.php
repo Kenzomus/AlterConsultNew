@@ -178,6 +178,7 @@ class IpUtils
     /**
      * Anonymizes an IP/IPv6.
      *
+<<<<<<< HEAD
      * Removes the last bytes of IPv4 and IPv6 addresses (1 byte for IPv4 and 8 bytes for IPv6 by default).
      *
      * @param int<0, 4>  $v4Bytes
@@ -196,6 +197,12 @@ class IpUtils
             throw new \InvalidArgumentException('Cannot anonymize more than 4 bytes for IPv4 and 16 bytes for IPv6.');
         }
 
+=======
+     * Removes the last byte for v4 and the last 8 bytes for v6 IPs
+     */
+    public static function anonymize(string $ip): string
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         /*
          * If the IP contains a % symbol, then it is a local-link address with scoping according to RFC 4007
          * In that case, we only care about the part before the % symbol, as the following functions, can only work with
@@ -212,6 +219,7 @@ class IpUtils
             $ip = substr($ip, 1, -1);
         }
 
+<<<<<<< HEAD
         $mappedIpV4MaskGenerator = function (string $mask, int $bytesToAnonymize) {
             $mask .= str_repeat('ff', 4 - $bytesToAnonymize);
             $mask .= str_repeat('00', $bytesToAnonymize);
@@ -229,6 +237,17 @@ class IpUtils
         } else {
             $mask = str_repeat('ff', 16 - $v6Bytes).str_repeat('00', $v6Bytes);
             $mask = implode(':', str_split($mask, 4));
+=======
+        $packedAddress = inet_pton($ip);
+        if (4 === \strlen($packedAddress)) {
+            $mask = '255.255.255.0';
+        } elseif ($ip === inet_ntop($packedAddress & inet_pton('::ffff:ffff:ffff'))) {
+            $mask = '::ffff:ffff:ff00';
+        } elseif ($ip === inet_ntop($packedAddress & inet_pton('::ffff:ffff'))) {
+            $mask = '::ffff:ff00';
+        } else {
+            $mask = 'ffff:ffff:ffff:ffff:0000:0000:0000:0000';
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
         $ip = inet_ntop($packedAddress & inet_pton($mask));
 

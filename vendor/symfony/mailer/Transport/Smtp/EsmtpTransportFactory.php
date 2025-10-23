@@ -11,7 +11,10 @@
 
 namespace Symfony\Component\Mailer\Transport\Smtp;
 
+<<<<<<< HEAD
 use Symfony\Component\Mailer\Exception\UnsupportedSchemeException;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Mailer\Transport\AbstractTransportFactory;
 use Symfony\Component\Mailer\Transport\Dsn;
 use Symfony\Component\Mailer\Transport\Smtp\Stream\SocketStream;
@@ -24,16 +27,21 @@ final class EsmtpTransportFactory extends AbstractTransportFactory
 {
     public function create(Dsn $dsn): TransportInterface
     {
+<<<<<<< HEAD
         if (!\in_array($dsn->getScheme(), $this->getSupportedSchemes(), true)) {
             throw new UnsupportedSchemeException($dsn, 'smtp', $this->getSupportedSchemes());
         }
 
         $autoTls = '' === $dsn->getOption('auto_tls') || filter_var($dsn->getOption('auto_tls', true), \FILTER_VALIDATE_BOOL);
         $tls = 'smtps' === $dsn->getScheme() ? true : ($autoTls ? null : false);
+=======
+        $tls = 'smtps' === $dsn->getScheme() ? true : null;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $port = $dsn->getPort(0);
         $host = $dsn->getHost();
 
         $transport = new EsmtpTransport($host, $port, $tls, $this->dispatcher, $this->logger);
+<<<<<<< HEAD
         $transport->setAutoTls($autoTls);
         $transport->setRequireTls($dsn->getBooleanOption('require_tls'));
 
@@ -42,6 +50,11 @@ final class EsmtpTransportFactory extends AbstractTransportFactory
         if ('' !== $sourceIp = $dsn->getOption('source_ip', '')) {
             $stream->setSourceIp($sourceIp);
         }
+=======
+
+        /** @var SocketStream $stream */
+        $stream = $transport->getStream();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $streamOptions = $stream->getStreamOptions();
 
         if ('' !== $dsn->getOption('verify_peer') && !filter_var($dsn->getOption('verify_peer', true), \FILTER_VALIDATE_BOOL)) {

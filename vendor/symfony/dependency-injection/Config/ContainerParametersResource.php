@@ -22,12 +22,23 @@ use Symfony\Component\Config\Resource\ResourceInterface;
  */
 class ContainerParametersResource implements ResourceInterface
 {
+<<<<<<< HEAD
     /**
      * @param array $parameters The container parameters to track
      */
     public function __construct(
         private array $parameters,
     ) {
+=======
+    private array $parameters;
+
+    /**
+     * @param array $parameters The container parameters to track
+     */
+    public function __construct(array $parameters)
+    {
+        $this->parameters = $parameters;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function __toString(): string

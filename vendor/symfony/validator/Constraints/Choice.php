@@ -11,11 +11,19 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * Validates that a value is one of a given set of valid choices.
+=======
+use Symfony\Component\Validator\Constraint;
+
+/**
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
@@ -32,6 +40,7 @@ class Choice extends Constraint
         self::TOO_MANY_ERROR => 'TOO_MANY_ERROR',
     ];
 
+<<<<<<< HEAD
     public ?array $choices = null;
     /** @var callable|string|null */
     public $callback;
@@ -43,6 +52,24 @@ class Choice extends Constraint
     public string $multipleMessage = 'One or more of the given values is invalid.';
     public string $minMessage = 'You must select at least {{ limit }} choice.|You must select at least {{ limit }} choices.';
     public string $maxMessage = 'You must select at most {{ limit }} choice.|You must select at most {{ limit }} choices.';
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $choices;
+    /** @var callable|string|null */
+    public $callback;
+    public $multiple = false;
+    public $strict = true;
+    public $min;
+    public $max;
+    public $message = 'The value you selected is not a valid choice.';
+    public $multipleMessage = 'One or more of the given values is invalid.';
+    public $minMessage = 'You must select at least {{ limit }} choice.|You must select at least {{ limit }} choices.';
+    public $maxMessage = 'You must select at most {{ limit }} choice.|You must select at most {{ limit }} choices.';
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public bool $match = true;
 
     public function getDefaultOption(): ?string
@@ -50,6 +77,7 @@ class Choice extends Constraint
         return 'choices';
     }
 
+<<<<<<< HEAD
     /**
      * @param array|null           $choices  An array of choices (required unless a callback is specified)
      * @param callable|string|null $callback Callback method to use instead of the choice option to get the choices
@@ -61,6 +89,8 @@ class Choice extends Constraint
      * @param bool|null            $match    Whether to validate the values are part of the choices or not (defaults to true)
      */
     #[HasNamedArguments]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         string|array $options = [],
         ?array $choices = null,
@@ -80,10 +110,14 @@ class Choice extends Constraint
         if (\is_array($options) && $options && array_is_list($options)) {
             $choices ??= $options;
             $options = [];
+<<<<<<< HEAD
         } elseif (\is_array($options) && [] !== $options) {
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
         }
 
+=======
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (null !== $choices) {
             $options['value'] = $choices;
         }

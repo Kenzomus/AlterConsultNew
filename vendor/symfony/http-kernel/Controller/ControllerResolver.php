@@ -25,12 +25,22 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
  */
 class ControllerResolver implements ControllerResolverInterface
 {
+<<<<<<< HEAD
     private array $allowedControllerTypes = [];
     private array $allowedControllerAttributes = [AsController::class => AsController::class];
 
     public function __construct(
         private ?LoggerInterface $logger = null,
     ) {
+=======
+    private ?LoggerInterface $logger;
+    private array $allowedControllerTypes = [];
+    private array $allowedControllerAttributes = [AsController::class => AsController::class];
+
+    public function __construct(?LoggerInterface $logger = null)
+    {
+        $this->logger = $logger;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -239,9 +249,15 @@ class ControllerResolver implements ControllerResolverInterface
             $r = new \ReflectionFunction($controller);
             $name = $r->name;
 
+<<<<<<< HEAD
             if ($r->isAnonymous()) {
                 $name = $class = \Closure::class;
             } elseif ($class = $r->getClosureCalledClass()) {
+=======
+            if (str_contains($name, '{closure')) {
+                $name = $class = \Closure::class;
+            } elseif ($class = \PHP_VERSION_ID >= 80111 ? $r->getClosureCalledClass() : $r->getClosureScopeClass()) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $class = $class->name;
                 $name = $class.'::'.$name;
             }
@@ -267,6 +283,15 @@ class ControllerResolver implements ControllerResolverInterface
             $name = preg_replace_callback('/[a-zA-Z_\x7f-\xff][\\\\a-zA-Z0-9_\x7f-\xff]*+@anonymous\x00.*?\.php(?:0x?|:[0-9]++\$)?[0-9a-fA-F]++/', fn ($m) => class_exists($m[0], false) ? (get_parent_class($m[0]) ?: key(class_implements($m[0])) ?: 'class').'@anonymous' : $m[0], $name);
         }
 
+<<<<<<< HEAD
+=======
+        if (-1 === $request->attributes->get('_check_controller_is_allowed')) {
+            trigger_deprecation('symfony/http-kernel', '6.4', 'Callable "%s()" is not allowed as a controller. Did you miss tagging it with "#[AsController]" or registering its type with "%s::allowControllers()"?', $name, self::class);
+
+            return $controller;
+        }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         throw new BadRequestException(\sprintf('Callable "%s()" is not allowed as a controller. Did you miss tagging it with "#[AsController]" or registering its type with "%s::allowControllers()"?', $name, self::class));
     }
 }

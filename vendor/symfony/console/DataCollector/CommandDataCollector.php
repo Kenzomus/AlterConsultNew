@@ -37,7 +37,11 @@ final class CommandDataCollector extends DataCollector
         $application = $command->getApplication();
 
         $this->data = [
+<<<<<<< HEAD
             'command' => $command->invokableCommandInfo ?? $this->cloneVar($command->command),
+=======
+            'command' => $this->cloneVar($command->command),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             'exit_code' => $command->exitCode,
             'interrupted_by_signal' => $command->interruptedBySignal,
             'duration' => $command->duration,
@@ -95,10 +99,13 @@ final class CommandDataCollector extends DataCollector
      */
     public function getCommand(): array
     {
+<<<<<<< HEAD
         if (\is_array($this->data['command'])) {
             return $this->data['command'];
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $class = $this->data['command']->getType();
         $r = new \ReflectionMethod($class, 'execute');
 

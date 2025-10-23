@@ -27,6 +27,13 @@ interface InstantiatorInterface
      *
      * @param string            $id               Identifier of the requested service
      * @param callable(object=) $realInstantiator A callback that is capable of producing the real service instance
+<<<<<<< HEAD
      */
     public function instantiateProxy(ContainerInterface $container, Definition $definition, string $id, callable $realInstantiator): object;
+=======
+     *
+     * @return object
+     */
+    public function instantiateProxy(ContainerInterface $container, Definition $definition, string $id, callable $realInstantiator);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

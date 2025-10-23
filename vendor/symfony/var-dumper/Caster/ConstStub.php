@@ -30,6 +30,7 @@ class ConstStub extends Stub
     {
         return (string) $this->value;
     }
+<<<<<<< HEAD
 
     /**
      * @param array<int, string> $values
@@ -49,4 +50,6 @@ class ConstStub extends Stub
 
         return new self(implode(' | ', $names), $value);
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

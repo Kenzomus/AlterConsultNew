@@ -18,7 +18,11 @@ namespace Symfony\Component\HttpFoundation;
  */
 class RedirectResponse extends Response
 {
+<<<<<<< HEAD
     protected string $targetUrl;
+=======
+    protected $targetUrl;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Creates a redirect response so that it conforms to the rules defined for a redirect status code.

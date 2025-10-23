@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 
@@ -18,6 +19,13 @@ use Symfony\Component\Validator\Constraint;
  * Validates that a value is a valid ISBN according to ISBN-10 or ISBN-13 formats.
  *
  * @see https://en.wikipedia.org/wiki/ISBN
+=======
+use Symfony\Component\Validator\Constraint;
+
+/**
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author The Whole Life To Learn <thewholelifetolearn@gmail.com>
  * @author Manuel Reinhard <manu@sprain.ch>
@@ -43,6 +51,7 @@ class Isbn extends Constraint
         self::TYPE_NOT_RECOGNIZED_ERROR => 'TYPE_NOT_RECOGNIZED_ERROR',
     ];
 
+<<<<<<< HEAD
     public string $isbn10Message = 'This value is not a valid ISBN-10.';
     public string $isbn13Message = 'This value is not a valid ISBN-13.';
     public string $bothIsbnMessage = 'This value is neither a valid ISBN-10 nor a valid ISBN-13.';
@@ -56,6 +65,19 @@ class Isbn extends Constraint
      * @param array<string,mixed>|null              $options
      */
     #[HasNamedArguments]
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $isbn10Message = 'This value is not a valid ISBN-10.';
+    public $isbn13Message = 'This value is not a valid ISBN-13.';
+    public $bothIsbnMessage = 'This value is neither a valid ISBN-10 nor a valid ISBN-13.';
+    public $type;
+    public $message;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         string|array|null $type = null,
         ?string $message = null,
@@ -64,6 +86,7 @@ class Isbn extends Constraint
         ?string $bothIsbnMessage = null,
         ?array $groups = null,
         mixed $payload = null,
+<<<<<<< HEAD
         ?array $options = null,
     ) {
         if (\is_array($type)) {
@@ -77,6 +100,13 @@ class Isbn extends Constraint
                 $options = [];
             }
 
+=======
+        array $options = [],
+    ) {
+        if (\is_array($type)) {
+            $options = array_merge($type, $options);
+        } elseif (null !== $type) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $options['value'] = $type;
         }
 

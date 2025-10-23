@@ -11,7 +11,11 @@
 
 namespace Twig\Extension;
 
+<<<<<<< HEAD
 abstract class AbstractExtension implements LastModifiedExtensionInterface
+=======
+abstract class AbstractExtension implements ExtensionInterface
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     public function getTokenParsers()
     {
@@ -40,6 +44,7 @@ abstract class AbstractExtension implements LastModifiedExtensionInterface
 
     public function getOperators()
     {
+<<<<<<< HEAD
         return [[], []];
     }
 
@@ -64,4 +69,8 @@ abstract class AbstractExtension implements LastModifiedExtensionInterface
 
         return $lastModified;
     }
+=======
+        return [];
+    }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

@@ -18,13 +18,24 @@ use Symfony\Component\Serializer\Exception\LogicException;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
+<<<<<<< HEAD
+=======
+ *
+ * @method array getSupportedTypes(?string $format)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 interface NormalizerInterface
 {
     /**
+<<<<<<< HEAD
      * Normalizes data into a set of arrays/scalars.
      *
      * @param mixed       $data    Data to normalize
+=======
+     * Normalizes an object into a set of arrays/scalars.
+     *
+     * @param mixed       $object  Object to normalize
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @param string|null $format  Format the normalization result will be encoded as
      * @param array       $context Context options for the normalizer
      *
@@ -36,15 +47,29 @@ interface NormalizerInterface
      * @throws LogicException             Occurs when the normalizer is not called in an expected context
      * @throws ExceptionInterface         Occurs for all the other cases of errors
      */
+<<<<<<< HEAD
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null;
+=======
+    public function normalize(mixed $object, ?string $format = null, array $context = []);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Checks whether the given class is supported for normalization by this normalizer.
      *
+<<<<<<< HEAD
      * @param mixed       $data   Data to normalize
      * @param string|null $format The format being (de-)serialized from or into
      */
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool;
+=======
+     * @param mixed       $data    Data to normalize
+     * @param string|null $format  The format being (de-)serialized from or into
+     * @param array       $context Context options for the normalizer
+     *
+     * @return bool
+     */
+    public function supportsNormalization(mixed $data, ?string $format = null /* , array $context = [] */);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Returns the types potentially supported by this normalizer.
@@ -61,5 +86,9 @@ interface NormalizerInterface
      *
      * @return array<class-string|'*'|'object'|string, bool|null>
      */
+<<<<<<< HEAD
     public function getSupportedTypes(?string $format): array;
+=======
+    /* public function getSupportedTypes(?string $format): array; */
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

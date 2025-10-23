@@ -27,7 +27,14 @@ class RegisterEnvVarProcessorsPass implements CompilerPassInterface
 {
     private const ALLOWED_TYPES = ['array', 'bool', 'float', 'int', 'string', \BackedEnum::class];
 
+<<<<<<< HEAD
     public function process(ContainerBuilder $container): void
+=======
+    /**
+     * @return void
+     */
+    public function process(ContainerBuilder $container)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $bag = $container->getParameterBag();
         $types = [];
@@ -65,7 +72,11 @@ class RegisterEnvVarProcessorsPass implements CompilerPassInterface
         $types = explode('|', $types);
 
         foreach ($types as $type) {
+<<<<<<< HEAD
             if (!\in_array($type, self::ALLOWED_TYPES, true)) {
+=======
+            if (!\in_array($type, self::ALLOWED_TYPES)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 throw new InvalidArgumentException(\sprintf('Invalid type "%s" returned by "%s::getProvidedTypes()", expected one of "%s".', $type, $class, implode('", "', self::ALLOWED_TYPES)));
             }
         }

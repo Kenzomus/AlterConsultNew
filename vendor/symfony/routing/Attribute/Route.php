@@ -12,6 +12,15 @@
 namespace Symfony\Component\Routing\Attribute;
 
 /**
+<<<<<<< HEAD
+=======
+ * Annotation class for @Route().
+ *
+ * @Annotation
+ * @NamedArgumentConstructor
+ * @Target({"CLASS", "METHOD"})
+ *
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Alexander M. Turek <me@derrabus.de>
  */
@@ -22,6 +31,7 @@ class Route
     private array $localizedPaths = [];
     private array $methods;
     private array $schemes;
+<<<<<<< HEAD
     /**
      * @var (string|DeprecatedAlias)[]
      */
@@ -44,6 +54,13 @@ class Route
      * @param bool|null                                         $stateless    Whether the route is defined as stateless or stateful, @see https://symfony.com/doc/current/routing.html#stateless-routes
      * @param string|null                                       $env          The env in which the route is defined (i.e. "dev", "test", "prod")
      * @param string|DeprecatedAlias|(string|DeprecatedAlias)[] $alias        The list of aliases for this route
+=======
+
+    /**
+     * @param array<string|\Stringable> $requirements
+     * @param string[]|string           $methods
+     * @param string[]|string           $schemes
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function __construct(
         string|array|null $path = null,
@@ -61,7 +78,10 @@ class Route
         ?bool $utf8 = null,
         ?bool $stateless = null,
         private ?string $env = null,
+<<<<<<< HEAD
         string|DeprecatedAlias|array $alias = [],
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     ) {
         if (\is_array($path)) {
             $this->localizedPaths = $path;
@@ -70,7 +90,10 @@ class Route
         }
         $this->setMethods($methods);
         $this->setSchemes($schemes);
+<<<<<<< HEAD
         $this->setAliases($alias);
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         if (null !== $locale) {
             $this->defaults['_locale'] = $locale;
@@ -89,17 +112,38 @@ class Route
         }
     }
 
+<<<<<<< HEAD
     public function setPath(string $path): void
+=======
+    /**
+     * @return void
+     */
+    public function setPath(string $path)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->path = $path;
     }
 
+<<<<<<< HEAD
     public function getPath(): ?string
+=======
+    /**
+     * @return string|null
+     */
+    public function getPath()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->path;
     }
 
+<<<<<<< HEAD
     public function setLocalizedPaths(array $localizedPaths): void
+=======
+    /**
+     * @return void
+     */
+    public function setLocalizedPaths(array $localizedPaths)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->localizedPaths = $localizedPaths;
     }
@@ -109,82 +153,194 @@ class Route
         return $this->localizedPaths;
     }
 
+<<<<<<< HEAD
     public function setHost(string $pattern): void
+=======
+    /**
+     * @return void
+     */
+    public function setHost(string $pattern)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->host = $pattern;
     }
 
+<<<<<<< HEAD
     public function getHost(): ?string
+=======
+    /**
+     * @return string|null
+     */
+    public function getHost()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->host;
     }
 
+<<<<<<< HEAD
     public function setName(string $name): void
+=======
+    /**
+     * @return void
+     */
+    public function setName(string $name)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->name = $name;
     }
 
+<<<<<<< HEAD
     public function getName(): ?string
+=======
+    /**
+     * @return string|null
+     */
+    public function getName()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->name;
     }
 
+<<<<<<< HEAD
     public function setRequirements(array $requirements): void
+=======
+    /**
+     * @return void
+     */
+    public function setRequirements(array $requirements)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->requirements = $requirements;
     }
 
+<<<<<<< HEAD
     public function getRequirements(): array
+=======
+    /**
+     * @return array
+     */
+    public function getRequirements()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->requirements;
     }
 
+<<<<<<< HEAD
     public function setOptions(array $options): void
+=======
+    /**
+     * @return void
+     */
+    public function setOptions(array $options)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->options = $options;
     }
 
+<<<<<<< HEAD
     public function getOptions(): array
+=======
+    /**
+     * @return array
+     */
+    public function getOptions()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->options;
     }
 
+<<<<<<< HEAD
     public function setDefaults(array $defaults): void
+=======
+    /**
+     * @return void
+     */
+    public function setDefaults(array $defaults)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->defaults = $defaults;
     }
 
+<<<<<<< HEAD
     public function getDefaults(): array
+=======
+    /**
+     * @return array
+     */
+    public function getDefaults()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->defaults;
     }
 
+<<<<<<< HEAD
     public function setSchemes(array|string $schemes): void
+=======
+    /**
+     * @return void
+     */
+    public function setSchemes(array|string $schemes)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->schemes = (array) $schemes;
     }
 
+<<<<<<< HEAD
     public function getSchemes(): array
+=======
+    /**
+     * @return array
+     */
+    public function getSchemes()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->schemes;
     }
 
+<<<<<<< HEAD
     public function setMethods(array|string $methods): void
+=======
+    /**
+     * @return void
+     */
+    public function setMethods(array|string $methods)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->methods = (array) $methods;
     }
 
+<<<<<<< HEAD
     public function getMethods(): array
+=======
+    /**
+     * @return array
+     */
+    public function getMethods()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->methods;
     }
 
+<<<<<<< HEAD
     public function setCondition(?string $condition): void
+=======
+    /**
+     * @return void
+     */
+    public function setCondition(?string $condition)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->condition = $condition;
     }
 
+<<<<<<< HEAD
     public function getCondition(): ?string
+=======
+    /**
+     * @return string|null
+     */
+    public function getCondition()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->condition;
     }
@@ -208,6 +364,7 @@ class Route
     {
         return $this->env;
     }
+<<<<<<< HEAD
 
     /**
      * @return (string|DeprecatedAlias)[]
@@ -224,6 +381,8 @@ class Route
     {
         $this->aliases = \is_array($aliases) ? $aliases : [$aliases];
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }
 
 if (!class_exists(\Symfony\Component\Routing\Annotation\Route::class, false)) {

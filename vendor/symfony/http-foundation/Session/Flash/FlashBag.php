@@ -20,13 +20,23 @@ class FlashBag implements FlashBagInterface
 {
     private string $name = 'flashes';
     private array $flashes = [];
+<<<<<<< HEAD
+=======
+    private string $storageKey;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @param string $storageKey The key used to store flashes in the session
      */
+<<<<<<< HEAD
     public function __construct(
         private string $storageKey = '_symfony_flashes',
     ) {
+=======
+    public function __construct(string $storageKey = '_symfony_flashes')
+    {
+        $this->storageKey = $storageKey;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getName(): string
@@ -34,17 +44,38 @@ class FlashBag implements FlashBagInterface
         return $this->name;
     }
 
+<<<<<<< HEAD
     public function setName(string $name): void
+=======
+    /**
+     * @return void
+     */
+    public function setName(string $name)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->name = $name;
     }
 
+<<<<<<< HEAD
     public function initialize(array &$flashes): void
+=======
+    /**
+     * @return void
+     */
+    public function initialize(array &$flashes)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->flashes = &$flashes;
     }
 
+<<<<<<< HEAD
     public function add(string $type, mixed $message): void
+=======
+    /**
+     * @return void
+     */
+    public function add(string $type, mixed $message)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->flashes[$type][] = $message;
     }
@@ -80,12 +111,26 @@ class FlashBag implements FlashBagInterface
         return $return;
     }
 
+<<<<<<< HEAD
     public function set(string $type, string|array $messages): void
+=======
+    /**
+     * @return void
+     */
+    public function set(string $type, string|array $messages)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->flashes[$type] = (array) $messages;
     }
 
+<<<<<<< HEAD
     public function setAll(array $messages): void
+=======
+    /**
+     * @return void
+     */
+    public function setAll(array $messages)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->flashes = $messages;
     }

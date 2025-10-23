@@ -7,6 +7,10 @@ use GuzzleHttp\BodySummarizerInterface;
 use Psr\Http\Client\RequestExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+<<<<<<< HEAD
+=======
+use Psr\Http\Message\UriInterface;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 /**
  * HTTP Request exception
@@ -89,7 +93,12 @@ class RequestException extends TransferException implements RequestExceptionInte
             $className = __CLASS__;
         }
 
+<<<<<<< HEAD
         $uri = \GuzzleHttp\Psr7\Utils::redactUserInfo($request->getUri());
+=======
+        $uri = $request->getUri();
+        $uri = static::obfuscateUri($uri);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         // Client Error: `GET /` resulted in a `404 Not Found` response:
         // <html> ... (truncated)
@@ -112,6 +121,23 @@ class RequestException extends TransferException implements RequestExceptionInte
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Obfuscates URI if there is a username and a password present
+     */
+    private static function obfuscateUri(UriInterface $uri): UriInterface
+    {
+        $userInfo = $uri->getUserInfo();
+
+        if (false !== ($pos = \strpos($userInfo, ':'))) {
+            return $uri->withUserInfo(\substr($userInfo, 0, $pos), '***');
+        }
+
+        return $uri;
+    }
+
+    /**
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Get the request that caused the exception
      */
     public function getRequest(): RequestInterface

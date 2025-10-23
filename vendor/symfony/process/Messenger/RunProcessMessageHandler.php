@@ -22,10 +22,14 @@ final class RunProcessMessageHandler
 {
     public function __invoke(RunProcessMessage $message): RunProcessContext
     {
+<<<<<<< HEAD
         $process = match ($message->commandLine) {
             null => new Process($message->command, $message->cwd, $message->env, $message->input, $message->timeout),
             default => Process::fromShellCommandline($message->commandLine, $message->cwd, $message->env, $message->input, $message->timeout),
         };
+=======
+        $process = new Process($message->command, $message->cwd, $message->env, $message->input, $message->timeout);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         try {
             return new RunProcessContext($message, $process->mustRun());

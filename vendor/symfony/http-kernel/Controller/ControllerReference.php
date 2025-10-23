@@ -26,19 +26,31 @@ use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
  */
 class ControllerReference
 {
+<<<<<<< HEAD
     public array $attributes = [];
     public array $query = [];
+=======
+    public $controller;
+    public $attributes = [];
+    public $query = [];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @param string $controller The controller name
      * @param array  $attributes An array of parameters to add to the Request attributes
      * @param array  $query      An array of parameters to add to the Request query string
      */
+<<<<<<< HEAD
     public function __construct(
         public string $controller,
         array $attributes = [],
         array $query = [],
     ) {
+=======
+    public function __construct(string $controller, array $attributes = [], array $query = [])
+    {
+        $this->controller = $controller;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->attributes = $attributes;
         $this->query = $query;
     }

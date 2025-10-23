@@ -26,8 +26,13 @@ class HeaderBag implements \IteratorAggregate, \Countable, \Stringable
     /**
      * @var array<string, list<string|null>>
      */
+<<<<<<< HEAD
     protected array $headers = [];
     protected array $cacheControl = [];
+=======
+    protected $headers = [];
+    protected $cacheControl = [];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     public function __construct(array $headers = [])
     {
@@ -86,8 +91,15 @@ class HeaderBag implements \IteratorAggregate, \Countable, \Stringable
 
     /**
      * Replaces the current HTTP headers by a new set.
+<<<<<<< HEAD
      */
     public function replace(array $headers = []): void
+=======
+     *
+     * @return void
+     */
+    public function replace(array $headers = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->headers = [];
         $this->add($headers);
@@ -95,8 +107,15 @@ class HeaderBag implements \IteratorAggregate, \Countable, \Stringable
 
     /**
      * Adds new headers the current HTTP headers set.
+<<<<<<< HEAD
      */
     public function add(array $headers): void
+=======
+     *
+     * @return void
+     */
+    public function add(array $headers)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($headers as $key => $values) {
             $this->set($key, $values);
@@ -118,7 +137,11 @@ class HeaderBag implements \IteratorAggregate, \Countable, \Stringable
             return null;
         }
 
+<<<<<<< HEAD
         return $headers[0];
+=======
+        return (string) $headers[0];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -126,8 +149,15 @@ class HeaderBag implements \IteratorAggregate, \Countable, \Stringable
      *
      * @param string|string[]|null $values  The value or an array of values
      * @param bool                 $replace Whether to replace the actual value or not (true by default)
+<<<<<<< HEAD
      */
     public function set(string $key, string|array|null $values, bool $replace = true): void
+=======
+     *
+     * @return void
+     */
+    public function set(string $key, string|array|null $values, bool $replace = true)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $key = strtr($key, self::UPPER, self::LOWER);
 
@@ -165,13 +195,24 @@ class HeaderBag implements \IteratorAggregate, \Countable, \Stringable
      */
     public function contains(string $key, string $value): bool
     {
+<<<<<<< HEAD
         return \in_array($value, $this->all($key), true);
+=======
+        return \in_array($value, $this->all($key));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
      * Removes a header.
+<<<<<<< HEAD
      */
     public function remove(string $key): void
+=======
+     *
+     * @return void
+     */
+    public function remove(string $key)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $key = strtr($key, self::UPPER, self::LOWER);
 
@@ -185,9 +226,17 @@ class HeaderBag implements \IteratorAggregate, \Countable, \Stringable
     /**
      * Returns the HTTP header value converted to a date.
      *
+<<<<<<< HEAD
      * @throws \RuntimeException When the HTTP header is not parseable
      */
     public function getDate(string $key, ?\DateTimeInterface $default = null): ?\DateTimeImmutable
+=======
+     * @return \DateTimeImmutable|null
+     *
+     * @throws \RuntimeException When the HTTP header is not parseable
+     */
+    public function getDate(string $key, ?\DateTimeInterface $default = null): ?\DateTimeInterface
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (null === $value = $this->get($key)) {
             return null !== $default ? \DateTimeImmutable::createFromInterface($default) : null;
@@ -202,8 +251,15 @@ class HeaderBag implements \IteratorAggregate, \Countable, \Stringable
 
     /**
      * Adds a custom Cache-Control directive.
+<<<<<<< HEAD
      */
     public function addCacheControlDirective(string $key, bool|string $value = true): void
+=======
+     *
+     * @return void
+     */
+    public function addCacheControlDirective(string $key, bool|string $value = true)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->cacheControl[$key] = $value;
 
@@ -228,8 +284,15 @@ class HeaderBag implements \IteratorAggregate, \Countable, \Stringable
 
     /**
      * Removes a Cache-Control directive.
+<<<<<<< HEAD
      */
     public function removeCacheControlDirective(string $key): void
+=======
+     *
+     * @return void
+     */
+    public function removeCacheControlDirective(string $key)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         unset($this->cacheControl[$key]);
 
@@ -254,7 +317,14 @@ class HeaderBag implements \IteratorAggregate, \Countable, \Stringable
         return \count($this->headers);
     }
 
+<<<<<<< HEAD
     protected function getCacheControlHeader(): string
+=======
+    /**
+     * @return string
+     */
+    protected function getCacheControlHeader()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         ksort($this->cacheControl);
 

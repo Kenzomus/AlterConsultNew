@@ -31,10 +31,19 @@ class FromCallableConfigurator extends AbstractServiceConfigurator
 
     public const FACTORY = 'services';
 
+<<<<<<< HEAD
     public function __construct(
         private ServiceConfigurator $serviceConfigurator,
         Definition $definition,
     ) {
+=======
+    private ServiceConfigurator $serviceConfigurator;
+
+    public function __construct(ServiceConfigurator $serviceConfigurator, Definition $definition)
+    {
+        $this->serviceConfigurator = $serviceConfigurator;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($serviceConfigurator->parent, $definition, $serviceConfigurator->id);
     }
 

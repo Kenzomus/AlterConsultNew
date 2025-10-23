@@ -18,14 +18,25 @@ use Symfony\Component\Mime\Exception\LogicException;
  */
 class RawMessage
 {
+<<<<<<< HEAD
+=======
+    /** @var iterable<string>|string|resource */
+    private $message;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private bool $isGeneratorClosed;
 
     /**
      * @param iterable<string>|string|resource $message
      */
+<<<<<<< HEAD
     public function __construct(
         private $message,
     ) {
+=======
+    public function __construct(mixed $message)
+    {
+        $this->message = $message;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function __destruct()
@@ -56,7 +67,12 @@ class RawMessage
     public function toIterable(): iterable
     {
         if ($this->isGeneratorClosed ?? false) {
+<<<<<<< HEAD
             throw new LogicException('Unable to send the email as its generator is already closed.');
+=======
+            trigger_deprecation('symfony/mime', '6.4', 'Sending an email with a closed generator is deprecated and will throw in 7.0.');
+            // throw new LogicException('Unable to send the email as its generator is already closed.');
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         if (\is_string($this->message)) {
@@ -92,9 +108,17 @@ class RawMessage
     }
 
     /**
+<<<<<<< HEAD
      * @throws LogicException if the message is not valid
      */
     public function ensureValidity(): void
+=======
+     * @return void
+     *
+     * @throws LogicException if the message is not valid
+     */
+    public function ensureValidity()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
     }
 

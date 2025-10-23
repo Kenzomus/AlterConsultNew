@@ -12,21 +12,31 @@
 
 namespace Twig\Node;
 
+<<<<<<< HEAD
 use Twig\Attribute\YieldReady;
 use Twig\Compiler;
 use Twig\Node\Expression\AbstractExpression;
 use Twig\Node\Expression\Variable\AssignContextVariable;
+=======
+use Twig\Compiler;
+use Twig\Node\Expression\AbstractExpression;
+use Twig\Node\Expression\AssignNameExpression;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 /**
  * Represents a for node.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 #[YieldReady]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 class ForNode extends Node
 {
     private $loop;
 
+<<<<<<< HEAD
     public function __construct(AssignContextVariable $keyTarget, AssignContextVariable $valueTarget, AbstractExpression $seq, ?Node $ifexpr, Node $body, ?Node $else, int $lineno)
     {
         $body = new Nodes([$body, $this->loop = new ForLoopNode($lineno)]);
@@ -40,13 +50,22 @@ class ForNode extends Node
 
             $else = new ForElseNode($else, $else->getTemplateLine());
         }
+=======
+    public function __construct(AssignNameExpression $keyTarget, AssignNameExpression $valueTarget, AbstractExpression $seq, ?Node $ifexpr, Node $body, ?Node $else, int $lineno, string $tag = null)
+    {
+        $body = new Node([$body, $this->loop = new ForLoopNode($lineno, $tag)]);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         $nodes = ['key_target' => $keyTarget, 'value_target' => $valueTarget, 'seq' => $seq, 'body' => $body];
         if (null !== $else) {
             $nodes['else'] = $else;
         }
 
+<<<<<<< HEAD
         parent::__construct($nodes, ['with_loop' => true], $lineno);
+=======
+        parent::__construct($nodes, ['with_loop' => true], $lineno, $tag);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function compile(Compiler $compiler): void
@@ -54,7 +73,11 @@ class ForNode extends Node
         $compiler
             ->addDebugInfo($this)
             ->write("\$context['_parent'] = \$context;\n")
+<<<<<<< HEAD
             ->write("\$context['_seq'] = CoreExtension::ensureTraversable(")
+=======
+            ->write("\$context['_seq'] = twig_ensure_traversable(")
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ->subcompile($this->getNode('seq'))
             ->raw(");\n")
         ;
@@ -99,12 +122,23 @@ class ForNode extends Node
         ;
 
         if ($this->hasNode('else')) {
+<<<<<<< HEAD
             $compiler->subcompile($this->getNode('else'));
+=======
+            $compiler
+                ->write("if (!\$context['_iterated']) {\n")
+                ->indent()
+                ->subcompile($this->getNode('else'))
+                ->outdent()
+                ->write("}\n")
+            ;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $compiler->write("\$_parent = \$context['_parent'];\n");
 
         // remove some "private" loop variables (needed for nested loops)
+<<<<<<< HEAD
         $compiler->write('unset($context[\'_seq\'], $context[\''.$this->getNode('key_target')->getAttribute('name').'\'], $context[\''.$this->getNode('value_target')->getAttribute('name').'\'], $context[\'_parent\']');
         if ($this->hasNode('else')) {
             $compiler->raw(', $context[\'_iterated\']');
@@ -113,6 +147,9 @@ class ForNode extends Node
             $compiler->raw(', $context[\'loop\']');
         }
         $compiler->raw(");\n");
+=======
+        $compiler->write('unset($context[\'_seq\'], $context[\'_iterated\'], $context[\''.$this->getNode('key_target')->getAttribute('name').'\'], $context[\''.$this->getNode('value_target')->getAttribute('name').'\'], $context[\'_parent\'], $context[\'loop\']);'."\n");
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         // keep the values set in the inner context for variables defined in the outer context
         $compiler->write("\$context = array_intersect_key(\$context, \$_parent) + \$_parent;\n");

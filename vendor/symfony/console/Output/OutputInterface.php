@@ -17,12 +17,18 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
  * OutputInterface is the interface implemented by all Output classes.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+<<<<<<< HEAD
  *
  * @method bool isSilent()
  */
 interface OutputInterface
 {
     public const VERBOSITY_SILENT = 8;
+=======
+ */
+interface OutputInterface
+{
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public const VERBOSITY_QUIET = 16;
     public const VERBOSITY_NORMAL = 32;
     public const VERBOSITY_VERBOSE = 64;
@@ -39,23 +45,44 @@ interface OutputInterface
      * @param bool $newline Whether to add a newline
      * @param int  $options A bitmask of options (one of the OUTPUT or VERBOSITY constants),
      *                      0 is considered the same as self::OUTPUT_NORMAL | self::VERBOSITY_NORMAL
+<<<<<<< HEAD
      */
     public function write(string|iterable $messages, bool $newline = false, int $options = 0): void;
+=======
+     *
+     * @return void
+     */
+    public function write(string|iterable $messages, bool $newline = false, int $options = 0);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Writes a message to the output and adds a newline at the end.
      *
      * @param int $options A bitmask of options (one of the OUTPUT or VERBOSITY constants),
      *                     0 is considered the same as self::OUTPUT_NORMAL | self::VERBOSITY_NORMAL
+<<<<<<< HEAD
      */
     public function writeln(string|iterable $messages, int $options = 0): void;
+=======
+     *
+     * @return void
+     */
+    public function writeln(string|iterable $messages, int $options = 0);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Sets the verbosity of the output.
      *
      * @param self::VERBOSITY_* $level
+<<<<<<< HEAD
      */
     public function setVerbosity(int $level): void;
+=======
+     *
+     * @return void
+     */
+    public function setVerbosity(int $level);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Gets the current verbosity of the output.
@@ -86,15 +113,29 @@ interface OutputInterface
 
     /**
      * Sets the decorated flag.
+<<<<<<< HEAD
      */
     public function setDecorated(bool $decorated): void;
+=======
+     *
+     * @return void
+     */
+    public function setDecorated(bool $decorated);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Gets the decorated flag.
      */
     public function isDecorated(): bool;
 
+<<<<<<< HEAD
     public function setFormatter(OutputFormatterInterface $formatter): void;
+=======
+    /**
+     * @return void
+     */
+    public function setFormatter(OutputFormatterInterface $formatter);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Returns current output formatter instance.

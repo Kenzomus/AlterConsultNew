@@ -18,6 +18,7 @@ namespace Symfony\Component\DependencyInjection\Exception;
  */
 class ParameterCircularReferenceException extends RuntimeException
 {
+<<<<<<< HEAD
     public function __construct(
         private array $parameters,
         ?\Throwable $previous = null,
@@ -26,6 +27,21 @@ class ParameterCircularReferenceException extends RuntimeException
     }
 
     public function getParameters(): array
+=======
+    private array $parameters;
+
+    public function __construct(array $parameters, ?\Throwable $previous = null)
+    {
+        parent::__construct(\sprintf('Circular reference detected for parameter "%s" ("%s" > "%s").', $parameters[0], implode('" > "', $parameters), $parameters[0]), 0, $previous);
+
+        $this->parameters = $parameters;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParameters()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->parameters;
     }

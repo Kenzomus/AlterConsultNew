@@ -24,6 +24,10 @@ use function Symfony\Component\String\b;
  */
 class OutputFormatter implements WrappableOutputFormatterInterface
 {
+<<<<<<< HEAD
+=======
+    private bool $decorated;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private array $styles = [];
     private OutputFormatterStyleStack $styleStack;
 
@@ -67,10 +71,17 @@ class OutputFormatter implements WrappableOutputFormatterInterface
      *
      * @param OutputFormatterStyleInterface[] $styles Array of "name => FormatterStyle" instances
      */
+<<<<<<< HEAD
     public function __construct(
         private bool $decorated = false,
         array $styles = [],
     ) {
+=======
+    public function __construct(bool $decorated = false, array $styles = [])
+    {
+        $this->decorated = $decorated;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->setStyle('error', new OutputFormatterStyle('white', 'red'));
         $this->setStyle('info', new OutputFormatterStyle('green'));
         $this->setStyle('comment', new OutputFormatterStyle('yellow'));
@@ -83,7 +94,14 @@ class OutputFormatter implements WrappableOutputFormatterInterface
         $this->styleStack = new OutputFormatterStyleStack();
     }
 
+<<<<<<< HEAD
     public function setDecorated(bool $decorated): void
+=======
+    /**
+     * @return void
+     */
+    public function setDecorated(bool $decorated)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->decorated = $decorated;
     }
@@ -93,7 +111,14 @@ class OutputFormatter implements WrappableOutputFormatterInterface
         return $this->decorated;
     }
 
+<<<<<<< HEAD
     public function setStyle(string $name, OutputFormatterStyleInterface $style): void
+=======
+    /**
+     * @return void
+     */
+    public function setStyle(string $name, OutputFormatterStyleInterface $style)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->styles[strtolower($name)] = $style;
     }
@@ -117,7 +142,14 @@ class OutputFormatter implements WrappableOutputFormatterInterface
         return $this->formatAndWrap($message, 0);
     }
 
+<<<<<<< HEAD
     public function formatAndWrap(?string $message, int $width): string
+=======
+    /**
+     * @return string
+     */
+    public function formatAndWrap(?string $message, int $width)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (null === $message) {
             return '';

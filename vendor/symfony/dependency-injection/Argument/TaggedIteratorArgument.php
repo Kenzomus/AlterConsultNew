@@ -18,9 +18,19 @@ namespace Symfony\Component\DependencyInjection\Argument;
  */
 class TaggedIteratorArgument extends IteratorArgument
 {
+<<<<<<< HEAD
     private mixed $indexAttribute;
     private ?string $defaultIndexMethod;
     private ?string $defaultPriorityMethod;
+=======
+    private string $tag;
+    private mixed $indexAttribute;
+    private ?string $defaultIndexMethod;
+    private ?string $defaultPriorityMethod;
+    private bool $needsIndexes;
+    private array $exclude;
+    private bool $excludeSelf = true;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @param string      $tag                   The name of the tag identifying the target services
@@ -31,6 +41,7 @@ class TaggedIteratorArgument extends IteratorArgument
      * @param array       $exclude               Services to exclude from the iterator
      * @param bool        $excludeSelf           Whether to automatically exclude the referencing service from the iterator
      */
+<<<<<<< HEAD
     public function __construct(
         private string $tag,
         ?string $indexAttribute = null,
@@ -40,18 +51,38 @@ class TaggedIteratorArgument extends IteratorArgument
         private array $exclude = [],
         private bool $excludeSelf = true,
     ) {
+=======
+    public function __construct(string $tag, ?string $indexAttribute = null, ?string $defaultIndexMethod = null, bool $needsIndexes = false, ?string $defaultPriorityMethod = null, array $exclude = [], bool $excludeSelf = true)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct([]);
 
         if (null === $indexAttribute && $needsIndexes) {
             $indexAttribute = preg_match('/[^.]++$/', $tag, $m) ? $m[0] : $tag;
         }
 
+<<<<<<< HEAD
         $this->indexAttribute = $indexAttribute;
         $this->defaultIndexMethod = $defaultIndexMethod ?: ($indexAttribute ? 'getDefault'.str_replace(' ', '', ucwords(preg_replace('/[^a-zA-Z0-9\x7f-\xff]++/', ' ', $indexAttribute))).'Name' : null);
         $this->defaultPriorityMethod = $defaultPriorityMethod ?: ($indexAttribute ? 'getDefault'.str_replace(' ', '', ucwords(preg_replace('/[^a-zA-Z0-9\x7f-\xff]++/', ' ', $indexAttribute))).'Priority' : null);
     }
 
     public function getTag(): string
+=======
+        $this->tag = $tag;
+        $this->indexAttribute = $indexAttribute;
+        $this->defaultIndexMethod = $defaultIndexMethod ?: ($indexAttribute ? 'getDefault'.str_replace(' ', '', ucwords(preg_replace('/[^a-zA-Z0-9\x7f-\xff]++/', ' ', $indexAttribute))).'Name' : null);
+        $this->needsIndexes = $needsIndexes;
+        $this->defaultPriorityMethod = $defaultPriorityMethod ?: ($indexAttribute ? 'getDefault'.str_replace(' ', '', ucwords(preg_replace('/[^a-zA-Z0-9\x7f-\xff]++/', ' ', $indexAttribute))).'Priority' : null);
+        $this->exclude = $exclude;
+        $this->excludeSelf = $excludeSelf;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTag()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->tag;
     }

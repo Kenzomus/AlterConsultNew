@@ -17,14 +17,22 @@ use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 /**
  * Base class for output classes.
  *
+<<<<<<< HEAD
  * There are six levels of verbosity:
+=======
+ * There are five levels of verbosity:
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  *  * normal: no option passed (normal output)
  *  * verbose: -v (more output)
  *  * very verbose: -vv (highly extended output)
  *  * debug: -vvv (all debug output)
+<<<<<<< HEAD
  *  * quiet: -q (only output errors)
  *  * silent: --silent (no output)
+=======
+ *  * quiet: -q (no output)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
@@ -45,7 +53,14 @@ abstract class Output implements OutputInterface
         $this->formatter->setDecorated($decorated);
     }
 
+<<<<<<< HEAD
     public function setFormatter(OutputFormatterInterface $formatter): void
+=======
+    /**
+     * @return void
+     */
+    public function setFormatter(OutputFormatterInterface $formatter)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->formatter = $formatter;
     }
@@ -55,7 +70,14 @@ abstract class Output implements OutputInterface
         return $this->formatter;
     }
 
+<<<<<<< HEAD
     public function setDecorated(bool $decorated): void
+=======
+    /**
+     * @return void
+     */
+    public function setDecorated(bool $decorated)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->formatter->setDecorated($decorated);
     }
@@ -65,7 +87,14 @@ abstract class Output implements OutputInterface
         return $this->formatter->isDecorated();
     }
 
+<<<<<<< HEAD
     public function setVerbosity(int $level): void
+=======
+    /**
+     * @return void
+     */
+    public function setVerbosity(int $level)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->verbosity = $level;
     }
@@ -75,11 +104,14 @@ abstract class Output implements OutputInterface
         return $this->verbosity;
     }
 
+<<<<<<< HEAD
     public function isSilent(): bool
     {
         return self::VERBOSITY_SILENT === $this->verbosity;
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function isQuiet(): bool
     {
         return self::VERBOSITY_QUIET === $this->verbosity;
@@ -100,12 +132,26 @@ abstract class Output implements OutputInterface
         return self::VERBOSITY_DEBUG <= $this->verbosity;
     }
 
+<<<<<<< HEAD
     public function writeln(string|iterable $messages, int $options = self::OUTPUT_NORMAL): void
+=======
+    /**
+     * @return void
+     */
+    public function writeln(string|iterable $messages, int $options = self::OUTPUT_NORMAL)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->write($messages, true, $options);
     }
 
+<<<<<<< HEAD
     public function write(string|iterable $messages, bool $newline = false, int $options = self::OUTPUT_NORMAL): void
+=======
+    /**
+     * @return void
+     */
+    public function write(string|iterable $messages, bool $newline = false, int $options = self::OUTPUT_NORMAL)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!is_iterable($messages)) {
             $messages = [$messages];
@@ -139,6 +185,13 @@ abstract class Output implements OutputInterface
 
     /**
      * Writes a message to the output.
+<<<<<<< HEAD
      */
     abstract protected function doWrite(string $message, bool $newline): void;
+=======
+     *
+     * @return void
+     */
+    abstract protected function doWrite(string $message, bool $newline);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

@@ -57,6 +57,7 @@ Hydrator::hydrate($object, [], [
 ]);
 ```
 
+<<<<<<< HEAD
 Lazy Proxies
 ------------
 
@@ -73,6 +74,67 @@ $proxyCode = ProxyHelper::generateLazyProxy(new ReflectionClass(AbstractFoo::cla
 eval('class FooLazyProxy'.$proxyCode);
 
 $foo = FooLazyProxy::createLazyProxy(initializer: function (): AbstractFoo {
+=======
+`Lazy*Trait`
+------------
+
+The component provides two lazy-loading patterns: ghost objects and virtual
+proxies (see https://martinfowler.com/eaaCatalog/lazyLoad.html for reference).
+
+Ghost objects work only with concrete and non-internal classes. In the generic
+case, they are not compatible with using factories in their initializer.
+
+Virtual proxies work with concrete, abstract or internal classes. They provide an
+API that looks like the actual objects and forward calls to them. They can cause
+identity problems because proxies might not be seen as equivalents to the actual
+objects they proxy.
+
+Because of this identity problem, ghost objects should be preferred when
+possible. Exceptions thrown by the `ProxyHelper` class can help decide when it
+can be used or not.
+
+Ghost objects and virtual proxies both provide implementations for the
+`LazyObjectInterface` which allows resetting them to their initial state or to
+forcibly initialize them when needed. Note that resetting a ghost object skips
+its read-only properties. You should use a virtual proxy to reset read-only
+properties.
+
+### `LazyGhostTrait`
+
+By using `LazyGhostTrait` either directly in your classes or by using
+`ProxyHelper::generateLazyGhost()`, you can make their instances lazy-loadable.
+This works by creating these instances empty and by computing their state only
+when accessing a property.
+
+```php
+class FooLazyGhost extends Foo
+{
+    use LazyGhostTrait;
+}
+
+$foo = FooLazyGhost::createLazyGhost(initializer: function (Foo $instance): void {
+    // [...] Use whatever heavy logic you need here
+    // to compute the $dependencies of the $instance
+    $instance->__construct(...$dependencies);
+    // [...] Call setters, etc. if needed
+});
+
+// $foo is now a lazy-loading ghost object. The initializer will
+// be called only when and if a *property* is accessed.
+```
+
+### `LazyProxyTrait`
+
+Alternatively, `LazyProxyTrait` can be used to create virtual proxies:
+
+```php
+$proxyCode = ProxyHelper::generateLazyProxy(new ReflectionClass(Foo::class));
+// $proxyCode contains the reference to LazyProxyTrait
+// and should be dumped into a file in production envs
+eval('class FooLazyProxy'.$proxyCode);
+
+$foo = FooLazyProxy::createLazyProxy(initializer: function (): Foo {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     // [...] Use whatever heavy logic you need here
     // to compute the $dependencies of the $instance
     $instance = new Foo(...$dependencies);
@@ -80,6 +142,7 @@ $foo = FooLazyProxy::createLazyProxy(initializer: function (): AbstractFoo {
 
     return $instance;
 });
+<<<<<<< HEAD
 // $foo is now a lazy-loading decorator object. The initializer will
 // be called only when and if a *method* is called.
 ```
@@ -88,6 +151,12 @@ In addition, this component provides traits and methods to aid in implementing
 the ghost and proxy strategies in previous versions of PHP. Those are deprecated
 when using PHP 8.4.
 
+=======
+// $foo is now a lazy-loading virtual proxy object. The initializer will
+// be called only when and if a *method* is called.
+```
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 Resources
 ---------
 

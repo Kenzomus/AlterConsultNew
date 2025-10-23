@@ -11,6 +11,7 @@
 
 namespace Twig\Node\Expression;
 
+<<<<<<< HEAD
 use Twig\Attribute\FirstClassTwigCallableReady;
 use Twig\Compiler;
 use Twig\Node\NameDeprecation;
@@ -75,6 +76,34 @@ class FunctionExpression extends CallExpression implements SupportDefinedTestInt
         if ('constant' === $name && $this->isDefinedTestEnabled()) {
             $this->getNode('arguments')->setNode('checkDefined', new ConstantExpression(true, $this->getTemplateLine()));
         }
+=======
+use Twig\Compiler;
+use Twig\Node\Node;
+
+class FunctionExpression extends CallExpression
+{
+    public function __construct(string $name, Node $arguments, int $lineno)
+    {
+        parent::__construct(['arguments' => $arguments], ['name' => $name, 'is_defined_test' => false], $lineno);
+    }
+
+    public function compile(Compiler $compiler)
+    {
+        $name = $this->getAttribute('name');
+        $function = $compiler->getEnvironment()->getFunction($name);
+
+        $this->setAttribute('name', $name);
+        $this->setAttribute('type', 'function');
+        $this->setAttribute('needs_environment', $function->needsEnvironment());
+        $this->setAttribute('needs_context', $function->needsContext());
+        $this->setAttribute('arguments', $function->getArguments());
+        $callable = $function->getCallable();
+        if ('constant' === $name && $this->getAttribute('is_defined_test')) {
+            $callable = 'twig_constant_is_defined';
+        }
+        $this->setAttribute('callable', $callable);
+        $this->setAttribute('is_variadic', $function->isVariadic());
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         $this->compileCallable($compiler);
     }

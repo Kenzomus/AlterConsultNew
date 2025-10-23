@@ -11,8 +11,11 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Mime\MimeTypes;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 use Symfony\Component\Validator\Exception\LogicException;
@@ -27,7 +30,14 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class ImageValidator extends FileValidator
 {
+<<<<<<< HEAD
     public function validate(mixed $value, Constraint $constraint): void
+=======
+    /**
+     * @return void
+     */
+    public function validate(mixed $value, Constraint $constraint)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$constraint instanceof Image) {
             throw new UnexpectedTypeException($constraint, Image::class);
@@ -52,6 +62,7 @@ class ImageValidator extends FileValidator
             return;
         }
 
+<<<<<<< HEAD
         $isSvg = $this->isSvg($value);
 
         if ($isSvg) {
@@ -61,6 +72,11 @@ class ImageValidator extends FileValidator
         }
 
         if (!$size || (0 === $size[0]) || (0 === $size[1])) {
+=======
+        $size = @getimagesize($value);
+
+        if (empty($size) || (0 === $size[0]) || (0 === $size[1])) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->context->buildViolation($constraint->sizeNotDetectedMessage)
                 ->setCode(Image::SIZE_NOT_DETECTED_ERROR)
                 ->addViolation();
@@ -71,7 +87,11 @@ class ImageValidator extends FileValidator
         $width = $size[0];
         $height = $size[1];
 
+<<<<<<< HEAD
         if (!$isSvg && $constraint->minWidth) {
+=======
+        if ($constraint->minWidth) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if (!ctype_digit((string) $constraint->minWidth)) {
                 throw new ConstraintDefinitionException(\sprintf('"%s" is not a valid minimum width.', $constraint->minWidth));
             }
@@ -87,7 +107,11 @@ class ImageValidator extends FileValidator
             }
         }
 
+<<<<<<< HEAD
         if (!$isSvg && $constraint->maxWidth) {
+=======
+        if ($constraint->maxWidth) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if (!ctype_digit((string) $constraint->maxWidth)) {
                 throw new ConstraintDefinitionException(\sprintf('"%s" is not a valid maximum width.', $constraint->maxWidth));
             }
@@ -103,7 +127,11 @@ class ImageValidator extends FileValidator
             }
         }
 
+<<<<<<< HEAD
         if (!$isSvg && $constraint->minHeight) {
+=======
+        if ($constraint->minHeight) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if (!ctype_digit((string) $constraint->minHeight)) {
                 throw new ConstraintDefinitionException(\sprintf('"%s" is not a valid minimum height.', $constraint->minHeight));
             }
@@ -119,7 +147,11 @@ class ImageValidator extends FileValidator
             }
         }
 
+<<<<<<< HEAD
         if (!$isSvg && $constraint->maxHeight) {
+=======
+        if ($constraint->maxHeight) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if (!ctype_digit((string) $constraint->maxHeight)) {
                 throw new ConstraintDefinitionException(\sprintf('"%s" is not a valid maximum height.', $constraint->maxHeight));
             }
@@ -135,7 +167,11 @@ class ImageValidator extends FileValidator
 
         $pixels = $width * $height;
 
+<<<<<<< HEAD
         if (!$isSvg && null !== $constraint->minPixels) {
+=======
+        if (null !== $constraint->minPixels) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if (!ctype_digit((string) $constraint->minPixels)) {
                 throw new ConstraintDefinitionException(\sprintf('"%s" is not a valid minimum amount of pixels.', $constraint->minPixels));
             }
@@ -151,7 +187,11 @@ class ImageValidator extends FileValidator
             }
         }
 
+<<<<<<< HEAD
         if (!$isSvg && null !== $constraint->maxPixels) {
+=======
+        if (null !== $constraint->maxPixels) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if (!ctype_digit((string) $constraint->maxPixels)) {
                 throw new ConstraintDefinitionException(\sprintf('"%s" is not a valid maximum amount of pixels.', $constraint->maxPixels));
             }
@@ -237,6 +277,7 @@ class ImageValidator extends FileValidator
             }
         }
     }
+<<<<<<< HEAD
 
     private function isSvg(mixed $value): bool
     {
@@ -285,4 +326,6 @@ class ImageValidator extends FileValidator
 
         return null;
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

@@ -16,8 +16,13 @@ use function fopen;
 use function fwrite;
 use function max;
 use function min;
+<<<<<<< HEAD
 use function str_ends_with;
 use function stream_get_contents;
+=======
+use function stream_get_contents;
+use function strlen;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use function substr;
 use SebastianBergmann\Diff\Differ;
 
@@ -26,6 +31,7 @@ use SebastianBergmann\Diff\Differ;
  */
 final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
 {
+<<<<<<< HEAD
     private bool $collapseRanges     = true;
     private int $commonLineThreshold = 6;
 
@@ -35,6 +41,32 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
     private int $contextLines = 3;
     private string $header;
     private bool $addLineNumbers;
+=======
+    /**
+     * @var bool
+     */
+    private $collapseRanges = true;
+
+    /**
+     * @var int >= 0
+     */
+    private $commonLineThreshold = 6;
+
+    /**
+     * @var int >= 0
+     */
+    private $contextLines = 3;
+
+    /**
+     * @var string
+     */
+    private $header;
+
+    /**
+     * @var bool
+     */
+    private $addLineNumbers;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     public function __construct(string $header = "--- Original\n+++ New\n", bool $addLineNumbers = false)
     {
@@ -49,7 +81,11 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
         if ('' !== $this->header) {
             fwrite($buffer, $this->header);
 
+<<<<<<< HEAD
             if (!str_ends_with($this->header, "\n")) {
+=======
+            if ("\n" !== substr($this->header, -1, 1)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 fwrite($buffer, "\n");
             }
         }
@@ -66,7 +102,11 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
         // This might happen when both the `from` and `to` do not have a trailing linebreak
         $last = substr($diff, -1);
 
+<<<<<<< HEAD
         return '' !== $diff && "\n" !== $last && "\r" !== $last
+=======
+        return 0 !== strlen($diff) && "\n" !== $last && "\r" !== $last
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ? $diff . "\n"
             : $diff;
     }
@@ -85,10 +125,17 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
             }
         } else {
             // search back for the last `+` and `-` line,
+<<<<<<< HEAD
             // check if it has trailing linebreak, else add a warning under it
             $toFind = [1 => true, 2 => true];
 
             for ($i = $upperLimit - 1; $i >= 0; $i--) {
+=======
+            // check if has trailing linebreak, else add under it warning under it
+            $toFind = [1 => true, 2 => true];
+
+            for ($i = $upperLimit - 1; $i >= 0; --$i) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 if (isset($toFind[$diff[$i][1]])) {
                     unset($toFind[$diff[$i][1]]);
                     $lc = substr($diff[$i][0], -1);
@@ -108,7 +155,11 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
 
         $cutOff      = max($this->commonLineThreshold, $this->contextLines);
         $hunkCapture = false;
+<<<<<<< HEAD
         $sameCount   = $toRange = $fromRange = 0;
+=======
+        $sameCount   = $toRange   = $fromRange = 0;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $toStart     = $fromStart = 1;
         $i           = 0;
 
@@ -116,15 +167,26 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
         foreach ($diff as $i => $entry) {
             if (0 === $entry[1]) { // same
                 if (false === $hunkCapture) {
+<<<<<<< HEAD
                     $fromStart++;
                     $toStart++;
+=======
+                    ++$fromStart;
+                    ++$toStart;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
                     continue;
                 }
 
+<<<<<<< HEAD
                 $sameCount++;
                 $toRange++;
                 $fromRange++;
+=======
+                ++$sameCount;
+                ++$toRange;
+                ++$fromRange;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
                 if ($sameCount === $cutOff) {
                     $contextStartOffset = ($hunkCapture - $this->contextLines) < 0
@@ -150,11 +212,19 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
                         $fromRange - $cutOff + $contextStartOffset + $this->contextLines,
                         $toStart - $contextStartOffset,
                         $toRange - $cutOff + $contextStartOffset + $this->contextLines,
+<<<<<<< HEAD
                         $output,
                     );
 
                     $fromStart += $fromRange;
                     $toStart   += $toRange;
+=======
+                        $output
+                    );
+
+                    $fromStart += $fromRange;
+                    $toStart += $toRange;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
                     $hunkCapture = false;
                     $sameCount   = $toRange = $fromRange = 0;
@@ -174,11 +244,19 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
             }
 
             if (Differ::ADDED === $entry[1]) {
+<<<<<<< HEAD
                 $toRange++;
             }
 
             if (Differ::REMOVED === $entry[1]) {
                 $fromRange++;
+=======
+                ++$toRange;
+            }
+
+            if (Differ::REMOVED === $entry[1]) {
+                ++$fromRange;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
         }
 
@@ -186,7 +264,11 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
             return;
         }
 
+<<<<<<< HEAD
         // we end here when cutoff (commonLineThreshold) was not reached, but we were capturing a hunk,
+=======
+        // we end here when cutoff (commonLineThreshold) was not reached, but we where capturing a hunk,
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         // do not render hunk till end automatically because the number of context lines might be less than the commonLineThreshold
 
         $contextStartOffset = $hunkCapture - $this->contextLines < 0
@@ -198,7 +280,11 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
         $contextEndOffset = min($sameCount, $this->contextLines);
 
         $fromRange -= $sameCount;
+<<<<<<< HEAD
         $toRange   -= $sameCount;
+=======
+        $toRange -= $sameCount;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         $this->writeHunk(
             $diff,
@@ -208,7 +294,11 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
             $fromRange + $contextStartOffset + $contextEndOffset,
             $toStart - $contextStartOffset,
             $toRange + $contextStartOffset + $contextEndOffset,
+<<<<<<< HEAD
             $output,
+=======
+            $output
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         );
     }
 
@@ -240,7 +330,11 @@ final class UnifiedDiffOutputBuilder extends AbstractChunkOutputBuilder
             fwrite($output, "@@ @@\n");
         }
 
+<<<<<<< HEAD
         for ($i = $diffStartIndex; $i < $diffEndIndex; $i++) {
+=======
+        for ($i = $diffStartIndex; $i < $diffEndIndex; ++$i) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if ($diff[$i][1] === Differ::ADDED) {
                 fwrite($output, '+' . $diff[$i][0]);
             } elseif ($diff[$i][1] === Differ::REMOVED) {

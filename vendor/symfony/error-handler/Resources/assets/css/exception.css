@@ -132,7 +132,11 @@ table th { background-color: var(--base-2); font-weight: bold; text-align: left;
 .prewrap { white-space: pre-wrap; }
 .nowrap { white-space: nowrap; }
 .newline { display: block; }
+<<<<<<< HEAD
 .break-long-words { word-wrap: break-word; overflow-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; hyphenate-character: ''; min-width: 0; }
+=======
+.break-long-words { word-wrap: break-word; overflow-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; min-width: 0; }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 .text-small { font-size: 12px !important; }
 .text-muted { color: #999; }
 .text-bold { font-weight: bold; }

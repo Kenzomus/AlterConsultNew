@@ -21,4 +21,10 @@ namespace Symfony\Component\HttpKernel\Attribute;
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_FUNCTION)]
 class AsController
 {
+<<<<<<< HEAD
+=======
+    public function __construct()
+    {
+    }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

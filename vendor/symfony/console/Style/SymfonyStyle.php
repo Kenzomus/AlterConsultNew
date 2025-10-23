@@ -21,9 +21,12 @@ use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Helper\TableSeparator;
+<<<<<<< HEAD
 use Symfony\Component\Console\Helper\TreeHelper;
 use Symfony\Component\Console\Helper\TreeNode;
 use Symfony\Component\Console\Helper\TreeStyle;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
@@ -43,27 +46,49 @@ class SymfonyStyle extends OutputStyle
 {
     public const MAX_LINE_LENGTH = 120;
 
+<<<<<<< HEAD
+=======
+    private InputInterface $input;
+    private OutputInterface $output;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private SymfonyQuestionHelper $questionHelper;
     private ProgressBar $progressBar;
     private int $lineLength;
     private TrimmedBufferOutput $bufferedOutput;
 
+<<<<<<< HEAD
     public function __construct(
         private InputInterface $input,
         private OutputInterface $output,
     ) {
+=======
+    public function __construct(InputInterface $input, OutputInterface $output)
+    {
+        $this->input = $input;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->bufferedOutput = new TrimmedBufferOutput(\DIRECTORY_SEPARATOR === '\\' ? 4 : 2, $output->getVerbosity(), false, clone $output->getFormatter());
         // Windows cmd wraps lines as soon as the terminal width is reached, whether there are following chars or not.
         $width = (new Terminal())->getWidth() ?: self::MAX_LINE_LENGTH;
         $this->lineLength = min($width - (int) (\DIRECTORY_SEPARATOR === '\\'), self::MAX_LINE_LENGTH);
 
+<<<<<<< HEAD
         parent::__construct($output);
+=======
+        parent::__construct($this->output = $output);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
      * Formats a message as a block of text.
+<<<<<<< HEAD
      */
     public function block(string|array $messages, ?string $type = null, ?string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = true): void
+=======
+     *
+     * @return void
+     */
+    public function block(string|array $messages, ?string $type = null, ?string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = true)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $messages = \is_array($messages) ? array_values($messages) : [$messages];
 
@@ -72,7 +97,14 @@ class SymfonyStyle extends OutputStyle
         $this->newLine();
     }
 
+<<<<<<< HEAD
     public function title(string $message): void
+=======
+    /**
+     * @return void
+     */
+    public function title(string $message)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->autoPrependBlock();
         $this->writeln([
@@ -82,7 +114,14 @@ class SymfonyStyle extends OutputStyle
         $this->newLine();
     }
 
+<<<<<<< HEAD
     public function section(string $message): void
+=======
+    /**
+     * @return void
+     */
+    public function section(string $message)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->autoPrependBlock();
         $this->writeln([
@@ -92,7 +131,14 @@ class SymfonyStyle extends OutputStyle
         $this->newLine();
     }
 
+<<<<<<< HEAD
     public function listing(array $elements): void
+=======
+    /**
+     * @return void
+     */
+    public function listing(array $elements)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->autoPrependText();
         $elements = array_map(fn ($element) => \sprintf(' * %s', $element), $elements);
@@ -101,7 +147,14 @@ class SymfonyStyle extends OutputStyle
         $this->newLine();
     }
 
+<<<<<<< HEAD
     public function text(string|array $message): void
+=======
+    /**
+     * @return void
+     */
+    public function text(string|array $message)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->autoPrependText();
 
@@ -113,46 +166,102 @@ class SymfonyStyle extends OutputStyle
 
     /**
      * Formats a command comment.
+<<<<<<< HEAD
      */
     public function comment(string|array $message): void
+=======
+     *
+     * @return void
+     */
+    public function comment(string|array $message)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->block($message, null, null, '<fg=default;bg=default> // </>', false, false);
     }
 
+<<<<<<< HEAD
     public function success(string|array $message): void
+=======
+    /**
+     * @return void
+     */
+    public function success(string|array $message)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->block($message, 'OK', 'fg=black;bg=green', ' ', true);
     }
 
+<<<<<<< HEAD
     public function error(string|array $message): void
+=======
+    /**
+     * @return void
+     */
+    public function error(string|array $message)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->block($message, 'ERROR', 'fg=white;bg=red', ' ', true);
     }
 
+<<<<<<< HEAD
     public function warning(string|array $message): void
+=======
+    /**
+     * @return void
+     */
+    public function warning(string|array $message)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->block($message, 'WARNING', 'fg=black;bg=yellow', ' ', true);
     }
 
+<<<<<<< HEAD
     public function note(string|array $message): void
+=======
+    /**
+     * @return void
+     */
+    public function note(string|array $message)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->block($message, 'NOTE', 'fg=yellow', ' ! ');
     }
 
     /**
      * Formats an info message.
+<<<<<<< HEAD
      */
     public function info(string|array $message): void
+=======
+     *
+     * @return void
+     */
+    public function info(string|array $message)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->block($message, 'INFO', 'fg=green', ' ', true);
     }
 
+<<<<<<< HEAD
     public function caution(string|array $message): void
+=======
+    /**
+     * @return void
+     */
+    public function caution(string|array $message)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->block($message, 'CAUTION', 'fg=white;bg=red', ' ! ', true);
     }
 
+<<<<<<< HEAD
     public function table(array $headers, array $rows): void
+=======
+    /**
+     * @return void
+     */
+    public function table(array $headers, array $rows)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->createTable()
             ->setHeaders($headers)
@@ -165,8 +274,15 @@ class SymfonyStyle extends OutputStyle
 
     /**
      * Formats a horizontal table.
+<<<<<<< HEAD
      */
     public function horizontalTable(array $headers, array $rows): void
+=======
+     *
+     * @return void
+     */
+    public function horizontalTable(array $headers, array $rows)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->createTable()
             ->setHorizontal(true)
@@ -185,8 +301,15 @@ class SymfonyStyle extends OutputStyle
      * * 'A title'
      * * ['key' => 'value']
      * * new TableSeparator()
+<<<<<<< HEAD
      */
     public function definitionList(string|array|TableSeparator ...$list): void
+=======
+     *
+     * @return void
+     */
+    public function definitionList(string|array|TableSeparator ...$list)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $headers = [];
         $row = [];
@@ -247,18 +370,39 @@ class SymfonyStyle extends OutputStyle
         return $this->askQuestion($questionChoice);
     }
 
+<<<<<<< HEAD
     public function progressStart(int $max = 0): void
+=======
+    /**
+     * @return void
+     */
+    public function progressStart(int $max = 0)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->progressBar = $this->createProgressBar($max);
         $this->progressBar->start();
     }
 
+<<<<<<< HEAD
     public function progressAdvance(int $step = 1): void
+=======
+    /**
+     * @return void
+     */
+    public function progressAdvance(int $step = 1)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->getProgressBar()->advance($step);
     }
 
+<<<<<<< HEAD
     public function progressFinish(): void
+=======
+    /**
+     * @return void
+     */
+    public function progressFinish()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->getProgressBar()->finish();
         $this->newLine(2);
@@ -319,7 +463,14 @@ class SymfonyStyle extends OutputStyle
         return $answer;
     }
 
+<<<<<<< HEAD
     public function writeln(string|iterable $messages, int $type = self::OUTPUT_NORMAL): void
+=======
+    /**
+     * @return void
+     */
+    public function writeln(string|iterable $messages, int $type = self::OUTPUT_NORMAL)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!is_iterable($messages)) {
             $messages = [$messages];
@@ -331,7 +482,14 @@ class SymfonyStyle extends OutputStyle
         }
     }
 
+<<<<<<< HEAD
     public function write(string|iterable $messages, bool $newline = false, int $type = self::OUTPUT_NORMAL): void
+=======
+    /**
+     * @return void
+     */
+    public function write(string|iterable $messages, bool $newline = false, int $type = self::OUTPUT_NORMAL)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!is_iterable($messages)) {
             $messages = [$messages];
@@ -343,7 +501,14 @@ class SymfonyStyle extends OutputStyle
         }
     }
 
+<<<<<<< HEAD
     public function newLine(int $count = 1): void
+=======
+    /**
+     * @return void
+     */
+    public function newLine(int $count = 1)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         parent::newLine($count);
         $this->bufferedOutput->write(str_repeat("\n", $count));
@@ -372,6 +537,7 @@ class SymfonyStyle extends OutputStyle
             ?? throw new RuntimeException('The ProgressBar is not started.');
     }
 
+<<<<<<< HEAD
     /**
      * @param iterable<string, iterable|string|TreeNode> $nodes
      */
@@ -390,6 +556,8 @@ class SymfonyStyle extends OutputStyle
         return TreeHelper::createTree($output, $root, $nodes, TreeStyle::default());
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private function autoPrependBlock(): void
     {
         $chars = substr(str_replace(\PHP_EOL, "\n", $this->bufferedOutput->fetch()), -2);

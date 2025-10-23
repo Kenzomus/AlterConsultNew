@@ -23,8 +23,17 @@ use Symfony\Component\ErrorHandler\ErrorHandler;
  */
 class ErrorHandlerConfigurator
 {
+<<<<<<< HEAD
     private array|int|null $levels;
     private ?int $throwAt;
+=======
+    private ?LoggerInterface $logger;
+    private ?LoggerInterface $deprecationLogger;
+    private array|int|null $levels;
+    private ?int $throwAt;
+    private bool $scream;
+    private bool $scope;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @param array|int|null $levels  An array map of E_* to LogLevel::* or an integer bit field of E_* constants
@@ -32,6 +41,7 @@ class ErrorHandlerConfigurator
      * @param bool           $scream  Enables/disables screaming mode, where even silenced errors are logged
      * @param bool           $scope   Enables/disables scoping mode
      */
+<<<<<<< HEAD
     public function __construct(
         private ?LoggerInterface $logger = null,
         array|int|null $levels = \E_ALL,
@@ -42,6 +52,16 @@ class ErrorHandlerConfigurator
     ) {
         $this->levels = $levels ?? \E_ALL;
         $this->throwAt = \is_int($throwAt) ? $throwAt : (null === $throwAt ? null : ($throwAt ? \E_ALL : null));
+=======
+    public function __construct(?LoggerInterface $logger = null, array|int|null $levels = \E_ALL, ?int $throwAt = \E_ALL, bool $scream = true, bool $scope = true, ?LoggerInterface $deprecationLogger = null)
+    {
+        $this->logger = $logger;
+        $this->levels = $levels ?? \E_ALL;
+        $this->throwAt = \is_int($throwAt) ? $throwAt : (null === $throwAt ? null : ($throwAt ? \E_ALL : null));
+        $this->scream = $scream;
+        $this->scope = $scope;
+        $this->deprecationLogger = $deprecationLogger;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**

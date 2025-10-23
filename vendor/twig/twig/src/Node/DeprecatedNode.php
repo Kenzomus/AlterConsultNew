@@ -11,7 +11,10 @@
 
 namespace Twig\Node;
 
+<<<<<<< HEAD
 use Twig\Attribute\YieldReady;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Compiler;
 use Twig\Node\Expression\AbstractExpression;
 use Twig\Node\Expression\ConstantExpression;
@@ -21,12 +24,20 @@ use Twig\Node\Expression\ConstantExpression;
  *
  * @author Yonel Ceruto <yonelceruto@gmail.com>
  */
+<<<<<<< HEAD
 #[YieldReady]
 class DeprecatedNode extends Node
 {
     public function __construct(AbstractExpression $expr, int $lineno)
     {
         parent::__construct(['expr' => $expr], [], $lineno);
+=======
+class DeprecatedNode extends Node
+{
+    public function __construct(AbstractExpression $expr, int $lineno, string $tag = null)
+    {
+        parent::__construct(['expr' => $expr], [], $lineno, $tag);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function compile(Compiler $compiler): void
@@ -35,6 +46,7 @@ class DeprecatedNode extends Node
 
         $expr = $this->getNode('expr');
 
+<<<<<<< HEAD
         if (!$expr instanceof ConstantExpression) {
             $varName = $compiler->getVarName();
             $compiler
@@ -62,12 +74,28 @@ class DeprecatedNode extends Node
             $compiler->subcompile($expr);
         } else {
             $compiler->write(\sprintf('$%s', $varName));
+=======
+        if ($expr instanceof ConstantExpression) {
+            $compiler->write('@trigger_error(')
+                ->subcompile($expr);
+        } else {
+            $varName = $compiler->getVarName();
+            $compiler->write(sprintf('$%s = ', $varName))
+                ->subcompile($expr)
+                ->raw(";\n")
+                ->write(sprintf('@trigger_error($%s', $varName));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $compiler
             ->raw('.')
+<<<<<<< HEAD
             ->string(\sprintf(' in "%s" at line %d.', $this->getTemplateName(), $this->getTemplateLine()))
             ->raw(");\n")
+=======
+            ->string(sprintf(' ("%s" at line %d).', $this->getTemplateName(), $this->getTemplateLine()))
+            ->raw(", E_USER_DEPRECATED);\n")
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         ;
     }
 }

@@ -18,9 +18,17 @@ use Symfony\Component\DependencyInjection\Container;
  */
 class ContainerBag extends FrozenParameterBag implements ContainerBagInterface
 {
+<<<<<<< HEAD
     public function __construct(
         private Container $container,
     ) {
+=======
+    private Container $container;
+
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function all(): array

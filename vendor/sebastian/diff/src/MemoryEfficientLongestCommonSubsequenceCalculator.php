@@ -20,7 +20,11 @@ use function max;
 final class MemoryEfficientLongestCommonSubsequenceCalculator implements LongestCommonSubsequenceCalculator
 {
     /**
+<<<<<<< HEAD
      * @inheritDoc
+=======
+     * {@inheritdoc}
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function calculate(array $from, array $to): array
     {
@@ -61,7 +65,11 @@ final class MemoryEfficientLongestCommonSubsequenceCalculator implements Longest
 
         return array_merge(
             $this->calculate($fromStart, $toStart),
+<<<<<<< HEAD
             $this->calculate($fromEnd, $toEnd),
+=======
+            $this->calculate($fromEnd, $toEnd)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         );
     }
 
@@ -78,11 +86,15 @@ final class MemoryEfficientLongestCommonSubsequenceCalculator implements Longest
                 if ($from[$i] === $to[$j]) {
                     $current[$j + 1] = $prev[$j] + 1;
                 } else {
+<<<<<<< HEAD
                     /**
                      * @noinspection PhpConditionCanBeReplacedWithMinMaxCallInspection
                      *
                      * We do not use max() here to avoid the function call overhead
                      */
+=======
+                    // don't use max() to avoid function call overhead
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     if ($current[$j] > $prev[$j + 1]) {
                         $current[$j + 1] = $current[$j];
                     } else {

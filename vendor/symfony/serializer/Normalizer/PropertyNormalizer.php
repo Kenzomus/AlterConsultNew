@@ -34,8 +34,15 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
  *
  * @author Matthieu Napoli <matthieu@mnapoli.fr>
  * @author Kévin Dunglas <dunglas@gmail.com>
+<<<<<<< HEAD
  */
 final class PropertyNormalizer extends AbstractObjectNormalizer
+=======
+ *
+ * @final since Symfony 6.3
+ */
+class PropertyNormalizer extends AbstractObjectNormalizer
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     public const NORMALIZE_PUBLIC = 1;
     public const NORMALIZE_PROTECTED = 2;
@@ -57,20 +64,50 @@ final class PropertyNormalizer extends AbstractObjectNormalizer
 
     public function getSupportedTypes(?string $format): array
     {
+<<<<<<< HEAD
         return ['object' => true];
     }
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+=======
+        return ['object' => __CLASS__ === static::class || $this->hasCacheableSupportsMethod()];
+    }
+
+    /**
+     * @param array $context
+     */
+    public function supportsNormalization(mixed $data, ?string $format = null /* , array $context = [] */): bool
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return parent::supportsNormalization($data, $format) && $this->supports($data::class);
     }
 
+<<<<<<< HEAD
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+=======
+    /**
+     * @param array $context
+     */
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null /* , array $context = [] */): bool
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return parent::supportsDenormalization($data, $type, $format) && $this->supports($type);
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @deprecated since Symfony 6.3, use "getSupportedTypes()" instead
+     */
+    public function hasCacheableSupportsMethod(): bool
+    {
+        trigger_deprecation('symfony/serializer', '6.3', 'The "%s()" method is deprecated, implement "%s::getSupportedTypes()" instead.', __METHOD__, get_debug_type($this));
+
+        return __CLASS__ === static::class;
+    }
+
+    /**
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Checks if the given class has any non-static property.
      */
     private function supports(string $class): bool
@@ -170,7 +207,14 @@ final class PropertyNormalizer extends AbstractObjectNormalizer
         return $reflectionProperty->getValue($object);
     }
 
+<<<<<<< HEAD
     protected function setAttributeValue(object $object, string $attribute, mixed $value, ?string $format = null, array $context = []): void
+=======
+    /**
+     * @return void
+     */
+    protected function setAttributeValue(object $object, string $attribute, mixed $value, ?string $format = null, array $context = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         try {
             $reflectionProperty = $this->getReflectionProperty($object, $attribute);

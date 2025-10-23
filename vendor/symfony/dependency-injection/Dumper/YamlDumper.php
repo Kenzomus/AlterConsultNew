@@ -312,7 +312,11 @@ class YamlDumper extends Dumper
         } elseif ($value instanceof Definition) {
             return new TaggedValue('service', (new Parser())->parse("_:\n".$this->addService('_', $value), Yaml::PARSE_CUSTOM_TAGS)['_']['_']);
         } elseif ($value instanceof \UnitEnum) {
+<<<<<<< HEAD
             return new TaggedValue('php/enum', \sprintf('%s::%s', $value::class, $value->name));
+=======
+            return new TaggedValue('php/const', \sprintf('%s::%s', $value::class, $value->name));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         } elseif ($value instanceof AbstractArgument) {
             return new TaggedValue('abstract', $value->getText());
         } elseif (\is_object($value) || \is_resource($value)) {

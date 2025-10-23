@@ -36,8 +36,15 @@ class RequestEvent extends KernelEvent
 
     /**
      * Sets a response and stops event propagation.
+<<<<<<< HEAD
      */
     public function setResponse(Response $response): void
+=======
+     *
+     * @return void
+     */
+    public function setResponse(Response $response)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->response = $response;
 
@@ -46,8 +53,11 @@ class RequestEvent extends KernelEvent
 
     /**
      * Returns whether a response was set.
+<<<<<<< HEAD
      *
      * @psalm-assert-if-true !null $this->getResponse()
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function hasResponse(): bool
     {

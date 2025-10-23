@@ -38,6 +38,7 @@ use Symfony\Component\Validator\Mapping\TraversalStrategy;
 #[AsCommand(name: 'debug:validator', description: 'Display validation constraints for classes')]
 class DebugCommand extends Command
 {
+<<<<<<< HEAD
     public function __construct(
         private MetadataFactoryInterface $validator,
     ) {
@@ -45,6 +46,21 @@ class DebugCommand extends Command
     }
 
     protected function configure(): void
+=======
+    private MetadataFactoryInterface $validator;
+
+    public function __construct(MetadataFactoryInterface $validator)
+    {
+        parent::__construct();
+
+        $this->validator = $validator;
+    }
+
+    /**
+     * @return void
+     */
+    protected function configure()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this
             ->addArgument('class', InputArgument::REQUIRED, 'A fully qualified class name or a path')

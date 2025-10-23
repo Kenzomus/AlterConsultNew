@@ -40,7 +40,11 @@ final class Validation
     /**
      * Creates a callable that returns true/false instead of throwing validation exceptions.
      *
+<<<<<<< HEAD
      * @return callable(mixed $value, ?ConstraintViolationListInterface &$violations = null): bool
+=======
+     * @return callable(mixed $value, ConstraintViolationListInterface &$violations = null): bool
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public static function createIsValidCallable(Constraint|ValidatorInterface|null $constraintOrValidator = null, Constraint ...$constraints): callable
     {

@@ -34,7 +34,11 @@ class HeaderUtils
      * Example:
      *
      *     HeaderUtils::split('da, en-gb;q=0.8', ',;')
+<<<<<<< HEAD
      *     # returns [['da'], ['en-gb', 'q=0.8']]
+=======
+     *     // => ['da'], ['en-gb', 'q=0.8']]
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      *
      * @param string $separators List of characters to split on, ordered by
      *                           precedence, e.g. ',', ';=', or ',;='

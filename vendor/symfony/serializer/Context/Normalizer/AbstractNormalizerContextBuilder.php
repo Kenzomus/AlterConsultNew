@@ -104,6 +104,7 @@ abstract class AbstractNormalizerContextBuilder implements ContextBuilderInterfa
     }
 
     /**
+<<<<<<< HEAD
      * @deprecated since Symfony 7.1, use withDefaultConstructorArguments(?array $defaultConstructorArguments)" instead
      *
      * @param array<class-string, array<string, mixed>>|null $defaultContructorArguments
@@ -116,6 +117,8 @@ abstract class AbstractNormalizerContextBuilder implements ContextBuilderInterfa
     }
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Configures a hashmap of classes containing hashmaps of constructor argument => default value.
      *
      * The names need to match the parameter names in the constructor arguments.
@@ -130,6 +133,17 @@ abstract class AbstractNormalizerContextBuilder implements ContextBuilderInterfa
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Deprecated in Symfony 7.1, use withDefaultConstructorArguments() instead.
+     */
+    public function withDefaultContructorArguments(?array $defaultContructorArguments): static
+    {
+        return self::withDefaultConstructorArguments($defaultContructorArguments);
+    }
+
+    /**
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Configures an hashmap of field name => callable to normalize this field.
      *
      * The callable is called if the field is encountered with the arguments:

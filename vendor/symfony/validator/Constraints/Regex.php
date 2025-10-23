@@ -11,12 +11,20 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\InvalidArgumentException;
 
 /**
+<<<<<<< HEAD
  * Validates that a value matches a regular expression.
+=======
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
@@ -29,6 +37,7 @@ class Regex extends Constraint
         self::REGEX_FAILED_ERROR => 'REGEX_FAILED_ERROR',
     ];
 
+<<<<<<< HEAD
     public string $message = 'This value is not valid.';
     public ?string $pattern = null;
     public ?string $htmlPattern = null;
@@ -44,6 +53,20 @@ class Regex extends Constraint
      * @param array<string,mixed>|null        $options
      */
     #[HasNamedArguments]
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $message = 'This value is not valid.';
+    public $pattern;
+    public $htmlPattern;
+    public $match = true;
+    /** @var callable|null */
+    public $normalizer;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         string|array|null $pattern,
         ?string $message = null,
@@ -52,6 +75,7 @@ class Regex extends Constraint
         ?callable $normalizer = null,
         ?array $groups = null,
         mixed $payload = null,
+<<<<<<< HEAD
         ?array $options = null,
     ) {
         if (\is_array($pattern)) {
@@ -65,6 +89,13 @@ class Regex extends Constraint
                 $options = [];
             }
 
+=======
+        array $options = [],
+    ) {
+        if (\is_array($pattern)) {
+            $options = array_merge($pattern, $options);
+        } elseif (null !== $pattern) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $options['value'] = $pattern;
         }
 
@@ -101,7 +132,13 @@ class Regex extends Constraint
     {
         // If htmlPattern is specified, use it
         if (null !== $this->htmlPattern) {
+<<<<<<< HEAD
             return $this->htmlPattern ?: null;
+=======
+            return empty($this->htmlPattern)
+                ? null
+                : $this->htmlPattern;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         // Quit if delimiters not at very beginning/end (e.g. when options are passed)
@@ -130,6 +167,12 @@ class Regex extends Constraint
         $pattern = '^' === $pattern[0] ? substr($pattern, 1) : '.*'.$pattern;
 
         // Trim trailing $, otherwise append .*
+<<<<<<< HEAD
         return '$' === $pattern[\strlen($pattern) - 1] ? substr($pattern, 0, -1) : $pattern.'.*';
+=======
+        $pattern = '$' === $pattern[\strlen($pattern) - 1] ? substr($pattern, 0, -1) : $pattern.'.*';
+
+        return $pattern;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

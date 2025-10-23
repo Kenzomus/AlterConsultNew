@@ -389,7 +389,11 @@ Sample composer.json for a project that relies on packages that use composer-sca
   "name": "my/project",
   "require": {
     "drupal/core-composer-scaffold": "*",
+<<<<<<< HEAD
     "composer/installers": "^2.3",
+=======
+    "composer/installers": "^2.0",
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     "cweagans/composer-patches": "^1.6.5",
     "drupal/core": "^8.8.x-dev",
     "service-provider/d8-scaffold-files": "^1"
@@ -450,6 +454,10 @@ Sample composer.json for composer-scaffold files in drupal/assets:
         "[web-root]/index.php": "assets/index.php",
         "[web-root]/robots.txt": "assets/robots.txt",
         "[web-root]/update.php": "assets/update.php",
+<<<<<<< HEAD
+=======
+        "[web-root]/web.config": "assets/web.config"
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
       }
     }
   }

@@ -11,14 +11,22 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\LogicException;
 
 /**
+<<<<<<< HEAD
  * Validates that the given string does not contain characters used in spoofing security attacks.
  *
  * @see https://www.php.net/manual/en/class.spoofchecker.php
+=======
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Mathieu Lechat <mathieu.lechat@les-tilleuls.coop>
  */
@@ -83,6 +91,7 @@ class NoSuspiciousCharacters extends Constraint
     public ?array $locales = null;
 
     /**
+<<<<<<< HEAD
      * @param array<string,mixed>|null                    $options
      * @param int-mask-of<self::CHECK_*>|null             $checks           A bitmask of the checks to perform on the string (defaults to all checks)
      * @param int-mask-of<self::RESTRICTION_LEVEL_*>|null $restrictionLevel Configures the set of acceptable characters for the validated string through a specified "level" (defaults to
@@ -91,6 +100,11 @@ class NoSuspiciousCharacters extends Constraint
      * @param string[]|null                               $groups
      */
     #[HasNamedArguments]
+=======
+     * @param int-mask-of<self::CHECK_*>|null $checks
+     * @param self::RESTRICTION_LEVEL_*|null  $restrictionLevel
+     */
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         ?array $options = null,
         ?string $restrictionLevelMessage = null,
@@ -107,10 +121,13 @@ class NoSuspiciousCharacters extends Constraint
             throw new LogicException('The intl extension is required to use the NoSuspiciousCharacters constraint.');
         }
 
+<<<<<<< HEAD
         if (\is_array($options)) {
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($options, $groups, $payload);
 
         $this->restrictionLevelMessage = $restrictionLevelMessage ?? $this->restrictionLevelMessage;

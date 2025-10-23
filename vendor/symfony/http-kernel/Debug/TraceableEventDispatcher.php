@@ -25,12 +25,18 @@ class TraceableEventDispatcher extends BaseTraceableEventDispatcher
 {
     protected function beforeDispatch(string $eventName, object $event): void
     {
+<<<<<<< HEAD
         if ($this->disabled?->__invoke()) {
             return;
         }
         switch ($eventName) {
             case KernelEvents::REQUEST:
                 $event->getRequest()->attributes->set('_stopwatch_token', bin2hex(random_bytes(3)));
+=======
+        switch ($eventName) {
+            case KernelEvents::REQUEST:
+                $event->getRequest()->attributes->set('_stopwatch_token', substr(hash('sha256', uniqid(mt_rand(), true)), 0, 6));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $this->stopwatch->openSection();
                 break;
             case KernelEvents::VIEW:
@@ -60,9 +66,12 @@ class TraceableEventDispatcher extends BaseTraceableEventDispatcher
 
     protected function afterDispatch(string $eventName, object $event): void
     {
+<<<<<<< HEAD
         if ($this->disabled?->__invoke()) {
             return;
         }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         switch ($eventName) {
             case KernelEvents::CONTROLLER_ARGUMENTS:
                 $this->stopwatch->start('controller', 'section');

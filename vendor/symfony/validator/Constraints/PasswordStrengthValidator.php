@@ -36,16 +36,27 @@ final class PasswordStrengthValidator extends ConstraintValidator
             return;
         }
 
+<<<<<<< HEAD
         if (!\is_string($value) && !$value instanceof \Stringable) {
             throw new UnexpectedValueException($value, 'string');
         }
         $passwordStrengthEstimator = $this->passwordStrengthEstimator ?? self::estimateStrength(...);
         $strength = $passwordStrengthEstimator((string) $value);
+=======
+        if (!\is_string($value)) {
+            throw new UnexpectedValueException($value, 'string');
+        }
+        $passwordStrengthEstimator = $this->passwordStrengthEstimator ?? self::estimateStrength(...);
+        $strength = $passwordStrengthEstimator($value);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         if ($strength < $constraint->minScore) {
             $this->context->buildViolation($constraint->message)
                 ->setCode(PasswordStrength::PASSWORD_STRENGTH_ERROR)
+<<<<<<< HEAD
                 ->setParameter('{{ strength }}', $strength)
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ->addViolation();
         }
     }
@@ -57,7 +68,11 @@ final class PasswordStrengthValidator extends ConstraintValidator
      *
      * @return PasswordStrength::STRENGTH_*
      */
+<<<<<<< HEAD
     public static function estimateStrength(#[\SensitiveParameter] string $password): int
+=======
+    private static function estimateStrength(#[\SensitiveParameter] string $password): int
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$length = \strlen($password)) {
             return PasswordStrength::STRENGTH_VERY_WEAK;

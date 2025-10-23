@@ -15,15 +15,26 @@ use Twig\Environment;
 use Twig\Node\BlockReferenceNode;
 use Twig\Node\Expression\BlockReferenceExpression;
 use Twig\Node\Expression\ConstantExpression;
+<<<<<<< HEAD
 use Twig\Node\Expression\FunctionExpression;
 use Twig\Node\Expression\GetAttrExpression;
 use Twig\Node\Expression\ParentExpression;
 use Twig\Node\Expression\Variable\ContextVariable;
+=======
+use Twig\Node\Expression\FilterExpression;
+use Twig\Node\Expression\FunctionExpression;
+use Twig\Node\Expression\GetAttrExpression;
+use Twig\Node\Expression\NameExpression;
+use Twig\Node\Expression\ParentExpression;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Node\ForNode;
 use Twig\Node\IncludeNode;
 use Twig\Node\Node;
 use Twig\Node\PrintNode;
+<<<<<<< HEAD
 use Twig\Node\TextNode;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 /**
  * Tries to optimize the AST.
@@ -43,14 +54,22 @@ final class OptimizerNodeVisitor implements NodeVisitorInterface
     public const OPTIMIZE_NONE = 0;
     public const OPTIMIZE_FOR = 2;
     public const OPTIMIZE_RAW_FILTER = 4;
+<<<<<<< HEAD
     public const OPTIMIZE_TEXT_NODES = 8;
 
     private $loops = [];
     private $loopsTargets = [];
+=======
+
+    private $loops = [];
+    private $loopsTargets = [];
+    private $optimizers;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @param int $optimizers The optimizer mode
      */
+<<<<<<< HEAD
     public function __construct(
         private int $optimizers = -1,
     ) {
@@ -65,6 +84,15 @@ final class OptimizerNodeVisitor implements NodeVisitorInterface
         if (-1 !== $optimizers && self::OPTIMIZE_TEXT_NODES === (self::OPTIMIZE_TEXT_NODES & $optimizers)) {
             trigger_deprecation('twig/twig', '3.12', 'The "Twig\NodeVisitor\OptimizerNodeVisitor::OPTIMIZE_TEXT_NODES" option is deprecated and does nothing.');
         }
+=======
+    public function __construct(int $optimizers = -1)
+    {
+        if ($optimizers > (self::OPTIMIZE_FOR | self::OPTIMIZE_RAW_FILTER)) {
+            throw new \InvalidArgumentException(sprintf('Optimizer mode "%s" is not valid.', $optimizers));
+        }
+
+        $this->optimizers = $optimizers;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function enterNode(Node $node, Environment $env): Node
@@ -82,6 +110,13 @@ final class OptimizerNodeVisitor implements NodeVisitorInterface
             $this->leaveOptimizeFor($node);
         }
 
+<<<<<<< HEAD
+=======
+        if (self::OPTIMIZE_RAW_FILTER === (self::OPTIMIZE_RAW_FILTER & $this->optimizers)) {
+            $node = $this->optimizeRawFilter($node);
+        }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $node = $this->optimizePrintNode($node);
 
         return $node;
@@ -101,11 +136,14 @@ final class OptimizerNodeVisitor implements NodeVisitorInterface
         }
 
         $exprNode = $node->getNode('expr');
+<<<<<<< HEAD
 
         if ($exprNode instanceof ConstantExpression && \is_string($exprNode->getAttribute('value'))) {
             return new TextNode($exprNode->getAttribute('value'), $exprNode->getTemplateLine());
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (
             $exprNode instanceof BlockReferenceExpression
             || $exprNode instanceof ParentExpression
@@ -119,6 +157,21 @@ final class OptimizerNodeVisitor implements NodeVisitorInterface
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Removes "raw" filters.
+     */
+    private function optimizeRawFilter(Node $node): Node
+    {
+        if ($node instanceof FilterExpression && 'raw' == $node->getNode('filter')->getAttribute('value')) {
+            return $node->getNode('node');
+        }
+
+        return $node;
+    }
+
+    /**
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Optimizes "for" tag by removing the "loop" variable creation whenever possible.
      */
     private function enterOptimizeFor(Node $node): void
@@ -137,13 +190,21 @@ final class OptimizerNodeVisitor implements NodeVisitorInterface
         // when do we need to add the loop variable back?
 
         // the loop variable is referenced for the current loop
+<<<<<<< HEAD
         elseif ($node instanceof ContextVariable && 'loop' === $node->getAttribute('name')) {
+=======
+        elseif ($node instanceof NameExpression && 'loop' === $node->getAttribute('name')) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $node->setAttribute('always_defined', true);
             $this->addLoopToCurrent();
         }
 
         // optimize access to loop targets
+<<<<<<< HEAD
         elseif ($node instanceof ContextVariable && \in_array($node->getAttribute('name'), $this->loopsTargets, true)) {
+=======
+        elseif ($node instanceof NameExpression && \in_array($node->getAttribute('name'), $this->loopsTargets)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $node->setAttribute('always_defined', true);
         }
 
@@ -173,7 +234,11 @@ final class OptimizerNodeVisitor implements NodeVisitorInterface
                 || 'parent' === $node->getNode('attribute')->getAttribute('value')
             )
             && (true === $this->loops[0]->getAttribute('with_loop')
+<<<<<<< HEAD
              || ($node->getNode('node') instanceof ContextVariable
+=======
+             || ($node->getNode('node') instanceof NameExpression
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                  && 'loop' === $node->getNode('node')->getAttribute('name')
              )
             )

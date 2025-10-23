@@ -78,7 +78,15 @@ class ClassMetadata implements ClassMetadataInterface
 
     public function getReflectionClass(): \ReflectionClass
     {
+<<<<<<< HEAD
         return $this->reflClass ??= new \ReflectionClass($this->getName());
+=======
+        if (!$this->reflClass) {
+            $this->reflClass = new \ReflectionClass($this->getName());
+        }
+
+        return $this->reflClass;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getClassDiscriminatorMapping(): ?ClassDiscriminatorMapping
@@ -86,8 +94,16 @@ class ClassMetadata implements ClassMetadataInterface
         return $this->classDiscriminatorMapping;
     }
 
+<<<<<<< HEAD
     public function setClassDiscriminatorMapping(?ClassDiscriminatorMapping $mapping): void
     {
+=======
+    public function setClassDiscriminatorMapping(?ClassDiscriminatorMapping $mapping = null): void
+    {
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/serializer', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->classDiscriminatorMapping = $mapping;
     }
 

@@ -51,7 +51,11 @@ class BundleExtension extends Extension implements PrependExtensionInterface
             $this->subject->prependExtension($configurator, $container);
         };
 
+<<<<<<< HEAD
         $this->executeConfiguratorCallback($container, $callback, $this->subject, true);
+=======
+        $this->executeConfiguratorCallback($container, $callback, $this->subject);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function load(array $configs, ContainerBuilder $container): void

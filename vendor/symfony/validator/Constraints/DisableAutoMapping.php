@@ -11,21 +11,33 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 
 /**
  * Disables auto mapping.
  *
+<<<<<<< HEAD
  * Using the attribute on a property has higher precedence than using it on a class,
  * which has higher precedence than any configuration that might be defined outside the class.
  *
+=======
+ * Using the annotations on a property has higher precedence than using it on a class,
+ * which has higher precedence than any configuration that might be defined outside the class.
+ *
+ * @Annotation
+ *
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::TARGET_CLASS)]
 class DisableAutoMapping extends Constraint
 {
+<<<<<<< HEAD
     /**
      * @param array<string,mixed>|null $options
      */
@@ -36,11 +48,19 @@ class DisableAutoMapping extends Constraint
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
         }
 
+=======
+    public function __construct(?array $options = null)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (\is_array($options) && \array_key_exists('groups', $options)) {
             throw new ConstraintDefinitionException(\sprintf('The option "groups" is not supported by the constraint "%s".', __CLASS__));
         }
 
+<<<<<<< HEAD
         parent::__construct($options, null, $payload);
+=======
+        parent::__construct($options);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getTargets(): string|array

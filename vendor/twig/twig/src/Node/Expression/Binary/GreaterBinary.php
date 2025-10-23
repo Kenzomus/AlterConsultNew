@@ -12,9 +12,14 @@
 namespace Twig\Node\Expression\Binary;
 
 use Twig\Compiler;
+<<<<<<< HEAD
 use Twig\Node\Expression\ReturnBoolInterface;
 
 class GreaterBinary extends AbstractBinary implements ReturnBoolInterface
+=======
+
+class GreaterBinary extends AbstractBinary
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     public function compile(Compiler $compiler): void
     {
@@ -25,7 +30,11 @@ class GreaterBinary extends AbstractBinary implements ReturnBoolInterface
         }
 
         $compiler
+<<<<<<< HEAD
             ->raw('(1 === CoreExtension::compare(')
+=======
+            ->raw('(1 === twig_compare(')
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ->subcompile($this->getNode('left'))
             ->raw(', ')
             ->subcompile($this->getNode('right'))

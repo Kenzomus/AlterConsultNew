@@ -152,6 +152,7 @@ final class XmlEncoderContextBuilder implements ContextBuilderInterface
     {
         return $this->with(XmlEncoder::CDATA_WRAPPING, $cdataWrapping);
     }
+<<<<<<< HEAD
 
     /**
      * Configures the pattern used to evaluate if a CDATA section should be added.
@@ -168,4 +169,6 @@ final class XmlEncoderContextBuilder implements ContextBuilderInterface
     {
         return $this->with(XmlEncoder::IGNORE_EMPTY_ATTRIBUTES, $ignoreEmptyAttributes);
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

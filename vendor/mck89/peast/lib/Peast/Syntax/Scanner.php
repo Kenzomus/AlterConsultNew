@@ -614,7 +614,11 @@ class Scanner
      * 
      * @return $this
      */
+<<<<<<< HEAD
     public function setScanPosition(Position $position)
+=======
+    public function setScanPosition(Position $position = null)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->line = $position->getLine();
         $this->column = $position->getColumn();
@@ -976,6 +980,7 @@ class Scanner
     }
     
     /**
+<<<<<<< HEAD
      * Checks if the given position follows a slash.
      * 
      * @param Position $position  Position to check
@@ -1006,6 +1011,25 @@ class Scanner
             else {
                 break;
             }
+=======
+     * Checks if the consumed or the scanned position follow a slash.
+     * 
+     * @param Position $position  Additional position to check
+     * 
+     * @return bool
+     */
+    protected function isAfterSlash($position = null)
+    {
+        $consumedIndex = $this->getPosition()->getIndex();
+        $checkIndices = array($consumedIndex, $consumedIndex + 1);
+        if ($position) {
+            $checkIndices[] = $position->getIndex() - 1;
+        }
+        foreach ($checkIndices as $i) {
+            if ($i >= 0 && $this->charAt($i) === "/") {
+                return true;
+            }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
         return false;
     }

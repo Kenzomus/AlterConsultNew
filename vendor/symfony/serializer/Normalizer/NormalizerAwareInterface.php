@@ -18,6 +18,13 @@ interface NormalizerAwareInterface
 {
     /**
      * Sets the owning Normalizer object.
+<<<<<<< HEAD
      */
     public function setNormalizer(NormalizerInterface $normalizer): void;
+=======
+     *
+     * @return void
+     */
+    public function setNormalizer(NormalizerInterface $normalizer);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

@@ -39,7 +39,11 @@ class XmlFileLoader extends FileLoader
 {
     public const NS = 'http://symfony.com/schema/dic/services';
 
+<<<<<<< HEAD
     protected bool $autoRegisterAliasesForSinglyImplementedInterfaces = false;
+=======
+    protected $autoRegisterAliasesForSinglyImplementedInterfaces = false;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     public function load(mixed $resource, ?string $type = null): mixed
     {
@@ -351,10 +355,17 @@ class XmlFileLoader extends FileLoader
         foreach ($tags as $tag) {
             $tagNameComesFromAttribute = $tag->childElementCount || '' === $tag->nodeValue;
             if ('' === $tagName = $tagNameComesFromAttribute ? $tag->getAttribute('name') : $tag->nodeValue) {
+<<<<<<< HEAD
                 throw new InvalidArgumentException(\sprintf('The tag name for service "%s" in "%s" must be a non-empty string.', $service->getAttribute('id'), $file));
             }
 
             $parameters = $this->getTagAttributes($tag, \sprintf('The attribute name of tag "%s" for service "%s" in %s must be a non-empty string.', $tagName, $service->getAttribute('id'), $file));
+=======
+                throw new InvalidArgumentException(\sprintf('The tag name for service "%s" in "%s" must be a non-empty string.', (string) $service->getAttribute('id'), $file));
+            }
+
+            $parameters = $this->getTagAttributes($tag, \sprintf('The attribute name of tag "%s" for service "%s" in %s must be a non-empty string.', $tagName, (string) $service->getAttribute('id'), $file));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             foreach ($tag->attributes as $name => $node) {
                 if ($tagNameComesFromAttribute && 'name' === $name) {
                     continue;
@@ -405,7 +416,11 @@ class XmlFileLoader extends FileLoader
 
         if ($callable = $this->getChildren($service, 'from-callable')) {
             if ($definition instanceof ChildDefinition) {
+<<<<<<< HEAD
                 throw new InvalidArgumentException(\sprintf('Attribute "parent" is unsupported when using "<from-callable>" on service "%s".', $service->getAttribute('id')));
+=======
+                throw new InvalidArgumentException(\sprintf('Attribute "parent" is unsupported when using "<from-callable>" on service "%s".', (string) $service->getAttribute('id')));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
 
             foreach ([
@@ -418,7 +433,11 @@ class XmlFileLoader extends FileLoader
                 'Tag "<call>"' => 'getMethodCalls',
             ] as $key => $method) {
                 if ($definition->$method()) {
+<<<<<<< HEAD
                     throw new InvalidArgumentException($key.\sprintf(' is unsupported when using "<from-callable>" on service "%s".', $service->getAttribute('id')));
+=======
+                    throw new InvalidArgumentException($key.\sprintf(' is unsupported when using "<from-callable>" on service "%s".', (string) $service->getAttribute('id')));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 }
             }
 
@@ -564,6 +583,7 @@ class XmlFileLoader extends FileLoader
                 $key = $arg->getAttribute('key');
             }
 
+<<<<<<< HEAD
             switch ($arg->getAttribute('key-type')) {
                 case 'binary':
                     if (false === $key = base64_decode($key, true)) {
@@ -579,6 +599,8 @@ class XmlFileLoader extends FileLoader
                     break;
             }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $trim = $arg->hasAttribute('trim') && XmlUtils::phpize($arg->getAttribute('trim'));
             $onInvalid = $arg->getAttribute('on-invalid');
             $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
@@ -628,11 +650,22 @@ class XmlFileLoader extends FileLoader
                     break;
                 case 'service_locator':
                     $arg = $this->getArgumentsAsPhp($arg, $name, $file);
+<<<<<<< HEAD
                     $arguments[$key] = new ServiceLocatorArgument($arg);
                     break;
                 case 'tagged':
                     trigger_deprecation('symfony/dependency-injection', '7.2', 'Type "tagged" is deprecated for tag <%s>, use "tagged_iterator" instead in "%s".', $name, $file);
                     // no break
+=======
+
+                    if (isset($arg[0])) {
+                        trigger_deprecation('symfony/dependency-injection', '6.3', 'Skipping "key" argument or using integers as values in a "service_locator" tag is deprecated. The keys will default to the IDs of the original services in 7.0.');
+                    }
+
+                    $arguments[$key] = new ServiceLocatorArgument($arg);
+                    break;
+                case 'tagged':
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 case 'tagged_iterator':
                 case 'tagged_locator':
                     $forLocator = 'tagged_locator' === $type;
@@ -855,9 +888,15 @@ EOF
             }
 
             // can it be handled by an extension?
+<<<<<<< HEAD
             if (!$this->prepend && !$this->container->hasExtension($node->namespaceURI)) {
                 $extensionNamespaces = array_filter(array_map(fn (ExtensionInterface $ext) => $ext->getNamespace(), $this->container->getExtensions()));
                 throw new InvalidArgumentException(UndefinedExtensionHandler::getErrorMessage($node->tagName, $file, $node->namespaceURI, $extensionNamespaces));
+=======
+            if (!$this->container->hasExtension($node->namespaceURI)) {
+                $extensionNamespaces = array_filter(array_map(fn (ExtensionInterface $ext) => $ext->getNamespace(), $this->container->getExtensions()));
+                throw new InvalidArgumentException(\sprintf('There is no extension able to load the configuration for "%s" (in "%s"). Looked for namespace "%s", found "%s".', $node->tagName, $file, $node->namespaceURI, $extensionNamespaces ? implode('", "', $extensionNamespaces) : 'none'));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
         }
     }
@@ -877,10 +916,15 @@ EOF
                 $values = [];
             }
 
+<<<<<<< HEAD
             $this->loadExtensionConfig($node->namespaceURI, $values);
         }
 
         $this->loadExtensionConfigs();
+=======
+            $this->container->loadFromExtension($node->namespaceURI, $values);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**

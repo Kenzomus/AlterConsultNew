@@ -42,7 +42,11 @@ class EnvPlaceholderParameterBag extends ParameterBag
                 }
             }
             if (!preg_match('/^(?:[-.\w\\\\]*+:)*+\w*+$/', $env)) {
+<<<<<<< HEAD
                 throw new InvalidArgumentException(\sprintf('The given env var name "%s" contains invalid characters (allowed characters: letters, digits, hyphens, backslashes and colons).', $name));
+=======
+                throw new InvalidArgumentException(\sprintf('Invalid %s name: only "word" characters are allowed.', $name));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
             if ($this->has($name) && null !== ($defaultValue = parent::get($name)) && !\is_string($defaultValue)) {
                 throw new RuntimeException(\sprintf('The default value of an env() parameter must be a string or null, but "%s" given to "%s".', get_debug_type($defaultValue), $name));
@@ -87,15 +91,29 @@ class EnvPlaceholderParameterBag extends ParameterBag
         return $this->unusedEnvPlaceholders;
     }
 
+<<<<<<< HEAD
     public function clearUnusedEnvPlaceholders(): void
+=======
+    /**
+     * @return void
+     */
+    public function clearUnusedEnvPlaceholders()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->unusedEnvPlaceholders = [];
     }
 
     /**
      * Merges the env placeholders of another EnvPlaceholderParameterBag.
+<<<<<<< HEAD
      */
     public function mergeEnvPlaceholders(self $bag): void
+=======
+     *
+     * @return void
+     */
+    public function mergeEnvPlaceholders(self $bag)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($newPlaceholders = $bag->getEnvPlaceholders()) {
             $this->envPlaceholders += $newPlaceholders;
@@ -116,8 +134,15 @@ class EnvPlaceholderParameterBag extends ParameterBag
 
     /**
      * Maps env prefixes to their corresponding PHP types.
+<<<<<<< HEAD
      */
     public function setProvidedTypes(array $providedTypes): void
+=======
+     *
+     * @return void
+     */
+    public function setProvidedTypes(array $providedTypes)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->providedTypes = $providedTypes;
     }
@@ -132,7 +157,14 @@ class EnvPlaceholderParameterBag extends ParameterBag
         return $this->providedTypes;
     }
 
+<<<<<<< HEAD
     public function resolve(): void
+=======
+    /**
+     * @return void
+     */
+    public function resolve()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($this->resolved) {
             return;

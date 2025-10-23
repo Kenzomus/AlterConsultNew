@@ -46,11 +46,16 @@ class InputOption
     public const VALUE_IS_ARRAY = 8;
 
     /**
+<<<<<<< HEAD
      * The option allows passing a negated variant (e.g. --ansi or --no-ansi).
+=======
+     * The option may have either positive or negative value (e.g. --ansi or --no-ansi).
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public const VALUE_NEGATABLE = 16;
 
     private string $name;
+<<<<<<< HEAD
     private ?string $shortcut;
     private int $mode;
     private string|int|bool|array|float|null $default;
@@ -58,11 +63,23 @@ class InputOption
     /**
      * @param string|array|null                                                             $shortcut        The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
      * @param int-mask-of<InputOption::*>|null                                              $mode            The option mode: One of the VALUE_* constants
+=======
+    private string|array|null $shortcut;
+    private int $mode;
+    private string|int|bool|array|float|null $default;
+    private array|\Closure $suggestedValues;
+    private string $description;
+
+    /**
+     * @param string|array|null                                                             $shortcut        The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
+     * @param int|null                                                                      $mode            The option mode: One of the VALUE_* constants
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @param string|bool|int|float|array|null                                              $default         The default value (must be null for self::VALUE_NONE)
      * @param array|\Closure(CompletionInput,CompletionSuggestions):list<string|Suggestion> $suggestedValues The values used for input completion
      *
      * @throws InvalidArgumentException If option mode is invalid or incompatible
      */
+<<<<<<< HEAD
     public function __construct(
         string $name,
         string|array|null $shortcut = null,
@@ -71,11 +88,19 @@ class InputOption
         string|bool|int|float|array|null $default = null,
         private array|\Closure $suggestedValues = [],
     ) {
+=======
+    public function __construct(string $name, string|array|null $shortcut = null, ?int $mode = null, string $description = '', string|bool|int|float|array|null $default = null, array|\Closure $suggestedValues = [])
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (str_starts_with($name, '--')) {
             $name = substr($name, 2);
         }
 
+<<<<<<< HEAD
         if (!$name) {
+=======
+        if (empty($name)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             throw new InvalidArgumentException('An option name cannot be empty.');
         }
 
@@ -105,6 +130,11 @@ class InputOption
         $this->name = $name;
         $this->shortcut = $shortcut;
         $this->mode = $mode;
+<<<<<<< HEAD
+=======
+        $this->description = $description;
+        $this->suggestedValues = $suggestedValues;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         if ($suggestedValues && !$this->acceptValue()) {
             throw new LogicException('Cannot set suggested values if the option does not accept a value.');
@@ -175,21 +205,34 @@ class InputOption
         return self::VALUE_IS_ARRAY === (self::VALUE_IS_ARRAY & $this->mode);
     }
 
+<<<<<<< HEAD
     /**
      * Returns true if the option allows passing a negated variant.
      *
      * @return bool true if mode is self::VALUE_NEGATABLE, false otherwise
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function isNegatable(): bool
     {
         return self::VALUE_NEGATABLE === (self::VALUE_NEGATABLE & $this->mode);
     }
 
     /**
+<<<<<<< HEAD
      * Sets the default value.
      */
     public function setDefault(string|bool|int|float|array|null $default): void
     {
+=======
+     * @return void
+     */
+    public function setDefault(string|bool|int|float|array|null $default = null)
+    {
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (self::VALUE_NONE === (self::VALUE_NONE & $this->mode) && null !== $default) {
             throw new LogicException('Cannot set a default value when using InputOption::VALUE_NONE mode.');
         }
@@ -221,16 +264,23 @@ class InputOption
         return $this->description;
     }
 
+<<<<<<< HEAD
     /**
      * Returns true if the option has values for input completion.
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function hasCompletion(): bool
     {
         return [] !== $this->suggestedValues;
     }
 
     /**
+<<<<<<< HEAD
      * Supplies suggestions when command resolves possible completion options for input.
+=======
+     * Adds suggestions to $suggestions for the current completion input.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      *
      * @see Command::complete()
      */

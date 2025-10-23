@@ -22,16 +22,27 @@ class Compiler
     private $lastLine;
     private $source;
     private $indentation;
+<<<<<<< HEAD
+=======
+    private $env;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private $debugInfo = [];
     private $sourceOffset;
     private $sourceLine;
     private $varNameSalt = 0;
+<<<<<<< HEAD
     private $didUseEcho = false;
     private $didUseEchoStack = [];
 
     public function __construct(
         private Environment $env,
     ) {
+=======
+
+    public function __construct(Environment $env)
+    {
+        $this->env = $env;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getEnvironment(): Environment
@@ -67,6 +78,7 @@ class Compiler
     public function compile(Node $node, int $indentation = 0)
     {
         $this->reset($indentation);
+<<<<<<< HEAD
         $this->didUseEchoStack[] = $this->didUseEcho;
 
         try {
@@ -81,6 +93,11 @@ class Compiler
         } finally {
             $this->didUseEcho = array_pop($this->didUseEchoStack);
         }
+=======
+        $node->compile($this);
+
+        return $this;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -88,6 +105,7 @@ class Compiler
      */
     public function subcompile(Node $node, bool $raw = true)
     {
+<<<<<<< HEAD
         if (!$raw) {
             $this->source .= str_repeat(' ', $this->indentation * 4);
         }
@@ -106,6 +124,15 @@ class Compiler
         } finally {
             $this->didUseEcho = array_pop($this->didUseEchoStack);
         }
+=======
+        if (false === $raw) {
+            $this->source .= str_repeat(' ', $this->indentation * 4);
+        }
+
+        $node->compile($this);
+
+        return $this;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -115,7 +142,10 @@ class Compiler
      */
     public function raw(string $string)
     {
+<<<<<<< HEAD
         $this->checkForEcho($string);
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->source .= $string;
 
         return $this;
@@ -129,7 +159,10 @@ class Compiler
     public function write(...$strings)
     {
         foreach ($strings as $string) {
+<<<<<<< HEAD
             $this->checkForEcho($string);
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->source .= str_repeat(' ', $this->indentation * 4).$string;
         }
 
@@ -143,7 +176,11 @@ class Compiler
      */
     public function string(string $value)
     {
+<<<<<<< HEAD
         $this->source .= \sprintf('"%s"', addcslashes($value, "\0\t\"\$\\"));
+=======
+        $this->source .= sprintf('"%s"', addcslashes($value, "\0\t\"\$\\"));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         return $this;
     }
@@ -170,7 +207,11 @@ class Compiler
         } elseif (\is_bool($value)) {
             $this->raw($value ? 'true' : 'false');
         } elseif (\is_array($value)) {
+<<<<<<< HEAD
             $this->raw('[');
+=======
+            $this->raw('array(');
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $first = true;
             foreach ($value as $key => $v) {
                 if (!$first) {
@@ -181,7 +222,11 @@ class Compiler
                 $this->raw(' => ');
                 $this->repr($v);
             }
+<<<<<<< HEAD
             $this->raw(']');
+=======
+            $this->raw(')');
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         } else {
             $this->string($value);
         }
@@ -195,7 +240,11 @@ class Compiler
     public function addDebugInfo(Node $node)
     {
         if ($node->getTemplateLine() != $this->lastLine) {
+<<<<<<< HEAD
             $this->write(\sprintf("// line %d\n", $node->getTemplateLine()));
+=======
+            $this->write(sprintf("// line %d\n", $node->getTemplateLine()));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
             $this->sourceLine += substr_count($this->source, "\n", $this->sourceOffset);
             $this->sourceOffset = \strlen($this->source);
@@ -243,6 +292,7 @@ class Compiler
 
     public function getVarName(): string
     {
+<<<<<<< HEAD
         return \sprintf('_v%d', $this->varNameSalt++);
     }
 
@@ -253,5 +303,8 @@ class Compiler
         }
 
         $this->didUseEcho = preg_match('/^\s*+(echo|print)\b/', $string, $m) ? $m[1] : false;
+=======
+        return sprintf('__internal_compile_%d', $this->varNameSalt++);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

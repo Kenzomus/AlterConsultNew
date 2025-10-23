@@ -22,6 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  *
+<<<<<<< HEAD
  * @internal
  */
 class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface
@@ -43,6 +44,36 @@ class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface
         private string|false|null $translationDomain = null,
     ) {
         $this->propertyPath = $propertyPath ?? '';
+=======
+ * @internal since version 2.5. Code against ConstraintViolationBuilderInterface instead.
+ */
+class ConstraintViolationBuilder implements ConstraintViolationBuilderInterface
+{
+    private ConstraintViolationList $violations;
+    private string|\Stringable $message;
+    private array $parameters;
+    private mixed $root;
+    private mixed $invalidValue;
+    private string $propertyPath;
+    private TranslatorInterface $translator;
+    private string|false|null $translationDomain;
+    private ?int $plural = null;
+    private ?Constraint $constraint;
+    private ?string $code = null;
+    private mixed $cause = null;
+
+    public function __construct(ConstraintViolationList $violations, ?Constraint $constraint, string|\Stringable $message, array $parameters, mixed $root, ?string $propertyPath, mixed $invalidValue, TranslatorInterface $translator, string|false|null $translationDomain = null)
+    {
+        $this->violations = $violations;
+        $this->message = $message;
+        $this->parameters = $parameters;
+        $this->root = $root;
+        $this->propertyPath = $propertyPath ?? '';
+        $this->invalidValue = $invalidValue;
+        $this->translator = $translator;
+        $this->translationDomain = $translationDomain;
+        $this->constraint = $constraint;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function atPath(string $path): static

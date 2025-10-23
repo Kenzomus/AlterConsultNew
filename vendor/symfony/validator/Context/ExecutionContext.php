@@ -33,10 +33,27 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @see ExecutionContextInterface
  *
+<<<<<<< HEAD
  * @internal
  */
 class ExecutionContext implements ExecutionContextInterface
 {
+=======
+ * @internal since version 2.5. Code against ExecutionContextInterface instead.
+ */
+class ExecutionContext implements ExecutionContextInterface
+{
+    private ValidatorInterface $validator;
+
+    /**
+     * The root value of the validated object graph.
+     */
+    private mixed $root;
+
+    private TranslatorInterface $translator;
+    private ?string $translationDomain;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * The violations generated in the current context.
      */
@@ -100,6 +117,7 @@ class ExecutionContext implements ExecutionContextInterface
 
     /**
      * @internal Called by {@link ExecutionContextFactory}. Should not be used in user code.
+<<<<<<< HEAD
      *
      * @param mixed $root the root value of the validated object graph
      */
@@ -109,6 +127,15 @@ class ExecutionContext implements ExecutionContextInterface
         private TranslatorInterface $translator,
         private string|false|null $translationDomain = null,
     ) {
+=======
+     */
+    public function __construct(ValidatorInterface $validator, mixed $root, TranslatorInterface $translator, ?string $translationDomain = null)
+    {
+        $this->validator = $validator;
+        $this->root = $root;
+        $this->translator = $translator;
+        $this->translationDomain = $translationDomain;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->violations = new ConstraintViolationList();
         $this->cachedObjectsRefs = new \SplObjectStorage();
     }
@@ -134,9 +161,13 @@ class ExecutionContext implements ExecutionContextInterface
     public function addViolation(string|\Stringable $message, array $parameters = []): void
     {
         $this->violations->add(new ConstraintViolation(
+<<<<<<< HEAD
             false === $this->translationDomain ?
                 strtr($message, $parameters) :
                 $this->translator->trans($message, $parameters, $this->translationDomain),
+=======
+            $this->translator->trans($message, $parameters, $this->translationDomain),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $message,
             $parameters,
             $this->root,

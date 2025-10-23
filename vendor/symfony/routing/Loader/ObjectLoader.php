@@ -44,6 +44,13 @@ abstract class ObjectLoader extends Loader
 
         $loaderObject = $this->getObject($parts[0]);
 
+<<<<<<< HEAD
+=======
+        if (!\is_object($loaderObject)) {
+            throw new \TypeError(\sprintf('"%s:getObject()" must return an object: "%s" returned.', static::class, get_debug_type($loaderObject)));
+        }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (!\is_callable([$loaderObject, $method])) {
             throw new \BadMethodCallException(\sprintf('Method "%s" not found on "%s" when importing routing resource "%s".', $method, get_debug_type($loaderObject), $resource));
         }

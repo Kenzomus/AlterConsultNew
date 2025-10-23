@@ -23,13 +23,32 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 abstract class AbstractSurrogate implements SurrogateInterface
 {
+<<<<<<< HEAD
+=======
+    protected $contentTypes;
+
+    /**
+     * @deprecated since Symfony 6.3
+     */
+    protected $phpEscapeMap = [
+        ['<?', '<%', '<s', '<S'],
+        ['<?php echo "<?"; ?>', '<?php echo "<%"; ?>', '<?php echo "<s"; ?>', '<?php echo "<S"; ?>'],
+    ];
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * @param array $contentTypes An array of content-type that should be parsed for Surrogate information
      *                            (default: text/html, text/xml, application/xhtml+xml, and application/xml)
      */
+<<<<<<< HEAD
     public function __construct(
         protected array $contentTypes = ['text/html', 'text/xml', 'application/xhtml+xml', 'application/xml'],
     ) {
+=======
+    public function __construct(array $contentTypes = ['text/html', 'text/xml', 'application/xhtml+xml', 'application/xml'])
+    {
+        $this->contentTypes = $contentTypes;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -49,7 +68,14 @@ abstract class AbstractSurrogate implements SurrogateInterface
         return str_contains($value, \sprintf('%s/1.0', strtoupper($this->getName())));
     }
 
+<<<<<<< HEAD
     public function addSurrogateCapability(Request $request): void
+=======
+    /**
+     * @return void
+     */
+    public function addSurrogateCapability(Request $request)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $current = $request->headers->get('Surrogate-Capability');
         $new = \sprintf('symfony="%s/1.0"', strtoupper($this->getName()));
@@ -95,8 +121,15 @@ abstract class AbstractSurrogate implements SurrogateInterface
 
     /**
      * Remove the Surrogate from the Surrogate-Control header.
+<<<<<<< HEAD
      */
     protected function removeFromControl(Response $response): void
+=======
+     *
+     * @return void
+     */
+    protected function removeFromControl(Response $response)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$response->headers->has('Surrogate-Control')) {
             return;

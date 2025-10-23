@@ -21,6 +21,7 @@ use Twig\Node\Node;
  */
 abstract class AbstractExpression extends Node
 {
+<<<<<<< HEAD
     public function isGenerator(): bool
     {
         return $this->hasAttribute('is_generator') && $this->getAttribute('is_generator');
@@ -40,4 +41,6 @@ abstract class AbstractExpression extends Node
     {
         return $this->hasAttribute('with_parentheses') && $this->getAttribute('with_parentheses');
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

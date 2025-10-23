@@ -34,8 +34,15 @@ interface SessionInterface
 
     /**
      * Sets the session ID.
+<<<<<<< HEAD
      */
     public function setId(string $id): void;
+=======
+     *
+     * @return void
+     */
+    public function setId(string $id);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Returns the session name.
@@ -44,8 +51,15 @@ interface SessionInterface
 
     /**
      * Sets the session name.
+<<<<<<< HEAD
      */
     public function setName(string $name): void;
+=======
+     *
+     * @return void
+     */
+    public function setName(string $name);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Invalidates the current session.
@@ -78,8 +92,15 @@ interface SessionInterface
      * This method is generally not required for real sessions as
      * the session will be automatically saved at the end of
      * code execution.
+<<<<<<< HEAD
      */
     public function save(): void;
+=======
+     *
+     * @return void
+     */
+    public function save();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Checks if an attribute is defined.
@@ -93,8 +114,15 @@ interface SessionInterface
 
     /**
      * Sets an attribute.
+<<<<<<< HEAD
      */
     public function set(string $name, mixed $value): void;
+=======
+     *
+     * @return void
+     */
+    public function set(string $name, mixed $value);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Returns attributes.
@@ -103,8 +131,15 @@ interface SessionInterface
 
     /**
      * Sets attributes.
+<<<<<<< HEAD
      */
     public function replace(array $attributes): void;
+=======
+     *
+     * @return void
+     */
+    public function replace(array $attributes);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Removes an attribute.
@@ -115,8 +150,15 @@ interface SessionInterface
 
     /**
      * Clears all attributes.
+<<<<<<< HEAD
      */
     public function clear(): void;
+=======
+     *
+     * @return void
+     */
+    public function clear();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Checks if the session was started.
@@ -125,8 +167,15 @@ interface SessionInterface
 
     /**
      * Registers a SessionBagInterface with the session.
+<<<<<<< HEAD
      */
     public function registerBag(SessionBagInterface $bag): void;
+=======
+     *
+     * @return void
+     */
+    public function registerBag(SessionBagInterface $bag);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Gets a bag instance by name.

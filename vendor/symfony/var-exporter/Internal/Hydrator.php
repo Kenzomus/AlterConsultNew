@@ -27,6 +27,7 @@ class Hydrator
     public static array $simpleHydrators = [];
     public static array $propertyScopes = [];
 
+<<<<<<< HEAD
     public function __construct(
         public readonly Registry $registry,
         public readonly ?Values $values,
@@ -34,6 +35,21 @@ class Hydrator
         public readonly mixed $value,
         public readonly array $wakeups,
     ) {
+=======
+    public $registry;
+    public $values;
+    public $properties;
+    public $value;
+    public $wakeups;
+
+    public function __construct(?Registry $registry, ?Values $values, array $properties, $value, array $wakeups)
+    {
+        $this->registry = $registry;
+        $this->values = $values;
+        $this->properties = $properties;
+        $this->value = $value;
+        $this->wakeups = $wakeups;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public static function hydrate($objects, $values, $properties, $value, $wakeups)
@@ -259,7 +275,14 @@ class Hydrator
         };
     }
 
+<<<<<<< HEAD
     public static function getPropertyScopes($class): array
+=======
+    /**
+     * @return array
+     */
+    public static function getPropertyScopes($class)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $propertyScopes = [];
         $r = new \ReflectionClass($class);

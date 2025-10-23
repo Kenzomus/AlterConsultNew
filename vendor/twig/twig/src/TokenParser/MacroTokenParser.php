@@ -13,12 +13,15 @@ namespace Twig\TokenParser;
 
 use Twig\Error\SyntaxError;
 use Twig\Node\BodyNode;
+<<<<<<< HEAD
 use Twig\Node\EmptyNode;
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\Unary\NegUnary;
 use Twig\Node\Expression\Unary\PosUnary;
 use Twig\Node\Expression\Variable\LocalVariable;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Node\MacroNode;
 use Twig\Node\Node;
 use Twig\Token;
@@ -38,6 +41,7 @@ final class MacroTokenParser extends AbstractTokenParser
     {
         $lineno = $token->getLine();
         $stream = $this->parser->getStream();
+<<<<<<< HEAD
         $name = $stream->expect(Token::NAME_TYPE)->getValue();
         $arguments = $this->parseDefinition();
 
@@ -57,6 +61,28 @@ final class MacroTokenParser extends AbstractTokenParser
         $this->parser->setMacro($name, new MacroNode($name, new BodyNode([$body]), $arguments, $lineno));
 
         return new EmptyNode($lineno);
+=======
+        $name = $stream->expect(/* Token::NAME_TYPE */ 5)->getValue();
+
+        $arguments = $this->parser->getExpressionParser()->parseArguments(true, true);
+
+        $stream->expect(/* Token::BLOCK_END_TYPE */ 3);
+        $this->parser->pushLocalScope();
+        $body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
+        if ($token = $stream->nextIf(/* Token::NAME_TYPE */ 5)) {
+            $value = $token->getValue();
+
+            if ($value != $name) {
+                throw new SyntaxError(sprintf('Expected endmacro for macro "%s" (but "%s" given).', $name, $value), $stream->getCurrent()->getLine(), $stream->getSourceContext());
+            }
+        }
+        $this->parser->popLocalScope();
+        $stream->expect(/* Token::BLOCK_END_TYPE */ 3);
+
+        $this->parser->setMacro($name, new MacroNode($name, new BodyNode([$body]), $arguments, $lineno, $this->getTag()));
+
+        return new Node();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function decideBlockEnd(Token $token): bool
@@ -68,6 +94,7 @@ final class MacroTokenParser extends AbstractTokenParser
     {
         return 'macro';
     }
+<<<<<<< HEAD
 
     private function parseDefinition(): ArrayExpression
     {
@@ -120,4 +147,6 @@ final class MacroTokenParser extends AbstractTokenParser
 
         return true;
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

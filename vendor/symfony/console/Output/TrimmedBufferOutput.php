@@ -45,7 +45,14 @@ class TrimmedBufferOutput extends Output
         return $content;
     }
 
+<<<<<<< HEAD
     protected function doWrite(string $message, bool $newline): void
+=======
+    /**
+     * @return void
+     */
+    protected function doWrite(string $message, bool $newline)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->buffer .= $message;
 
@@ -53,6 +60,10 @@ class TrimmedBufferOutput extends Output
             $this->buffer .= \PHP_EOL;
         }
 
+<<<<<<< HEAD
         $this->buffer = substr($this->buffer, -$this->maxLength);
+=======
+        $this->buffer = substr($this->buffer, 0 - $this->maxLength);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

@@ -58,12 +58,26 @@ class ConstraintViolationList implements \IteratorAggregate, ConstraintViolation
         return $string;
     }
 
+<<<<<<< HEAD
     public function add(ConstraintViolationInterface $violation): void
+=======
+    /**
+     * @return void
+     */
+    public function add(ConstraintViolationInterface $violation)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->violations[] = $violation;
     }
 
+<<<<<<< HEAD
     public function addAll(ConstraintViolationListInterface $otherList): void
+=======
+    /**
+     * @return void
+     */
+    public function addAll(ConstraintViolationListInterface $otherList)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($otherList as $violation) {
             $this->violations[] = $violation;
@@ -84,12 +98,26 @@ class ConstraintViolationList implements \IteratorAggregate, ConstraintViolation
         return isset($this->violations[$offset]);
     }
 
+<<<<<<< HEAD
     public function set(int $offset, ConstraintViolationInterface $violation): void
+=======
+    /**
+     * @return void
+     */
+    public function set(int $offset, ConstraintViolationInterface $violation)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->violations[$offset] = $violation;
     }
 
+<<<<<<< HEAD
     public function remove(int $offset): void
+=======
+    /**
+     * @return void
+     */
+    public function remove(int $offset)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         unset($this->violations[$offset]);
     }

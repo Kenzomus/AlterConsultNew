@@ -22,6 +22,7 @@ class_exists(Session::class);
  */
 class SessionFactory implements SessionFactoryInterface
 {
+<<<<<<< HEAD
     private ?\Closure $usageReporter;
 
     public function __construct(
@@ -29,6 +30,16 @@ class SessionFactory implements SessionFactoryInterface
         private SessionStorageFactoryInterface $storageFactory,
         ?callable $usageReporter = null,
     ) {
+=======
+    private RequestStack $requestStack;
+    private SessionStorageFactoryInterface $storageFactory;
+    private ?\Closure $usageReporter;
+
+    public function __construct(RequestStack $requestStack, SessionStorageFactoryInterface $storageFactory, ?callable $usageReporter = null)
+    {
+        $this->requestStack = $requestStack;
+        $this->storageFactory = $storageFactory;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->usageReporter = null === $usageReporter ? null : $usageReporter(...);
     }
 

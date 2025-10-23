@@ -46,8 +46,15 @@ class InputDefinition
 
     /**
      * Sets the definition of the input.
+<<<<<<< HEAD
      */
     public function setDefinition(array $definition): void
+=======
+     *
+     * @return void
+     */
+    public function setDefinition(array $definition)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $arguments = [];
         $options = [];
@@ -67,8 +74,15 @@ class InputDefinition
      * Sets the InputArgument objects.
      *
      * @param InputArgument[] $arguments An array of InputArgument objects
+<<<<<<< HEAD
      */
     public function setArguments(array $arguments = []): void
+=======
+     *
+     * @return void
+     */
+    public function setArguments(array $arguments = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->arguments = [];
         $this->requiredCount = 0;
@@ -81,8 +95,15 @@ class InputDefinition
      * Adds an array of InputArgument objects.
      *
      * @param InputArgument[] $arguments An array of InputArgument objects
+<<<<<<< HEAD
      */
     public function addArguments(?array $arguments = []): void
+=======
+     *
+     * @return void
+     */
+    public function addArguments(?array $arguments = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (null !== $arguments) {
             foreach ($arguments as $argument) {
@@ -92,9 +113,17 @@ class InputDefinition
     }
 
     /**
+<<<<<<< HEAD
      * @throws LogicException When incorrect argument is given
      */
     public function addArgument(InputArgument $argument): void
+=======
+     * @return void
+     *
+     * @throws LogicException When incorrect argument is given
+     */
+    public function addArgument(InputArgument $argument)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (isset($this->arguments[$argument->getName()])) {
             throw new LogicException(\sprintf('An argument with name "%s" already exists.', $argument->getName()));
@@ -190,8 +219,15 @@ class InputDefinition
      * Sets the InputOption objects.
      *
      * @param InputOption[] $options An array of InputOption objects
+<<<<<<< HEAD
      */
     public function setOptions(array $options = []): void
+=======
+     *
+     * @return void
+     */
+    public function setOptions(array $options = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->options = [];
         $this->shortcuts = [];
@@ -203,8 +239,15 @@ class InputDefinition
      * Adds an array of InputOption objects.
      *
      * @param InputOption[] $options An array of InputOption objects
+<<<<<<< HEAD
      */
     public function addOptions(array $options = []): void
+=======
+     *
+     * @return void
+     */
+    public function addOptions(array $options = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($options as $option) {
             $this->addOption($option);
@@ -212,9 +255,17 @@ class InputDefinition
     }
 
     /**
+<<<<<<< HEAD
      * @throws LogicException When option given already exist
      */
     public function addOption(InputOption $option): void
+=======
+     * @return void
+     *
+     * @throws LogicException When option given already exist
+     */
+    public function addOption(InputOption $option)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (isset($this->options[$option->getName()]) && !$option->equals($this->options[$option->getName()])) {
             throw new LogicException(\sprintf('An option named "%s" already exists.', $option->getName()));

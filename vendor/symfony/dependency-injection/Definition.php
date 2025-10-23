@@ -45,7 +45,11 @@ class Definition
     private array $bindings = [];
     private array $errors = [];
 
+<<<<<<< HEAD
     protected array $arguments = [];
+=======
+    protected $arguments = [];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @internal
@@ -255,6 +259,13 @@ class Definition
             throw new OutOfBoundsException(\sprintf('Cannot replace arguments for class "%s" if none have been configured yet.', $this->class));
         }
 
+<<<<<<< HEAD
+=======
+        if (\is_int($index) && ($index < 0 || $index > \count($this->arguments) - 1)) {
+            throw new OutOfBoundsException(\sprintf('The index "%d" is not in the range [0, %d] of the arguments of class "%s".', $index, \count($this->arguments) - 1, $this->class));
+        }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (!\array_key_exists($index, $this->arguments)) {
             throw new OutOfBoundsException(\sprintf('The argument "%s" doesn\'t exist in class "%s".', $index, $this->class));
         }
@@ -326,7 +337,11 @@ class Definition
      */
     public function addMethodCall(string $method, array $arguments = [], bool $returnsClone = false): static
     {
+<<<<<<< HEAD
         if (!$method) {
+=======
+        if (empty($method)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             throw new InvalidArgumentException('Method name cannot be empty.');
         }
         $this->calls[] = $returnsClone ? [$method, $arguments, true] : [$method, $arguments];
@@ -456,6 +471,7 @@ class Definition
     }
 
     /**
+<<<<<<< HEAD
      * Adds a "resource" tag to the definition and marks it as excluded.
      *
      * These definitions should be processed using {@see ContainerBuilder::findTaggedResourceIds()}
@@ -470,6 +486,8 @@ class Definition
     }
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Whether this definition has a tag with the given name.
      */
     public function hasTag(string $name): bool

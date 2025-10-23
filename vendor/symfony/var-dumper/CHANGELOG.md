@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 
+<<<<<<< HEAD
 7.3
 ---
 
@@ -26,6 +27,8 @@ CHANGELOG
  * Require explicit argument when calling `VarDumper::setHandler()`
  * Remove display of backtrace in `Twig_Template`, only `Twig\Template` is supported
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 6.4
 ---
 

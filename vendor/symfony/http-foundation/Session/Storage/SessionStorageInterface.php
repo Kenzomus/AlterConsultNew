@@ -40,8 +40,15 @@ interface SessionStorageInterface
 
     /**
      * Sets the session ID.
+<<<<<<< HEAD
      */
     public function setId(string $id): void;
+=======
+     *
+     * @return void
+     */
+    public function setId(string $id);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Returns the session name.
@@ -50,8 +57,15 @@ interface SessionStorageInterface
 
     /**
      * Sets the session name.
+<<<<<<< HEAD
      */
     public function setName(string $name): void;
+=======
+     *
+     * @return void
+     */
+    public function setName(string $name);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Regenerates id that represents this storage.
@@ -90,6 +104,7 @@ interface SessionStorageInterface
      * a real PHP session would interfere with testing, in which case
      * it should actually persist the session data if required.
      *
+<<<<<<< HEAD
      * @throws \RuntimeException if the session is saved without being started, or if the session
      *                           is already closed
      */
@@ -99,6 +114,21 @@ interface SessionStorageInterface
      * Clear all session data in memory.
      */
     public function clear(): void;
+=======
+     * @return void
+     *
+     * @throws \RuntimeException if the session is saved without being started, or if the session
+     *                           is already closed
+     */
+    public function save();
+
+    /**
+     * Clear all session data in memory.
+     *
+     * @return void
+     */
+    public function clear();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Gets a SessionBagInterface by name.
@@ -109,8 +139,15 @@ interface SessionStorageInterface
 
     /**
      * Registers a SessionBagInterface for use.
+<<<<<<< HEAD
      */
     public function registerBag(SessionBagInterface $bag): void;
+=======
+     *
+     * @return void
+     */
+    public function registerBag(SessionBagInterface $bag);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     public function getMetadataBag(): MetadataBag;
 }

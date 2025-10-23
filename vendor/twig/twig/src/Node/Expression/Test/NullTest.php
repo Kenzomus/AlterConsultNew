@@ -15,7 +15,11 @@ use Twig\Compiler;
 use Twig\Node\Expression\TestExpression;
 
 /**
+<<<<<<< HEAD
  * Checks that an expression is null.
+=======
+ * Checks that a variable is null.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  *  {{ var is none }}
  *

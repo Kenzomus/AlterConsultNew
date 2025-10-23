@@ -16,6 +16,7 @@ namespace Symfony\Component\DependencyInjection\Attribute;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  */
+<<<<<<< HEAD
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::IS_REPEATABLE)]
 class AsTaggedItem
 {
@@ -23,6 +24,11 @@ class AsTaggedItem
      * @param string|null $index    The property or method to use to index the item in the iterator/locator
      * @param int|null    $priority The priority of the item; the higher the number, the earlier the tagged service will be located in the iterator/locator
      */
+=======
+#[\Attribute(\Attribute::TARGET_CLASS)]
+class AsTaggedItem
+{
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         public ?string $index = null,
         public ?int $priority = null,

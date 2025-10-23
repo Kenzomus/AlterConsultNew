@@ -50,9 +50,17 @@ class DescriptorHelper extends Helper
      * * format: string, the output format name
      * * raw_text: boolean, sets output type as raw
      *
+<<<<<<< HEAD
      * @throws InvalidArgumentException when the given format is not supported
      */
     public function describe(OutputInterface $output, ?object $object, array $options = []): void
+=======
+     * @return void
+     *
+     * @throws InvalidArgumentException when the given format is not supported
+     */
+    public function describe(OutputInterface $output, ?object $object, array $options = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $options = array_merge([
             'raw_text' => false,

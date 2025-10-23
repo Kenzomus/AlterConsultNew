@@ -90,7 +90,11 @@ class AttributeMetadata implements AttributeMetadataInterface
 
     public function addGroup(string $group): void
     {
+<<<<<<< HEAD
         if (!\in_array($group, $this->groups, true)) {
+=======
+        if (!\in_array($group, $this->groups)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->groups[] = $group;
         }
     }
@@ -110,8 +114,17 @@ class AttributeMetadata implements AttributeMetadataInterface
         return $this->maxDepth;
     }
 
+<<<<<<< HEAD
     public function setSerializedName(?string $serializedName): void
     {
+=======
+    public function setSerializedName(?string $serializedName = null): void
+    {
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/serializer', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
+        }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->serializedName = $serializedName;
     }
 

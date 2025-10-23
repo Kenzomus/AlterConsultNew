@@ -11,7 +11,10 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 
 /**
@@ -22,6 +25,7 @@ use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
  */
 trait ZeroComparisonConstraintTrait
 {
+<<<<<<< HEAD
     #[HasNamedArguments]
     public function __construct(?array $options = null, ?string $message = null, ?array $groups = null, mixed $payload = null)
     {
@@ -34,6 +38,17 @@ trait ZeroComparisonConstraintTrait
         }
 
         if (\is_array($options) && isset($options['value'])) {
+=======
+    public function __construct(?array $options = null, ?string $message = null, ?array $groups = null, mixed $payload = null)
+    {
+        $options ??= [];
+
+        if (isset($options['propertyPath'])) {
+            throw new ConstraintDefinitionException(\sprintf('The "propertyPath" option of the "%s" constraint cannot be set.', static::class));
+        }
+
+        if (isset($options['value'])) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             throw new ConstraintDefinitionException(\sprintf('The "value" option of the "%s" constraint cannot be set.', static::class));
         }
 

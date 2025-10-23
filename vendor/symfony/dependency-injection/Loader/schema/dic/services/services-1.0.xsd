@@ -270,7 +270,10 @@
       <xsd:element name="property" type="property" maxOccurs="unbounded" />
       <xsd:element name="service" type="service" />
     </xsd:choice>
+<<<<<<< HEAD
     <xsd:attribute name="key-type" type="key_type" />
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     <xsd:attribute name="type" type="argument_type" />
     <xsd:attribute name="id" type="xsd:string" />
     <xsd:attribute name="key" type="xsd:string" />
@@ -316,7 +319,10 @@
       <xsd:element name="service" type="service" />
       <xsd:element name="exclude" type="xsd:string" maxOccurs="unbounded" />
     </xsd:choice>
+<<<<<<< HEAD
     <xsd:attribute name="key-type" type="key_type" />
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     <xsd:attribute name="type" type="argument_type" />
     <xsd:attribute name="id" type="xsd:string" />
     <xsd:attribute name="key" type="xsd:string" />
@@ -367,6 +373,7 @@
     </xsd:restriction>
   </xsd:simpleType>
 
+<<<<<<< HEAD
   <xsd:simpleType name="key_type">
     <xsd:restriction base="xsd:string">
       <xsd:enumeration value="binary" />
@@ -374,6 +381,8 @@
     </xsd:restriction>
   </xsd:simpleType>
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
   <xsd:simpleType name="ignore_errors">
     <xsd:restriction base="xsd:string">
       <xsd:pattern value="(true|false|not_found)" />

@@ -11,7 +11,10 @@
 
 namespace Twig\Node;
 
+<<<<<<< HEAD
 use Twig\Attribute\YieldReady;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Compiler;
 
 /**
@@ -19,12 +22,20 @@ use Twig\Compiler;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 #[YieldReady]
 class ForLoopNode extends Node
 {
     public function __construct(int $lineno)
     {
         parent::__construct([], ['with_loop' => false, 'ifexpr' => false, 'else' => false], $lineno);
+=======
+class ForLoopNode extends Node
+{
+    public function __construct(int $lineno, string $tag = null)
+    {
+        parent::__construct([], ['with_loop' => false, 'ifexpr' => false, 'else' => false], $lineno, $tag);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function compile(Compiler $compiler): void
@@ -38,7 +49,11 @@ class ForLoopNode extends Node
                 ->write("++\$context['loop']['index0'];\n")
                 ->write("++\$context['loop']['index'];\n")
                 ->write("\$context['loop']['first'] = false;\n")
+<<<<<<< HEAD
                 ->write("if (isset(\$context['loop']['revindex0'], \$context['loop']['revindex'])) {\n")
+=======
+                ->write("if (isset(\$context['loop']['length'])) {\n")
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ->indent()
                 ->write("--\$context['loop']['revindex0'];\n")
                 ->write("--\$context['loop']['revindex'];\n")

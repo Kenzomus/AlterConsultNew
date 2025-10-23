@@ -11,6 +11,7 @@ use RuntimeException;
 
 class UploadedFile implements UploadedFileInterface
 {
+<<<<<<< HEAD
     private const ERROR_MAP = [
         UPLOAD_ERR_OK => 'UPLOAD_ERR_OK',
         UPLOAD_ERR_INI_SIZE => 'UPLOAD_ERR_INI_SIZE',
@@ -20,6 +21,17 @@ class UploadedFile implements UploadedFileInterface
         UPLOAD_ERR_NO_TMP_DIR => 'UPLOAD_ERR_NO_TMP_DIR',
         UPLOAD_ERR_CANT_WRITE => 'UPLOAD_ERR_CANT_WRITE',
         UPLOAD_ERR_EXTENSION => 'UPLOAD_ERR_EXTENSION',
+=======
+    private const ERRORS = [
+        UPLOAD_ERR_OK,
+        UPLOAD_ERR_INI_SIZE,
+        UPLOAD_ERR_FORM_SIZE,
+        UPLOAD_ERR_PARTIAL,
+        UPLOAD_ERR_NO_FILE,
+        UPLOAD_ERR_NO_TMP_DIR,
+        UPLOAD_ERR_CANT_WRITE,
+        UPLOAD_ERR_EXTENSION,
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     ];
 
     /**
@@ -104,7 +116,11 @@ class UploadedFile implements UploadedFileInterface
      */
     private function setError(int $error): void
     {
+<<<<<<< HEAD
         if (!isset(UploadedFile::ERROR_MAP[$error])) {
+=======
+        if (false === in_array($error, UploadedFile::ERRORS, true)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             throw new InvalidArgumentException(
                 'Invalid error status for UploadedFile'
             );
@@ -137,7 +153,11 @@ class UploadedFile implements UploadedFileInterface
     private function validateActive(): void
     {
         if (false === $this->isOk()) {
+<<<<<<< HEAD
             throw new RuntimeException(\sprintf('Cannot retrieve stream due to upload error (%s)', self::ERROR_MAP[$this->error]));
+=======
+            throw new RuntimeException('Cannot retrieve stream due to upload error');
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         if ($this->isMoved()) {

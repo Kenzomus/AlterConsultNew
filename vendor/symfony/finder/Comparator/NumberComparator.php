@@ -19,7 +19,11 @@ namespace Symfony\Component\Finder\Comparator;
  * magnitudes.
  *
  * The target value may use magnitudes of kilobytes (k, ki),
+<<<<<<< HEAD
  * megabytes (m, mi), or gigabytes (g, gi). Those suffixed
+=======
+ * megabytes (m, mi), or gigabytes (g, gi).  Those suffixed
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  * with an i use the appropriate 2**n version in accordance with the
  * IEC standard: http://physics.nist.gov/cuu/Units/binary.html
  *

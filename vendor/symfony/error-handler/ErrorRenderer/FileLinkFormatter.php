@@ -25,16 +25,27 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class FileLinkFormatter
 {
     private array|false $fileLinkFormat;
+<<<<<<< HEAD
+=======
+    private ?RequestStack $requestStack = null;
+    private ?string $baseDir = null;
+    private \Closure|string|null $urlFormat;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @param string|\Closure $urlFormat The URL format, or a closure that returns it on-demand
      */
+<<<<<<< HEAD
     public function __construct(
         string|array|null $fileLinkFormat = null,
         private ?RequestStack $requestStack = null,
         private ?string $baseDir = null,
         private string|\Closure|null $urlFormat = null,
     ) {
+=======
+    public function __construct(string|array|null $fileLinkFormat = null, ?RequestStack $requestStack = null, ?string $baseDir = null, string|\Closure|null $urlFormat = null)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $fileLinkFormat ??= $_ENV['SYMFONY_IDE'] ?? $_SERVER['SYMFONY_IDE'] ?? '';
 
         if (!\is_array($f = $fileLinkFormat)) {
@@ -44,9 +55,21 @@ class FileLinkFormatter
         }
 
         $this->fileLinkFormat = $fileLinkFormat;
+<<<<<<< HEAD
     }
 
     public function format(string $file, int $line): string|false
+=======
+        $this->requestStack = $requestStack;
+        $this->baseDir = $baseDir;
+        $this->urlFormat = $urlFormat;
+    }
+
+    /**
+     * @return string|false
+     */
+    public function format(string $file, int $line): string|bool
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($fmt = $this->getFileLinkFormat()) {
             for ($i = 1; isset($fmt[$i]); ++$i) {
@@ -104,3 +127,10 @@ class FileLinkFormatter
         return false;
     }
 }
+<<<<<<< HEAD
+=======
+
+if (!class_exists(\Symfony\Component\HttpKernel\Debug\FileLinkFormatter::class, false)) {
+    class_alias(FileLinkFormatter::class, \Symfony\Component\HttpKernel\Debug\FileLinkFormatter::class);
+}
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c

@@ -17,6 +17,7 @@ use Symfony\Component\VarExporter\Internal\LazyObjectRegistry as Registry;
 use Symfony\Component\VarExporter\Internal\LazyObjectState;
 use Symfony\Component\VarExporter\Internal\LazyObjectTrait;
 
+<<<<<<< HEAD
 if (\PHP_VERSION_ID >= 80400) {
     trigger_deprecation('symfony/var-exporter', '7.3', 'The "%s" trait is deprecated, use native lazy objects instead.', LazyGhostTrait::class);
 }
@@ -24,6 +25,8 @@ if (\PHP_VERSION_ID >= 80400) {
 /**
  * @deprecated since Symfony 7.3, use native lazy objects instead
  */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 trait LazyGhostTrait
 {
     use LazyObjectTrait;
@@ -34,11 +37,16 @@ trait LazyGhostTrait
      * Skipped properties should be indexed by their array-cast identifier, see
      * https://php.net/manual/language.types.array#language.types.array.casting
      *
+<<<<<<< HEAD
      * @param \Closure(static):void    $initializer       The closure should initialize the object it receives as argument
+=======
+     * @param (\Closure(static):void   $initializer       The closure should initialize the object it receives as argument
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @param array<string, true>|null $skippedProperties An array indexed by the properties to skip, a.k.a. the ones
      *                                                    that the initializer doesn't initialize, if any
      * @param static|null              $instance
      */
+<<<<<<< HEAD
     public static function createLazyGhost(\Closure $initializer, ?array $skippedProperties = null, ?object $instance = null): static
     {
         if (self::class !== $class = $instance ? $instance::class : static::class) {
@@ -73,6 +81,28 @@ trait LazyGhostTrait
 
         foreach (Registry::$classResetters[$class] as $reset) {
             $reset($instance, $skippedProperties);
+=======
+    public static function createLazyGhost(\Closure|array $initializer, ?array $skippedProperties = null, ?object $instance = null): static
+    {
+        if (\is_array($initializer)) {
+            trigger_deprecation('symfony/var-exporter', '6.4', 'Per-property lazy-initializers are deprecated and won\'t be supported anymore in 7.0, use an object initializer instead.');
+        }
+
+        $onlyProperties = null === $skippedProperties && \is_array($initializer) ? $initializer : null;
+
+        if (self::class !== $class = $instance ? $instance::class : static::class) {
+            $skippedProperties["\0".self::class."\0lazyObjectState"] = true;
+        } elseif (\defined($class.'::LAZY_OBJECT_PROPERTY_SCOPES')) {
+            Hydrator::$propertyScopes[$class] ??= $class::LAZY_OBJECT_PROPERTY_SCOPES;
+        }
+
+        $instance ??= (Registry::$classReflectors[$class] ??= new \ReflectionClass($class))->newInstanceWithoutConstructor();
+        Registry::$defaultProperties[$class] ??= (array) $instance;
+        $instance->lazyObjectState = new LazyObjectState($initializer, $skippedProperties ??= []);
+
+        foreach (Registry::$classResetters[$class] ??= Registry::getClassResetters($class) as $reset) {
+            $reset($instance, $skippedProperties, $onlyProperties);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return $instance;
@@ -81,7 +111,11 @@ trait LazyGhostTrait
     /**
      * Returns whether the object is initialized.
      *
+<<<<<<< HEAD
      * @param bool $partial Whether partially initialized objects should be considered as initialized
+=======
+     * @param $partial Whether partially initialized objects should be considered as initialized
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     #[Ignore]
     public function isLazyObjectInitialized(bool $partial = false): bool
@@ -90,7 +124,29 @@ trait LazyGhostTrait
             return true;
         }
 
+<<<<<<< HEAD
         return LazyObjectState::STATUS_INITIALIZED_FULL === $state->status;
+=======
+        if (!\is_array($state->initializer)) {
+            return LazyObjectState::STATUS_INITIALIZED_FULL === $state->status;
+        }
+
+        $class = $this::class;
+        $properties = (array) $this;
+
+        if ($partial) {
+            return (bool) array_intersect_key($state->initializer, $properties);
+        }
+
+        $propertyScopes = Hydrator::$propertyScopes[$class] ??= Hydrator::getPropertyScopes($class);
+        foreach ($state->initializer as $key => $initializer) {
+            if (!\array_key_exists($key, $properties) && isset($propertyScopes[$key])) {
+                return false;
+            }
+        }
+
+        return true;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -102,8 +158,47 @@ trait LazyGhostTrait
             return $this;
         }
 
+<<<<<<< HEAD
         if (LazyObjectState::STATUS_UNINITIALIZED_FULL === $state->status) {
             $state->initialize($this, '', null);
+=======
+        if (!\is_array($state->initializer)) {
+            if (LazyObjectState::STATUS_UNINITIALIZED_FULL === $state->status) {
+                $state->initialize($this, '', null);
+            }
+
+            return $this;
+        }
+
+        $values = isset($state->initializer["\0"]) ? null : [];
+
+        $class = $this::class;
+        $properties = (array) $this;
+        $propertyScopes = Hydrator::$propertyScopes[$class] ??= Hydrator::getPropertyScopes($class);
+        foreach ($state->initializer as $key => $initializer) {
+            if (\array_key_exists($key, $properties) || ![$scope, $name, $writeScope] = $propertyScopes[$key] ?? null) {
+                continue;
+            }
+            $scope = $writeScope ?? $scope;
+
+            if (null === $values) {
+                if (!\is_array($values = ($state->initializer["\0"])($this, Registry::$defaultProperties[$class]))) {
+                    throw new \TypeError(\sprintf('The lazy-initializer defined for instance of "%s" must return an array, got "%s".', $class, get_debug_type($values)));
+                }
+
+                if (\array_key_exists($key, $properties = (array) $this)) {
+                    continue;
+                }
+            }
+
+            if (\array_key_exists($key, $values)) {
+                $accessor = Registry::$classAccessors[$scope] ??= Registry::getClassAccessors($scope);
+                $accessor['set']($this, $name, $properties[$key] = $values[$key]);
+            } else {
+                $state->initialize($this, $name, $scope);
+                $properties = (array) $this;
+            }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return $this;
@@ -357,7 +452,11 @@ trait LazyGhostTrait
     {
         $state = $this->lazyObjectState ?? null;
 
+<<<<<<< HEAD
         if (LazyObjectState::STATUS_UNINITIALIZED_FULL === $state?->status) {
+=======
+        if ($state && \in_array($state->status, [LazyObjectState::STATUS_UNINITIALIZED_FULL, LazyObjectState::STATUS_UNINITIALIZED_PARTIAL], true)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return;
         }
 
@@ -369,7 +468,13 @@ trait LazyGhostTrait
     #[Ignore]
     private function setLazyObjectAsInitialized(bool $initialized): void
     {
+<<<<<<< HEAD
         if ($state = $this->lazyObjectState ?? null) {
+=======
+        $state = $this->lazyObjectState ?? null;
+
+        if ($state && !\is_array($state->initializer)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $state->status = $initialized ? LazyObjectState::STATUS_INITIALIZED_FULL : LazyObjectState::STATUS_UNINITIALIZED_FULL;
         }
     }

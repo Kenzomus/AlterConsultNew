@@ -24,10 +24,18 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Store implements StoreInterface
 {
+<<<<<<< HEAD
+=======
+    protected $root;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /** @var \SplObjectStorage<Request, string> */
     private \SplObjectStorage $keyCache;
     /** @var array<string, resource> */
     private array $locks = [];
+<<<<<<< HEAD
+=======
+    private array $options;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Constructor.
@@ -39,21 +47,40 @@ class Store implements StoreInterface
      *
      * @throws \RuntimeException
      */
+<<<<<<< HEAD
     public function __construct(
         protected string $root,
         private array $options = [],
     ) {
+=======
+    public function __construct(string $root, array $options = [])
+    {
+        $this->root = $root;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (!is_dir($this->root) && !@mkdir($this->root, 0777, true) && !is_dir($this->root)) {
             throw new \RuntimeException(\sprintf('Unable to create the store directory (%s).', $this->root));
         }
         $this->keyCache = new \SplObjectStorage();
+<<<<<<< HEAD
         $this->options['private_headers'] ??= ['Set-Cookie'];
+=======
+        $this->options = array_merge([
+            'private_headers' => ['Set-Cookie'],
+        ], $options);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
      * Cleanups storage.
+<<<<<<< HEAD
      */
     public function cleanup(): void
+=======
+     *
+     * @return void
+     */
+    public function cleanup()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         // unlock everything
         foreach ($this->locks as $lock) {
@@ -244,9 +271,17 @@ class Store implements StoreInterface
     /**
      * Invalidates all cache entries that match the request.
      *
+<<<<<<< HEAD
      * @throws \RuntimeException
      */
     public function invalidate(Request $request): void
+=======
+     * @return void
+     *
+     * @throws \RuntimeException
+     */
+    public function invalidate(Request $request)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $modified = false;
         $key = $this->getCacheKey($request);
@@ -278,7 +313,11 @@ class Store implements StoreInterface
      */
     private function requestsMatch(?string $vary, array $env1, array $env2): bool
     {
+<<<<<<< HEAD
         if (!$vary) {
+=======
+        if (empty($vary)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return true;
         }
 
@@ -410,7 +449,14 @@ class Store implements StoreInterface
         return true;
     }
 
+<<<<<<< HEAD
     public function getPath(string $key): string
+=======
+    /**
+     * @return string
+     */
+    public function getPath(string $key)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->root.\DIRECTORY_SEPARATOR.substr($key, 0, 2).\DIRECTORY_SEPARATOR.substr($key, 2, 2).\DIRECTORY_SEPARATOR.substr($key, 4, 2).\DIRECTORY_SEPARATOR.substr($key, 6);
     }

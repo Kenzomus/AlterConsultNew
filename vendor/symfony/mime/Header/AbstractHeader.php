@@ -34,7 +34,14 @@ abstract class AbstractHeader implements HeaderInterface
         $this->name = $name;
     }
 
+<<<<<<< HEAD
     public function setCharset(string $charset): void
+=======
+    /**
+     * @return void
+     */
+    public function setCharset(string $charset)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->charset = $charset;
     }
@@ -48,8 +55,15 @@ abstract class AbstractHeader implements HeaderInterface
      * Set the language used in this Header.
      *
      * For example, for US English, 'en-us'.
+<<<<<<< HEAD
      */
     public function setLanguage(string $lang): void
+=======
+     *
+     * @return void
+     */
+    public function setLanguage(string $lang)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->lang = $lang;
     }
@@ -64,7 +78,14 @@ abstract class AbstractHeader implements HeaderInterface
         return $this->name;
     }
 
+<<<<<<< HEAD
     public function setMaxLineLength(int $lineLength): void
+=======
+    /**
+     * @return void
+     */
+    public function setMaxLineLength(int $lineLength)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->lineLength = $lineLength;
     }

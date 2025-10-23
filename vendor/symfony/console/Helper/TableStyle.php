@@ -46,7 +46,10 @@ class TableStyle
     private string $cellRowFormat = '%s';
     private string $cellRowContentFormat = ' %s ';
     private string $borderFormat = '%s';
+<<<<<<< HEAD
     private bool $displayOutsideBorder = true;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private int $padType = \STR_PAD_RIGHT;
 
     /**
@@ -360,6 +363,7 @@ class TableStyle
 
         return $this;
     }
+<<<<<<< HEAD
 
     public function setDisplayOutsideBorder($displayOutSideBorder): static
     {
@@ -372,4 +376,6 @@ class TableStyle
     {
         return $this->displayOutsideBorder;
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

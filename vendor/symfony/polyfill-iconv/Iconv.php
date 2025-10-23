@@ -430,6 +430,35 @@ final class Iconv
 
     public static function iconv_strlen($s, $encoding = null)
     {
+<<<<<<< HEAD
+=======
+        static $hasXml = null;
+        if (null === $hasXml) {
+            $hasXml = \extension_loaded('xml');
+        }
+
+        if ($hasXml) {
+            return self::strlen1($s, $encoding);
+        }
+
+        return self::strlen2($s, $encoding);
+    }
+
+    public static function strlen1($s, $encoding = null)
+    {
+        if (null === $encoding) {
+            $encoding = self::$internalEncoding;
+        }
+        if (0 !== stripos($encoding, 'utf-8') && false === $s = self::iconv($encoding, 'utf-8', $s)) {
+            return false;
+        }
+
+        return \strlen(utf8_decode($s));
+    }
+
+    public static function strlen2($s, $encoding = null)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (null === $encoding) {
             $encoding = self::$internalEncoding;
         }

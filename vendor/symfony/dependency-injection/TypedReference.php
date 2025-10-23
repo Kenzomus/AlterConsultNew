@@ -18,7 +18,13 @@ namespace Symfony\Component\DependencyInjection;
  */
 class TypedReference extends Reference
 {
+<<<<<<< HEAD
     private ?string $name;
+=======
+    private string $type;
+    private ?string $name;
+    private array $attributes;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @param string      $id              The service identifier
@@ -27,6 +33,7 @@ class TypedReference extends Reference
      * @param string|null $name            The name of the argument targeting the service
      * @param array       $attributes      The attributes to be used
      */
+<<<<<<< HEAD
     public function __construct(
         string $id,
         private string $type,
@@ -39,6 +46,20 @@ class TypedReference extends Reference
     }
 
     public function getType(): string
+=======
+    public function __construct(string $id, string $type, int $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, ?string $name = null, array $attributes = [])
+    {
+        $this->name = $type === $id ? $name : null;
+        parent::__construct($id, $invalidBehavior);
+        $this->type = $type;
+        $this->attributes = $attributes;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->type;
     }

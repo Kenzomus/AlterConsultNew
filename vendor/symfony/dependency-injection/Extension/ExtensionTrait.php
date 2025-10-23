@@ -30,10 +30,17 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 trait ExtensionTrait
 {
+<<<<<<< HEAD
     private function executeConfiguratorCallback(ContainerBuilder $container, \Closure $callback, ConfigurableExtensionInterface $subject, bool $prepend = false): void
     {
         $env = $container->getParameter('kernel.environment');
         $loader = $this->createContainerLoader($container, $env, $prepend);
+=======
+    private function executeConfiguratorCallback(ContainerBuilder $container, \Closure $callback, ConfigurableExtensionInterface $subject): void
+    {
+        $env = $container->getParameter('kernel.environment');
+        $loader = $this->createContainerLoader($container, $env);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $file = (new \ReflectionObject($subject))->getFileName();
         $bundleLoader = $loader->getResolver()->resolve($file);
         if (!$bundleLoader instanceof PhpFileLoader) {
@@ -50,15 +57,26 @@ trait ExtensionTrait
         }
     }
 
+<<<<<<< HEAD
     private function createContainerLoader(ContainerBuilder $container, string $env, bool $prepend): DelegatingLoader
+=======
+    private function createContainerLoader(ContainerBuilder $container, string $env): DelegatingLoader
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $buildDir = $container->getParameter('kernel.build_dir');
         $locator = new FileLocator();
         $resolver = new LoaderResolver([
+<<<<<<< HEAD
             new XmlFileLoader($container, $locator, $env, $prepend),
             new YamlFileLoader($container, $locator, $env, $prepend),
             new IniFileLoader($container, $locator, $env),
             new PhpFileLoader($container, $locator, $env, new ConfigBuilderGenerator($buildDir), $prepend),
+=======
+            new XmlFileLoader($container, $locator, $env),
+            new YamlFileLoader($container, $locator, $env),
+            new IniFileLoader($container, $locator, $env),
+            new PhpFileLoader($container, $locator, $env, new ConfigBuilderGenerator($buildDir)),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             new GlobFileLoader($container, $locator, $env),
             new DirectoryLoader($container, $locator, $env),
             new ClosureLoader($container, $env),

@@ -19,8 +19,11 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  *
  * @final
+<<<<<<< HEAD
  *
  * @internal since Symfony 7.3
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 class AmqpCaster
 {
@@ -48,7 +51,14 @@ class AmqpCaster
         \AMQP_EX_TYPE_HEADERS => 'AMQP_EX_TYPE_HEADERS',
     ];
 
+<<<<<<< HEAD
     public static function castConnection(\AMQPConnection $c, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castConnection(\AMQPConnection $c, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $prefix = Caster::PREFIX_VIRTUAL;
 
@@ -81,7 +91,14 @@ class AmqpCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castChannel(\AMQPChannel $c, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castChannel(\AMQPChannel $c, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $prefix = Caster::PREFIX_VIRTUAL;
 
@@ -104,7 +121,14 @@ class AmqpCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castQueue(\AMQPQueue $c, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castQueue(\AMQPQueue $c, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $prefix = Caster::PREFIX_VIRTUAL;
 
@@ -127,7 +151,14 @@ class AmqpCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castExchange(\AMQPExchange $c, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castExchange(\AMQPExchange $c, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $prefix = Caster::PREFIX_VIRTUAL;
 
@@ -155,7 +186,14 @@ class AmqpCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castEnvelope(\AMQPEnvelope $c, array $a, Stub $stub, bool $isNested, int $filter = 0): array
+=======
+    /**
+     * @return array
+     */
+    public static function castEnvelope(\AMQPEnvelope $c, array $a, Stub $stub, bool $isNested, int $filter = 0)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $prefix = Caster::PREFIX_VIRTUAL;
 

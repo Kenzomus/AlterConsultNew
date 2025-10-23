@@ -28,20 +28,36 @@ class RoundRobinTransport implements TransportInterface
      * @var \SplObjectStorage<TransportInterface, float>
      */
     private \SplObjectStorage $deadTransports;
+<<<<<<< HEAD
+=======
+    private array $transports = [];
+    private int $retryPeriod;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private int $cursor = -1;
 
     /**
      * @param TransportInterface[] $transports
      */
+<<<<<<< HEAD
     public function __construct(
         private array $transports,
         private int $retryPeriod = 60,
     ) {
+=======
+    public function __construct(array $transports, int $retryPeriod = 60)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (!$transports) {
             throw new TransportException(\sprintf('"%s" must have at least one transport configured.', static::class));
         }
 
+<<<<<<< HEAD
         $this->deadTransports = new \SplObjectStorage();
+=======
+        $this->transports = $transports;
+        $this->deadTransports = new \SplObjectStorage();
+        $this->retryPeriod = $retryPeriod;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function send(RawMessage $message, ?Envelope $envelope = null): ?SentMessage

@@ -22,8 +22,11 @@ use Symfony\Component\VarDumper\Exception\ThrowingCasterException;
  * @author Nicolas Grekas <p@tchwork.com>
  *
  * @final
+<<<<<<< HEAD
  *
  * @internal since Symfony 7.3
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 class ExceptionCaster
 {
@@ -49,17 +52,38 @@ class ExceptionCaster
 
     private static array $framesCache = [];
 
+<<<<<<< HEAD
     public static function castError(\Error $e, array $a, Stub $stub, bool $isNested, int $filter = 0): array
+=======
+    /**
+     * @return array
+     */
+    public static function castError(\Error $e, array $a, Stub $stub, bool $isNested, int $filter = 0)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return self::filterExceptionArray($stub->class, $a, "\0Error\0", $filter);
     }
 
+<<<<<<< HEAD
     public static function castException(\Exception $e, array $a, Stub $stub, bool $isNested, int $filter = 0): array
+=======
+    /**
+     * @return array
+     */
+    public static function castException(\Exception $e, array $a, Stub $stub, bool $isNested, int $filter = 0)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return self::filterExceptionArray($stub->class, $a, "\0Exception\0", $filter);
     }
 
+<<<<<<< HEAD
     public static function castErrorException(\ErrorException $e, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castErrorException(\ErrorException $e, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (isset($a[$s = Caster::PREFIX_PROTECTED.'severity'], self::$errorTypes[$a[$s]])) {
             $a[$s] = new ConstStub(self::$errorTypes[$a[$s]], $a[$s]);
@@ -68,7 +92,14 @@ class ExceptionCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castThrowingCasterException(ThrowingCasterException $e, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castThrowingCasterException(ThrowingCasterException $e, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $trace = Caster::PREFIX_VIRTUAL.'trace';
         $prefix = Caster::PREFIX_PROTECTED;
@@ -86,7 +117,14 @@ class ExceptionCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castSilencedErrorContext(SilencedErrorContext $e, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castSilencedErrorContext(SilencedErrorContext $e, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $sPrefix = "\0".SilencedErrorContext::class."\0";
 
@@ -113,7 +151,14 @@ class ExceptionCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castTraceStub(TraceStub $trace, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castTraceStub(TraceStub $trace, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$isNested) {
             return $a;
@@ -187,7 +232,14 @@ class ExceptionCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castFrameStub(FrameStub $frame, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castFrameStub(FrameStub $frame, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$isNested) {
             return $a;
@@ -216,7 +268,11 @@ class ExceptionCaster
                 $ellipsis = $ellipsis->attr['ellipsis'] ?? 0;
 
                 if (is_file($f['file']) && 0 <= self::$srcContext) {
+<<<<<<< HEAD
                     if (!empty($f['class']) && is_subclass_of($f['class'], 'Twig\Template')) {
+=======
+                    if (!empty($f['class']) && (is_subclass_of($f['class'], 'Twig\Template') || is_subclass_of($f['class'], 'Twig_Template')) && method_exists($f['class'], 'getDebugInfo')) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                         $template = null;
                         if (isset($f['object'])) {
                             $template = $f['object'];
@@ -270,7 +326,14 @@ class ExceptionCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castFlattenException(FlattenException $e, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castFlattenException(FlattenException $e, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($isNested) {
             $k = \sprintf(Caster::PATTERN_PRIVATE, FlattenException::class, 'traceAsString');

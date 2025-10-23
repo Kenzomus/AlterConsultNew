@@ -25,15 +25,25 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  *
+<<<<<<< HEAD
  * @template-extends AbstractBrowser<Request, Response>
  */
 class HttpKernelBrowser extends AbstractBrowser
 {
+=======
+ * @method Request  getRequest()
+ * @method Response getResponse()
+ */
+class HttpKernelBrowser extends AbstractBrowser
+{
+    protected $kernel;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private bool $catchExceptions = true;
 
     /**
      * @param array $server The server parameters (equivalent of $_SERVER)
      */
+<<<<<<< HEAD
     public function __construct(
         protected HttpKernelInterface $kernel,
         array $server = [],
@@ -41,6 +51,12 @@ class HttpKernelBrowser extends AbstractBrowser
         ?CookieJar $cookieJar = null,
     ) {
         // These class properties must be set before calling the parent constructor, as it may depend on it.
+=======
+    public function __construct(HttpKernelInterface $kernel, array $server = [], ?History $history = null, ?CookieJar $cookieJar = null)
+    {
+        // These class properties must be set before calling the parent constructor, as it may depend on it.
+        $this->kernel = $kernel;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->followRedirects = false;
 
         parent::__construct($server, $history, $cookieJar);
@@ -48,16 +64,30 @@ class HttpKernelBrowser extends AbstractBrowser
 
     /**
      * Sets whether to catch exceptions when the kernel is handling a request.
+<<<<<<< HEAD
      */
     public function catchExceptions(bool $catchExceptions): void
+=======
+     *
+     * @return void
+     */
+    public function catchExceptions(bool $catchExceptions)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->catchExceptions = $catchExceptions;
     }
 
     /**
      * @param Request $request
+<<<<<<< HEAD
      */
     protected function doRequest(object $request): Response
+=======
+     *
+     * @return Response
+     */
+    protected function doRequest(object $request)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $response = $this->kernel->handle($request, HttpKernelInterface::MAIN_REQUEST, $this->catchExceptions);
 
@@ -70,8 +100,15 @@ class HttpKernelBrowser extends AbstractBrowser
 
     /**
      * @param Request $request
+<<<<<<< HEAD
      */
     protected function getScript(object $request): string
+=======
+     *
+     * @return string
+     */
+    protected function getScript(object $request)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $kernel = var_export(serialize($this->kernel), true);
         $request = var_export(serialize($request), true);
@@ -107,7 +144,14 @@ EOF;
         return $code.$this->getHandleScript();
     }
 
+<<<<<<< HEAD
     protected function getHandleScript(): string
+=======
+    /**
+     * @return string
+     */
+    protected function getHandleScript()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return <<<'EOF'
 $response = $kernel->handle($request);

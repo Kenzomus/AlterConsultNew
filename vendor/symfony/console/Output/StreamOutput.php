@@ -63,7 +63,14 @@ class StreamOutput extends Output
         return $this->stream;
     }
 
+<<<<<<< HEAD
     protected function doWrite(string $message, bool $newline): void
+=======
+    /**
+     * @return void
+     */
+    protected function doWrite(string $message, bool $newline)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($newline) {
             $message .= \PHP_EOL;
@@ -94,11 +101,14 @@ class StreamOutput extends Output
             return false;
         }
 
+<<<<<<< HEAD
         // Follow https://force-color.org/
         if ('' !== (($_SERVER['FORCE_COLOR'] ?? getenv('FORCE_COLOR'))[0] ?? '')) {
             return true;
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         // Detect msysgit/mingw and assume this is a tty because detection
         // does not work correctly, see https://github.com/composer/composer/issues/9690
         if (!@stream_isatty($this->stream) && !\in_array(strtoupper((string) getenv('MSYSTEM')), ['MINGW32', 'MINGW64'], true)) {

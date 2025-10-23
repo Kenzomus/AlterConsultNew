@@ -82,7 +82,11 @@
         "php": "^7.2.5 || ^8.0",
         "ext-json": "*",
         "guzzlehttp/promises": "^1.5.3 || ^2.0.3",
+<<<<<<< HEAD
         "guzzlehttp/psr7": "^2.7.0",
+=======
+        "guzzlehttp/psr7": "^1.9.1 || ^2.6.3",
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         "psr/http-client": "^1.0",
         "symfony/deprecation-contracts": "^2.2 || ^3.0"
     },

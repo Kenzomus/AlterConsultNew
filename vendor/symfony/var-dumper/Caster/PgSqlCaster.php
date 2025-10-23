@@ -19,8 +19,11 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  * @author Nicolas Grekas <p@tchwork.com>
  *
  * @final
+<<<<<<< HEAD
  *
  * @internal since Symfony 7.3
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 class PgSqlCaster
 {
@@ -71,14 +74,28 @@ class PgSqlCaster
         'function' => \PGSQL_DIAG_SOURCE_FUNCTION,
     ];
 
+<<<<<<< HEAD
     public static function castLargeObject($lo, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castLargeObject($lo, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $a['seek position'] = pg_lo_tell($lo);
 
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castLink($link, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castLink($link, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $a['status'] = pg_connection_status($link);
         $a['status'] = new ConstStub(\PGSQL_CONNECTION_OK === $a['status'] ? 'PGSQL_CONNECTION_OK' : 'PGSQL_CONNECTION_BAD', $a['status']);
@@ -110,7 +127,14 @@ class PgSqlCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castResult($result, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castResult($result, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $a['num rows'] = pg_num_rows($result);
         $a['status'] = pg_result_status($result);

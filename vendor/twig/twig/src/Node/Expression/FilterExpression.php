@@ -12,6 +12,7 @@
 
 namespace Twig\Node\Expression;
 
+<<<<<<< HEAD
 use Twig\Attribute\FirstClassTwigCallableReady;
 use Twig\Compiler;
 use Twig\Node\NameDeprecation;
@@ -54,10 +55,21 @@ class FilterExpression extends CallExpression
         $this->deprecateAttribute('callable', new NameDeprecation('twig/twig', '3.12'));
         $this->deprecateAttribute('is_variadic', new NameDeprecation('twig/twig', '3.12'));
         $this->deprecateAttribute('dynamic_name', new NameDeprecation('twig/twig', '3.12'));
+=======
+use Twig\Compiler;
+use Twig\Node\Node;
+
+class FilterExpression extends CallExpression
+{
+    public function __construct(Node $node, ConstantExpression $filterName, Node $arguments, int $lineno, string $tag = null)
+    {
+        parent::__construct(['node' => $node, 'filter' => $filterName, 'arguments' => $arguments], [], $lineno, $tag);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function compile(Compiler $compiler): void
     {
+<<<<<<< HEAD
         $name = $this->getNode('filter', false)->getAttribute('value');
         if ($name !== $this->getAttribute('name')) {
             trigger_deprecation('twig/twig', '3.11', 'Changing the value of a "filter" node in a NodeVisitor class is not supported anymore.');
@@ -74,6 +86,18 @@ class FilterExpression extends CallExpression
         if (!$this->hasAttribute('twig_callable')) {
             $this->setAttribute('twig_callable', $compiler->getEnvironment()->getFilter($name));
         }
+=======
+        $name = $this->getNode('filter')->getAttribute('value');
+        $filter = $compiler->getEnvironment()->getFilter($name);
+
+        $this->setAttribute('name', $name);
+        $this->setAttribute('type', 'filter');
+        $this->setAttribute('needs_environment', $filter->needsEnvironment());
+        $this->setAttribute('needs_context', $filter->needsContext());
+        $this->setAttribute('arguments', $filter->getArguments());
+        $this->setAttribute('callable', $filter->getCallable());
+        $this->setAttribute('is_variadic', $filter->isVariadic());
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         $this->compileCallable($compiler);
     }

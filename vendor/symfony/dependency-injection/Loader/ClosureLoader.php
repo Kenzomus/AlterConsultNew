@@ -23,10 +23,18 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class ClosureLoader extends Loader
 {
+<<<<<<< HEAD
     public function __construct(
         private ContainerBuilder $container,
         ?string $env = null,
     ) {
+=======
+    private ContainerBuilder $container;
+
+    public function __construct(ContainerBuilder $container, ?string $env = null)
+    {
+        $this->container = $container;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($env);
     }
 

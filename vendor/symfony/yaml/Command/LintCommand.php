@@ -50,7 +50,14 @@ class LintCommand extends Command
         $this->isReadableProvider = null === $isReadableProvider ? null : $isReadableProvider(...);
     }
 
+<<<<<<< HEAD
     protected function configure(): void
+=======
+    /**
+     * @return void
+     */
+    protected function configure()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this
             ->addArgument('filename', InputArgument::IS_ARRAY, 'A file, a directory or "-" for reading from STDIN')
@@ -72,9 +79,12 @@ You can also validate the syntax of a file:
 Or of a whole directory:
 
   <info>php %command.full_name% dirname</info>
+<<<<<<< HEAD
 
 The <info>--format</info> option specifies the format of the command output:
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
   <info>php %command.full_name% dirname --format=json</info>
 
 You can also exclude one or more specific files:
@@ -269,7 +279,10 @@ EOF
         }
     }
 
+<<<<<<< HEAD
     /** @return string[] */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private function getAvailableFormatOptions(): array
     {
         return ['txt', 'json', 'github'];

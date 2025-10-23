@@ -24,6 +24,7 @@ use Twig\Environment;
  */
 class HIncludeFragmentRenderer extends RoutableFragmentRenderer
 {
+<<<<<<< HEAD
     /**
      * @param string|null $globalDefaultTemplate The global default content (it can be a template name or the content)
      */
@@ -33,6 +34,22 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
         private ?string $globalDefaultTemplate = null,
         private string $charset = 'utf-8',
     ) {
+=======
+    private ?string $globalDefaultTemplate;
+    private ?UriSigner $signer;
+    private ?Environment $twig;
+    private string $charset;
+
+    /**
+     * @param string|null $globalDefaultTemplate The global default content (it can be a template name or the content)
+     */
+    public function __construct(?Environment $twig = null, ?UriSigner $signer = null, ?string $globalDefaultTemplate = null, string $charset = 'utf-8')
+    {
+        $this->twig = $twig;
+        $this->globalDefaultTemplate = $globalDefaultTemplate;
+        $this->signer = $signer;
+        $this->charset = $charset;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**

@@ -16,11 +16,17 @@ use Symfony\Component\Config\Builder\ConfigBuilderGeneratorInterface;
 use Symfony\Component\Config\Builder\ConfigBuilderInterface;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\Attribute\When;
+<<<<<<< HEAD
 use Symfony\Component\DependencyInjection\Attribute\WhenNot;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
+=======
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\DependencyInjection\Extension\ConfigurationExtensionInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -35,6 +41,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
  */
 class PhpFileLoader extends FileLoader
 {
+<<<<<<< HEAD
     protected bool $autoRegisterAliasesForSinglyImplementedInterfaces = false;
 
     public function __construct(
@@ -45,6 +52,15 @@ class PhpFileLoader extends FileLoader
         bool $prepend = false,
     ) {
         parent::__construct($container, $locator, $env, $prepend);
+=======
+    protected $autoRegisterAliasesForSinglyImplementedInterfaces = false;
+    private ?ConfigBuilderGeneratorInterface $generator;
+
+    public function __construct(ContainerBuilder $container, FileLocatorInterface $locator, ?string $env = null, ?ConfigBuilderGeneratorInterface $generator = null)
+    {
+        parent::__construct($container, $locator, $env);
+        $this->generator = $generator;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function load(mixed $resource, ?string $type = null): mixed
@@ -99,6 +115,7 @@ class PhpFileLoader extends FileLoader
         $configBuilders = [];
         $r = new \ReflectionFunction($callback);
 
+<<<<<<< HEAD
         $excluded = true;
         $whenAttributes = $r->getAttributes(When::class, \ReflectionAttribute::IS_INSTANCEOF);
         $notWhenAttributes = $r->getAttributes(WhenNot::class, \ReflectionAttribute::IS_INSTANCEOF);
@@ -125,6 +142,16 @@ class PhpFileLoader extends FileLoader
         }
 
         if ($excluded) {
+=======
+        $attribute = null;
+        foreach ($r->getAttributes(When::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
+            if ($this->env === $attribute->newInstance()->env) {
+                $attribute = null;
+                break;
+            }
+        }
+        if (null !== $attribute) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return;
         }
 
@@ -166,6 +193,7 @@ class PhpFileLoader extends FileLoader
         // Force load ContainerConfigurator to make env(), param() etc available.
         class_exists(ContainerConfigurator::class);
 
+<<<<<<< HEAD
         ++$this->importing;
         try {
             $callback(...$arguments);
@@ -178,6 +206,14 @@ class PhpFileLoader extends FileLoader
         }
 
         $this->loadExtensionConfigs();
+=======
+        $callback(...$arguments);
+
+        /** @var ConfigBuilderInterface $configBuilder */
+        foreach ($configBuilders as $configBuilder) {
+            $containerConfigurator->extension($configBuilder->getExtensionAlias(), $configBuilder->toArray());
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -212,7 +248,11 @@ class PhpFileLoader extends FileLoader
 
         if (!$this->container->hasExtension($alias)) {
             $extensions = array_filter(array_map(fn (ExtensionInterface $ext) => $ext->getAlias(), $this->container->getExtensions()));
+<<<<<<< HEAD
             throw new InvalidArgumentException(UndefinedExtensionHandler::getErrorMessage($namespace, null, $alias, $extensions));
+=======
+            throw new InvalidArgumentException(\sprintf('There is no extension able to load the configuration for "%s". Looked for namespace "%s", found "%s".', $namespace, $alias, $extensions ? implode('", "', $extensions) : 'none'));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $extension = $this->container->getExtension($alias);

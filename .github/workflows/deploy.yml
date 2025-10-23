@@ -1,4 +1,4 @@
-name: Deploy to Cloud Run
+name: Deploy Drupal to Google Cloud Run
 
 on:
   push:
@@ -6,42 +6,37 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy to Cloud Run
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Write service account key to file
-        env:
-          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
-        run: |
-          echo "$GCP_SA_KEY" | tr -d '\r' > "${HOME}/gcp-key.json"
-
+      # Authenticate with Google Cloud
       - name: Authenticate with Google Cloud
-        run: |
-          gcloud auth activate-service-account --key-file="${HOME}/gcp-key.json"
-          gcloud config set project alter-consult-464302
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-      - name: Configure Docker to use Artifact Registry
-        run: |
-          gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+      # Configure Docker to use Artifact Registry
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
-      - name: Build Docker image
+      # Build & Push Docker Image
+      - name: Build and Push Docker image
         run: |
-          docker build -t us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest .
+          IMAGE="us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/drupal-repo/drupal-app:${GITHUB_SHA}"
+          echo "Building and pushing $IMAGE"
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+          echo "IMAGE=$IMAGE" >> $GITHUB_ENV
 
-      - name: Push Docker image to Artifact Registry
-        run: |
-          docker push us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest
-
+      # Deploy to Cloud Run
       - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy alter-consult-drupal \
-            --image us-central1-docker.pkg.dev/alter-consult-464302/alterconsult-repo/alter-consult-drupal:latest \
-            --platform managed \
-            --region us-central1 \
-            --allow-unauthenticated \
-            --port 8080
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: drupal-app
+          image: ${{ env.IMAGE }}
+          region: ${{ secrets.GCP_REGION }}
+          allow-unauthenticated: true
+          flags: --port=8080

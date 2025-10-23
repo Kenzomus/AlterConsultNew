@@ -41,7 +41,14 @@ class PhpBridgeSessionStorage extends NativeSessionStorage
         return true;
     }
 
+<<<<<<< HEAD
     public function clear(): void
+=======
+    /**
+     * @return void
+     */
+    public function clear()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         // clear out the bags and nothing else that may be set
         // since the purpose of this driver is to share a handler

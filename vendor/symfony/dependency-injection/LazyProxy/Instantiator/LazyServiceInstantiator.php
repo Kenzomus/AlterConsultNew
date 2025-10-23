@@ -29,6 +29,7 @@ final class LazyServiceInstantiator implements InstantiatorInterface
             throw new InvalidArgumentException(\sprintf('Cannot instantiate lazy proxy for service "%s".', $id));
         }
 
+<<<<<<< HEAD
         if (\PHP_VERSION_ID >= 80400 && $asGhostObject) {
             return (new \ReflectionClass($definition->getClass()))->newLazyGhost(static function ($ghost) use ($realInstantiator) { $realInstantiator($ghost); });
         }
@@ -43,5 +44,12 @@ final class LazyServiceInstantiator implements InstantiatorInterface
         }
 
         return \PHP_VERSION_ID < 80400 && $asGhostObject ? $proxyClass::createLazyGhost($realInstantiator) : $proxyClass::createLazyProxy($realInstantiator);
+=======
+        if (!class_exists($proxyClass = $dumper->getProxyClass($definition, $asGhostObject), false)) {
+            eval($dumper->getProxyCode($definition, $id));
+        }
+
+        return $asGhostObject ? $proxyClass::createLazyGhost($realInstantiator) : $proxyClass::createLazyProxy($realInstantiator);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

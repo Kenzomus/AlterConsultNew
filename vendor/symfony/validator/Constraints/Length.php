@@ -11,13 +11,21 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Exception\MissingOptionsException;
 
 /**
+<<<<<<< HEAD
  * Validates that a given string length is between some minimum and maximum value.
+=======
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
@@ -46,6 +54,7 @@ class Length extends Constraint
         self::COUNT_GRAPHEMES,
     ];
 
+<<<<<<< HEAD
     public string $maxMessage = 'This value is too long. It should have {{ limit }} character or less.|This value is too long. It should have {{ limit }} characters or less.';
     public string $minMessage = 'This value is too short. It should have {{ limit }} character or more.|This value is too short. It should have {{ limit }} characters or more.';
     public string $exactMessage = 'This value should have exactly {{ limit }} character.|This value should have exactly {{ limit }} characters.';
@@ -53,12 +62,27 @@ class Length extends Constraint
     public ?int $max = null;
     public ?int $min = null;
     public string $charset = 'UTF-8';
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $maxMessage = 'This value is too long. It should have {{ limit }} character or less.|This value is too long. It should have {{ limit }} characters or less.';
+    public $minMessage = 'This value is too short. It should have {{ limit }} character or more.|This value is too short. It should have {{ limit }} characters or more.';
+    public $exactMessage = 'This value should have exactly {{ limit }} character.|This value should have exactly {{ limit }} characters.';
+    public $charsetMessage = 'This value does not match the expected {{ charset }} charset.';
+    public $max;
+    public $min;
+    public $charset = 'UTF-8';
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /** @var callable|null */
     public $normalizer;
     /** @var self::COUNT_* */
     public string $countUnit = self::COUNT_CODEPOINTS;
 
     /**
+<<<<<<< HEAD
      * @param positive-int|array<string,mixed>|null $exactly    The exact expected length
      * @param int<0, max>|null                      $min        The minimum expected length
      * @param positive-int|null                     $max        The maximum expected length
@@ -69,6 +93,10 @@ class Length extends Constraint
      * @param array<string,mixed>|null              $options
      */
     #[HasNamedArguments]
+=======
+     * @param self::COUNT_*|null $countUnit
+     */
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         int|array|null $exactly = null,
         ?int $min = null,
@@ -82,6 +110,7 @@ class Length extends Constraint
         ?string $charsetMessage = null,
         ?array $groups = null,
         mixed $payload = null,
+<<<<<<< HEAD
         ?array $options = null,
     ) {
         if (\is_array($exactly)) {
@@ -93,6 +122,13 @@ class Length extends Constraint
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
         } else {
             $options = [];
+=======
+        array $options = [],
+    ) {
+        if (\is_array($exactly)) {
+            $options = array_merge($exactly, $options);
+            $exactly = $options['value'] ?? null;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $min ??= $options['min'] ?? null;
@@ -124,7 +160,11 @@ class Length extends Constraint
             throw new InvalidArgumentException(\sprintf('The "normalizer" option must be a valid callable ("%s" given).', get_debug_type($this->normalizer)));
         }
 
+<<<<<<< HEAD
         if (!\in_array($this->countUnit, self::VALID_COUNT_UNITS, true)) {
+=======
+        if (!\in_array($this->countUnit, self::VALID_COUNT_UNITS)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             throw new InvalidArgumentException(\sprintf('The "countUnit" option must be one of the "%s"::COUNT_* constants ("%s" given).', __CLASS__, $this->countUnit));
         }
     }

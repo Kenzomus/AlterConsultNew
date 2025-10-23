@@ -20,5 +20,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 interface DescriptorInterface
 {
+<<<<<<< HEAD
     public function describe(OutputInterface $output, object $object, array $options = []): void;
+=======
+    /**
+     * @return void
+     */
+    public function describe(OutputInterface $output, object $object, array $options = []);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

@@ -20,6 +20,7 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  */
 class TraceStub extends Stub
 {
+<<<<<<< HEAD
     public function __construct(
         array $trace,
         public bool $keepArgs = true,
@@ -28,5 +29,19 @@ class TraceStub extends Stub
         public int $numberingOffset = 0,
     ) {
         $this->value = $trace;
+=======
+    public $keepArgs;
+    public $sliceOffset;
+    public $sliceLength;
+    public $numberingOffset;
+
+    public function __construct(array $trace, bool $keepArgs = true, int $sliceOffset = 0, ?int $sliceLength = null, int $numberingOffset = 0)
+    {
+        $this->value = $trace;
+        $this->keepArgs = $keepArgs;
+        $this->sliceOffset = $sliceOffset;
+        $this->sliceLength = $sliceLength;
+        $this->numberingOffset = $numberingOffset;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

@@ -20,6 +20,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class GithubActionReporter
 {
+<<<<<<< HEAD
+=======
+    private OutputInterface $output;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * @see https://github.com/actions/toolkit/blob/5e5e1b7aacba68a53836a34db4a288c3c1c1585b/packages/core/src/command.ts#L80-L85
      */
@@ -40,9 +45,15 @@ class GithubActionReporter
         ',' => '%2C',
     ];
 
+<<<<<<< HEAD
     public function __construct(
         private OutputInterface $output,
     ) {
+=======
+    public function __construct(OutputInterface $output)
+    {
+        $this->output = $output;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public static function isGithubActionEnvironment(): bool

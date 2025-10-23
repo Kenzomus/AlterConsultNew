@@ -22,10 +22,24 @@ class Cookie
     public const SAMESITE_LAX = 'lax';
     public const SAMESITE_STRICT = 'strict';
 
+<<<<<<< HEAD
     protected int $expire;
     protected string $path;
 
     private ?string $sameSite = null;
+=======
+    protected $name;
+    protected $value;
+    protected $domain;
+    protected $expire;
+    protected $path;
+    protected $secure;
+    protected $httpOnly;
+
+    private bool $raw;
+    private ?string $sameSite = null;
+    private bool $partitioned = false;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private bool $secureDefault = false;
 
     private const RESERVED_CHARS_LIST = "=,; \t\r\n\v\f";
@@ -68,9 +82,18 @@ class Cookie
      * @see self::__construct
      *
      * @param self::SAMESITE_*|''|null $sameSite
+<<<<<<< HEAD
      */
     public static function create(string $name, ?string $value = null, int|string|\DateTimeInterface $expire = 0, ?string $path = '/', ?string $domain = null, ?bool $secure = null, bool $httpOnly = true, bool $raw = false, ?string $sameSite = self::SAMESITE_LAX, bool $partitioned = false): self
     {
+=======
+     * @param bool                     $partitioned
+     */
+    public static function create(string $name, ?string $value = null, int|string|\DateTimeInterface $expire = 0, ?string $path = '/', ?string $domain = null, ?bool $secure = null, bool $httpOnly = true, bool $raw = false, ?string $sameSite = self::SAMESITE_LAX /* , bool $partitioned = false */): self
+    {
+        $partitioned = 9 < \func_num_args() ? func_get_arg(9) : false;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         return new self($name, $value, $expire, $path, $domain, $secure, $httpOnly, $raw, $sameSite, $partitioned);
     }
 
@@ -87,6 +110,7 @@ class Cookie
      *
      * @throws \InvalidArgumentException
      */
+<<<<<<< HEAD
     public function __construct(
         protected string $name,
         protected ?string $value = null,
@@ -99,11 +123,16 @@ class Cookie
         ?string $sameSite = self::SAMESITE_LAX,
         private bool $partitioned = false,
     ) {
+=======
+    public function __construct(string $name, ?string $value = null, int|string|\DateTimeInterface $expire = 0, ?string $path = '/', ?string $domain = null, ?bool $secure = null, bool $httpOnly = true, bool $raw = false, ?string $sameSite = self::SAMESITE_LAX, bool $partitioned = false)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         // from PHP source code
         if ($raw && false !== strpbrk($name, self::RESERVED_CHARS_LIST)) {
             throw new \InvalidArgumentException(\sprintf('The cookie name "%s" contains invalid characters.', $name));
         }
 
+<<<<<<< HEAD
         if (!$name) {
             throw new \InvalidArgumentException('The cookie name cannot be empty.');
         }
@@ -111,6 +140,22 @@ class Cookie
         $this->expire = self::expiresTimestamp($expire);
         $this->path = $path ?: '/';
         $this->sameSite = $this->withSameSite($sameSite)->sameSite;
+=======
+        if (empty($name)) {
+            throw new \InvalidArgumentException('The cookie name cannot be empty.');
+        }
+
+        $this->name = $name;
+        $this->value = $value;
+        $this->domain = $domain;
+        $this->expire = self::expiresTimestamp($expire);
+        $this->path = empty($path) ? '/' : $path;
+        $this->secure = $secure;
+        $this->httpOnly = $httpOnly;
+        $this->raw = $raw;
+        $this->sameSite = $this->withSameSite($sameSite)->sameSite;
+        $this->partitioned = $partitioned;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -336,7 +381,11 @@ class Cookie
     {
         $maxAge = $this->expire - time();
 
+<<<<<<< HEAD
         return max(0, $maxAge);
+=======
+        return 0 >= $maxAge ? 0 : $maxAge;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**

@@ -42,8 +42,13 @@ class Parser
     /**
      * Parses a YAML file into a PHP value.
      *
+<<<<<<< HEAD
      * @param string                     $filename The path to the YAML file to be parsed
      * @param int-mask-of<Yaml::PARSE_*> $flags    A bit field of Yaml::PARSE_* constants to customize the YAML parser behavior
+=======
+     * @param string $filename The path to the YAML file to be parsed
+     * @param int    $flags    A bit field of Yaml::PARSE_* constants to customize the YAML parser behavior
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      *
      * @throws ParseException If the file could not be read or the YAML is not valid
      */
@@ -69,8 +74,13 @@ class Parser
     /**
      * Parses a YAML string to a PHP value.
      *
+<<<<<<< HEAD
      * @param string                     $value A YAML string
      * @param int-mask-of<Yaml::PARSE_*> $flags A bit field of Yaml::PARSE_* constants to customize the YAML parser behavior
+=======
+     * @param string $value A YAML string
+     * @param int    $flags A bit field of Yaml::PARSE_* constants to customize the YAML parser behavior
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      *
      * @throws ParseException If the YAML is not valid
      */
@@ -197,9 +207,20 @@ class Parser
                     array_pop($this->refsBeingParsed);
                 }
             } elseif (
+<<<<<<< HEAD
                 self::preg_match('#^(?P<key>(?:![^\s]++\s++)?(?:'.Inline::REGEX_QUOTED_STRING.'|[^ \'"\[\{!].*?)) *\:(( |\t)++(?P<value>.+))?$#u', rtrim($this->currentLine), $values)
                 && (!str_contains($values['key'], ' #') || \in_array($values['key'][0], ['"', "'"]))
             ) {
+=======
+                // @todo in 7.0 remove legacy "(?:!?!php/const:)?"
+                self::preg_match('#^(?P<key>(?:![^\s]++\s++)?(?:'.Inline::REGEX_QUOTED_STRING.'|(?:!?!php/const:)?[^ \'"\[\{!].*?)) *\:(( |\t)++(?P<value>.+))?$#u', rtrim($this->currentLine), $values)
+                && (!str_contains($values['key'], ' #') || \in_array($values['key'][0], ['"', "'"]))
+            ) {
+                if (str_starts_with($values['key'], '!php/const:')) {
+                    trigger_deprecation('symfony/yaml', '6.2', 'YAML syntax for key "%s" is deprecated and replaced by "!php/const %s".', $values['key'], substr($values['key'], 11));
+                }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 if ($context && 'sequence' == $context) {
                     throw new ParseException('You cannot define a mapping item when in a sequence.', $this->currentLineNb + 1, $this->currentLine, $this->filename);
                 }
@@ -300,10 +321,13 @@ class Parser
                         // Spec: Keys MUST be unique; first one wins.
                         // But overwriting is allowed when a merge node is used in current block.
                         if ($allowOverwrite || !isset($data[$key])) {
+<<<<<<< HEAD
                             if (!$allowOverwrite && \array_key_exists($key, $data)) {
                                 trigger_deprecation('symfony/yaml', '7.2', 'Duplicate key "%s" detected on line %d whilst parsing YAML. Silent handling of duplicate mapping keys in YAML is deprecated and will throw a ParseException in 8.0.', $key, $this->getRealCurrentLineNb() + 1);
                             }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                             if (null !== $subTag) {
                                 $data[$key] = new TaggedValue($subTag, '');
                             } else {
@@ -325,10 +349,13 @@ class Parser
 
                             $data += $value;
                         } elseif ($allowOverwrite || !isset($data[$key])) {
+<<<<<<< HEAD
                             if (!$allowOverwrite && \array_key_exists($key, $data)) {
                                 trigger_deprecation('symfony/yaml', '7.2', 'Duplicate key "%s" detected on line %d whilst parsing YAML. Silent handling of duplicate mapping keys in YAML is deprecated and will throw a ParseException in 8.0.', $key, $this->getRealCurrentLineNb() + 1);
                             }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                             // Spec: Keys MUST be unique; first one wins.
                             // But overwriting is allowed when a merge node is used in current block.
                             if (null !== $subTag) {
@@ -345,10 +372,13 @@ class Parser
                     // Spec: Keys MUST be unique; first one wins.
                     // But overwriting is allowed when a merge node is used in current block.
                     if ($allowOverwrite || !isset($data[$key])) {
+<<<<<<< HEAD
                         if (!$allowOverwrite && \array_key_exists($key, $data)) {
                             trigger_deprecation('symfony/yaml', '7.2', 'Duplicate key "%s" detected on line %d whilst parsing YAML. Silent handling of duplicate mapping keys in YAML is deprecated and will throw a ParseException in 8.0.', $key, $this->getRealCurrentLineNb() + 1);
                         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                         $data[$key] = $value;
                     } else {
                         throw new ParseException(\sprintf('Duplicate key "%s" detected.', $key), $this->getRealCurrentLineNb() + 1, $this->currentLine);
@@ -419,7 +449,11 @@ class Parser
                     throw new ParseException('Multiple documents are not supported.', $this->currentLineNb + 1, $this->currentLine, $this->filename);
                 }
 
+<<<<<<< HEAD
                 if (isset($this->currentLine[1]) && '?' === $this->currentLine[0] && ' ' === $this->currentLine[1]) {
+=======
+                if ($deprecatedUsage = (isset($this->currentLine[1]) && '?' === $this->currentLine[0] && ' ' === $this->currentLine[1])) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     throw new ParseException('Complex mappings are not supported.', $this->getRealCurrentLineNb() + 1, $this->currentLine);
                 }
 
@@ -449,7 +483,11 @@ class Parser
                             continue;
                         }
                         // If the indentation is not consistent at offset 0, it is to be considered as a ParseError
+<<<<<<< HEAD
                         if (0 === $this->offset && isset($line[0]) && ' ' === $line[0]) {
+=======
+                        if (0 === $this->offset && !$deprecatedUsage && isset($line[0]) && ' ' === $line[0]) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                             throw new ParseException('Unable to parse.', $this->getRealCurrentLineNb() + 1, $this->currentLine, $this->filename);
                         }
 
@@ -506,7 +544,11 @@ class Parser
             $data = $object;
         }
 
+<<<<<<< HEAD
         return $data ?: null;
+=======
+        return empty($data) ? null : $data;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     private function parseBlock(int $offset, string $yaml, int $flags): mixed
@@ -874,7 +916,11 @@ class Parser
         if ($notEOF) {
             $blockLines[] = '';
             $this->moveToPreviousLine();
+<<<<<<< HEAD
         } elseif (!$this->isCurrentLineLastLineInDocument()) {
+=======
+        } elseif (!$notEOF && !$this->isCurrentLineLastLineInDocument()) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $blockLines[] = '';
         }
 

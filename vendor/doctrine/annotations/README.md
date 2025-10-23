@@ -23,7 +23,11 @@ Docblock Annotations Parser library (extracted from [Doctrine Common](https://gi
 
 ## Documentation
 
+<<<<<<< HEAD
 See the [doctrine-project website](https://www.doctrine-project.org/projects/doctrine-annotations/en/stable/index.html).
+=======
+See the [doctrine-project website](https://www.doctrine-project.org/projects/doctrine-annotations/en/latest/index.html).
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 ## Contributing
 

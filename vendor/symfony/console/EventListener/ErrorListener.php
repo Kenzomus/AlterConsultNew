@@ -24,12 +24,26 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ErrorListener implements EventSubscriberInterface
 {
+<<<<<<< HEAD
     public function __construct(
         private ?LoggerInterface $logger = null,
     ) {
     }
 
     public function onConsoleError(ConsoleErrorEvent $event): void
+=======
+    private ?LoggerInterface $logger;
+
+    public function __construct(?LoggerInterface $logger = null)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * @return void
+     */
+    public function onConsoleError(ConsoleErrorEvent $event)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (null === $this->logger) {
             return;
@@ -37,7 +51,11 @@ class ErrorListener implements EventSubscriberInterface
 
         $error = $event->getError();
 
+<<<<<<< HEAD
         if (!$inputString = self::getInputString($event)) {
+=======
+        if (!$inputString = $this->getInputString($event)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->logger->critical('An error occurred while using the console. Message: "{message}"', ['exception' => $error, 'message' => $error->getMessage()]);
 
             return;
@@ -46,7 +64,14 @@ class ErrorListener implements EventSubscriberInterface
         $this->logger->critical('Error thrown while running command "{command}". Message: "{message}"', ['exception' => $error, 'command' => $inputString, 'message' => $error->getMessage()]);
     }
 
+<<<<<<< HEAD
     public function onConsoleTerminate(ConsoleTerminateEvent $event): void
+=======
+    /**
+     * @return void
+     */
+    public function onConsoleTerminate(ConsoleTerminateEvent $event)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (null === $this->logger) {
             return;
@@ -58,7 +83,11 @@ class ErrorListener implements EventSubscriberInterface
             return;
         }
 
+<<<<<<< HEAD
         if (!$inputString = self::getInputString($event)) {
+=======
+        if (!$inputString = $this->getInputString($event)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->logger->debug('The console exited with code "{code}"', ['code' => $exitCode]);
 
             return;
@@ -75,6 +104,7 @@ class ErrorListener implements EventSubscriberInterface
         ];
     }
 
+<<<<<<< HEAD
     private static function getInputString(ConsoleEvent $event): string
     {
         $commandName = $event->getCommand()?->getName();
@@ -85,5 +115,21 @@ class ErrorListener implements EventSubscriberInterface
         }
 
         return $inputString;
+=======
+    private static function getInputString(ConsoleEvent $event): ?string
+    {
+        $commandName = $event->getCommand()?->getName();
+        $input = $event->getInput();
+
+        if ($input instanceof \Stringable) {
+            if ($commandName) {
+                return str_replace(["'$commandName'", "\"$commandName\""], $commandName, (string) $input);
+            }
+
+            return (string) $input;
+        }
+
+        return $commandName;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

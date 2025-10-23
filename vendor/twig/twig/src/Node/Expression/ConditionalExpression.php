@@ -13,6 +13,7 @@
 namespace Twig\Node\Expression;
 
 use Twig\Compiler;
+<<<<<<< HEAD
 use Twig\Node\Expression\Ternary\ConditionalTernary;
 
 class ConditionalExpression extends AbstractExpression implements OperatorEscapeInterface
@@ -21,6 +22,13 @@ class ConditionalExpression extends AbstractExpression implements OperatorEscape
     {
         trigger_deprecation('twig/twig', '3.17', \sprintf('"%s" is deprecated; use "%s" instead.', __CLASS__, ConditionalTernary::class));
 
+=======
+
+class ConditionalExpression extends AbstractExpression
+{
+    public function __construct(AbstractExpression $expr1, AbstractExpression $expr2, AbstractExpression $expr3, int $lineno)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct(['expr1' => $expr1, 'expr2' => $expr2, 'expr3' => $expr3], [], $lineno);
     }
 
@@ -45,9 +53,12 @@ class ConditionalExpression extends AbstractExpression implements OperatorEscape
                 ->raw('))');
         }
     }
+<<<<<<< HEAD
 
     public function getOperandNamesToEscape(): array
     {
         return ['expr2', 'expr3'];
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

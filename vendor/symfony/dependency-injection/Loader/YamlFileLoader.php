@@ -110,12 +110,22 @@ class YamlFileLoader extends FileLoader
         'bind' => 'bind',
     ];
 
+<<<<<<< HEAD
     protected bool $autoRegisterAliasesForSinglyImplementedInterfaces = false;
 
     private YamlParser $yamlParser;
     private int $anonymousServicesCount;
     private string $anonymousServicesSuffix;
 
+=======
+    private YamlParser $yamlParser;
+
+    private int $anonymousServicesCount;
+    private string $anonymousServicesSuffix;
+
+    protected $autoRegisterAliasesForSinglyImplementedInterfaces = false;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function load(mixed $resource, ?string $type = null): mixed
     {
         $path = $this->locator->locate($resource);
@@ -129,6 +139,7 @@ class YamlFileLoader extends FileLoader
             return null;
         }
 
+<<<<<<< HEAD
         ++$this->importing;
         try {
             $this->loadContent($content, $path);
@@ -151,6 +162,24 @@ class YamlFileLoader extends FileLoader
             --$this->importing;
         }
         $this->loadExtensionConfigs();
+=======
+        $this->loadContent($content, $path);
+
+        // per-env configuration
+        if ($this->env && isset($content['when@'.$this->env])) {
+            if (!\is_array($content['when@'.$this->env])) {
+                throw new InvalidArgumentException(\sprintf('The "when@%s" key should contain an array in "%s". Check your YAML syntax.', $this->env, $path));
+            }
+
+            $env = $this->env;
+            $this->env = null;
+            try {
+                $this->loadContent($content['when@'.$env], $path);
+            } finally {
+                $this->env = $env;
+            }
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         return null;
     }
@@ -448,7 +477,11 @@ class YamlFileLoader extends FileLoader
                         throw new InvalidArgumentException(\sprintf('Missing attribute "version" of the "deprecated" option in "%s".', $file));
                     }
 
+<<<<<<< HEAD
                     $alias->setDeprecated($deprecation['package'], $deprecation['version'], $deprecation['message'] ?? '');
+=======
+                    $alias->setDeprecated($deprecation['package'] ?? '', $deprecation['version'] ?? '', $deprecation['message'] ?? '');
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 }
             }
 
@@ -520,7 +553,11 @@ class YamlFileLoader extends FileLoader
                 throw new InvalidArgumentException(\sprintf('Missing attribute "version" of the "deprecated" option in "%s".', $file));
             }
 
+<<<<<<< HEAD
             $definition->setDeprecated($deprecation['package'], $deprecation['version'], $deprecation['message'] ?? '');
+=======
+            $definition->setDeprecated($deprecation['package'] ?? '', $deprecation['version'] ?? '', $deprecation['message'] ?? '');
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         if (isset($service['factory'])) {
@@ -809,9 +846,15 @@ class YamlFileLoader extends FileLoader
                 continue;
             }
 
+<<<<<<< HEAD
             if (!$this->prepend && !$this->container->hasExtension($namespace)) {
                 $extensionNamespaces = array_filter(array_map(fn (ExtensionInterface $ext) => $ext->getAlias(), $this->container->getExtensions()));
                 throw new InvalidArgumentException(UndefinedExtensionHandler::getErrorMessage($namespace, $file, $namespace, $extensionNamespaces));
+=======
+            if (!$this->container->hasExtension($namespace)) {
+                $extensionNamespaces = array_filter(array_map(fn (ExtensionInterface $ext) => $ext->getAlias(), $this->container->getExtensions()));
+                throw new InvalidArgumentException(\sprintf('There is no extension able to load the configuration for "%s" (in "%s"). Looked for namespace "%s", found "%s".', $namespace, $file, $namespace, $extensionNamespaces ? \sprintf('"%s"', implode('", "', $extensionNamespaces)) : 'none'));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
         }
 
@@ -850,6 +893,7 @@ class YamlFileLoader extends FileLoader
 
                 $argument = $this->resolveServices($argument, $file, $isParameter);
 
+<<<<<<< HEAD
                 return new ServiceLocatorArgument($argument);
             }
             if (\in_array($value->getTag(), ['tagged', 'tagged_iterator', 'tagged_locator'], true)) {
@@ -857,6 +901,15 @@ class YamlFileLoader extends FileLoader
                     trigger_deprecation('symfony/dependency-injection', '7.2', 'Using "!tagged" is deprecated, use "!tagged_iterator" instead in "%s".', $file);
                 }
 
+=======
+                if (isset($argument[0])) {
+                    trigger_deprecation('symfony/dependency-injection', '6.3', 'Using integers as keys in a "!service_locator" tag is deprecated. The keys will default to the IDs of the original services in 7.0.');
+                }
+
+                return new ServiceLocatorArgument($argument);
+            }
+            if (\in_array($value->getTag(), ['tagged', 'tagged_iterator', 'tagged_locator'], true)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $forLocator = 'tagged_locator' === $value->getTag();
 
                 if (\is_array($argument) && isset($argument['tag']) && $argument['tag']) {
@@ -923,11 +976,14 @@ class YamlFileLoader extends FileLoader
 
             return new Expression(substr($value, 2));
         } elseif (\is_string($value) && str_starts_with($value, '@')) {
+<<<<<<< HEAD
             if (str_starts_with($value, '@>')) {
                 $argument = $this->resolveServices(substr_replace($value, '', 1, 1), $file, $isParameter);
 
                 return new ServiceClosureArgument($argument);
             }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if (str_starts_with($value, '@@')) {
                 $value = substr($value, 1);
                 $invalidBehavior = null;
@@ -957,6 +1013,7 @@ class YamlFileLoader extends FileLoader
                 continue;
             }
 
+<<<<<<< HEAD
             if (!\is_array($values)) {
                 $values = [];
             }
@@ -965,6 +1022,14 @@ class YamlFileLoader extends FileLoader
         }
 
         $this->loadExtensionConfigs();
+=======
+            if (!\is_array($values) && null !== $values) {
+                $values = [];
+            }
+
+            $this->container->loadFromExtension($namespace, $values);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     private function checkDefinition(string $id, array $definition, string $file): void

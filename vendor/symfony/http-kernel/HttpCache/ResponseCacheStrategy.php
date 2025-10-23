@@ -54,7 +54,14 @@ class ResponseCacheStrategy implements ResponseCacheStrategyInterface
         'expires' => false,
     ];
 
+<<<<<<< HEAD
     public function add(Response $response): void
+=======
+    /**
+     * @return void
+     */
+    public function add(Response $response)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         ++$this->embeddedResponses;
 
@@ -110,7 +117,14 @@ class ResponseCacheStrategy implements ResponseCacheStrategyInterface
         }
     }
 
+<<<<<<< HEAD
     public function update(Response $response): void
+=======
+    /**
+     * @return void
+     */
+    public function update(Response $response)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         // if we have no embedded Response, do nothing
         if (0 === $this->embeddedResponses) {

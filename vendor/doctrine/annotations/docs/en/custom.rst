@@ -2,7 +2,11 @@ Custom Annotation Classes
 =========================
 
 If you want to define your own annotations, you just have to group them
+<<<<<<< HEAD
 in a namespace.
+=======
+in a namespace and register this namespace in the ``AnnotationRegistry``.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 Annotation classes have to contain a class-level docblock with the text
 ``@Annotation``:
 
@@ -58,10 +62,17 @@ Optional: Constructors with Named Parameters
 
 Starting with Annotations v1.11 a new annotation instantiation strategy
 is available that aims at compatibility of Annotation classes with the PHP 8
+<<<<<<< HEAD
 attribute feature. You need to declare a constructor with regular parameter
 names that match the named arguments in the annotation syntax.
 
 To enable this feature, you can tag your annotation class with
+=======
+attribute feature. You need to declare a constructor with regular parameter 
+names that match the named arguments in the annotation syntax.
+
+To enable this feature, you can tag your annotation class with 
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 ``@NamedArgumentConstructor`` (available from v1.12) or implement the
 ``Doctrine\Common\Annotations\NamedArgumentConstructorAnnotation`` interface
 (available from v1.11 and deprecated as of v1.12).
@@ -75,8 +86,13 @@ Usage with the ``@NamedArgumentConstructor`` tag
 
     namespace MyCompany\Annotations;
 
+<<<<<<< HEAD
     /**
      * @Annotation
+=======
+    /** 
+     * @Annotation 
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @NamedArgumentConstructor
      */
     class Bar implements NamedArgumentConstructorAnnotation
@@ -99,8 +115,13 @@ you can simplify this to:
 
     namespace MyCompany\Annotations;
 
+<<<<<<< HEAD
     /**
      * @Annotation
+=======
+    /** 
+     * @Annotation 
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @NamedArgumentConstructor
      */
     class Bar implements NamedArgumentConstructorAnnotation
@@ -109,7 +130,11 @@ you can simplify this to:
     }
 
 
+<<<<<<< HEAD
 Usage with the
+=======
+Usage with the 
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 ``Doctrine\Common\Annotations\NamedArgumentConstructorAnnotation``
 interface (v1.11, deprecated as of v1.12):
 .. code-block:: php

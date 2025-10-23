@@ -27,7 +27,12 @@ final class RunProcessContext
         Process $process,
     ) {
         $this->exitCode = $process->getExitCode();
+<<<<<<< HEAD
         $this->output = !$process->isStarted() || $process->isOutputDisabled() ? null : $process->getOutput();
         $this->errorOutput = !$process->isStarted() || $process->isOutputDisabled() ? null : $process->getErrorOutput();
+=======
+        $this->output = $process->isOutputDisabled() ? null : $process->getOutput();
+        $this->errorOutput = $process->isOutputDisabled() ? null : $process->getErrorOutput();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

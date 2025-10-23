@@ -16,10 +16,20 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class RequestAttributeValueSame extends Constraint
 {
+<<<<<<< HEAD
     public function __construct(
         private string $name,
         private string $value,
     ) {
+=======
+    private string $name;
+    private string $value;
+
+    public function __construct(string $name, string $value)
+    {
+        $this->name = $name;
+        $this->value = $value;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function toString(): string

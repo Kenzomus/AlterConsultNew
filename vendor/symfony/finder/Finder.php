@@ -397,8 +397,15 @@ class Finder implements \IteratorAggregate, \Countable
      * @see ignoreVCS()
      *
      * @param string|string[] $pattern VCS patterns to ignore
+<<<<<<< HEAD
      */
     public static function addVCSPattern(string|array $pattern): void
+=======
+     *
+     * @return void
+     */
+    public static function addVCSPattern(string|array $pattern)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ((array) $pattern as $p) {
             self::$vcsPatterns[] = $p;
@@ -586,8 +593,14 @@ class Finder implements \IteratorAggregate, \Countable
      *
      * @see CustomFilterIterator
      */
+<<<<<<< HEAD
     public function filter(\Closure $closure, bool $prune = false): static
     {
+=======
+    public function filter(\Closure $closure /* , bool $prune = false */): static
+    {
+        $prune = 1 < \func_num_args() ? func_get_arg(1) : false;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->filters[] = $closure;
 
         if ($prune) {
@@ -699,6 +712,11 @@ class Finder implements \IteratorAggregate, \Countable
      * The set can be another Finder, an Iterator, an IteratorAggregate, or even a plain array.
      *
      * @return $this
+<<<<<<< HEAD
+=======
+     *
+     * @throws \InvalidArgumentException when the given argument is not iterable
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function append(iterable $iterator): static
     {
@@ -706,13 +724,22 @@ class Finder implements \IteratorAggregate, \Countable
             $this->iterators[] = $iterator->getIterator();
         } elseif ($iterator instanceof \Iterator) {
             $this->iterators[] = $iterator;
+<<<<<<< HEAD
         } else {
+=======
+        } elseif (is_iterable($iterator)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $it = new \ArrayIterator();
             foreach ($iterator as $file) {
                 $file = $file instanceof \SplFileInfo ? $file : new \SplFileInfo($file);
                 $it[$file->getPathname()] = $file;
             }
             $this->iterators[] = $it;
+<<<<<<< HEAD
+=======
+        } else {
+            throw new \InvalidArgumentException('Finder::append() method wrong argument type.');
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return $this;

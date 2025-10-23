@@ -93,7 +93,14 @@ abstract class MemberMetadata extends GenericMetadata implements PropertyMetadat
         return $this->name;
     }
 
+<<<<<<< HEAD
     public function getClassName(): string
+=======
+    /**
+     * @return string
+     */
+    public function getClassName()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->class;
     }

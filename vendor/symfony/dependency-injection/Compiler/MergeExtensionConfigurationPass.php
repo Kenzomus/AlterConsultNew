@@ -14,7 +14,10 @@ namespace Symfony\Component\DependencyInjection\Compiler;
 use Symfony\Component\Config\Definition\BaseNode;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
+<<<<<<< HEAD
 use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Extension\ConfigurationExtensionInterface;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -30,7 +33,14 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  */
 class MergeExtensionConfigurationPass implements CompilerPassInterface
 {
+<<<<<<< HEAD
     public function process(ContainerBuilder $container): void
+=======
+    /**
+     * @return void
+     */
+    public function process(ContainerBuilder $container)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $parameters = $container->getParameterBag()->all();
         $definitions = $container->getDefinitions();
@@ -57,6 +67,7 @@ class MergeExtensionConfigurationPass implements CompilerPassInterface
                     BaseNode::setPlaceholderUniquePrefix($resolvingBag->getEnvPlaceholderUniquePrefix());
                 }
             }
+<<<<<<< HEAD
 
             try {
                 $config = $resolvingBag->resolveValue($config);
@@ -65,6 +76,9 @@ class MergeExtensionConfigurationPass implements CompilerPassInterface
 
                 throw $e;
             }
+=======
+            $config = $resolvingBag->resolveValue($config);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
             try {
                 $tmpContainer = new MergeExtensionConfigurationContainerBuilder($extension, $resolvingBag);
@@ -173,12 +187,20 @@ class MergeExtensionConfigurationContainerBuilder extends ContainerBuilder
         throw new LogicException(\sprintf('You cannot add compiler pass "%s" from extension "%s". Compiler passes must be registered before the container is compiled.', get_debug_type($pass), $this->extensionClass));
     }
 
+<<<<<<< HEAD
     public function registerExtension(ExtensionInterface $extension): void
+=======
+    public function registerExtension(ExtensionInterface $extension)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         throw new LogicException(\sprintf('You cannot register extension "%s" from "%s". Extensions must be registered before the container is compiled.', get_debug_type($extension), $this->extensionClass));
     }
 
+<<<<<<< HEAD
     public function compile(bool $resolveEnvPlaceholders = false): void
+=======
+    public function compile(bool $resolveEnvPlaceholders = false)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         throw new LogicException(\sprintf('Cannot compile the container in extension "%s".', $this->extensionClass));
     }
@@ -193,7 +215,11 @@ class MergeExtensionConfigurationContainerBuilder extends ContainerBuilder
         $value = $bag->resolveValue($value);
 
         if (!$bag instanceof EnvPlaceholderParameterBag) {
+<<<<<<< HEAD
             return parent::resolveEnvPlaceholders($value, true, $usedEnvs);
+=======
+            return parent::resolveEnvPlaceholders($value, $format, $usedEnvs);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         foreach ($bag->getEnvPlaceholders() as $env => $placeholders) {
@@ -207,6 +233,10 @@ class MergeExtensionConfigurationContainerBuilder extends ContainerBuilder
             }
         }
 
+<<<<<<< HEAD
         return parent::resolveEnvPlaceholders($value, true, $usedEnvs);
+=======
+        return parent::resolveEnvPlaceholders($value, $format, $usedEnvs);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

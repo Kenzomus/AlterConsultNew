@@ -18,12 +18,18 @@ namespace Symfony\Component\Console\Exception;
  */
 class CommandNotFoundException extends \InvalidArgumentException implements ExceptionInterface
 {
+<<<<<<< HEAD
+=======
+    private array $alternatives;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * @param string          $message      Exception message to throw
      * @param string[]        $alternatives List of similar defined names
      * @param int             $code         Exception code
      * @param \Throwable|null $previous     Previous exception used for the exception chaining
      */
+<<<<<<< HEAD
     public function __construct(
         string $message,
         private array $alternatives = [],
@@ -31,6 +37,13 @@ class CommandNotFoundException extends \InvalidArgumentException implements Exce
         ?\Throwable $previous = null,
     ) {
         parent::__construct($message, $code, $previous);
+=======
+    public function __construct(string $message, array $alternatives = [], int $code = 0, ?\Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+
+        $this->alternatives = $alternatives;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**

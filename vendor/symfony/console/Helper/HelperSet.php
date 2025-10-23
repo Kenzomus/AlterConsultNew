@@ -35,7 +35,14 @@ class HelperSet implements \IteratorAggregate
         }
     }
 
+<<<<<<< HEAD
     public function set(HelperInterface $helper, ?string $alias = null): void
+=======
+    /**
+     * @return void
+     */
+    public function set(HelperInterface $helper, ?string $alias = null)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->helpers[$helper->getName()] = $helper;
         if (null !== $alias) {

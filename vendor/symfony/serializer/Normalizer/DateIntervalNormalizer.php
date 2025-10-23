@@ -19,8 +19,15 @@ use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
  * Denormalizes an interval string to an instance of {@see \DateInterval}.
  *
  * @author Jérôme Parmentier <jerome@prmntr.me>
+<<<<<<< HEAD
  */
 final class DateIntervalNormalizer implements NormalizerInterface, DenormalizerInterface
+=======
+ *
+ * @final since Symfony 6.3
+ */
+class DateIntervalNormalizer implements NormalizerInterface, DenormalizerInterface, CacheableSupportsMethodInterface
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     public const FORMAT_KEY = 'dateinterval_format';
 
@@ -36,13 +43,18 @@ final class DateIntervalNormalizer implements NormalizerInterface, DenormalizerI
     public function getSupportedTypes(?string $format): array
     {
         return [
+<<<<<<< HEAD
             \DateInterval::class => true,
+=======
+            \DateInterval::class => __CLASS__ === static::class || $this->hasCacheableSupportsMethod(),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         ];
     }
 
     /**
      * @throws InvalidArgumentException
      */
+<<<<<<< HEAD
     public function normalize(mixed $data, ?string $format = null, array $context = []): string
     {
         if (!$data instanceof \DateInterval) {
@@ -53,11 +65,39 @@ final class DateIntervalNormalizer implements NormalizerInterface, DenormalizerI
     }
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+=======
+    public function normalize(mixed $object, ?string $format = null, array $context = []): string
+    {
+        if (!$object instanceof \DateInterval) {
+            throw new InvalidArgumentException('The object must be an instance of "\DateInterval".');
+        }
+
+        return $object->format($context[self::FORMAT_KEY] ?? $this->defaultContext[self::FORMAT_KEY]);
+    }
+
+    /**
+     * @param array $context
+     */
+    public function supportsNormalization(mixed $data, ?string $format = null /* , array $context = [] */): bool
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $data instanceof \DateInterval;
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @deprecated since Symfony 6.3, use "getSupportedTypes()" instead
+     */
+    public function hasCacheableSupportsMethod(): bool
+    {
+        trigger_deprecation('symfony/serializer', '6.3', 'The "%s()" method is deprecated, implement "%s::getSupportedTypes()" instead.', __METHOD__, get_debug_type($this));
+
+        return __CLASS__ === static::class;
+    }
+
+    /**
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @throws NotNormalizableValueException
      */
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): \DateInterval
@@ -106,7 +146,14 @@ final class DateIntervalNormalizer implements NormalizerInterface, DenormalizerI
         }
     }
 
+<<<<<<< HEAD
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+=======
+    /**
+     * @param array $context
+     */
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null /* , array $context = [] */): bool
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return \DateInterval::class === $type;
     }

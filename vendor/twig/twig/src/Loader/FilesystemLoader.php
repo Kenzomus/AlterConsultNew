@@ -24,9 +24,12 @@ class FilesystemLoader implements LoaderInterface
     /** Identifier of the main namespace. */
     public const MAIN_NAMESPACE = '__main__';
 
+<<<<<<< HEAD
     /**
      * @var array<string, list<string>>
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected $paths = [];
     protected $cache = [];
     protected $errorCache = [];
@@ -34,10 +37,17 @@ class FilesystemLoader implements LoaderInterface
     private $rootPath;
 
     /**
+<<<<<<< HEAD
      * @param string|string[] $paths    A path or an array of paths where to look for templates
      * @param string|null     $rootPath The root path common to all relative paths (null for getcwd())
      */
     public function __construct($paths = [], ?string $rootPath = null)
+=======
+     * @param string|array $paths    A path or an array of paths where to look for templates
+     * @param string|null  $rootPath The root path common to all relative paths (null for getcwd())
+     */
+    public function __construct($paths = [], string $rootPath = null)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->rootPath = ($rootPath ?? getcwd()).\DIRECTORY_SEPARATOR;
         if (null !== $rootPath && false !== ($realPath = realpath($rootPath))) {
@@ -51,8 +61,11 @@ class FilesystemLoader implements LoaderInterface
 
     /**
      * Returns the paths to the templates.
+<<<<<<< HEAD
      *
      * @return list<string>
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function getPaths(string $namespace = self::MAIN_NAMESPACE): array
     {
@@ -63,8 +76,11 @@ class FilesystemLoader implements LoaderInterface
      * Returns the path namespaces.
      *
      * The main namespace is always defined.
+<<<<<<< HEAD
      *
      * @return list<string>
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function getNamespaces(): array
     {
@@ -72,7 +88,11 @@ class FilesystemLoader implements LoaderInterface
     }
 
     /**
+<<<<<<< HEAD
      * @param string|string[] $paths A path or an array of paths where to look for templates
+=======
+     * @param string|array $paths A path or an array of paths where to look for templates
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function setPaths($paths, string $namespace = self::MAIN_NAMESPACE): void
     {
@@ -96,7 +116,11 @@ class FilesystemLoader implements LoaderInterface
 
         $checkPath = $this->isAbsolutePath($path) ? $path : $this->rootPath.$path;
         if (!is_dir($checkPath)) {
+<<<<<<< HEAD
             throw new LoaderError(\sprintf('The "%s" directory does not exist ("%s").', $path, $checkPath));
+=======
+            throw new LoaderError(sprintf('The "%s" directory does not exist ("%s").', $path, $checkPath));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $this->paths[$namespace][] = rtrim($path, '/\\');
@@ -112,7 +136,11 @@ class FilesystemLoader implements LoaderInterface
 
         $checkPath = $this->isAbsolutePath($path) ? $path : $this->rootPath.$path;
         if (!is_dir($checkPath)) {
+<<<<<<< HEAD
             throw new LoaderError(\sprintf('The "%s" directory does not exist ("%s").', $path, $checkPath));
+=======
+            throw new LoaderError(sprintf('The "%s" directory does not exist ("%s").', $path, $checkPath));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $path = rtrim($path, '/\\');
@@ -190,7 +218,11 @@ class FilesystemLoader implements LoaderInterface
         }
 
         try {
+<<<<<<< HEAD
             [$namespace, $shortname] = $this->parseName($name);
+=======
+            list($namespace, $shortname) = $this->parseName($name);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
             $this->validateName($shortname);
         } catch (LoaderError $e) {
@@ -202,7 +234,11 @@ class FilesystemLoader implements LoaderInterface
         }
 
         if (!isset($this->paths[$namespace])) {
+<<<<<<< HEAD
             $this->errorCache[$name] = \sprintf('There are no registered paths for namespace "%s".', $namespace);
+=======
+            $this->errorCache[$name] = sprintf('There are no registered paths for namespace "%s".', $namespace);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
             if (!$throw) {
                 return null;
@@ -225,7 +261,11 @@ class FilesystemLoader implements LoaderInterface
             }
         }
 
+<<<<<<< HEAD
         $this->errorCache[$name] = \sprintf('Unable to find template "%s" (looked into: %s).', $name, implode(', ', $this->paths[$namespace]));
+=======
+        $this->errorCache[$name] = sprintf('Unable to find template "%s" (looked into: %s).', $name, implode(', ', $this->paths[$namespace]));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         if (!$throw) {
             return null;
@@ -243,7 +283,11 @@ class FilesystemLoader implements LoaderInterface
     {
         if (isset($name[0]) && '@' == $name[0]) {
             if (false === $pos = strpos($name, '/')) {
+<<<<<<< HEAD
                 throw new LoaderError(\sprintf('Malformed namespaced template name "%s" (expecting "@namespace/template_name").', $name));
+=======
+                throw new LoaderError(sprintf('Malformed namespaced template name "%s" (expecting "@namespace/template_name").', $name));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
 
             $namespace = substr($name, 1, $pos - 1);
@@ -272,7 +316,11 @@ class FilesystemLoader implements LoaderInterface
             }
 
             if ($level < 0) {
+<<<<<<< HEAD
                 throw new LoaderError(\sprintf('Looks like you try to load a template outside configured directories (%s).', $name));
+=======
+                throw new LoaderError(sprintf('Looks like you try to load a template outside configured directories (%s).', $name));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
         }
     }

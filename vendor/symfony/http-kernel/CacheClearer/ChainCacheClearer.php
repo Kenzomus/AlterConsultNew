@@ -20,12 +20,23 @@ namespace Symfony\Component\HttpKernel\CacheClearer;
  */
 class ChainCacheClearer implements CacheClearerInterface
 {
+<<<<<<< HEAD
     /**
      * @param iterable<mixed, CacheClearerInterface> $clearers
      */
     public function __construct(
         private iterable $clearers = [],
     ) {
+=======
+    private iterable $clearers;
+
+    /**
+     * @param iterable<mixed, CacheClearerInterface> $clearers
+     */
+    public function __construct(iterable $clearers = [])
+    {
+        $this->clearers = $clearers;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function clear(string $cacheDir): void

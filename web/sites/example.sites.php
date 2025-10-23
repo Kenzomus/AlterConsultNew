@@ -7,7 +7,11 @@
  * Configuration file for multi-site support and directory aliasing feature.
  *
  * This file is required for multi-site support and also allows you to define a
+<<<<<<< HEAD
  * set of aliases that map host names, ports, and path names to configuration
+=======
+ * set of aliases that map hostnames, ports, and pathnames to configuration
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  * directories in the sites directory. These aliases are loaded prior to
  * scanning for directories, and they are exempt from the normal discovery
  * rules. See default.settings.php to view how Drupal discovers the

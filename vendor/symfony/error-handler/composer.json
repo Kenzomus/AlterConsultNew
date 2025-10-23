@@ -16,6 +16,7 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=8.2",
         "psr/log": "^1|^2|^3",
         "symfony/var-dumper": "^6.4|^7.0"
@@ -26,6 +27,16 @@
         "symfony/serializer": "^6.4|^7.0",
         "symfony/deprecation-contracts": "^2.5|^3",
         "symfony/webpack-encore-bundle": "^1.0|^2.0"
+=======
+        "php": ">=8.1",
+        "psr/log": "^1|^2|^3",
+        "symfony/var-dumper": "^5.4|^6.0|^7.0"
+    },
+    "require-dev": {
+        "symfony/http-kernel": "^6.4|^7.0",
+        "symfony/serializer": "^5.4|^6.0|^7.0",
+        "symfony/deprecation-contracts": "^2.5|^3"
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     },
     "conflict": {
         "symfony/deprecation-contracts": "<2.5",

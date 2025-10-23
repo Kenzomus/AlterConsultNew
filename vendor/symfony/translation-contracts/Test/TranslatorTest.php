@@ -11,8 +11,11 @@
 
 namespace Symfony\Contracts\Translation\Test;
 
+<<<<<<< HEAD
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Contracts\Translation\TranslatorTrait;
@@ -47,7 +50,11 @@ class TranslatorTest extends TestCase
 
     public function getTranslator(): TranslatorInterface
     {
+<<<<<<< HEAD
         return new class implements TranslatorInterface {
+=======
+        return new class() implements TranslatorInterface {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             use TranslatorTrait;
         };
     }
@@ -55,7 +62,10 @@ class TranslatorTest extends TestCase
     /**
      * @dataProvider getTransTests
      */
+<<<<<<< HEAD
     #[DataProvider('getTransTests')]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function testTrans($expected, $id, $parameters)
     {
         $translator = $this->getTranslator();
@@ -66,7 +76,10 @@ class TranslatorTest extends TestCase
     /**
      * @dataProvider getTransChoiceTests
      */
+<<<<<<< HEAD
     #[DataProvider('getTransChoiceTests')]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function testTransChoiceWithExplicitLocale($expected, $id, $number)
     {
         $translator = $this->getTranslator();
@@ -79,8 +92,11 @@ class TranslatorTest extends TestCase
      *
      * @dataProvider getTransChoiceTests
      */
+<<<<<<< HEAD
     #[DataProvider('getTransChoiceTests')]
     #[RequiresPhpExtension('intl')]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function testTransChoiceWithDefaultLocale($expected, $id, $number)
     {
         $translator = $this->getTranslator();
@@ -91,7 +107,10 @@ class TranslatorTest extends TestCase
     /**
      * @dataProvider getTransChoiceTests
      */
+<<<<<<< HEAD
     #[DataProvider('getTransChoiceTests')]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function testTransChoiceWithEnUsPosix($expected, $id, $number)
     {
         $translator = $this->getTranslator();
@@ -110,7 +129,10 @@ class TranslatorTest extends TestCase
     /**
      * @requires extension intl
      */
+<<<<<<< HEAD
     #[RequiresPhpExtension('intl')]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function testGetLocaleReturnsDefaultLocaleIfNotSet()
     {
         $translator = $this->getTranslator();
@@ -147,7 +169,10 @@ class TranslatorTest extends TestCase
     /**
      * @dataProvider getInterval
      */
+<<<<<<< HEAD
     #[DataProvider('getInterval')]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function testInterval($expected, $number, $interval)
     {
         $translator = $this->getTranslator();
@@ -173,7 +198,10 @@ class TranslatorTest extends TestCase
     /**
      * @dataProvider getChooseTests
      */
+<<<<<<< HEAD
     #[DataProvider('getChooseTests')]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function testChoose($expected, $id, $number, $locale = null)
     {
         $translator = $this->getTranslator();
@@ -191,12 +219,19 @@ class TranslatorTest extends TestCase
     /**
      * @dataProvider getNonMatchingMessages
      */
+<<<<<<< HEAD
     #[DataProvider('getNonMatchingMessages')]
     public function testThrowExceptionIfMatchingMessageCannotBeFound($id, $number)
     {
         $translator = $this->getTranslator();
 
         $this->expectException(\InvalidArgumentException::class);
+=======
+    public function testThrowExceptionIfMatchingMessageCannotBeFound($id, $number)
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $translator = $this->getTranslator();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         $translator->trans($id, ['%count%' => $number]);
     }
@@ -307,7 +342,10 @@ class TranslatorTest extends TestCase
     /**
      * @dataProvider failingLangcodes
      */
+<<<<<<< HEAD
     #[DataProvider('failingLangcodes')]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function testFailedLangcodes($nplural, $langCodes)
     {
         $matrix = $this->generateTestData($langCodes);
@@ -317,7 +355,10 @@ class TranslatorTest extends TestCase
     /**
      * @dataProvider successLangcodes
      */
+<<<<<<< HEAD
     #[DataProvider('successLangcodes')]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function testLangcodes($nplural, $langCodes)
     {
         $matrix = $this->generateTestData($langCodes);
@@ -372,14 +413,22 @@ class TranslatorTest extends TestCase
             if ($expectSuccess) {
                 $this->assertCount($nplural, $indexes, "Langcode '$langCode' has '$nplural' plural forms.");
             } else {
+<<<<<<< HEAD
                 $this->assertNotCount($nplural, $indexes, "Langcode '$langCode' has '$nplural' plural forms.");
+=======
+                $this->assertNotEquals((int) $nplural, \count($indexes), "Langcode '$langCode' has '$nplural' plural forms.");
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
         }
     }
 
     protected function generateTestData($langCodes)
     {
+<<<<<<< HEAD
         $translator = new class {
+=======
+        $translator = new class() {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             use TranslatorTrait {
                 getPluralizationRule as public;
             }

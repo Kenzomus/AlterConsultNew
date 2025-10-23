@@ -20,6 +20,7 @@ interface StyleInterface
 {
     /**
      * Formats a command title.
+<<<<<<< HEAD
      */
     public function title(string $message): void;
 
@@ -67,6 +68,75 @@ interface StyleInterface
      * Formats a table.
      */
     public function table(array $headers, array $rows): void;
+=======
+     *
+     * @return void
+     */
+    public function title(string $message);
+
+    /**
+     * Formats a section title.
+     *
+     * @return void
+     */
+    public function section(string $message);
+
+    /**
+     * Formats a list.
+     *
+     * @return void
+     */
+    public function listing(array $elements);
+
+    /**
+     * Formats informational text.
+     *
+     * @return void
+     */
+    public function text(string|array $message);
+
+    /**
+     * Formats a success result bar.
+     *
+     * @return void
+     */
+    public function success(string|array $message);
+
+    /**
+     * Formats an error result bar.
+     *
+     * @return void
+     */
+    public function error(string|array $message);
+
+    /**
+     * Formats an warning result bar.
+     *
+     * @return void
+     */
+    public function warning(string|array $message);
+
+    /**
+     * Formats a note admonition.
+     *
+     * @return void
+     */
+    public function note(string|array $message);
+
+    /**
+     * Formats a caution admonition.
+     *
+     * @return void
+     */
+    public function caution(string|array $message);
+
+    /**
+     * Formats a table.
+     *
+     * @return void
+     */
+    public function table(array $headers, array $rows);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Asks a question.
@@ -90,6 +160,7 @@ interface StyleInterface
 
     /**
      * Add newline(s).
+<<<<<<< HEAD
      */
     public function newLine(int $count = 1): void;
 
@@ -107,4 +178,31 @@ interface StyleInterface
      * Finishes the progress output.
      */
     public function progressFinish(): void;
+=======
+     *
+     * @return void
+     */
+    public function newLine(int $count = 1);
+
+    /**
+     * Starts the progress output.
+     *
+     * @return void
+     */
+    public function progressStart(int $max = 0);
+
+    /**
+     * Advances the progress output X steps.
+     *
+     * @return void
+     */
+    public function progressAdvance(int $step = 1);
+
+    /**
+     * Finishes the progress output.
+     *
+     * @return void
+     */
+    public function progressFinish();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

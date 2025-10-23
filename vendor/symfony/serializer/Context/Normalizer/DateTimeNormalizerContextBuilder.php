@@ -61,6 +61,7 @@ final class DateTimeNormalizerContextBuilder implements ContextBuilderInterface
 
         return $this->with(DateTimeNormalizer::TIMEZONE_KEY, $timezone);
     }
+<<<<<<< HEAD
 
     /**
      * @param 'int'|'float'|null $cast
@@ -69,4 +70,6 @@ final class DateTimeNormalizerContextBuilder implements ContextBuilderInterface
     {
         return $this->with(DateTimeNormalizer::CAST_KEY, $cast);
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

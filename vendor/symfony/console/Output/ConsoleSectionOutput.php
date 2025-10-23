@@ -60,10 +60,19 @@ class ConsoleSectionOutput extends StreamOutput
      * Clears previous output for this section.
      *
      * @param int $lines Number of lines to clear. If null, then the entire output of this section is cleared
+<<<<<<< HEAD
      */
     public function clear(?int $lines = null): void
     {
         if (!$this->content || !$this->isDecorated()) {
+=======
+     *
+     * @return void
+     */
+    public function clear(?int $lines = null)
+    {
+        if (empty($this->content) || !$this->isDecorated()) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return;
         }
 
@@ -81,8 +90,15 @@ class ConsoleSectionOutput extends StreamOutput
 
     /**
      * Overwrites the previous output with a new message.
+<<<<<<< HEAD
      */
     public function overwrite(string|iterable $message): void
+=======
+     *
+     * @return void
+     */
+    public function overwrite(string|iterable $message)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->clear();
         $this->writeln($message);
@@ -158,7 +174,14 @@ class ConsoleSectionOutput extends StreamOutput
         ++$this->lines;
     }
 
+<<<<<<< HEAD
     protected function doWrite(string $message, bool $newline): void
+=======
+    /**
+     * @return void
+     */
+    protected function doWrite(string $message, bool $newline)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         // Simulate newline behavior for consistent output formatting, avoiding extra logic
         if (!$newline && str_ends_with($message, \PHP_EOL)) {

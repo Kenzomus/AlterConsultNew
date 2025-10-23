@@ -11,12 +11,20 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\InvalidArgumentException;
 
 /**
+<<<<<<< HEAD
  * Validates that a value is a valid URL string.
+=======
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
@@ -24,6 +32,7 @@ use Symfony\Component\Validator\Exception\InvalidArgumentException;
 class Url extends Constraint
 {
     public const INVALID_URL_ERROR = '57c2f299-1154-4870-89bb-ef3b1f5ad229';
+<<<<<<< HEAD
     public const MISSING_TLD_ERROR = '8a5d387f-0716-46b4-844b-67367faf435a';
 
     protected const ERROR_NAMES = [
@@ -47,6 +56,24 @@ class Url extends Constraint
      * @param bool|null                $requireTld       Whether to require the URL to include a top-level domain (defaults to false)
      */
     #[HasNamedArguments]
+=======
+
+    protected const ERROR_NAMES = [
+        self::INVALID_URL_ERROR => 'INVALID_URL_ERROR',
+    ];
+
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $message = 'This value is not a valid URL.';
+    public $protocols = ['http', 'https'];
+    public $relativeProtocol = false;
+    /** @var callable|null */
+    public $normalizer;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         ?array $options = null,
         ?string $message = null,
@@ -55,6 +82,7 @@ class Url extends Constraint
         ?callable $normalizer = null,
         ?array $groups = null,
         mixed $payload = null,
+<<<<<<< HEAD
         ?bool $requireTld = null,
         ?string $tldMessage = null,
     ) {
@@ -68,12 +96,20 @@ class Url extends Constraint
             trigger_deprecation('symfony/validator', '7.1', 'Not passing a value for the "requireTld" option to the Url constraint is deprecated. Its default value will change to "true".');
         }
 
+=======
+    ) {
+        parent::__construct($options, $groups, $payload);
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->message = $message ?? $this->message;
         $this->protocols = $protocols ?? $this->protocols;
         $this->relativeProtocol = $relativeProtocol ?? $this->relativeProtocol;
         $this->normalizer = $normalizer ?? $this->normalizer;
+<<<<<<< HEAD
         $this->requireTld = $requireTld ?? $this->requireTld;
         $this->tldMessage = $tldMessage ?? $this->tldMessage;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         if (null !== $this->normalizer && !\is_callable($this->normalizer)) {
             throw new InvalidArgumentException(\sprintf('The "normalizer" option must be a valid callable ("%s" given).', get_debug_type($this->normalizer)));

@@ -22,18 +22,27 @@ class ImportExpression extends Node implements Expression
      * @var array 
      */
     protected $propertiesMap = array(
+<<<<<<< HEAD
         "source" => true,
         "options" => true
     );
     
     /**
      * The import source
+=======
+        "source" => true
+    );
+    
+    /**
+     * The catch clause parameter
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * 
      * @var Expression
      */
     protected $source;
     
     /**
+<<<<<<< HEAD
      * Optional import options
      * 
      * @var Expression|null
@@ -41,6 +50,8 @@ class ImportExpression extends Node implements Expression
     protected $options;
     
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Returns the import source
      * 
      * @return Expression
@@ -62,6 +73,7 @@ class ImportExpression extends Node implements Expression
         $this->source = $source;
         return $this;
     }
+<<<<<<< HEAD
     
     /**
      * Returns the import options
@@ -86,4 +98,6 @@ class ImportExpression extends Node implements Expression
         $this->options = $options;
         return $this;
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

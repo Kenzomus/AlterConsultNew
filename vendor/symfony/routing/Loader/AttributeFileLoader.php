@@ -25,15 +25,27 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class AttributeFileLoader extends FileLoader
 {
+<<<<<<< HEAD
     public function __construct(
         FileLocatorInterface $locator,
         protected AttributeClassLoader $loader,
     ) {
+=======
+    protected $loader;
+
+    public function __construct(FileLocatorInterface $locator, AttributeClassLoader $loader)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (!\function_exists('token_get_all')) {
             throw new \LogicException('The Tokenizer extension is required for the routing attribute loader.');
         }
 
         parent::__construct($locator);
+<<<<<<< HEAD
+=======
+
+        $this->loader = $loader;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -63,7 +75,15 @@ class AttributeFileLoader extends FileLoader
 
     public function supports(mixed $resource, ?string $type = null): bool
     {
+<<<<<<< HEAD
         return \is_string($resource) && 'php' === pathinfo($resource, \PATHINFO_EXTENSION) && (!$type || 'attribute' === $type);
+=======
+        if ('annotation' === $type) {
+            trigger_deprecation('symfony/routing', '6.4', 'The "annotation" route type is deprecated, use the "attribute" route type instead.');
+        }
+
+        return \is_string($resource) && 'php' === pathinfo($resource, \PATHINFO_EXTENSION) && (!$type || \in_array($type, ['annotation', 'attribute'], true));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -133,3 +153,10 @@ class AttributeFileLoader extends FileLoader
         return false;
     }
 }
+<<<<<<< HEAD
+=======
+
+if (!class_exists(AnnotationFileLoader::class, false)) {
+    class_alias(AttributeFileLoader::class, AnnotationFileLoader::class);
+}
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c

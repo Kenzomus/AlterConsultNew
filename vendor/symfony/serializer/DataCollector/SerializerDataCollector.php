@@ -25,6 +25,7 @@ use Symfony\Component\VarDumper\Cloner\Data;
  */
 class SerializerDataCollector extends DataCollector implements LateDataCollectorInterface
 {
+<<<<<<< HEAD
     private const DATA_TEMPLATE = [
         'serialize' => [],
         'deserialize' => [],
@@ -35,12 +36,17 @@ class SerializerDataCollector extends DataCollector implements LateDataCollector
     ];
 
     private array $dataGroupedByName;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private array $collected = [];
 
     public function reset(): void
     {
         $this->data = [];
+<<<<<<< HEAD
         unset($this->dataGroupedByName);
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->collected = [];
     }
 
@@ -54,6 +60,7 @@ class SerializerDataCollector extends DataCollector implements LateDataCollector
         return 'serializer';
     }
 
+<<<<<<< HEAD
     public function getData(?string $name = null): Data|array
     {
         return null === $name ? $this->data : $this->getDataGroupedByName()[$name];
@@ -62,6 +69,16 @@ class SerializerDataCollector extends DataCollector implements LateDataCollector
     public function getHandledCount(?string $name = null): int
     {
         return array_sum(array_map('count', $this->getData($name)));
+=======
+    public function getData(): Data|array
+    {
+        return $this->data;
+    }
+
+    public function getHandledCount(): int
+    {
+        return array_sum(array_map('count', $this->data));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getTotalTime(): float
@@ -75,77 +92,126 @@ class SerializerDataCollector extends DataCollector implements LateDataCollector
         return $totalTime;
     }
 
+<<<<<<< HEAD
     public function getSerializerNames(): array
     {
         return array_keys($this->getDataGroupedByName());
     }
 
     public function collectSerialize(string $traceId, mixed $data, string $format, array $context, float $time, array $caller, string $name): void
+=======
+    public function collectSerialize(string $traceId, mixed $data, string $format, array $context, float $time, array $caller): void
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         unset($context[TraceableSerializer::DEBUG_TRACE_ID]);
 
         $this->collected[$traceId] = array_merge(
             $this->collected[$traceId] ?? [],
+<<<<<<< HEAD
             compact('data', 'format', 'context', 'time', 'caller', 'name'),
+=======
+            compact('data', 'format', 'context', 'time', 'caller'),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ['method' => 'serialize'],
         );
     }
 
+<<<<<<< HEAD
     public function collectDeserialize(string $traceId, mixed $data, string $type, string $format, array $context, float $time, array $caller, string $name): void
+=======
+    public function collectDeserialize(string $traceId, mixed $data, string $type, string $format, array $context, float $time, array $caller): void
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         unset($context[TraceableSerializer::DEBUG_TRACE_ID]);
 
         $this->collected[$traceId] = array_merge(
             $this->collected[$traceId] ?? [],
+<<<<<<< HEAD
             compact('data', 'format', 'type', 'context', 'time', 'caller', 'name'),
+=======
+            compact('data', 'format', 'type', 'context', 'time', 'caller'),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ['method' => 'deserialize'],
         );
     }
 
+<<<<<<< HEAD
     public function collectNormalize(string $traceId, mixed $data, ?string $format, array $context, float $time, array $caller, string $name): void
+=======
+    public function collectNormalize(string $traceId, mixed $data, ?string $format, array $context, float $time, array $caller): void
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         unset($context[TraceableSerializer::DEBUG_TRACE_ID]);
 
         $this->collected[$traceId] = array_merge(
             $this->collected[$traceId] ?? [],
+<<<<<<< HEAD
             compact('data', 'format', 'context', 'time', 'caller', 'name'),
+=======
+            compact('data', 'format', 'context', 'time', 'caller'),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ['method' => 'normalize'],
         );
     }
 
+<<<<<<< HEAD
     public function collectDenormalize(string $traceId, mixed $data, string $type, ?string $format, array $context, float $time, array $caller, string $name): void
+=======
+    public function collectDenormalize(string $traceId, mixed $data, string $type, ?string $format, array $context, float $time, array $caller): void
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         unset($context[TraceableSerializer::DEBUG_TRACE_ID]);
 
         $this->collected[$traceId] = array_merge(
             $this->collected[$traceId] ?? [],
+<<<<<<< HEAD
             compact('data', 'format', 'type', 'context', 'time', 'caller', 'name'),
+=======
+            compact('data', 'format', 'type', 'context', 'time', 'caller'),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ['method' => 'denormalize'],
         );
     }
 
+<<<<<<< HEAD
     public function collectEncode(string $traceId, mixed $data, ?string $format, array $context, float $time, array $caller, string $name): void
+=======
+    public function collectEncode(string $traceId, mixed $data, ?string $format, array $context, float $time, array $caller): void
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         unset($context[TraceableSerializer::DEBUG_TRACE_ID]);
 
         $this->collected[$traceId] = array_merge(
             $this->collected[$traceId] ?? [],
+<<<<<<< HEAD
             compact('data', 'format', 'context', 'time', 'caller', 'name'),
+=======
+            compact('data', 'format', 'context', 'time', 'caller'),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ['method' => 'encode'],
         );
     }
 
+<<<<<<< HEAD
     public function collectDecode(string $traceId, mixed $data, ?string $format, array $context, float $time, array $caller, string $name): void
+=======
+    public function collectDecode(string $traceId, mixed $data, ?string $format, array $context, float $time, array $caller): void
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         unset($context[TraceableSerializer::DEBUG_TRACE_ID]);
 
         $this->collected[$traceId] = array_merge(
             $this->collected[$traceId] ?? [],
+<<<<<<< HEAD
             compact('data', 'format', 'context', 'time', 'caller', 'name'),
+=======
+            compact('data', 'format', 'context', 'time', 'caller'),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ['method' => 'decode'],
         );
     }
 
+<<<<<<< HEAD
     public function collectNormalization(string $traceId, string $normalizer, float $time, string $name): void
     {
         $method = 'normalize';
@@ -172,11 +238,50 @@ class SerializerDataCollector extends DataCollector implements LateDataCollector
         $method = 'decode';
 
         $this->collected[$traceId]['encoding'][] = compact('encoder', 'method', 'time', 'name');
+=======
+    public function collectNormalization(string $traceId, string $normalizer, float $time): void
+    {
+        $method = 'normalize';
+
+        $this->collected[$traceId]['normalization'][] = compact('normalizer', 'method', 'time');
+    }
+
+    public function collectDenormalization(string $traceId, string $normalizer, float $time): void
+    {
+        $method = 'denormalize';
+
+        $this->collected[$traceId]['normalization'][] = compact('normalizer', 'method', 'time');
+    }
+
+    public function collectEncoding(string $traceId, string $encoder, float $time): void
+    {
+        $method = 'encode';
+
+        $this->collected[$traceId]['encoding'][] = compact('encoder', 'method', 'time');
+    }
+
+    public function collectDecoding(string $traceId, string $encoder, float $time): void
+    {
+        $method = 'decode';
+
+        $this->collected[$traceId]['encoding'][] = compact('encoder', 'method', 'time');
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function lateCollect(): void
     {
+<<<<<<< HEAD
         $this->data = self::DATA_TEMPLATE;
+=======
+        $this->data = [
+            'serialize' => [],
+            'deserialize' => [],
+            'normalize' => [],
+            'denormalize' => [],
+            'encode' => [],
+            'decode' => [],
+        ];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         foreach ($this->collected as $collected) {
             if (!isset($collected['data'])) {
@@ -193,7 +298,10 @@ class SerializerDataCollector extends DataCollector implements LateDataCollector
                 'normalization' => [],
                 'encoding' => [],
                 'caller' => $collected['caller'] ?? null,
+<<<<<<< HEAD
                 'name' => $collected['name'],
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ];
 
             if (isset($collected['normalization'])) {
@@ -230,6 +338,7 @@ class SerializerDataCollector extends DataCollector implements LateDataCollector
         }
     }
 
+<<<<<<< HEAD
     private function getDataGroupedByName(): array
     {
         if (!isset($this->dataGroupedByName)) {
@@ -246,6 +355,8 @@ class SerializerDataCollector extends DataCollector implements LateDataCollector
         return $this->dataGroupedByName;
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private function getMethodLocation(string $class, string $method): array
     {
         $reflection = new \ReflectionClass($class);

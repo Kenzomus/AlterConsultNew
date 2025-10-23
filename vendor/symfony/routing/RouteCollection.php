@@ -82,7 +82,14 @@ class RouteCollection implements \IteratorAggregate, \Countable
         return \count($this->routes);
     }
 
+<<<<<<< HEAD
     public function add(string $name, Route $route, int $priority = 0): void
+=======
+    /**
+     * @return void
+     */
+    public function add(string $name, Route $route, int $priority = 0)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         unset($this->routes[$name], $this->priorities[$name], $this->aliases[$name]);
 
@@ -139,8 +146,15 @@ class RouteCollection implements \IteratorAggregate, \Countable
      * Removes a route or an array of routes by name from the collection.
      *
      * @param string|string[] $name The route name or an array of route names
+<<<<<<< HEAD
      */
     public function remove(string|array $name): void
+=======
+     *
+     * @return void
+     */
+    public function remove(string|array $name)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $routes = [];
         foreach ((array) $name as $n) {
@@ -165,8 +179,15 @@ class RouteCollection implements \IteratorAggregate, \Countable
     /**
      * Adds a route collection at the end of the current set by appending all
      * routes of the added collection.
+<<<<<<< HEAD
      */
     public function addCollection(self $collection): void
+=======
+     *
+     * @return void
+     */
+    public function addCollection(self $collection)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         // we need to remove all routes with the same names first because just replacing them
         // would not place the new route at the end of the merged array
@@ -192,8 +213,15 @@ class RouteCollection implements \IteratorAggregate, \Countable
 
     /**
      * Adds a prefix to the path of all child routes.
+<<<<<<< HEAD
      */
     public function addPrefix(string $prefix, array $defaults = [], array $requirements = []): void
+=======
+     *
+     * @return void
+     */
+    public function addPrefix(string $prefix, array $defaults = [], array $requirements = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $prefix = trim(trim($prefix), '/');
 
@@ -210,8 +238,15 @@ class RouteCollection implements \IteratorAggregate, \Countable
 
     /**
      * Adds a prefix to the name of all the routes within in the collection.
+<<<<<<< HEAD
      */
     public function addNamePrefix(string $prefix): void
+=======
+     *
+     * @return void
+     */
+    public function addNamePrefix(string $prefix)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $prefixedRoutes = [];
         $prefixedPriorities = [];
@@ -238,8 +273,15 @@ class RouteCollection implements \IteratorAggregate, \Countable
 
     /**
      * Sets the host pattern on all routes.
+<<<<<<< HEAD
      */
     public function setHost(?string $pattern, array $defaults = [], array $requirements = []): void
+=======
+     *
+     * @return void
+     */
+    public function setHost(?string $pattern, array $defaults = [], array $requirements = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($this->routes as $route) {
             $route->setHost($pattern);
@@ -252,8 +294,15 @@ class RouteCollection implements \IteratorAggregate, \Countable
      * Sets a condition on all routes.
      *
      * Existing conditions will be overridden.
+<<<<<<< HEAD
      */
     public function setCondition(?string $condition): void
+=======
+     *
+     * @return void
+     */
+    public function setCondition(?string $condition)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($this->routes as $route) {
             $route->setCondition($condition);
@@ -264,8 +313,15 @@ class RouteCollection implements \IteratorAggregate, \Countable
      * Adds defaults to all routes.
      *
      * An existing default value under the same name in a route will be overridden.
+<<<<<<< HEAD
      */
     public function addDefaults(array $defaults): void
+=======
+     *
+     * @return void
+     */
+    public function addDefaults(array $defaults)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($defaults) {
             foreach ($this->routes as $route) {
@@ -278,8 +334,15 @@ class RouteCollection implements \IteratorAggregate, \Countable
      * Adds requirements to all routes.
      *
      * An existing requirement under the same name in a route will be overridden.
+<<<<<<< HEAD
      */
     public function addRequirements(array $requirements): void
+=======
+     *
+     * @return void
+     */
+    public function addRequirements(array $requirements)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($requirements) {
             foreach ($this->routes as $route) {
@@ -292,8 +355,15 @@ class RouteCollection implements \IteratorAggregate, \Countable
      * Adds options to all routes.
      *
      * An existing option value under the same name in a route will be overridden.
+<<<<<<< HEAD
      */
     public function addOptions(array $options): void
+=======
+     *
+     * @return void
+     */
+    public function addOptions(array $options)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($options) {
             foreach ($this->routes as $route) {
@@ -306,8 +376,15 @@ class RouteCollection implements \IteratorAggregate, \Countable
      * Sets the schemes (e.g. 'https') all child routes are restricted to.
      *
      * @param string|string[] $schemes The scheme or an array of schemes
+<<<<<<< HEAD
      */
     public function setSchemes(string|array $schemes): void
+=======
+     *
+     * @return void
+     */
+    public function setSchemes(string|array $schemes)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($this->routes as $route) {
             $route->setSchemes($schemes);
@@ -318,8 +395,15 @@ class RouteCollection implements \IteratorAggregate, \Countable
      * Sets the HTTP methods (e.g. 'POST') all child routes are restricted to.
      *
      * @param string|string[] $methods The method or an array of methods
+<<<<<<< HEAD
      */
     public function setMethods(string|array $methods): void
+=======
+     *
+     * @return void
+     */
+    public function setMethods(string|array $methods)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($this->routes as $route) {
             $route->setMethods($methods);
@@ -339,8 +423,15 @@ class RouteCollection implements \IteratorAggregate, \Countable
     /**
      * Adds a resource for this collection. If the resource already exists
      * it is not added.
+<<<<<<< HEAD
      */
     public function addResource(ResourceInterface $resource): void
+=======
+     *
+     * @return void
+     */
+    public function addResource(ResourceInterface $resource)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $key = (string) $resource;
 

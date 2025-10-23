@@ -25,8 +25,15 @@ interface StreamableInputInterface extends InputInterface
      * This is mainly useful for testing purpose.
      *
      * @param resource $stream The input stream
+<<<<<<< HEAD
      */
     public function setStream($stream): void;
+=======
+     *
+     * @return void
+     */
+    public function setStream($stream);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Returns the input stream.

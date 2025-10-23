@@ -21,7 +21,14 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class LengthValidator extends ConstraintValidator
 {
+<<<<<<< HEAD
     public function validate(mixed $value, Constraint $constraint): void
+=======
+    /**
+     * @return void
+     */
+    public function validate(mixed $value, Constraint $constraint)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$constraint instanceof Length) {
             throw new UnexpectedTypeException($constraint, Length::class);
@@ -76,7 +83,11 @@ class LengthValidator extends ConstraintValidator
                 ->setParameter('{{ limit }}', $constraint->max)
                 ->setParameter('{{ value_length }}', $length)
                 ->setInvalidValue($value)
+<<<<<<< HEAD
                 ->setPlural($constraint->max)
+=======
+                ->setPlural((int) $constraint->max)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ->setCode($exactlyOptionEnabled ? Length::NOT_EQUAL_LENGTH_ERROR : Length::TOO_LONG_ERROR)
                 ->addViolation();
 
@@ -91,7 +102,11 @@ class LengthValidator extends ConstraintValidator
                 ->setParameter('{{ limit }}', $constraint->min)
                 ->setParameter('{{ value_length }}', $length)
                 ->setInvalidValue($value)
+<<<<<<< HEAD
                 ->setPlural($constraint->min)
+=======
+                ->setPlural((int) $constraint->min)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ->setCode($exactlyOptionEnabled ? Length::NOT_EQUAL_LENGTH_ERROR : Length::TOO_SHORT_ERROR)
                 ->addViolation();
         }

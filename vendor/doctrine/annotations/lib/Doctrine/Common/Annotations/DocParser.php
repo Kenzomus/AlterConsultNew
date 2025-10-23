@@ -288,7 +288,11 @@ final class DocParser
      *
      * @return void
      */
+<<<<<<< HEAD
     public function setIgnoredAnnotationNamespaces(array $ignoredAnnotationNamespaces)
+=======
+    public function setIgnoredAnnotationNamespaces($ignoredAnnotationNamespaces)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->ignoredAnnotationNamespaces = $ignoredAnnotationNamespaces;
     }
@@ -296,21 +300,40 @@ final class DocParser
     /**
      * Sets ignore on not-imported annotations.
      *
+<<<<<<< HEAD
      * @return void
      */
     public function setIgnoreNotImportedAnnotations(bool $bool)
     {
         $this->ignoreNotImportedAnnotations = $bool;
+=======
+     * @param bool $bool
+     *
+     * @return void
+     */
+    public function setIgnoreNotImportedAnnotations($bool)
+    {
+        $this->ignoreNotImportedAnnotations = (bool) $bool;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
      * Sets the default namespaces.
      *
+<<<<<<< HEAD
+=======
+     * @param string $namespace
+     *
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @return void
      *
      * @throws RuntimeException
      */
+<<<<<<< HEAD
     public function addNamespace(string $namespace)
+=======
+    public function addNamespace($namespace)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($this->imports) {
             throw new RuntimeException('You must either use addNamespace(), or setImports(), but not both.');
@@ -340,9 +363,17 @@ final class DocParser
     /**
      * Sets current target context as bitmask.
      *
+<<<<<<< HEAD
      * @return void
      */
     public function setTarget(int $target)
+=======
+     * @param int $target
+     *
+     * @return void
+     */
+    public function setTarget($target)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->target = $target;
     }
@@ -350,12 +381,22 @@ final class DocParser
     /**
      * Parses the given docblock string for annotations.
      *
+<<<<<<< HEAD
+=======
+     * @param string $input   The docblock string to parse.
+     * @param string $context The parsing context.
+     *
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @phpstan-return list<object> Array of annotations. If no annotations are found, an empty array is returned.
      *
      * @throws AnnotationException
      * @throws ReflectionException
      */
+<<<<<<< HEAD
     public function parse(string $input, string $context = '')
+=======
+    public function parse($input, $context = '')
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $pos = $this->findInitialTokenPosition($input);
         if ($pos === null) {
@@ -372,8 +413,15 @@ final class DocParser
 
     /**
      * Finds the first valid annotation
+<<<<<<< HEAD
      */
     private function findInitialTokenPosition(string $input): ?int
+=======
+     *
+     * @param string $input The docblock string to parse
+     */
+    private function findInitialTokenPosition($input): ?int
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $pos = 0;
 
@@ -445,7 +493,11 @@ final class DocParser
         $message  = sprintf('Expected %s, got ', $expected);
         $message .= $this->lexer->lookahead === null
             ? 'end of string'
+<<<<<<< HEAD
             : sprintf("'%s' at position %s", $token->value, $token->position);
+=======
+            : sprintf("'%s' at position %s", $token['value'], $token['position']);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         if (strlen($this->context)) {
             $message .= ' in ' . $this->context;
@@ -525,7 +577,12 @@ final class DocParser
             'is_annotation'    => strpos($docComment, '@Annotation') !== false,
         ];
 
+<<<<<<< HEAD
         $metadata['has_named_argument_constructor'] = false;
+=======
+        $metadata['has_named_argument_constructor'] = $metadata['has_constructor']
+            && $class->implementsInterface(NamedArgumentConstructorAnnotation::class);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         // verify that the class is really meant to be an annotation
         if ($metadata['is_annotation']) {
@@ -678,7 +735,11 @@ final class DocParser
         $annotations = [];
 
         while ($this->lexer->lookahead !== null) {
+<<<<<<< HEAD
             if ($this->lexer->lookahead->type !== DocLexer::T_AT) {
+=======
+            if ($this->lexer->lookahead['type'] !== DocLexer::T_AT) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $this->lexer->moveNext();
                 continue;
             }
@@ -686,8 +747,13 @@ final class DocParser
             // make sure the @ is preceded by non-catchable pattern
             if (
                 $this->lexer->token !== null &&
+<<<<<<< HEAD
                 $this->lexer->lookahead->position === $this->lexer->token->position + strlen(
                     $this->lexer->token->value
+=======
+                $this->lexer->lookahead['position'] === $this->lexer->token['position'] + strlen(
+                    $this->lexer->token['value']
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 )
             ) {
                 $this->lexer->moveNext();
@@ -699,12 +765,21 @@ final class DocParser
             $peek = $this->lexer->glimpse();
             if (
                 ($peek === null)
+<<<<<<< HEAD
                 || ($peek->type !== DocLexer::T_NAMESPACE_SEPARATOR && ! in_array(
                     $peek->type,
                     self::$classIdentifiers,
                     true
                 ))
                 || $peek->position !== $this->lexer->lookahead->position + 1
+=======
+                || ($peek['type'] !== DocLexer::T_NAMESPACE_SEPARATOR && ! in_array(
+                    $peek['type'],
+                    self::$classIdentifiers,
+                    true
+                ))
+                || $peek['position'] !== $this->lexer->lookahead['position'] + 1
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ) {
                 $this->lexer->moveNext();
                 continue;
@@ -1197,18 +1272,31 @@ EXCEPTION
 
         $this->lexer->moveNext();
 
+<<<<<<< HEAD
         $className = $this->lexer->token->value;
 
         while (
             $this->lexer->lookahead !== null &&
             $this->lexer->lookahead->position === ($this->lexer->token->position +
             strlen($this->lexer->token->value)) &&
+=======
+        $className = $this->lexer->token['value'];
+
+        while (
+            $this->lexer->lookahead !== null &&
+            $this->lexer->lookahead['position'] === ($this->lexer->token['position'] +
+            strlen($this->lexer->token['value'])) &&
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->lexer->isNextToken(DocLexer::T_NAMESPACE_SEPARATOR)
         ) {
             $this->match(DocLexer::T_NAMESPACE_SEPARATOR);
             $this->matchAny(self::$classIdentifiers);
 
+<<<<<<< HEAD
             $className .= '\\' . $this->lexer->token->value;
+=======
+            $className .= '\\' . $this->lexer->token['value'];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return $className;
@@ -1226,7 +1314,11 @@ EXCEPTION
     {
         $peek = $this->lexer->glimpse();
 
+<<<<<<< HEAD
         if ($peek->type === DocLexer::T_EQUALS) {
+=======
+        if ($peek['type'] === DocLexer::T_EQUALS) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return $this->FieldAssignment();
         }
 
@@ -1255,21 +1347,37 @@ EXCEPTION
             return $this->Constant();
         }
 
+<<<<<<< HEAD
         switch ($this->lexer->lookahead->type) {
             case DocLexer::T_STRING:
                 $this->match(DocLexer::T_STRING);
 
                 return $this->lexer->token->value;
+=======
+        switch ($this->lexer->lookahead['type']) {
+            case DocLexer::T_STRING:
+                $this->match(DocLexer::T_STRING);
+
+                return $this->lexer->token['value'];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
             case DocLexer::T_INTEGER:
                 $this->match(DocLexer::T_INTEGER);
 
+<<<<<<< HEAD
                 return (int) $this->lexer->token->value;
+=======
+                return (int) $this->lexer->token['value'];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
             case DocLexer::T_FLOAT:
                 $this->match(DocLexer::T_FLOAT);
 
+<<<<<<< HEAD
                 return (float) $this->lexer->token->value;
+=======
+                return (float) $this->lexer->token['value'];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
             case DocLexer::T_TRUE:
                 $this->match(DocLexer::T_TRUE);
@@ -1301,7 +1409,11 @@ EXCEPTION
     private function FieldAssignment(): stdClass
     {
         $this->match(DocLexer::T_IDENTIFIER);
+<<<<<<< HEAD
         $fieldName = $this->lexer->token->value;
+=======
+        $fieldName = $this->lexer->token['value'];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         $this->match(DocLexer::T_EQUALS);
 
@@ -1376,14 +1488,23 @@ EXCEPTION
         $peek = $this->lexer->glimpse();
 
         if (
+<<<<<<< HEAD
             $peek->type === DocLexer::T_EQUALS
                 || $peek->type === DocLexer::T_COLON
+=======
+            $peek['type'] === DocLexer::T_EQUALS
+                || $peek['type'] === DocLexer::T_COLON
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         ) {
             if ($this->lexer->isNextToken(DocLexer::T_IDENTIFIER)) {
                 $key = $this->Constant();
             } else {
                 $this->matchAny([DocLexer::T_INTEGER, DocLexer::T_STRING]);
+<<<<<<< HEAD
                 $key = $this->lexer->token->value;
+=======
+                $key = $this->lexer->token['value'];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
 
             $this->matchAny([DocLexer::T_EQUALS, DocLexer::T_COLON]);

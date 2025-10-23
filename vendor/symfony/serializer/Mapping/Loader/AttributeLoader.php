@@ -11,6 +11,10 @@
 
 namespace Symfony\Component\Serializer\Mapping\Loader;
 
+<<<<<<< HEAD
+=======
+use Doctrine\Common\Annotations\Reader;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Serializer\Attribute\Context;
 use Symfony\Component\Serializer\Attribute\DiscriminatorMap;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -43,8 +47,17 @@ class AttributeLoader implements LoaderInterface
         Context::class,
     ];
 
+<<<<<<< HEAD
     public function __construct()
     {
+=======
+    public function __construct(
+        private readonly ?Reader $reader = null,
+    ) {
+        if ($reader) {
+            trigger_deprecation('symfony/serializer', '6.4', 'Passing a "%s" instance as argument 1 to "%s()" is deprecated, pass null or omit the parameter instead.', get_debug_type($reader), __METHOD__);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function loadClassMetadata(ClassMetadataInterface $classMetadata): bool
@@ -53,6 +66,7 @@ class AttributeLoader implements LoaderInterface
         $className = $reflectionClass->name;
         $loaded = false;
         $classGroups = [];
+<<<<<<< HEAD
         $classContextAttribute = null;
 
         $attributesMetadata = $classMetadata->getAttributesMetadata();
@@ -64,6 +78,30 @@ class AttributeLoader implements LoaderInterface
                 $attribute instanceof Context => $classContextAttribute = $attribute,
                 default => null,
             };
+=======
+        $classContextAnnotation = null;
+
+        $attributesMetadata = $classMetadata->getAttributesMetadata();
+
+        foreach ($this->loadAttributes($reflectionClass) as $annotation) {
+            if ($annotation instanceof DiscriminatorMap) {
+                $classMetadata->setClassDiscriminatorMapping(new ClassDiscriminatorMapping(
+                    $annotation->getTypeProperty(),
+                    $annotation->getMapping()
+                ));
+                continue;
+            }
+
+            if ($annotation instanceof Groups) {
+                $classGroups = $annotation->getGroups();
+
+                continue;
+            }
+
+            if ($annotation instanceof Context) {
+                $classContextAnnotation = $annotation;
+            }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         foreach ($reflectionClass->getProperties() as $property) {
@@ -72,6 +110,7 @@ class AttributeLoader implements LoaderInterface
                 $classMetadata->addAttributeMetadata($attributesMetadata[$property->name]);
             }
 
+<<<<<<< HEAD
             $attributeMetadata = $attributesMetadata[$property->name];
             if ($property->getDeclaringClass()->name === $className) {
                 if ($classContextAttribute) {
@@ -101,6 +140,35 @@ class AttributeLoader implements LoaderInterface
                         $attribute instanceof Context => $this->setAttributeContextsForGroups($attribute, $attributeMetadata),
                         default => null,
                     };
+=======
+            if ($property->getDeclaringClass()->name === $className) {
+                if ($classContextAnnotation) {
+                    $this->setAttributeContextsForGroups($classContextAnnotation, $attributesMetadata[$property->name]);
+                }
+
+                foreach ($classGroups as $group) {
+                    $attributesMetadata[$property->name]->addGroup($group);
+                }
+
+                foreach ($this->loadAttributes($property) as $annotation) {
+                    if ($annotation instanceof Groups) {
+                        foreach ($annotation->getGroups() as $group) {
+                            $attributesMetadata[$property->name]->addGroup($group);
+                        }
+                    } elseif ($annotation instanceof MaxDepth) {
+                        $attributesMetadata[$property->name]->setMaxDepth($annotation->getMaxDepth());
+                    } elseif ($annotation instanceof SerializedName) {
+                        $attributesMetadata[$property->name]->setSerializedName($annotation->getSerializedName());
+                    } elseif ($annotation instanceof SerializedPath) {
+                        $attributesMetadata[$property->name]->setSerializedPath($annotation->getSerializedPath());
+                    } elseif ($annotation instanceof Ignore) {
+                        $attributesMetadata[$property->name]->setIgnore(true);
+                    } elseif ($annotation instanceof Context) {
+                        $this->setAttributeContextsForGroups($annotation, $attributesMetadata[$property->name]);
+                    }
+
+                    $loaded = true;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 }
             }
         }
@@ -126,43 +194,78 @@ class AttributeLoader implements LoaderInterface
                 }
             }
 
+<<<<<<< HEAD
             foreach ($this->loadAttributes($method) as $attribute) {
                 if ($attribute instanceof Groups) {
+=======
+            foreach ($this->loadAttributes($method) as $annotation) {
+                if ($annotation instanceof Groups) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     if (!$accessorOrMutator) {
                         throw new MappingException(\sprintf('Groups on "%s::%s()" cannot be added. Groups can only be added on methods beginning with "get", "is", "has" or "set".', $className, $method->name));
                     }
 
+<<<<<<< HEAD
                     foreach ($attribute->getGroups() as $group) {
                         $attributeMetadata->addGroup($group);
                     }
                 } elseif ($attribute instanceof MaxDepth) {
+=======
+                    foreach ($annotation->getGroups() as $group) {
+                        $attributeMetadata->addGroup($group);
+                    }
+                } elseif ($annotation instanceof MaxDepth) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     if (!$accessorOrMutator) {
                         throw new MappingException(\sprintf('MaxDepth on "%s::%s()" cannot be added. MaxDepth can only be added on methods beginning with "get", "is", "has" or "set".', $className, $method->name));
                     }
 
+<<<<<<< HEAD
                     $attributeMetadata->setMaxDepth($attribute->getMaxDepth());
                 } elseif ($attribute instanceof SerializedName) {
+=======
+                    $attributeMetadata->setMaxDepth($annotation->getMaxDepth());
+                } elseif ($annotation instanceof SerializedName) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     if (!$accessorOrMutator) {
                         throw new MappingException(\sprintf('SerializedName on "%s::%s()" cannot be added. SerializedName can only be added on methods beginning with "get", "is", "has" or "set".', $className, $method->name));
                     }
 
+<<<<<<< HEAD
                     $attributeMetadata->setSerializedName($attribute->getSerializedName());
                 } elseif ($attribute instanceof SerializedPath) {
+=======
+                    $attributeMetadata->setSerializedName($annotation->getSerializedName());
+                } elseif ($annotation instanceof SerializedPath) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     if (!$accessorOrMutator) {
                         throw new MappingException(\sprintf('SerializedPath on "%s::%s()" cannot be added. SerializedPath can only be added on methods beginning with "get", "is", "has" or "set".', $className, $method->name));
                     }
 
+<<<<<<< HEAD
                     $attributeMetadata->setSerializedPath($attribute->getSerializedPath());
                 } elseif ($attribute instanceof Ignore) {
                     if ($accessorOrMutator) {
                         $attributeMetadata->setIgnore(true);
                     }
                 } elseif ($attribute instanceof Context) {
+=======
+                    $attributeMetadata->setSerializedPath($annotation->getSerializedPath());
+                } elseif ($annotation instanceof Ignore) {
+                    if ($accessorOrMutator) {
+                        $attributeMetadata->setIgnore(true);
+                    }
+                } elseif ($annotation instanceof Context) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     if (!$accessorOrMutator) {
                         throw new MappingException(\sprintf('Context on "%s::%s()" cannot be added. Context can only be added on methods beginning with "get", "is", "has" or "set".', $className, $method->name));
                     }
 
+<<<<<<< HEAD
                     $this->setAttributeContextsForGroups($attribute, $attributeMetadata);
+=======
+                    $this->setAttributeContextsForGroups($annotation, $attributeMetadata);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 }
 
                 $loaded = true;
@@ -193,6 +296,7 @@ class AttributeLoader implements LoaderInterface
                 }
             }
         }
+<<<<<<< HEAD
     }
 
     private function setAttributeContextsForGroups(Context $attribute, AttributeMetadataInterface $attributeMetadata): void
@@ -208,6 +312,47 @@ class AttributeLoader implements LoaderInterface
 
         if ($denormalizationContext || $context) {
             $attributeMetadata->setDenormalizationContextForGroups($denormalizationContext ?: $context, $groups);
+=======
+
+        if (null === $this->reader) {
+            return;
+        }
+
+        if ($reflector instanceof \ReflectionClass) {
+            yield from $this->getClassAnnotations($reflector);
+        }
+        if ($reflector instanceof \ReflectionMethod) {
+            yield from $this->getMethodAnnotations($reflector);
+        }
+        if ($reflector instanceof \ReflectionProperty) {
+            yield from $this->getPropertyAnnotations($reflector);
+        }
+    }
+
+    /**
+     * @deprecated since Symfony 6.4 without replacement
+     */
+    public function loadAnnotations(\ReflectionMethod|\ReflectionClass|\ReflectionProperty $reflector): iterable
+    {
+        trigger_deprecation('symfony/serializer', '6.4', 'Method "%s()" is deprecated without replacement.', __METHOD__);
+
+        return $this->loadAttributes($reflector);
+    }
+
+    private function setAttributeContextsForGroups(Context $annotation, AttributeMetadataInterface $attributeMetadata): void
+    {
+        if ($annotation->getContext()) {
+            $attributeMetadata->setNormalizationContextForGroups($annotation->getContext(), $annotation->getGroups());
+            $attributeMetadata->setDenormalizationContextForGroups($annotation->getContext(), $annotation->getGroups());
+        }
+
+        if ($annotation->getNormalizationContext()) {
+            $attributeMetadata->setNormalizationContextForGroups($annotation->getNormalizationContext(), $annotation->getGroups());
+        }
+
+        if ($annotation->getDenormalizationContext()) {
+            $attributeMetadata->setDenormalizationContextForGroups($annotation->getDenormalizationContext(), $annotation->getGroups());
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
     }
 
@@ -221,4 +366,56 @@ class AttributeLoader implements LoaderInterface
 
         return false;
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * @return object[]
+     */
+    private function getClassAnnotations(\ReflectionClass $reflector): array
+    {
+        if ($annotations = array_filter(
+            $this->reader->getClassAnnotations($reflector),
+            fn (object $annotation): bool => $this->isKnownAttribute($annotation::class),
+        )) {
+            trigger_deprecation('symfony/serializer', '6.4', 'Class "%s" uses Doctrine Annotations to configure serialization, which is deprecated. Use PHP attributes instead.', $reflector->getName());
+        }
+
+        return $annotations;
+    }
+
+    /**
+     * @return object[]
+     */
+    private function getMethodAnnotations(\ReflectionMethod $reflector): array
+    {
+        if ($annotations = array_filter(
+            $this->reader->getMethodAnnotations($reflector),
+            fn (object $annotation): bool => $this->isKnownAttribute($annotation::class),
+        )) {
+            trigger_deprecation('symfony/serializer', '6.4', 'Method "%s::%s()" uses Doctrine Annotations to configure serialization, which is deprecated. Use PHP attributes instead.', $reflector->getDeclaringClass()->getName(), $reflector->getName());
+        }
+
+        return $annotations;
+    }
+
+    /**
+     * @return object[]
+     */
+    private function getPropertyAnnotations(\ReflectionProperty $reflector): array
+    {
+        if ($annotations = array_filter(
+            $this->reader->getPropertyAnnotations($reflector),
+            fn (object $annotation): bool => $this->isKnownAttribute($annotation::class),
+        )) {
+            trigger_deprecation('symfony/serializer', '6.4', 'Property "%s::$%s" uses Doctrine Annotations to configure serialization, which is deprecated. Use PHP attributes instead.', $reflector->getDeclaringClass()->getName(), $reflector->getName());
+        }
+
+        return $annotations;
+    }
+}
+
+if (!class_exists(AnnotationLoader::class, false)) {
+    class_alias(AttributeLoader::class, AnnotationLoader::class);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

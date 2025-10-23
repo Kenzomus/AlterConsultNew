@@ -22,6 +22,10 @@ use Symfony\Component\VarDumper\Dumper\ContextProvider\ContextProviderInterface;
 class Connection
 {
     private string $host;
+<<<<<<< HEAD
+=======
+    private array $contextProviders;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @var resource|null
@@ -32,15 +36,24 @@ class Connection
      * @param string                     $host             The server host
      * @param ContextProviderInterface[] $contextProviders Context providers indexed by context name
      */
+<<<<<<< HEAD
     public function __construct(
         string $host,
         private array $contextProviders = [],
     ) {
+=======
+    public function __construct(string $host, array $contextProviders = [])
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (!str_contains($host, '://')) {
             $host = 'tcp://'.$host;
         }
 
         $this->host = $host;
+<<<<<<< HEAD
+=======
+        $this->contextProviders = $contextProviders;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getContextProviders(): array

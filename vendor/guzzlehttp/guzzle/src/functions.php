@@ -50,7 +50,11 @@ function debug_resource($value = null)
  *
  * The returned handler is not wrapped by any default middlewares.
  *
+<<<<<<< HEAD
  * @return callable(\Psr\Http\Message\RequestInterface, array): Promise\PromiseInterface Returns the best handler for the given system.
+=======
+ * @return callable(\Psr\Http\Message\RequestInterface, array): \GuzzleHttp\Promise\PromiseInterface Returns the best handler for the given system.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @throws \RuntimeException if no viable Handler is available.
  *

@@ -70,14 +70,20 @@ class DebugClassLoader
         'iterable' => 'iterable',
         'object' => 'object',
         'string' => 'string',
+<<<<<<< HEAD
         'non-empty-string' => 'string',
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         'self' => 'self',
         'parent' => 'parent',
         'mixed' => 'mixed',
         'static' => 'static',
         '$this' => 'static',
         'list' => 'array',
+<<<<<<< HEAD
         'non-empty-list' => 'array',
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         'class-string' => 'string',
         'never' => 'never',
     ];
@@ -108,10 +114,13 @@ class DebugClassLoader
         '__toString' => 'string',
         '__debugInfo' => 'array',
         '__serialize' => 'array',
+<<<<<<< HEAD
         '__set' => 'void',
         '__unset' => 'void',
         '__unserialize' => 'void',
         '__wakeup' => 'void',
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     ];
 
     /**
@@ -162,6 +171,7 @@ class DebugClassLoader
             $test = realpath($dir.$test);
 
             if (false === $test || false === $i) {
+<<<<<<< HEAD
                 // filesystem is case-sensitive
                 self::$caseCheck = 0;
             } elseif (str_ends_with($test, $file)) {
@@ -169,6 +179,15 @@ class DebugClassLoader
                 self::$caseCheck = 1;
             } elseif ('Darwin' === \PHP_OS_FAMILY) {
                 // on MacOSX, HFS+ is case-insensitive but realpath() doesn't normalize the case of characters
+=======
+                // filesystem is case sensitive
+                self::$caseCheck = 0;
+            } elseif (str_ends_with($test, $file)) {
+                // filesystem is case insensitive and realpath() normalizes the case of characters
+                self::$caseCheck = 1;
+            } elseif ('Darwin' === \PHP_OS_FAMILY) {
+                // on MacOSX, HFS+ is case insensitive but realpath() doesn't normalize the case of characters
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 self::$caseCheck = 2;
             } else {
                 // filesystem case checks failed, fallback to disabling them
@@ -561,7 +580,13 @@ class DebugClassLoader
             $forcePatchTypes = $this->patchTypes['force'];
 
             if ($canAddReturnType = null !== $forcePatchTypes && !str_contains($method->getFileName(), \DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR)) {
+<<<<<<< HEAD
                 $this->patchTypes['force'] = $forcePatchTypes ?: 'docblock';
+=======
+                if ('void' !== (self::MAGIC_METHODS[$method->name] ?? 'void')) {
+                    $this->patchTypes['force'] = $forcePatchTypes ?: 'docblock';
+                }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
                 $canAddReturnType = 2 === (int) $forcePatchTypes
                     || false !== stripos($method->getFileName(), \DIRECTORY_SEPARATOR.'Tests'.\DIRECTORY_SEPARATOR)
@@ -600,7 +625,11 @@ class DebugClassLoader
                 continue;
             }
 
+<<<<<<< HEAD
             if (isset($doc['return'])) {
+=======
+            if (isset($doc['return']) || 'void' !== (self::MAGIC_METHODS[$method->name] ?? 'void')) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $this->setReturnType($doc['return'] ?? self::MAGIC_METHODS[$method->name], $method->class, $method->name, $method->getFileName(), $parent, $method->getReturnType());
 
                 if (isset(self::$returnTypes[$class][$method->name][0]) && $canAddReturnType) {
@@ -855,6 +884,7 @@ class DebugClassLoader
         $docTypes = [];
 
         foreach ($typesMap as $n => $t) {
+<<<<<<< HEAD
             if (str_contains($n, '::')) {
                 [$definingClass, $constantName] = explode('::', $n, 2);
                 $definingClass = match ($definingClass) {
@@ -879,6 +909,8 @@ class DebugClassLoader
                 }
             }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if ('null' === $n) {
                 $nullable = true;
                 continue;
@@ -902,7 +934,11 @@ class DebugClassLoader
                 continue;
             }
 
+<<<<<<< HEAD
             if (!isset($phpTypes['']) && !\in_array($n, $phpTypes, true)) {
+=======
+            if (!isset($phpTypes[''])) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $phpTypes[] = $n;
             }
         }

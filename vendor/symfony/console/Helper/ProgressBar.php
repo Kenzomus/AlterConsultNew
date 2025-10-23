@@ -195,7 +195,11 @@ final class ProgressBar
 
     public function getMaxSteps(): int
     {
+<<<<<<< HEAD
         return $this->max ?? 0;
+=======
+        return $this->max;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getProgress(): int
@@ -215,7 +219,11 @@ final class ProgressBar
 
     public function getBarOffset(): float
     {
+<<<<<<< HEAD
         return floor(null !== $this->max ? $this->percent * $this->barWidth : (null === $this->redrawFreq ? (int) (min(5, $this->barWidth / 15) * $this->writeCount) : $this->step) % $this->barWidth);
+=======
+        return floor($this->max ? $this->percent * $this->barWidth : (null === $this->redrawFreq ? (int) (min(5, $this->barWidth / 15) * $this->writeCount) : $this->step) % $this->barWidth);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getEstimated(): float
@@ -253,7 +261,11 @@ final class ProgressBar
 
     public function getBarCharacter(): string
     {
+<<<<<<< HEAD
         return $this->barChar ?? (null !== $this->max ? '=' : $this->emptyBarChar);
+=======
+        return $this->barChar ?? ($this->max ? '=' : $this->emptyBarChar);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function setEmptyBarCharacter(string $char): void
@@ -315,6 +327,7 @@ final class ProgressBar
      */
     public function iterate(iterable $iterable, ?int $max = null): iterable
     {
+<<<<<<< HEAD
         if (0 === $max) {
             $max = null;
         }
@@ -330,6 +343,9 @@ final class ProgressBar
         }
 
         $this->start($max);
+=======
+        $this->start($max ?? (is_countable($iterable) ? \count($iterable) : 0));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         foreach ($iterable as $key => $value) {
             yield $key => $value;
@@ -387,6 +403,7 @@ final class ProgressBar
             $step = 0;
         }
 
+<<<<<<< HEAD
         $redrawFreq = $this->redrawFreq ?? (($this->max ?? 10) / 10);
         $prevPeriod = $redrawFreq ? (int) ($this->step / $redrawFreq) : 0;
         $currPeriod = $redrawFreq ? (int) ($step / $redrawFreq) : 0;
@@ -396,6 +413,13 @@ final class ProgressBar
             0 => 1,
             default => (float) $this->step / $this->max,
         };
+=======
+        $redrawFreq = $this->redrawFreq ?? (($this->max ?: 10) / 10);
+        $prevPeriod = (int) ($this->step / $redrawFreq);
+        $currPeriod = (int) ($step / $redrawFreq);
+        $this->step = $step;
+        $this->percent = $this->max ? (float) $this->step / $this->max : 0;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $timeInterval = microtime(true) - $this->lastWriteTime;
 
         // Draw regardless of other limits
@@ -416,6 +440,7 @@ final class ProgressBar
         }
     }
 
+<<<<<<< HEAD
     public function setMaxSteps(?int $max): void
     {
         if (0 === $max) {
@@ -430,6 +455,13 @@ final class ProgressBar
             $this->max = max(0, $max);
             $this->stepWidth = Helper::width((string) $this->max);
         }
+=======
+    public function setMaxSteps(int $max): void
+    {
+        $this->format = null;
+        $this->max = max(0, $max);
+        $this->stepWidth = $this->max ? Helper::width((string) $this->max) : 4;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -437,16 +469,28 @@ final class ProgressBar
      */
     public function finish(): void
     {
+<<<<<<< HEAD
         if (null === $this->max) {
             $this->max = $this->step;
         }
 
         if (($this->step === $this->max || null === $this->max) && !$this->overwrite) {
+=======
+        if (!$this->max) {
+            $this->max = $this->step;
+        }
+
+        if ($this->step === $this->max && !$this->overwrite) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             // prevent double 100% output
             return;
         }
 
+<<<<<<< HEAD
         $this->setProgress($this->max ?? $this->step);
+=======
+        $this->setProgress($this->max);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -578,14 +622,22 @@ final class ProgressBar
             },
             'elapsed' => fn (self $bar) => Helper::formatTime(time() - $bar->getStartTime(), 2),
             'remaining' => function (self $bar) {
+<<<<<<< HEAD
                 if (null === $bar->getMaxSteps()) {
+=======
+                if (!$bar->getMaxSteps()) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     throw new LogicException('Unable to display the remaining time if the maximum number of steps is not set.');
                 }
 
                 return Helper::formatTime($bar->getRemaining(), 2);
             },
             'estimated' => function (self $bar) {
+<<<<<<< HEAD
                 if (null === $bar->getMaxSteps()) {
+=======
+                if (!$bar->getMaxSteps()) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     throw new LogicException('Unable to display the estimated time if the maximum number of steps is not set.');
                 }
 
@@ -619,7 +671,11 @@ final class ProgressBar
     {
         \assert(null !== $this->format);
 
+<<<<<<< HEAD
         $regex = '{%([a-z\-_]+)(?:\:([^%]+))?%}i';
+=======
+        $regex = "{%([a-z\-_]+)(?:\:([^%]+))?%}i";
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $callback = function ($matches) {
             if ($formatter = $this->getPlaceholderFormatter($matches[1])) {
                 $text = $formatter($this, $this->output);

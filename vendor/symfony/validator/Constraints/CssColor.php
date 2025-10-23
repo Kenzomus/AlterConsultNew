@@ -11,12 +11,20 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\InvalidArgumentException;
 
 /**
+<<<<<<< HEAD
  * Validates that a value is a valid CSS color.
+=======
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Mathieu Santostefano <msantostefano@protonmail.com>
  */
@@ -42,6 +50,14 @@ class CssColor extends Constraint
     ];
 
     /**
+<<<<<<< HEAD
+=======
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    /**
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @var string[]
      */
     private static array $validationModes = [
@@ -59,6 +75,7 @@ class CssColor extends Constraint
         self::HSLA,
     ];
 
+<<<<<<< HEAD
     public string $message = 'This value is not a valid CSS color.';
     public array|string $formats;
 
@@ -69,14 +86,26 @@ class CssColor extends Constraint
      */
     #[HasNamedArguments]
     public function __construct(array|string $formats = [], ?string $message = null, ?array $groups = null, $payload = null, ?array $options = null)
+=======
+    public $message = 'This value is not a valid CSS color.';
+    public $formats;
+
+    /**
+     * @param array|string $formats The types of CSS colors allowed (e.g. hexadecimal only, RGB and HSL only, etc.).
+     */
+    public function __construct($formats = [], ?string $message = null, ?array $groups = null, $payload = null, ?array $options = null)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $validationModesAsString = implode(', ', self::$validationModes);
 
         if (!$formats) {
             $options['value'] = self::$validationModes;
         } elseif (\is_array($formats) && \is_string(key($formats))) {
+<<<<<<< HEAD
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $options = array_merge($formats, $options ?? []);
         } elseif (\is_array($formats)) {
             if ([] === array_intersect(self::$validationModes, $formats)) {
@@ -85,7 +114,11 @@ class CssColor extends Constraint
 
             $options['value'] = $formats;
         } elseif (\is_string($formats)) {
+<<<<<<< HEAD
             if (!\in_array($formats, self::$validationModes, true)) {
+=======
+            if (!\in_array($formats, self::$validationModes)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 throw new InvalidArgumentException(\sprintf('The "formats" parameter value is not valid. It must contain one or more of the following values: "%s".', $validationModesAsString));
             }
 

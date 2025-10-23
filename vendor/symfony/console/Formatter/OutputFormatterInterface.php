@@ -20,8 +20,15 @@ interface OutputFormatterInterface
 {
     /**
      * Sets the decorated flag.
+<<<<<<< HEAD
      */
     public function setDecorated(bool $decorated): void;
+=======
+     *
+     * @return void
+     */
+    public function setDecorated(bool $decorated);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Whether the output will decorate messages.
@@ -30,8 +37,15 @@ interface OutputFormatterInterface
 
     /**
      * Sets a new style.
+<<<<<<< HEAD
      */
     public function setStyle(string $name, OutputFormatterStyleInterface $style): void;
+=======
+     *
+     * @return void
+     */
+    public function setStyle(string $name, OutputFormatterStyleInterface $style);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Checks if output formatter has style with specified name.

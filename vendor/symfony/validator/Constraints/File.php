@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
@@ -22,6 +23,14 @@ use Symfony\Component\Validator\Exception\InvalidArgumentException;
  * A file can be one of the following:
  *   - A string (or object with a __toString() method) path to an existing file;
  *   - A valid {@see \Symfony\Component\HttpFoundation\File\File File} object (including objects of {@see \Symfony\Component\HttpFoundation\File\UploadedFile UploadedFile} class).
+=======
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
+
+/**
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @property int $maxSize
  *
@@ -39,6 +48,7 @@ class File extends Constraint
     public const INVALID_MIME_TYPE_ERROR = '744f00bc-4389-4c74-92de-9a43cde55534';
     public const INVALID_EXTENSION_ERROR = 'c8c7315c-6186-4719-8b71-5659e16bdcb7';
     public const FILENAME_TOO_LONG = 'e5706483-91a8-49d8-9a59-5e81a3c634a8';
+<<<<<<< HEAD
     public const FILENAME_INVALID_CHARACTERS = '04ee58e1-42b4-45c7-8423-8a4a145fedd9';
 
     public const FILENAME_COUNT_BYTES = 'bytes';
@@ -50,6 +60,8 @@ class File extends Constraint
         self::FILENAME_COUNT_CODEPOINTS,
         self::FILENAME_COUNT_GRAPHEMES,
     ];
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     protected const ERROR_NAMES = [
         self::NOT_FOUND_ERROR => 'NOT_FOUND_ERROR',
@@ -59,6 +71,7 @@ class File extends Constraint
         self::INVALID_MIME_TYPE_ERROR => 'INVALID_MIME_TYPE_ERROR',
         self::INVALID_EXTENSION_ERROR => 'INVALID_EXTENSION_ERROR',
         self::FILENAME_TOO_LONG => 'FILENAME_TOO_LONG',
+<<<<<<< HEAD
         self::FILENAME_INVALID_CHARACTERS => 'FILENAME_INVALID_CHARACTERS',
     ];
 
@@ -111,6 +124,41 @@ class File extends Constraint
      * @see https://www.iana.org/assignments/media-types/media-types.xhtml Existing media types
      */
     #[HasNamedArguments]
+=======
+    ];
+
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $binaryFormat;
+    public $mimeTypes = [];
+    public ?int $filenameMaxLength = null;
+    public array|string|null $extensions = [];
+    public $notFoundMessage = 'The file could not be found.';
+    public $notReadableMessage = 'The file is not readable.';
+    public $maxSizeMessage = 'The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}.';
+    public $mimeTypesMessage = 'The mime type of the file is invalid ({{ type }}). Allowed mime types are {{ types }}.';
+    public string $extensionsMessage = 'The extension of the file is invalid ({{ extension }}). Allowed extensions are {{ extensions }}.';
+    public $disallowEmptyMessage = 'An empty file is not allowed.';
+    public $filenameTooLongMessage = 'The filename is too long. It should have {{ filename_max_length }} character or less.|The filename is too long. It should have {{ filename_max_length }} characters or less.';
+
+    public $uploadIniSizeErrorMessage = 'The file is too large. Allowed maximum size is {{ limit }} {{ suffix }}.';
+    public $uploadFormSizeErrorMessage = 'The file is too large.';
+    public $uploadPartialErrorMessage = 'The file was only partially uploaded.';
+    public $uploadNoFileErrorMessage = 'No file was uploaded.';
+    public $uploadNoTmpDirErrorMessage = 'No temporary folder was configured in php.ini.';
+    public $uploadCantWriteErrorMessage = 'Cannot write temporary file to disk.';
+    public $uploadExtensionErrorMessage = 'A PHP extension caused the upload to fail.';
+    public $uploadErrorMessage = 'The file could not be uploaded.';
+
+    protected $maxSize;
+
+    /**
+     * @param array<string|string[]>|string $extensions
+     */
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         ?array $options = null,
         int|string|null $maxSize = null,
@@ -134,6 +182,7 @@ class File extends Constraint
         ?string $uploadErrorMessage = null,
         ?array $groups = null,
         mixed $payload = null,
+<<<<<<< HEAD
         array|string|null $extensions = null,
         ?string $extensionsMessage = null,
         ?string $filenameCharset = null,
@@ -144,14 +193,23 @@ class File extends Constraint
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
         }
 
+=======
+
+        array|string|null $extensions = null,
+        ?string $extensionsMessage = null,
+    ) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($options, $groups, $payload);
 
         $this->maxSize = $maxSize ?? $this->maxSize;
         $this->binaryFormat = $binaryFormat ?? $this->binaryFormat;
         $this->mimeTypes = $mimeTypes ?? $this->mimeTypes;
         $this->filenameMaxLength = $filenameMaxLength ?? $this->filenameMaxLength;
+<<<<<<< HEAD
         $this->filenameCharset = $filenameCharset ?? $this->filenameCharset;
         $this->filenameCountUnit = $filenameCountUnit ?? $this->filenameCountUnit;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->extensions = $extensions ?? $this->extensions;
         $this->notFoundMessage = $notFoundMessage ?? $this->notFoundMessage;
         $this->notReadableMessage = $notReadableMessage ?? $this->notReadableMessage;
@@ -160,7 +218,10 @@ class File extends Constraint
         $this->extensionsMessage = $extensionsMessage ?? $this->extensionsMessage;
         $this->disallowEmptyMessage = $disallowEmptyMessage ?? $this->disallowEmptyMessage;
         $this->filenameTooLongMessage = $filenameTooLongMessage ?? $this->filenameTooLongMessage;
+<<<<<<< HEAD
         $this->filenameCharsetMessage = $filenameCharsetMessage ?? $this->filenameCharsetMessage;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->uploadIniSizeErrorMessage = $uploadIniSizeErrorMessage ?? $this->uploadIniSizeErrorMessage;
         $this->uploadFormSizeErrorMessage = $uploadFormSizeErrorMessage ?? $this->uploadFormSizeErrorMessage;
         $this->uploadPartialErrorMessage = $uploadPartialErrorMessage ?? $this->uploadPartialErrorMessage;
@@ -173,6 +234,7 @@ class File extends Constraint
         if (null !== $this->maxSize) {
             $this->normalizeBinaryFormat($this->maxSize);
         }
+<<<<<<< HEAD
 
         if (!\in_array($this->filenameCountUnit, self::FILENAME_VALID_COUNT_UNITS, true)) {
             throw new InvalidArgumentException(\sprintf('The "filenameCountUnit" option must be one of the "%s::FILENAME_COUNT_*" constants ("%s" given).', __CLASS__, $this->filenameCountUnit));
@@ -180,6 +242,14 @@ class File extends Constraint
     }
 
     public function __set(string $option, mixed $value): void
+=======
+    }
+
+    /**
+     * @return void
+     */
+    public function __set(string $option, mixed $value)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ('maxSize' === $option) {
             $this->normalizeBinaryFormat($value);

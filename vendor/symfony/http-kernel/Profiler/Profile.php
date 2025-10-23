@@ -20,6 +20,11 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
  */
 class Profile
 {
+<<<<<<< HEAD
+=======
+    private string $token;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * @var DataCollectorInterface[]
      */
@@ -38,12 +43,24 @@ class Profile
      */
     private array $children = [];
 
+<<<<<<< HEAD
     public function __construct(
         private string $token,
     ) {
     }
 
     public function setToken(string $token): void
+=======
+    public function __construct(string $token)
+    {
+        $this->token = $token;
+    }
+
+    /**
+     * @return void
+     */
+    public function setToken(string $token)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->token = $token;
     }
@@ -58,8 +75,15 @@ class Profile
 
     /**
      * Sets the parent token.
+<<<<<<< HEAD
      */
     public function setParent(self $parent): void
+=======
+     *
+     * @return void
+     */
+    public function setParent(self $parent)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->parent = $parent;
     }
@@ -88,7 +112,14 @@ class Profile
         return $this->ip;
     }
 
+<<<<<<< HEAD
     public function setIp(?string $ip): void
+=======
+    /**
+     * @return void
+     */
+    public function setIp(?string $ip)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->ip = $ip;
     }
@@ -101,7 +132,14 @@ class Profile
         return $this->method;
     }
 
+<<<<<<< HEAD
     public function setMethod(string $method): void
+=======
+    /**
+     * @return void
+     */
+    public function setMethod(string $method)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->method = $method;
     }
@@ -114,7 +152,14 @@ class Profile
         return $this->url;
     }
 
+<<<<<<< HEAD
     public function setUrl(?string $url): void
+=======
+    /**
+     * @return void
+     */
+    public function setUrl(?string $url)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->url = $url;
     }
@@ -124,12 +169,26 @@ class Profile
         return $this->time ?? 0;
     }
 
+<<<<<<< HEAD
     public function setTime(int $time): void
+=======
+    /**
+     * @return void
+     */
+    public function setTime(int $time)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->time = $time;
     }
 
+<<<<<<< HEAD
     public function setStatusCode(int $statusCode): void
+=======
+    /**
+     * @return void
+     */
+    public function setStatusCode(int $statusCode)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->statusCode = $statusCode;
     }
@@ -169,8 +228,15 @@ class Profile
      * Sets children profiler.
      *
      * @param Profile[] $children
+<<<<<<< HEAD
      */
     public function setChildren(array $children): void
+=======
+     *
+     * @return void
+     */
+    public function setChildren(array $children)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->children = [];
         foreach ($children as $child) {
@@ -180,8 +246,15 @@ class Profile
 
     /**
      * Adds the child token.
+<<<<<<< HEAD
      */
     public function addChild(self $child): void
+=======
+     *
+     * @return void
+     */
+    public function addChild(self $child)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->children[] = $child;
         $child->setParent($this);
@@ -226,8 +299,15 @@ class Profile
      * Sets the Collectors associated with this profile.
      *
      * @param DataCollectorInterface[] $collectors
+<<<<<<< HEAD
      */
     public function setCollectors(array $collectors): void
+=======
+     *
+     * @return void
+     */
+    public function setCollectors(array $collectors)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->collectors = [];
         foreach ($collectors as $collector) {
@@ -237,8 +317,15 @@ class Profile
 
     /**
      * Adds a Collector.
+<<<<<<< HEAD
      */
     public function addCollector(DataCollectorInterface $collector): void
+=======
+     *
+     * @return void
+     */
+    public function addCollector(DataCollectorInterface $collector)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->collectors[$collector->getName()] = $collector;
     }

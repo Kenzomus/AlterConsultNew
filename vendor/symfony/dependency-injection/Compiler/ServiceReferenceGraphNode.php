@@ -23,6 +23,7 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 class ServiceReferenceGraphNode
 {
+<<<<<<< HEAD
     private array $inEdges = [];
     private array $outEdges = [];
 
@@ -33,11 +34,35 @@ class ServiceReferenceGraphNode
     }
 
     public function addInEdge(ServiceReferenceGraphEdge $edge): void
+=======
+    private string $id;
+    private array $inEdges = [];
+    private array $outEdges = [];
+    private mixed $value;
+
+    public function __construct(string $id, mixed $value)
+    {
+        $this->id = $id;
+        $this->value = $value;
+    }
+
+    /**
+     * @return void
+     */
+    public function addInEdge(ServiceReferenceGraphEdge $edge)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->inEdges[] = $edge;
     }
 
+<<<<<<< HEAD
     public function addOutEdge(ServiceReferenceGraphEdge $edge): void
+=======
+    /**
+     * @return void
+     */
+    public function addOutEdge(ServiceReferenceGraphEdge $edge)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->outEdges[] = $edge;
     }
@@ -96,8 +121,15 @@ class ServiceReferenceGraphNode
 
     /**
      * Clears all edges.
+<<<<<<< HEAD
      */
     public function clear(): void
+=======
+     *
+     * @return void
+     */
+    public function clear()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->inEdges = $this->outEdges = [];
     }

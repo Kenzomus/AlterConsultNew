@@ -18,6 +18,7 @@ use Symfony\Component\Mailer\Exception\InvalidArgumentException;
  */
 final class Dsn
 {
+<<<<<<< HEAD
     public function __construct(
         private string $scheme,
         private string $host,
@@ -26,6 +27,23 @@ final class Dsn
         private ?int $port = null,
         private array $options = [],
     ) {
+=======
+    private string $scheme;
+    private string $host;
+    private ?string $user;
+    private ?string $password;
+    private ?int $port;
+    private array $options;
+
+    public function __construct(string $scheme, string $host, ?string $user = null, #[\SensitiveParameter] ?string $password = null, ?int $port = null, array $options = [])
+    {
+        $this->scheme = $scheme;
+        $this->host = $host;
+        $this->user = $user;
+        $this->password = $password;
+        $this->port = $port;
+        $this->options = $options;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public static function fromString(#[\SensitiveParameter] string $dsn): self
@@ -79,9 +97,12 @@ final class Dsn
     {
         return $this->options[$key] ?? $default;
     }
+<<<<<<< HEAD
 
     public function getBooleanOption(string $key, bool $default = false): bool
     {
         return filter_var($this->getOption($key, $default), \FILTER_VALIDATE_BOOLEAN);
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }
