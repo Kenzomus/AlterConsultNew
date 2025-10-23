@@ -16,16 +16,28 @@ namespace Symfony\Component\Finder\Comparator;
  */
 class Comparator
 {
+<<<<<<< HEAD
     private string $operator;
 
     public function __construct(
         private string $target,
         string $operator = '==',
     ) {
+=======
+    private string $target;
+    private string $operator;
+
+    public function __construct(string $target, string $operator = '==')
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (!\in_array($operator, ['>', '<', '>=', '<=', '==', '!='])) {
             throw new \InvalidArgumentException(\sprintf('Invalid operator "%s".', $operator));
         }
 
+<<<<<<< HEAD
+=======
+        $this->target = $target;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->operator = $operator;
     }
 

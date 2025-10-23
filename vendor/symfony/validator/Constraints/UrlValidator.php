@@ -50,7 +50,14 @@ class UrlValidator extends ConstraintValidator
             (?:\# (?:[\pL\pN\-._\~!$&\'()*+,;=:@/?]|%%[0-9A-Fa-f]{2})* )?       # a fragment (optional)
         $~ixuD';
 
+<<<<<<< HEAD
     public function validate(mixed $value, Constraint $constraint): void
+=======
+    /**
+     * @return void
+     */
+    public function validate(mixed $value, Constraint $constraint)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$constraint instanceof Url) {
             throw new UnexpectedTypeException($constraint, Url::class);
@@ -84,6 +91,7 @@ class UrlValidator extends ConstraintValidator
 
             return;
         }
+<<<<<<< HEAD
 
         if ($constraint->requireTld) {
             $urlHost = parse_url($value, \PHP_URL_HOST);
@@ -95,5 +103,7 @@ class UrlValidator extends ConstraintValidator
                     ->addViolation();
             }
         }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

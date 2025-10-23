@@ -21,9 +21,17 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class AddEventAliasesPass implements CompilerPassInterface
 {
+<<<<<<< HEAD
     public function __construct(
         private array $eventAliases,
     ) {
+=======
+    private array $eventAliases;
+
+    public function __construct(array $eventAliases)
+    {
+        $this->eventAliases = $eventAliases;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function process(ContainerBuilder $container): void

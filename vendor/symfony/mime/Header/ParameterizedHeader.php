@@ -162,9 +162,15 @@ final class ParameterizedHeader extends UnstructuredHeader
             }
 
             return implode(";\r\n ", $paramLines);
+<<<<<<< HEAD
         }
 
         return $name.$this->getEndOfParameterValue($valueLines[0], $encoded, true);
+=======
+        } else {
+            return $name.$this->getEndOfParameterValue($valueLines[0], $encoded, true);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**

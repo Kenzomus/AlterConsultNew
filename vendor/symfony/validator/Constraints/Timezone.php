@@ -11,12 +11,20 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 
 /**
+<<<<<<< HEAD
  * Validates that a value is a valid timezone identifier.
+=======
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Javier Spagnoletti <phansys@gmail.com>
  * @author Hugo Hamon <hugohamon@neuf.fr>
@@ -29,10 +37,17 @@ class Timezone extends Constraint
     public const TIMEZONE_IDENTIFIER_IN_COUNTRY_ERROR = 'c4a22222-dc92-4fc0-abb0-d95b268c7d0b';
     public const TIMEZONE_IDENTIFIER_INTL_ERROR = '45863c26-88dc-41ba-bf53-c73bd1f7e90d';
 
+<<<<<<< HEAD
     public int $zone = \DateTimeZone::ALL;
     public ?string $countryCode = null;
     public bool $intlCompatible = false;
     public string $message = 'This value is not a valid timezone.';
+=======
+    public $zone = \DateTimeZone::ALL;
+    public $countryCode;
+    public $intlCompatible = false;
+    public $message = 'This value is not a valid timezone.';
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     protected const ERROR_NAMES = [
         self::TIMEZONE_IDENTIFIER_ERROR => 'TIMEZONE_IDENTIFIER_ERROR',
@@ -42,6 +57,7 @@ class Timezone extends Constraint
     ];
 
     /**
+<<<<<<< HEAD
      * @param int|array<string,mixed>|null $zone           Restrict valid timezones to this geographical zone (defaults to {@see \DateTimeZone::ALL})
      * @param string|null                  $countryCode    Restrict the valid timezones to this country if the zone option is {@see \DateTimeZone::PER_COUNTRY}
      * @param bool|null                    $intlCompatible Whether to restrict valid timezones to ones available in PHP's intl (defaults to false)
@@ -51,6 +67,12 @@ class Timezone extends Constraint
      * @see \DateTimeZone
      */
     #[HasNamedArguments]
+=======
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         int|array|null $zone = null,
         ?string $message = null,
@@ -58,6 +80,7 @@ class Timezone extends Constraint
         ?bool $intlCompatible = null,
         ?array $groups = null,
         mixed $payload = null,
+<<<<<<< HEAD
         ?array $options = null,
     ) {
         if (\is_array($zone)) {
@@ -71,6 +94,13 @@ class Timezone extends Constraint
                 $options = [];
             }
 
+=======
+        array $options = [],
+    ) {
+        if (\is_array($zone)) {
+            $options = array_merge($zone, $options);
+        } elseif (null !== $zone) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $options['value'] = $zone;
         }
 

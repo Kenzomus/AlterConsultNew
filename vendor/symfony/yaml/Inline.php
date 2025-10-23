@@ -100,7 +100,11 @@ class Inline
      *
      * @throws DumpException When trying to dump PHP resource
      */
+<<<<<<< HEAD
     public static function dump(mixed $value, int $flags = 0, bool $rootLevel = false): string
+=======
+    public static function dump(mixed $value, int $flags = 0): string
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         switch (true) {
             case \is_resource($value):
@@ -116,7 +120,11 @@ class Inline
                     default => 'Y-m-d\TH:i:s.uP',
                 });
             case $value instanceof \UnitEnum:
+<<<<<<< HEAD
                 return \sprintf('!php/enum %s::%s', $value::class, $value->name);
+=======
+                return \sprintf('!php/const %s::%s', $value::class, $value->name);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             case \is_object($value):
                 if ($value instanceof TaggedValue) {
                     return '!'.$value->getTag().' '.self::dump($value->getValue(), $flags);
@@ -138,7 +146,11 @@ class Inline
             case \is_array($value):
                 return self::dumpArray($value, $flags);
             case null === $value:
+<<<<<<< HEAD
                 return self::dumpNull($flags, $rootLevel);
+=======
+                return self::dumpNull($flags);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             case true === $value:
                 return 'true';
             case false === $value:
@@ -173,7 +185,10 @@ class Inline
             case self::isBinaryString($value):
                 return '!!binary '.base64_encode($value);
             case Escaper::requiresDoubleQuoting($value):
+<<<<<<< HEAD
             case Yaml::DUMP_FORCE_DOUBLE_QUOTES_ON_VALUES & $flags:
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 return Escaper::escapeWithDoubleQuotes($value);
             case Escaper::requiresSingleQuoting($value):
                 $singleQuoted = Escaper::escapeWithSingleQuotes($value);
@@ -243,28 +258,42 @@ class Inline
     private static function dumpHashArray(array|\ArrayObject|\stdClass $value, int $flags): string
     {
         $output = [];
+<<<<<<< HEAD
         $keyFlags = $flags & ~Yaml::DUMP_FORCE_DOUBLE_QUOTES_ON_VALUES;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         foreach ($value as $key => $val) {
             if (\is_int($key) && Yaml::DUMP_NUMERIC_KEY_AS_STRING & $flags) {
                 $key = (string) $key;
             }
 
+<<<<<<< HEAD
             $output[] = \sprintf('%s: %s', self::dump($key, $keyFlags), self::dump($val, $flags));
+=======
+            $output[] = \sprintf('%s: %s', self::dump($key, $flags), self::dump($val, $flags));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return \sprintf('{ %s }', implode(', ', $output));
     }
 
+<<<<<<< HEAD
     private static function dumpNull(int $flags, bool $rootLevel = false): string
+=======
+    private static function dumpNull(int $flags): string
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (Yaml::DUMP_NULL_AS_TILDE & $flags) {
             return '~';
         }
 
+<<<<<<< HEAD
         if (Yaml::DUMP_NULL_AS_EMPTY & $flags && !$rootLevel) {
             return '';
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         return 'null';
     }
 
@@ -583,7 +612,11 @@ class Inline
             }
 
             // an unquoted *
+<<<<<<< HEAD
             if ('' === $value) {
+=======
+            if (false === $value || '' === $value) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 throw new ParseException('A reference must contain at least one character.', self::$parsedLineNumber + 1, $value, self::$parsedFilename);
             }
 
@@ -608,7 +641,11 @@ class Inline
             case '!' === $scalar[0]:
                 switch (true) {
                     case str_starts_with($scalar, '!!str '):
+<<<<<<< HEAD
                         $s = substr($scalar, 6);
+=======
+                        $s = (string) substr($scalar, 6);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
                         if (\in_array($s[0] ?? '', ['"', "'"], true)) {
                             $isQuotedString = true;
@@ -657,6 +694,7 @@ class Inline
                             }
 
                             $i = 0;
+<<<<<<< HEAD
                             $enumName = self::parseScalar(substr($scalar, 10), 0, null, $i, false);
                             $useName = str_contains($enumName, '::');
                             $enum = $useName ? strstr($enumName, '::', true) : $enumName;
@@ -677,11 +715,30 @@ class Inline
 
                             $value = \constant($enumName);
 
+=======
+                            $enum = self::parseScalar(substr($scalar, 10), 0, null, $i, false);
+                            if ($useValue = str_ends_with($enum, '->value')) {
+                                $enum = substr($enum, 0, -7);
+                            }
+                            if (!\defined($enum)) {
+                                throw new ParseException(\sprintf('The enum "%s" is not defined.', $enum), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
+                            }
+
+                            $value = \constant($enum);
+
+                            if (!$value instanceof \UnitEnum) {
+                                throw new ParseException(\sprintf('The string "%s" is not the name of a valid enum.', $enum), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
+                            }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                             if (!$useValue) {
                                 return $value;
                             }
                             if (!$value instanceof \BackedEnum) {
+<<<<<<< HEAD
                                 throw new ParseException(\sprintf('The enum "%s" defines no value next to its name.', $enumName), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
+=======
+                                throw new ParseException(\sprintf('The enum "%s" defines no value next to its name.', $enum), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                             }
 
                             return $value->value;

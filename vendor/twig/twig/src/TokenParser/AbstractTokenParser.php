@@ -11,11 +11,15 @@
 
 namespace Twig\TokenParser;
 
+<<<<<<< HEAD
 use Twig\Lexer;
 use Twig\Node\Expression\Variable\AssignContextVariable;
 use Twig\Node\Nodes;
 use Twig\Parser;
 use Twig\Token;
+=======
+use Twig\Parser;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 /**
  * Base class for all token parsers.
@@ -33,6 +37,7 @@ abstract class AbstractTokenParser implements TokenParserInterface
     {
         $this->parser = $parser;
     }
+<<<<<<< HEAD
 
     /**
      * Parses an assignment expression like "a, b".
@@ -58,4 +63,6 @@ abstract class AbstractTokenParser implements TokenParserInterface
 
         return new Nodes($targets);
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

@@ -32,6 +32,7 @@ final class ExceptionEvent extends RequestEvent
     private \Throwable $throwable;
     private bool $allowCustomResponseCode = false;
 
+<<<<<<< HEAD
     public function __construct(
         HttpKernelInterface $kernel,
         Request $request,
@@ -39,6 +40,10 @@ final class ExceptionEvent extends RequestEvent
         \Throwable $e,
         private bool $isKernelTerminating = false,
     ) {
+=======
+    public function __construct(HttpKernelInterface $kernel, Request $request, int $requestType, \Throwable $e)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($kernel, $request, $requestType);
 
         $this->setThrowable($e);
@@ -74,9 +79,12 @@ final class ExceptionEvent extends RequestEvent
     {
         return $this->allowCustomResponseCode;
     }
+<<<<<<< HEAD
 
     public function isKernelTerminating(): bool
     {
         return $this->isKernelTerminating;
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

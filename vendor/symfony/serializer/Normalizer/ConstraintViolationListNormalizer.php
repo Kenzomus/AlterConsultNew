@@ -21,8 +21,15 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  *
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  * @author Kévin Dunglas <dunglas@gmail.com>
+<<<<<<< HEAD
  */
 final class ConstraintViolationListNormalizer implements NormalizerInterface
+=======
+ *
+ * @final since Symfony 6.3
+ */
+class ConstraintViolationListNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     public const INSTANCE = 'instance';
     public const STATUS = 'status';
@@ -39,11 +46,19 @@ final class ConstraintViolationListNormalizer implements NormalizerInterface
     public function getSupportedTypes(?string $format): array
     {
         return [
+<<<<<<< HEAD
             ConstraintViolationListInterface::class => true,
         ];
     }
 
     public function normalize(mixed $data, ?string $format = null, array $context = []): array
+=======
+            ConstraintViolationListInterface::class => __CLASS__ === static::class || $this->hasCacheableSupportsMethod(),
+        ];
+    }
+
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (\array_key_exists(self::PAYLOAD_FIELDS, $context)) {
             $payloadFieldsToSerialize = $context[self::PAYLOAD_FIELDS];
@@ -59,7 +74,11 @@ final class ConstraintViolationListNormalizer implements NormalizerInterface
 
         $violations = [];
         $messages = [];
+<<<<<<< HEAD
         foreach ($data as $violation) {
+=======
+        foreach ($object as $violation) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $propertyPath = $this->nameConverter ? $this->nameConverter->normalize($violation->getPropertyPath(), null, $format, $context) : $violation->getPropertyPath();
 
             $violationEntry = [
@@ -106,8 +125,28 @@ final class ConstraintViolationListNormalizer implements NormalizerInterface
         return $result + ['violations' => $violations];
     }
 
+<<<<<<< HEAD
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $data instanceof ConstraintViolationListInterface;
     }
+=======
+    /**
+     * @param array $context
+     */
+    public function supportsNormalization(mixed $data, ?string $format = null /* , array $context = [] */): bool
+    {
+        return $data instanceof ConstraintViolationListInterface;
+    }
+
+    /**
+     * @deprecated since Symfony 6.3, use "getSupportedTypes()" instead
+     */
+    public function hasCacheableSupportsMethod(): bool
+    {
+        trigger_deprecation('symfony/serializer', '6.3', 'The "%s()" method is deprecated, implement "%s::getSupportedTypes()" instead.', __METHOD__, get_debug_type($this));
+
+        return __CLASS__ === static::class;
+    }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

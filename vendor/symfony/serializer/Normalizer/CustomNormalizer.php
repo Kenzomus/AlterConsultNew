@@ -16,8 +16,15 @@ use Symfony\Component\Serializer\SerializerAwareTrait;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
+<<<<<<< HEAD
  */
 final class CustomNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface
+=======
+ *
+ * @final since Symfony 6.3
+ */
+class CustomNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface, CacheableSupportsMethodInterface
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     use ObjectToPopulateTrait;
     use SerializerAwareTrait;
@@ -25,6 +32,7 @@ final class CustomNormalizer implements NormalizerInterface, DenormalizerInterfa
     public function getSupportedTypes(?string $format): array
     {
         return [
+<<<<<<< HEAD
             NormalizableInterface::class => true,
             DenormalizableInterface::class => true,
         ];
@@ -33,6 +41,16 @@ final class CustomNormalizer implements NormalizerInterface, DenormalizerInterfa
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         return $data->normalize($this->serializer, $format, $context);
+=======
+            NormalizableInterface::class => __CLASS__ === static::class || $this->hasCacheableSupportsMethod(),
+            DenormalizableInterface::class => __CLASS__ === static::class || $this->hasCacheableSupportsMethod(),
+        ];
+    }
+
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    {
+        return $object->normalize($this->serializer, $format, $context);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
@@ -46,10 +64,18 @@ final class CustomNormalizer implements NormalizerInterface, DenormalizerInterfa
     /**
      * Checks if the given class implements the NormalizableInterface.
      *
+<<<<<<< HEAD
      * @param mixed       $data   Data to normalize
      * @param string|null $format The format being (de-)serialized from or into
      */
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+=======
+     * @param mixed       $data    Data to normalize
+     * @param string|null $format  The format being (de-)serialized from or into
+     * @param array       $context
+     */
+    public function supportsNormalization(mixed $data, ?string $format = null /* , array $context = [] */): bool
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $data instanceof NormalizableInterface;
     }
@@ -57,6 +83,7 @@ final class CustomNormalizer implements NormalizerInterface, DenormalizerInterfa
     /**
      * Checks if the given class implements the DenormalizableInterface.
      *
+<<<<<<< HEAD
      * @param mixed       $data   Data to denormalize from
      * @param string      $type   The class to which the data should be denormalized
      * @param string|null $format The format being deserialized from
@@ -65,4 +92,25 @@ final class CustomNormalizer implements NormalizerInterface, DenormalizerInterfa
     {
         return is_subclass_of($type, DenormalizableInterface::class);
     }
+=======
+     * @param mixed       $data    Data to denormalize from
+     * @param string      $type    The class to which the data should be denormalized
+     * @param string|null $format  The format being deserialized from
+     * @param array       $context
+     */
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null /* , array $context = [] */): bool
+    {
+        return is_subclass_of($type, DenormalizableInterface::class);
+    }
+
+    /**
+     * @deprecated since Symfony 6.3, use "getSupportedTypes()" instead
+     */
+    public function hasCacheableSupportsMethod(): bool
+    {
+        trigger_deprecation('symfony/serializer', '6.3', 'The "%s()" method is deprecated, implement "%s::getSupportedTypes()" instead.', __METHOD__, get_debug_type($this));
+
+        return __CLASS__ === static::class;
+    }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

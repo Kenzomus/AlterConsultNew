@@ -18,12 +18,23 @@ namespace Symfony\Component\Yaml\Exception;
  */
 class ParseException extends RuntimeException
 {
+<<<<<<< HEAD
     /**
      * @param string      $rawMessage The error message
+=======
+    private ?string $parsedFile;
+    private int $parsedLine;
+    private ?string $snippet;
+    private string $rawMessage;
+
+    /**
+     * @param string      $message    The error message
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @param int         $parsedLine The line where the error occurred
      * @param string|null $snippet    The snippet of code near the problem
      * @param string|null $parsedFile The file name where the error occurred
      */
+<<<<<<< HEAD
     public function __construct(
         private string $rawMessage,
         private int $parsedLine = -1,
@@ -31,6 +42,15 @@ class ParseException extends RuntimeException
         private ?string $parsedFile = null,
         ?\Throwable $previous = null,
     ) {
+=======
+    public function __construct(string $message, int $parsedLine = -1, ?string $snippet = null, ?string $parsedFile = null, ?\Throwable $previous = null)
+    {
+        $this->parsedFile = $parsedFile;
+        $this->parsedLine = $parsedLine;
+        $this->snippet = $snippet;
+        $this->rawMessage = $message;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->updateRepr();
 
         parent::__construct($this->message, 0, $previous);
@@ -46,8 +66,15 @@ class ParseException extends RuntimeException
 
     /**
      * Sets the snippet of code near the error.
+<<<<<<< HEAD
      */
     public function setSnippet(string $snippet): void
+=======
+     *
+     * @return void
+     */
+    public function setSnippet(string $snippet)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->snippet = $snippet;
 
@@ -66,8 +93,15 @@ class ParseException extends RuntimeException
 
     /**
      * Sets the filename where the error occurred.
+<<<<<<< HEAD
      */
     public function setParsedFile(string $parsedFile): void
+=======
+     *
+     * @return void
+     */
+    public function setParsedFile(string $parsedFile)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->parsedFile = $parsedFile;
 
@@ -84,8 +118,15 @@ class ParseException extends RuntimeException
 
     /**
      * Sets the line where the error occurred.
+<<<<<<< HEAD
      */
     public function setParsedLine(int $parsedLine): void
+=======
+     *
+     * @return void
+     */
+    public function setParsedLine(int $parsedLine)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->parsedLine = $parsedLine;
 

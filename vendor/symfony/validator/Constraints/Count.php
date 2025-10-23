@@ -11,12 +11,20 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\MissingOptionsException;
 
 /**
+<<<<<<< HEAD
  * Validates a collection's element count.
+=======
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
@@ -35,6 +43,7 @@ class Count extends Constraint
         self::NOT_DIVISIBLE_BY_ERROR => 'NOT_DIVISIBLE_BY_ERROR',
     ];
 
+<<<<<<< HEAD
     public string $minMessage = 'This collection should contain {{ limit }} element or more.|This collection should contain {{ limit }} elements or more.';
     public string $maxMessage = 'This collection should contain {{ limit }} element or less.|This collection should contain {{ limit }} elements or less.';
     public string $exactMessage = 'This collection should contain exactly {{ limit }} element.|This collection should contain exactly {{ limit }} elements.';
@@ -52,6 +61,21 @@ class Count extends Constraint
      * @param array<mixed,string>|null             $options
      */
     #[HasNamedArguments]
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $minMessage = 'This collection should contain {{ limit }} element or more.|This collection should contain {{ limit }} elements or more.';
+    public $maxMessage = 'This collection should contain {{ limit }} element or less.|This collection should contain {{ limit }} elements or less.';
+    public $exactMessage = 'This collection should contain exactly {{ limit }} element.|This collection should contain exactly {{ limit }} elements.';
+    public $divisibleByMessage = 'The number of elements in this collection should be a multiple of {{ compared_value }}.';
+    public $min;
+    public $max;
+    public $divisibleBy;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         int|array|null $exactly = null,
         ?int $min = null,
@@ -63,6 +87,7 @@ class Count extends Constraint
         ?string $divisibleByMessage = null,
         ?array $groups = null,
         mixed $payload = null,
+<<<<<<< HEAD
         ?array $options = null,
     ) {
         if (\is_array($exactly)) {
@@ -74,6 +99,13 @@ class Count extends Constraint
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
         } else {
             $options = [];
+=======
+        array $options = [],
+    ) {
+        if (\is_array($exactly)) {
+            $options = array_merge($exactly, $options);
+            $exactly = $options['value'] ?? null;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $min ??= $options['min'] ?? null;

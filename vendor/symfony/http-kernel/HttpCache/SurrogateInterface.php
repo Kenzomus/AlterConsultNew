@@ -33,15 +33,29 @@ interface SurrogateInterface
 
     /**
      * Adds Surrogate-capability to the given Request.
+<<<<<<< HEAD
      */
     public function addSurrogateCapability(Request $request): void;
+=======
+     *
+     * @return void
+     */
+    public function addSurrogateCapability(Request $request);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Adds HTTP headers to specify that the Response needs to be parsed for Surrogate.
      *
      * This method only adds an Surrogate HTTP header if the Response has some Surrogate tags.
+<<<<<<< HEAD
      */
     public function addSurrogateControl(Response $response): void;
+=======
+     *
+     * @return void
+     */
+    public function addSurrogateControl(Response $response);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Checks that the Response needs to be parsed for Surrogate tags.

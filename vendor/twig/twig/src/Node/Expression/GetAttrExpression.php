@@ -14,6 +14,7 @@ namespace Twig\Node\Expression;
 
 use Twig\Compiler;
 use Twig\Extension\SandboxExtension;
+<<<<<<< HEAD
 use Twig\Node\Expression\Variable\ContextVariable;
 use Twig\Template;
 
@@ -25,6 +26,12 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
     /**
      * @param ArrayExpression|NameExpression|null $arguments
      */
+=======
+use Twig\Template;
+
+class GetAttrExpression extends AbstractExpression
+{
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(AbstractExpression $node, AbstractExpression $attribute, ?AbstractExpression $arguments, string $type, int $lineno)
     {
         $nodes = ['node' => $node, 'attribute' => $attribute];
@@ -32,6 +39,7 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
             $nodes['arguments'] = $arguments;
         }
 
+<<<<<<< HEAD
         if ($arguments && !$arguments instanceof ArrayExpression && !$arguments instanceof ContextVariable) {
             trigger_deprecation('twig/twig', '3.15', \sprintf('Not passing a "%s" instance as the "arguments" argument of the "%s" constructor is deprecated ("%s" given).', ArrayExpression::class, static::class, $arguments::class));
         }
@@ -43,18 +51,28 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
     {
         $this->definedTest = true;
         $this->changeIgnoreStrictCheck($this);
+=======
+        parent::__construct($nodes, ['type' => $type, 'is_defined_test' => false, 'ignore_strict_check' => false, 'optimizable' => true], $lineno);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function compile(Compiler $compiler): void
     {
         $env = $compiler->getEnvironment();
+<<<<<<< HEAD
         $arrayAccessSandbox = false;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         // optimize array calls
         if (
             $this->getAttribute('optimizable')
             && (!$env->isStrictVariables() || $this->getAttribute('ignore_strict_check'))
+<<<<<<< HEAD
             && !$this->definedTest
+=======
+            && !$this->getAttribute('is_defined_test')
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             && Template::ARRAY_CALL === $this->getAttribute('type')
         ) {
             $var = '$'.$compiler->getVarName();
@@ -62,6 +80,7 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
                 ->raw('(('.$var.' = ')
                 ->subcompile($this->getNode('node'))
                 ->raw(') && is_array(')
+<<<<<<< HEAD
                 ->raw($var);
 
             if (!$env->hasExtension(SandboxExtension::class)) {
@@ -94,6 +113,22 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
         }
 
         $compiler->raw('CoreExtension::getAttribute($this->env, $this->source, ');
+=======
+                ->raw($var)
+                ->raw(') || ')
+                ->raw($var)
+                ->raw(' instanceof ArrayAccess ? (')
+                ->raw($var)
+                ->raw('[')
+                ->subcompile($this->getNode('attribute'))
+                ->raw('] ?? null) : null)')
+            ;
+
+            return;
+        }
+
+        $compiler->raw('twig_get_attribute($this->env, $this->source, ');
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         if ($this->getAttribute('ignore_strict_check')) {
             $this->getNode('node')->setAttribute('ignore_strict_check', true);
@@ -113,12 +148,17 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
 
         $compiler->raw(', ')
             ->repr($this->getAttribute('type'))
+<<<<<<< HEAD
             ->raw(', ')->repr($this->definedTest)
+=======
+            ->raw(', ')->repr($this->getAttribute('is_defined_test'))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ->raw(', ')->repr($this->getAttribute('ignore_strict_check'))
             ->raw(', ')->repr($env->hasExtension(SandboxExtension::class))
             ->raw(', ')->repr($this->getNode('node')->getTemplateLine())
             ->raw(')')
         ;
+<<<<<<< HEAD
 
         if ($arrayAccessSandbox) {
             $compiler->raw(')');
@@ -133,5 +173,7 @@ class GetAttrExpression extends AbstractExpression implements SupportDefinedTest
         if ($node->getNode('node') instanceof GetAttrExpression) {
             $this->changeIgnoreStrictCheck($node->getNode('node'));
         }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

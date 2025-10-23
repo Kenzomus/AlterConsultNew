@@ -7,7 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'org\\bovigo\\vfs\\' => array($vendorDir . '/mikey179/vfsstream/src/main/php'),
+<<<<<<< HEAD
     'WebDriver' => array($vendorDir . '/lullabot/php-webdriver/lib'),
+=======
+    'WebDriver' => array($vendorDir . '/instaclick/php-webdriver/lib'),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     'Console' => array($vendorDir . '/pear/console_getopt'),
     'Archive_Tar' => array($vendorDir . '/pear/archive_tar'),
 );

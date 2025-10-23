@@ -20,11 +20,17 @@ use Symfony\Component\Validator\Exception\OutOfBoundsException;
  *
  * @extends \ArrayAccess<int, ConstraintViolationInterface>
  * @extends \Traversable<int, ConstraintViolationInterface>
+<<<<<<< HEAD
+=======
+ *
+ * @method string __toString() Converts the violation into a string for debugging purposes. Not implementing it is deprecated since Symfony 6.1.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 interface ConstraintViolationListInterface extends \Traversable, \Countable, \ArrayAccess
 {
     /**
      * Adds a constraint violation to this list.
+<<<<<<< HEAD
      */
     public function add(ConstraintViolationInterface $violation): void;
 
@@ -32,6 +38,19 @@ interface ConstraintViolationListInterface extends \Traversable, \Countable, \Ar
      * Merges an existing violation list into this list.
      */
     public function addAll(self $otherList): void;
+=======
+     *
+     * @return void
+     */
+    public function add(ConstraintViolationInterface $violation);
+
+    /**
+     * Merges an existing violation list into this list.
+     *
+     * @return void
+     */
+    public function addAll(self $otherList);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Returns the violation at a given offset.
@@ -53,13 +72,21 @@ interface ConstraintViolationListInterface extends \Traversable, \Countable, \Ar
      * Sets a violation at a given offset.
      *
      * @param int $offset The violation offset
+<<<<<<< HEAD
      */
     public function set(int $offset, ConstraintViolationInterface $violation): void;
+=======
+     *
+     * @return void
+     */
+    public function set(int $offset, ConstraintViolationInterface $violation);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Removes a violation at a given offset.
      *
      * @param int $offset The offset to remove
+<<<<<<< HEAD
      */
     public function remove(int $offset): void;
 
@@ -67,4 +94,10 @@ interface ConstraintViolationListInterface extends \Traversable, \Countable, \Ar
      * Converts the violation into a string for debugging purposes.
      */
     public function __toString(): string;
+=======
+     *
+     * @return void
+     */
+    public function remove(int $offset);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

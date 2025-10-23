@@ -11,7 +11,10 @@
 
 namespace Symfony\Component\String;
 
+<<<<<<< HEAD
 use Random\Randomizer;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\String\Exception\ExceptionInterface;
 use Symfony\Component\String\Exception\InvalidArgumentException;
 use Symfony\Component\String\Exception\RuntimeException;
@@ -56,10 +59,13 @@ class ByteString extends AbstractString
             throw new InvalidArgumentException('The length of the alphabet must in the [2^1, 2^56] range.');
         }
 
+<<<<<<< HEAD
         if (\PHP_VERSION_ID >= 80300) {
             return new static((new Randomizer())->getBytesFromString($alphabet, $length));
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $ret = '';
         while ($length > 0) {
             $urandomLength = (int) ceil(2 * $length * $bits / 8.0);
@@ -340,7 +346,11 @@ class ByteString extends AbstractString
     public function slice(int $start = 0, ?int $length = null): static
     {
         $str = clone $this;
+<<<<<<< HEAD
         $str->string = substr($this->string, $start, $length ?? \PHP_INT_MAX);
+=======
+        $str->string = (string) substr($this->string, $start, $length ?? \PHP_INT_MAX);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         return $str;
     }

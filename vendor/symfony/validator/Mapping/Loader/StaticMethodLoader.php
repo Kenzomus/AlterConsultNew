@@ -21,14 +21,25 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  */
 class StaticMethodLoader implements LoaderInterface
 {
+<<<<<<< HEAD
+=======
+    protected $methodName;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * Creates a new loader.
      *
      * @param string $methodName The name of the static method to call
      */
+<<<<<<< HEAD
     public function __construct(
         protected string $methodName = 'loadValidatorMetadata',
     ) {
+=======
+    public function __construct(string $methodName = 'loadValidatorMetadata')
+    {
+        $this->methodName = $methodName;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function loadClassMetadata(ClassMetadata $metadata): bool

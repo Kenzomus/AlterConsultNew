@@ -77,7 +77,11 @@ class ScaffoldFileCollection implements \IteratorAggregate {
    * Matching is done via destination path.
    *
    * @param string[] $files_to_filter
+<<<<<<< HEAD
    *   List of destination paths.
+=======
+   *   List of destination paths
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
    */
   public function filterFiles(array $files_to_filter) {
     foreach ($this->scaffoldFilesByProject as $project_name => $scaffold_files) {
@@ -97,7 +101,11 @@ class ScaffoldFileCollection implements \IteratorAggregate {
    * Scans through a list of scaffold files and determines if any has contents.
    *
    * @param \Drupal\Composer\Plugin\Scaffold\ScaffoldFileInfo[] $scaffold_files
+<<<<<<< HEAD
    *   List of scaffold files, path: ScaffoldFileInfo.
+=======
+   *   List of scaffold files, path: ScaffoldFileInfo
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
    *
    * @return bool
    *   TRUE if at least one item in the list has content
@@ -115,7 +123,12 @@ class ScaffoldFileCollection implements \IteratorAggregate {
   /**
    * {@inheritdoc}
    */
+<<<<<<< HEAD
   public function getIterator(): \ArrayIterator {
+=======
+  #[\ReturnTypeWillChange]
+  public function getIterator() {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     return new \ArrayIterator($this->scaffoldFilesByProject);
   }
 

@@ -12,6 +12,12 @@
 namespace Symfony\Component\Validator\Constraints;
 
 /**
+<<<<<<< HEAD
+=======
+ * @Annotation
+ * @Target({"ANNOTATION"})
+ *
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
 class Optional extends Existence

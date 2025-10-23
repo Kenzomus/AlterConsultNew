@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 
+<<<<<<< HEAD
 7.3
 ---
 
@@ -13,6 +14,8 @@ CHANGELOG
 
  * Allow reinitializing lazy objects with a new initializer
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 6.4
 ---
 

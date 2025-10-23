@@ -15,6 +15,7 @@ use Psr\Container\ContainerInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 use Symfony\Contracts\Service\Attribute\SubscribedService;
 
+<<<<<<< HEAD
 trigger_deprecation('symfony/contracts', 'v3.5', '"%s" is deprecated, use "ServiceMethodsSubscriberTrait" instead.', ServiceSubscriberTrait::class);
 
 /**
@@ -32,6 +33,19 @@ trigger_deprecation('symfony/contracts', 'v3.5', '"%s" is deprecated, use "Servi
  */
 trait ServiceSubscriberTrait
 {
+=======
+/**
+ * Implementation of ServiceSubscriberInterface that determines subscribed services from
+ * method return types. Service ids are available as "ClassName::methodName".
+ *
+ * @author Kevin Bond <kevinbond@gmail.com>
+ */
+trait ServiceSubscriberTrait
+{
+    /** @var ContainerInterface */
+    protected $container;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public static function getSubscribedServices(): array
     {
         $services = method_exists(get_parent_class(self::class) ?: '', __FUNCTION__) ? parent::getSubscribedServices() : [];
@@ -46,11 +60,19 @@ trait ServiceSubscriberTrait
             }
 
             if ($method->isStatic() || $method->isAbstract() || $method->isGenerator() || $method->isInternal() || $method->getNumberOfRequiredParameters()) {
+<<<<<<< HEAD
                 throw new \LogicException(\sprintf('Cannot use "%s" on method "%s::%s()" (can only be used on non-static, non-abstract methods with no parameters).', SubscribedService::class, self::class, $method->name));
             }
 
             if (!$returnType = $method->getReturnType()) {
                 throw new \LogicException(\sprintf('Cannot use "%s" on methods without a return type in "%s::%s()".', SubscribedService::class, $method->name, self::class));
+=======
+                throw new \LogicException(sprintf('Cannot use "%s" on method "%s::%s()" (can only be used on non-static, non-abstract methods with no parameters).', SubscribedService::class, self::class, $method->name));
+            }
+
+            if (!$returnType = $method->getReturnType()) {
+                throw new \LogicException(sprintf('Cannot use "%s" on methods without a return type in "%s::%s()".', SubscribedService::class, $method->name, self::class));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
 
             /* @var SubscribedService $attribute */

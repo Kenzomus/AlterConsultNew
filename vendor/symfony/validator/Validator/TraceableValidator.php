@@ -25,12 +25,21 @@ use Symfony\Contracts\Service\ResetInterface;
  */
 class TraceableValidator implements ValidatorInterface, ResetInterface
 {
+<<<<<<< HEAD
     private array $collectedData = [];
 
     public function __construct(
         private ValidatorInterface $validator,
         protected readonly ?\Closure $disabled = null,
     ) {
+=======
+    private ValidatorInterface $validator;
+    private array $collectedData = [];
+
+    public function __construct(ValidatorInterface $validator)
+    {
+        $this->validator = $validator;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getCollectedData(): array
@@ -38,7 +47,14 @@ class TraceableValidator implements ValidatorInterface, ResetInterface
         return $this->collectedData;
     }
 
+<<<<<<< HEAD
     public function reset(): void
+=======
+    /**
+     * @return void
+     */
+    public function reset()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->collectedData = [];
     }
@@ -57,10 +73,13 @@ class TraceableValidator implements ValidatorInterface, ResetInterface
     {
         $violations = $this->validator->validate($value, $constraints, $groups);
 
+<<<<<<< HEAD
         if ($this->disabled?->__invoke()) {
             return $violations;
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 7);
 
         $file = $trace[0]['file'];

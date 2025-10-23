@@ -35,7 +35,11 @@ interface ProfilerStorageInterface
      * @param string|null   $statusCode The response status code
      * @param \Closure|null $filter     A filter to apply on the list of tokens
      */
+<<<<<<< HEAD
     public function find(?string $ip, ?string $url, ?int $limit, ?string $method, ?int $start = null, ?int $end = null, ?string $statusCode = null, ?\Closure $filter = null): array;
+=======
+    public function find(?string $ip, ?string $url, ?int $limit, ?string $method, ?int $start = null, ?int $end = null/* , string $statusCode = null, \Closure $filter = null */): array;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Reads data associated with the given token.
@@ -51,6 +55,13 @@ interface ProfilerStorageInterface
 
     /**
      * Purges all data from the database.
+<<<<<<< HEAD
      */
     public function purge(): void;
+=======
+     *
+     * @return void
+     */
+    public function purge();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

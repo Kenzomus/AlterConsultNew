@@ -24,9 +24,17 @@ use Symfony\Component\Validator\Constraints\ExpressionValidator;
  */
 class ConstraintValidatorFactory implements ConstraintValidatorFactoryInterface
 {
+<<<<<<< HEAD
     public function __construct(
         protected array $validators = [],
     ) {
+=======
+    protected $validators = [];
+
+    public function __construct(array $validators = [])
+    {
+        $this->validators = $validators;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getInstance(Constraint $constraint): ConstraintValidatorInterface

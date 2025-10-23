@@ -33,11 +33,20 @@ class WindowsPipes extends AbstractPipes
         Process::STDOUT => 0,
         Process::STDERR => 0,
     ];
+<<<<<<< HEAD
 
     public function __construct(
         mixed $input,
         private bool $haveReadSupport,
     ) {
+=======
+    private bool $haveReadSupport;
+
+    public function __construct(mixed $input, bool $haveReadSupport)
+    {
+        $this->haveReadSupport = $haveReadSupport;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if ($this->haveReadSupport) {
             // Fix for PHP bug #51800: reading from STDOUT pipe hangs forever on Windows if the output is too big.
             // Workaround for this problem is to use temporary files instead of pipes on Windows platform.

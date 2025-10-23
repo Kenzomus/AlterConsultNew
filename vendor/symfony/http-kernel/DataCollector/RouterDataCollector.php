@@ -24,7 +24,11 @@ class RouterDataCollector extends DataCollector
     /**
      * @var \SplObjectStorage<Request, callable>
      */
+<<<<<<< HEAD
     protected \SplObjectStorage $controllers;
+=======
+    protected $controllers;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     public function __construct()
     {
@@ -48,7 +52,14 @@ class RouterDataCollector extends DataCollector
         unset($this->controllers[$request]);
     }
 
+<<<<<<< HEAD
     public function reset(): void
+=======
+    /**
+     * @return void
+     */
+    public function reset()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->controllers = new \SplObjectStorage();
 
@@ -59,15 +70,29 @@ class RouterDataCollector extends DataCollector
         ];
     }
 
+<<<<<<< HEAD
     protected function guessRoute(Request $request, string|object|array $controller): string
+=======
+    /**
+     * @return string
+     */
+    protected function guessRoute(Request $request, string|object|array $controller)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return 'n/a';
     }
 
     /**
      * Remembers the controller associated to each request.
+<<<<<<< HEAD
      */
     public function onKernelController(ControllerEvent $event): void
+=======
+     *
+     * @return void
+     */
+    public function onKernelController(ControllerEvent $event)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->controllers[$event->getRequest()] = $event->getController();
     }

@@ -11,10 +11,16 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 
 /**
  * Validates that a file (or a path to a file) is a valid image.
+=======
+/**
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Benjamin Dulau <benjamin.dulau@gmail.com>
  * @author Bernhard Schussek <bschussek@gmail.com>
@@ -60,6 +66,7 @@ class Image extends File
         self::CORRUPTED_IMAGE_ERROR => 'CORRUPTED_IMAGE_ERROR',
     ];
 
+<<<<<<< HEAD
     public array|string $mimeTypes = [];
     public ?int $minWidth = null;
     public ?int $maxWidth = null;
@@ -121,6 +128,43 @@ class Image extends File
      * @see https://www.iana.org/assignments/media-types/media-types.xhtml Existing media types
      */
     #[HasNamedArguments]
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $mimeTypes;
+    public $minWidth;
+    public $maxWidth;
+    public $maxHeight;
+    public $minHeight;
+    public $maxRatio;
+    public $minRatio;
+    public $minPixels;
+    public $maxPixels;
+    public $allowSquare = true;
+    public $allowLandscape = true;
+    public $allowPortrait = true;
+    public $detectCorrupted = false;
+
+    // The constant for a wrong MIME type is taken from the parent class.
+    public $mimeTypesMessage = 'This file is not a valid image.';
+    public $sizeNotDetectedMessage = 'The size of the image could not be detected.';
+    public $maxWidthMessage = 'The image width is too big ({{ width }}px). Allowed maximum width is {{ max_width }}px.';
+    public $minWidthMessage = 'The image width is too small ({{ width }}px). Minimum width expected is {{ min_width }}px.';
+    public $maxHeightMessage = 'The image height is too big ({{ height }}px). Allowed maximum height is {{ max_height }}px.';
+    public $minHeightMessage = 'The image height is too small ({{ height }}px). Minimum height expected is {{ min_height }}px.';
+    public $minPixelsMessage = 'The image has too few pixels ({{ pixels }} pixels). Minimum amount expected is {{ min_pixels }} pixels.';
+    public $maxPixelsMessage = 'The image has too many pixels ({{ pixels }} pixels). Maximum amount expected is {{ max_pixels }} pixels.';
+    public $maxRatioMessage = 'The image ratio is too big ({{ ratio }}). Allowed maximum ratio is {{ max_ratio }}.';
+    public $minRatioMessage = 'The image ratio is too small ({{ ratio }}). Minimum ratio expected is {{ min_ratio }}.';
+    public $allowSquareMessage = 'The image is square ({{ width }}x{{ height }}px). Square images are not allowed.';
+    public $allowLandscapeMessage = 'The image is landscape oriented ({{ width }}x{{ height }}px). Landscape oriented images are not allowed.';
+    public $allowPortraitMessage = 'The image is portrait oriented ({{ width }}x{{ height }}px). Portrait oriented images are not allowed.';
+    public $corruptedMessage = 'The image file is corrupted.';
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         ?array $options = null,
         int|string|null $maxSize = null,
@@ -170,9 +214,12 @@ class Image extends File
         mixed $payload = null,
         array|string|null $extensions = null,
         ?string $extensionsMessage = null,
+<<<<<<< HEAD
         ?string $filenameCharset = null,
         ?string $filenameCountUnit = null,
         ?string $filenameCharsetMessage = null,
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     ) {
         parent::__construct(
             $options,
@@ -198,9 +245,12 @@ class Image extends File
             $payload,
             $extensions,
             $extensionsMessage,
+<<<<<<< HEAD
             $filenameCharset,
             $filenameCountUnit,
             $filenameCharsetMessage,
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         );
 
         $this->minWidth = $minWidth ?? $this->minWidth;
@@ -229,7 +279,11 @@ class Image extends File
         $this->allowPortraitMessage = $allowPortraitMessage ?? $this->allowPortraitMessage;
         $this->corruptedMessage = $corruptedMessage ?? $this->corruptedMessage;
 
+<<<<<<< HEAD
         if ([] === $this->mimeTypes && [] === $this->extensions) {
+=======
+        if (null === $this->mimeTypes && [] === $this->extensions) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->mimeTypes = 'image/*';
         }
 

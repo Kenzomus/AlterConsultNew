@@ -38,7 +38,14 @@ class FileValidator extends ConstraintValidator
         self::MIB_BYTES => 'MiB',
     ];
 
+<<<<<<< HEAD
     public function validate(mixed $value, Constraint $constraint): void
+=======
+    /**
+     * @return void
+     */
+    public function validate(mixed $value, Constraint $constraint)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$constraint instanceof File) {
             throw new UnexpectedTypeException($constraint, File::class);
@@ -137,6 +144,7 @@ class FileValidator extends ConstraintValidator
             return;
         }
 
+<<<<<<< HEAD
         $basename = $value instanceof UploadedFile ? $value->getClientOriginalName() : basename($path);
         $filenameCharset = $constraint->filenameCharset ?? (File::FILENAME_COUNT_BYTES !== $constraint->filenameCountUnit ? 'UTF-8' : null);
 
@@ -167,6 +175,12 @@ class FileValidator extends ConstraintValidator
         }
 
         if ($constraint->filenameMaxLength && $constraint->filenameMaxLength < $filenameLength) {
+=======
+        $sizeInBytes = filesize($path);
+        $basename = $value instanceof UploadedFile ? $value->getClientOriginalName() : basename($path);
+
+        if ($constraint->filenameMaxLength && $constraint->filenameMaxLength < $filenameLength = \strlen($basename)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->context->buildViolation($constraint->filenameTooLongMessage)
                 ->setParameter('{{ filename_max_length }}', $this->formatValue($constraint->filenameMaxLength))
                 ->setCode(File::FILENAME_TOO_LONG)
@@ -176,7 +190,11 @@ class FileValidator extends ConstraintValidator
             return;
         }
 
+<<<<<<< HEAD
         if (!$sizeInBytes = filesize($path)) {
+=======
+        if (0 === $sizeInBytes) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->context->buildViolation($constraint->disallowEmptyMessage)
                 ->setParameter('{{ file }}', $this->formatValue($path))
                 ->setParameter('{{ name }}', $this->formatValue($basename))

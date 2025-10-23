@@ -23,9 +23,17 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class ExpressionSyntaxValidator extends ConstraintValidator
 {
+<<<<<<< HEAD
     public function __construct(
         private ?ExpressionLanguage $expressionLanguage = null,
     ) {
+=======
+    private ?ExpressionLanguage $expressionLanguage;
+
+    public function __construct(?ExpressionLanguage $expressionLanguage = null)
+    {
+        $this->expressionLanguage = $expressionLanguage;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function validate(mixed $expression, Constraint $constraint): void
@@ -38,7 +46,11 @@ class ExpressionSyntaxValidator extends ConstraintValidator
             return;
         }
 
+<<<<<<< HEAD
         if (!\is_string($expression) && !$expression instanceof \Stringable) {
+=======
+        if (!\is_string($expression)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             throw new UnexpectedValueException($expression, 'string');
         }
 

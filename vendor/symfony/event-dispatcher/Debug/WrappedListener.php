@@ -26,6 +26,7 @@ final class WrappedListener
     private string $name;
     private bool $called = false;
     private bool $stoppedPropagation = false;
+<<<<<<< HEAD
     private string $pretty;
     private string $callableRef;
     private ClassStub|string $stub;
@@ -40,6 +41,23 @@ final class WrappedListener
     ) {
         $this->listener = $listener;
         $this->optimizedListener = $listener instanceof \Closure ? $listener : (\is_callable($listener) ? $listener(...) : null);
+=======
+    private Stopwatch $stopwatch;
+    private ?EventDispatcherInterface $dispatcher;
+    private string $pretty;
+    private string $callableRef;
+    private ClassStub|string $stub;
+    private ?int $priority = null;
+    private static bool $hasClassStub;
+
+    public function __construct(callable|array $listener, ?string $name, Stopwatch $stopwatch, ?EventDispatcherInterface $dispatcher = null, ?int $priority = null)
+    {
+        $this->listener = $listener;
+        $this->optimizedListener = $listener instanceof \Closure ? $listener : (\is_callable($listener) ? $listener(...) : null);
+        $this->stopwatch = $stopwatch;
+        $this->dispatcher = $dispatcher;
+        $this->priority = $priority;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         if (\is_array($listener)) {
             [$this->name, $this->callableRef] = $this->parseListener($listener);
@@ -47,9 +65,15 @@ final class WrappedListener
             $this->callableRef .= '::'.$listener[1];
         } elseif ($listener instanceof \Closure) {
             $r = new \ReflectionFunction($listener);
+<<<<<<< HEAD
             if ($r->isAnonymous()) {
                 $this->pretty = $this->name = 'closure';
             } elseif ($class = $r->getClosureCalledClass()) {
+=======
+            if (str_contains($r->name, '{closure')) {
+                $this->pretty = $this->name = 'closure';
+            } elseif ($class = \PHP_VERSION_ID >= 80111 ? $r->getClosureCalledClass() : $r->getClosureScopeClass()) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $this->name = $class->name;
                 $this->pretty = $this->name.'::'.$r->name;
             } else {

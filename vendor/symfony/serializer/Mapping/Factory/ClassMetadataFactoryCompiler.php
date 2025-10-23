@@ -55,7 +55,10 @@ EOF;
             $classDiscriminatorMapping = $classMetadata->getClassDiscriminatorMapping() ? [
                 $classMetadata->getClassDiscriminatorMapping()->getTypeProperty(),
                 $classMetadata->getClassDiscriminatorMapping()->getTypesMapping(),
+<<<<<<< HEAD
                 $classMetadata->getClassDiscriminatorMapping()->getDefaultType(),
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ] : null;
 
             $compiled .= \sprintf("\n'%s' => %s,", $classMetadata->getName(), VarExporter::export([

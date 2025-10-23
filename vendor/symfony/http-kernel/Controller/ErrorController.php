@@ -25,11 +25,23 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class ErrorController
 {
+<<<<<<< HEAD
     public function __construct(
         private HttpKernelInterface $kernel,
         private string|object|array|null $controller,
         private ErrorRendererInterface $errorRenderer,
     ) {
+=======
+    private HttpKernelInterface $kernel;
+    private string|object|array|null $controller;
+    private ErrorRendererInterface $errorRenderer;
+
+    public function __construct(HttpKernelInterface $kernel, string|object|array|null $controller, ErrorRendererInterface $errorRenderer)
+    {
+        $this->kernel = $kernel;
+        $this->controller = $controller;
+        $this->errorRenderer = $errorRenderer;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function __invoke(\Throwable $exception): Response

@@ -27,7 +27,11 @@ use Symfony\Component\Stopwatch\Stopwatch;
  *
  * @author Jules Pietri <jules@heahprod.com>
  */
+<<<<<<< HEAD
 final class TraceableCommand extends Command
+=======
+final class TraceableCommand extends Command implements SignalableCommandInterface
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     public readonly Command $command;
     public int $exitCode;
@@ -45,7 +49,10 @@ final class TraceableCommand extends Command
     /** @var array<string, mixed> */
     public array $interactiveInputs = [];
     public array $handledSignals = [];
+<<<<<<< HEAD
     public ?array $invokableCommandInfo = null;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     public function __construct(
         Command $command,
@@ -89,11 +96,22 @@ final class TraceableCommand extends Command
 
     public function getSubscribedSignals(): array
     {
+<<<<<<< HEAD
         return $this->command->getSubscribedSignals();
+=======
+        return $this->command instanceof SignalableCommandInterface ? $this->command->getSubscribedSignals() : [];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function handleSignal(int $signal, int|false $previousExitCode = 0): int|false
     {
+<<<<<<< HEAD
+=======
+        if (!$this->command instanceof SignalableCommandInterface) {
+            return false;
+        }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $event = $this->stopwatch->start($this->getName().'.handle_signal');
 
         $exit = $this->command->handleSignal($signal, $previousExitCode);
@@ -168,6 +186,7 @@ final class TraceableCommand extends Command
      */
     public function setCode(callable $code): static
     {
+<<<<<<< HEAD
         if ($code instanceof InvokableCommand) {
             $r = new \ReflectionFunction(\Closure::bind(function () {
                 return $this->code;
@@ -180,6 +199,8 @@ final class TraceableCommand extends Command
             ];
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->command->setCode($code);
 
         return parent::setCode(function (InputInterface $input, OutputInterface $output) use ($code): int {

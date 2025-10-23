@@ -1,6 +1,7 @@
 Changelog
 ==========
 
+<<<<<<< HEAD
 #### 1.17.2
 * Fixed bug where `const` declarations were allowed without an initializer
 
@@ -23,6 +24,8 @@ Changelog
 * Implemented ES2024 parser, no new syntax features have been introduced
 * Fixed bug when parsing sequence expressions using older ES versions
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 #### 1.15.4
 * Fixed rendering of `let` and `const` inside `switch` cases that always require brackets
 

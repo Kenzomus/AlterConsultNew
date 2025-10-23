@@ -66,7 +66,11 @@ class DataPart extends TextPart
     public function setContentId(string $cid): static
     {
         if (!str_contains($cid, '@')) {
+<<<<<<< HEAD
             throw new InvalidArgumentException(\sprintf('The "%s" CID is invalid as it doesn\'t contain an "@".', $cid));
+=======
+            throw new InvalidArgumentException(\sprintf('Invalid cid "%s".', $cid));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $this->cid = $cid;
@@ -144,7 +148,14 @@ class DataPart extends TextPart
         return ['_headers', '_parent', 'filename', 'mediaType'];
     }
 
+<<<<<<< HEAD
     public function __wakeup(): void
+=======
+    /**
+     * @return void
+     */
+    public function __wakeup()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $r = new \ReflectionProperty(AbstractPart::class, 'headers');
         $r->setValue($this, $this->_headers);

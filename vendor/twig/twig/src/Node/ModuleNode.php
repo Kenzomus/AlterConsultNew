@@ -12,7 +12,10 @@
 
 namespace Twig\Node;
 
+<<<<<<< HEAD
 use Twig\Attribute\YieldReady;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Compiler;
 use Twig\Node\Expression\AbstractExpression;
 use Twig\Node\Expression\ConstantExpression;
@@ -21,6 +24,7 @@ use Twig\Source;
 /**
  * Represents a module node.
  *
+<<<<<<< HEAD
  * If you need to customize the behavior of the generated class, add nodes to
  * the following nodes: display_start, display_end, constructor_start,
  * constructor_end, and class_end.
@@ -48,16 +52,36 @@ final class ModuleNode extends Node
             }
         }
 
+=======
+ * Consider this class as being final. If you need to customize the behavior of
+ * the generated class, consider adding nodes to the following nodes: display_start,
+ * display_end, constructor_start, constructor_end, and class_end.
+ *
+ * @author Fabien Potencier <fabien@symfony.com>
+ */
+final class ModuleNode extends Node
+{
+    public function __construct(Node $body, ?AbstractExpression $parent, Node $blocks, Node $macros, Node $traits, $embeddedTemplates, Source $source)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $nodes = [
             'body' => $body,
             'blocks' => $blocks,
             'macros' => $macros,
             'traits' => $traits,
+<<<<<<< HEAD
             'display_start' => new Nodes(),
             'display_end' => new Nodes(),
             'constructor_start' => new Nodes(),
             'constructor_end' => new Nodes(),
             'class_end' => new Nodes(),
+=======
+            'display_start' => new Node(),
+            'display_end' => new Node(),
+            'constructor_start' => new Node(),
+            'constructor_end' => new Node(),
+            'class_end' => new Node(),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         ];
         if (null !== $parent) {
             $nodes['parent'] = $parent;
@@ -73,9 +97,12 @@ final class ModuleNode extends Node
         $this->setSourceContext($source);
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function setIndex($index)
     {
         $this->setAttribute('index', $index);
@@ -90,9 +117,12 @@ final class ModuleNode extends Node
         }
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected function compileTemplate(Compiler $compiler)
     {
         if (!$this->getAttribute('index')) {
@@ -122,9 +152,12 @@ final class ModuleNode extends Node
         $this->compileClassFooter($compiler);
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected function compileGetParent(Compiler $compiler)
     {
         if (!$this->hasNode('parent')) {
@@ -133,7 +166,11 @@ final class ModuleNode extends Node
         $parent = $this->getNode('parent');
 
         $compiler
+<<<<<<< HEAD
             ->write("protected function doGetParent(array \$context): bool|string|Template|TemplateWrapper\n", "{\n")
+=======
+            ->write("protected function doGetParent(array \$context)\n", "{\n")
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ->indent()
             ->addDebugInfo($parent)
             ->write('return ')
@@ -143,9 +180,17 @@ final class ModuleNode extends Node
             $compiler->subcompile($parent);
         } else {
             $compiler
+<<<<<<< HEAD
                 ->raw('$this->load(')
                 ->subcompile($parent)
                 ->raw(', ')
+=======
+                ->raw('$this->loadTemplate(')
+                ->subcompile($parent)
+                ->raw(', ')
+                ->repr($this->getSourceContext()->getName())
+                ->raw(', ')
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ->repr($parent->getTemplateLine())
                 ->raw(')')
             ;
@@ -158,9 +203,12 @@ final class ModuleNode extends Node
         ;
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected function compileClassHeader(Compiler $compiler)
     {
         $compiler
@@ -171,7 +219,10 @@ final class ModuleNode extends Node
                 ->write("use Twig\Environment;\n")
                 ->write("use Twig\Error\LoaderError;\n")
                 ->write("use Twig\Error\RuntimeError;\n")
+<<<<<<< HEAD
                 ->write("use Twig\Extension\CoreExtension;\n")
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ->write("use Twig\Extension\SandboxExtension;\n")
                 ->write("use Twig\Markup;\n")
                 ->write("use Twig\Sandbox\SecurityError;\n")
@@ -179,9 +230,13 @@ final class ModuleNode extends Node
                 ->write("use Twig\Sandbox\SecurityNotAllowedFilterError;\n")
                 ->write("use Twig\Sandbox\SecurityNotAllowedFunctionError;\n")
                 ->write("use Twig\Source;\n")
+<<<<<<< HEAD
                 ->write("use Twig\Template;\n")
                 ->write("use Twig\TemplateWrapper;\n")
                 ->write("\n")
+=======
+                ->write("use Twig\Template;\n\n")
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ;
         }
         $compiler
@@ -191,6 +246,7 @@ final class ModuleNode extends Node
             ->raw(" extends Template\n")
             ->write("{\n")
             ->indent()
+<<<<<<< HEAD
             ->write("private Source \$source;\n")
             ->write("/**\n")
             ->write(" * @var array<string, Template>\n")
@@ -202,6 +258,13 @@ final class ModuleNode extends Node
     /**
      * @return void
      */
+=======
+            ->write("private \$source;\n")
+            ->write("private \$macros = [];\n\n")
+        ;
+    }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected function compileConstructor(Compiler $compiler)
     {
         $compiler
@@ -225,12 +288,23 @@ final class ModuleNode extends Node
 
                 $compiler
                     ->addDebugInfo($node)
+<<<<<<< HEAD
                     ->write(\sprintf('$_trait_%s = $this->load(', $i))
                     ->subcompile($node)
                     ->raw(', ')
                     ->repr($node->getTemplateLine())
                     ->raw(");\n")
                     ->write(\sprintf("if (!\$_trait_%s->unwrap()->isTraitable()) {\n", $i))
+=======
+                    ->write(sprintf('$_trait_%s = $this->loadTemplate(', $i))
+                    ->subcompile($node)
+                    ->raw(', ')
+                    ->repr($node->getTemplateName())
+                    ->raw(', ')
+                    ->repr($node->getTemplateLine())
+                    ->raw(");\n")
+                    ->write(sprintf("if (!\$_trait_%s->isTraitable()) {\n", $i))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     ->indent()
                     ->write("throw new RuntimeError('Template \"'.")
                     ->subcompile($trait->getNode('template'))
@@ -239,12 +313,20 @@ final class ModuleNode extends Node
                     ->raw(", \$this->source);\n")
                     ->outdent()
                     ->write("}\n")
+<<<<<<< HEAD
                     ->write(\sprintf("\$_trait_%s_blocks = \$_trait_%s->unwrap()->getBlocks();\n\n", $i, $i))
+=======
+                    ->write(sprintf("\$_trait_%s_blocks = \$_trait_%s->getBlocks();\n\n", $i, $i))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ;
 
                 foreach ($trait->getNode('targets') as $key => $value) {
                     $compiler
+<<<<<<< HEAD
                         ->write(\sprintf('if (!isset($_trait_%s_blocks[', $i))
+=======
+                        ->write(sprintf('if (!isset($_trait_%s_blocks[', $i))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                         ->string($key)
                         ->raw("])) {\n")
                         ->indent()
@@ -258,6 +340,7 @@ final class ModuleNode extends Node
                         ->outdent()
                         ->write("}\n\n")
 
+<<<<<<< HEAD
                         ->write(\sprintf('$_trait_%s_blocks[', $i))
                         ->subcompile($value)
                         ->raw(\sprintf('] = $_trait_%s_blocks[', $i))
@@ -269,6 +352,15 @@ final class ModuleNode extends Node
                         ->raw('] = ')
                         ->string($key)
                         ->raw(";\n\n")
+=======
+                        ->write(sprintf('$_trait_%s_blocks[', $i))
+                        ->subcompile($value)
+                        ->raw(sprintf('] = $_trait_%s_blocks[', $i))
+                        ->string($key)
+                        ->raw(sprintf(']; unset($_trait_%s_blocks[', $i))
+                        ->string($key)
+                        ->raw("]);\n\n")
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     ;
                 }
             }
@@ -281,7 +373,11 @@ final class ModuleNode extends Node
 
                 for ($i = 0; $i < $countTraits; ++$i) {
                     $compiler
+<<<<<<< HEAD
                         ->write(\sprintf('$_trait_%s_blocks'.($i == $countTraits - 1 ? '' : ',')."\n", $i))
+=======
+                        ->write(sprintf('$_trait_%s_blocks'.($i == $countTraits - 1 ? '' : ',')."\n", $i))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     ;
                 }
 
@@ -314,7 +410,11 @@ final class ModuleNode extends Node
 
         foreach ($this->getNode('blocks') as $name => $node) {
             $compiler
+<<<<<<< HEAD
                 ->write(\sprintf("'%s' => [\$this, 'block_%s'],\n", $name, $name))
+=======
+                ->write(sprintf("'%s' => [\$this, 'block_%s'],\n", $name, $name))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ;
         }
 
@@ -339,6 +439,7 @@ final class ModuleNode extends Node
         ;
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
@@ -346,6 +447,12 @@ final class ModuleNode extends Node
     {
         $compiler
             ->write("protected function doDisplay(array \$context, array \$blocks = []): iterable\n", "{\n")
+=======
+    protected function compileDisplay(Compiler $compiler)
+    {
+        $compiler
+            ->write("protected function doDisplay(array \$context, array \$blocks = [])\n", "{\n")
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ->indent()
             ->write("\$macros = \$this->macros;\n")
             ->subcompile($this->getNode('display_start'))
@@ -358,6 +465,7 @@ final class ModuleNode extends Node
             $compiler->addDebugInfo($parent);
             if ($parent instanceof ConstantExpression) {
                 $compiler
+<<<<<<< HEAD
                     ->write('$this->parent = $this->load(')
                     ->subcompile($parent)
                     ->raw(', ')
@@ -382,14 +490,36 @@ final class ModuleNode extends Node
         }
 
         $compiler
+=======
+                    ->write('$this->parent = $this->loadTemplate(')
+                    ->subcompile($parent)
+                    ->raw(', ')
+                    ->repr($this->getSourceContext()->getName())
+                    ->raw(', ')
+                    ->repr($parent->getTemplateLine())
+                    ->raw(");\n")
+                ;
+                $compiler->write('$this->parent');
+            } else {
+                $compiler->write('$this->getParent($context)');
+            }
+            $compiler->raw("->display(\$context, array_merge(\$this->blocks, \$blocks));\n");
+        }
+
+        $compiler
+            ->subcompile($this->getNode('display_end'))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ->outdent()
             ->write("}\n\n")
         ;
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected function compileClassFooter(Compiler $compiler)
     {
         $compiler
@@ -399,24 +529,34 @@ final class ModuleNode extends Node
         ;
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected function compileMacros(Compiler $compiler)
     {
         $compiler->subcompile($this->getNode('macros'));
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected function compileGetTemplateName(Compiler $compiler)
     {
         $compiler
             ->write("/**\n")
             ->write(" * @codeCoverageIgnore\n")
             ->write(" */\n")
+<<<<<<< HEAD
             ->write("public function getTemplateName(): string\n", "{\n")
+=======
+            ->write("public function getTemplateName()\n", "{\n")
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ->indent()
             ->write('return ')
             ->repr($this->getSourceContext()->getName())
@@ -426,9 +566,12 @@ final class ModuleNode extends Node
         ;
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected function compileIsTraitable(Compiler $compiler)
     {
         // A template can be used as a trait if:
@@ -441,13 +584,21 @@ final class ModuleNode extends Node
         $traitable = !$this->hasNode('parent') && 0 === \count($this->getNode('macros'));
         if ($traitable) {
             if ($this->getNode('body') instanceof BodyNode) {
+<<<<<<< HEAD
                 $nodes = $this->getNode('body')->getNode('0');
+=======
+                $nodes = $this->getNode('body')->getNode(0);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             } else {
                 $nodes = $this->getNode('body');
             }
 
             if (!\count($nodes)) {
+<<<<<<< HEAD
                 $nodes = new Nodes([$nodes]);
+=======
+                $nodes = new Node([$nodes]);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
 
             foreach ($nodes as $node) {
@@ -455,6 +606,17 @@ final class ModuleNode extends Node
                     continue;
                 }
 
+<<<<<<< HEAD
+=======
+                if ($node instanceof TextNode && ctype_space($node->getAttribute('data'))) {
+                    continue;
+                }
+
+                if ($node instanceof BlockReferenceNode) {
+                    continue;
+                }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $traitable = false;
                 break;
             }
@@ -468,31 +630,47 @@ final class ModuleNode extends Node
             ->write("/**\n")
             ->write(" * @codeCoverageIgnore\n")
             ->write(" */\n")
+<<<<<<< HEAD
             ->write("public function isTraitable(): bool\n", "{\n")
             ->indent()
             ->write("return false;\n")
+=======
+            ->write("public function isTraitable()\n", "{\n")
+            ->indent()
+            ->write(sprintf("return %s;\n", $traitable ? 'true' : 'false'))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ->outdent()
             ->write("}\n\n")
         ;
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected function compileDebugInfo(Compiler $compiler)
     {
         $compiler
             ->write("/**\n")
             ->write(" * @codeCoverageIgnore\n")
             ->write(" */\n")
+<<<<<<< HEAD
             ->write("public function getDebugInfo(): array\n", "{\n")
             ->indent()
             ->write(\sprintf("return %s;\n", str_replace("\n", '', var_export(array_reverse($compiler->getDebugInfo(), true), true))))
+=======
+            ->write("public function getDebugInfo()\n", "{\n")
+            ->indent()
+            ->write(sprintf("return %s;\n", str_replace("\n", '', var_export(array_reverse($compiler->getDebugInfo(), true), true))))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ->outdent()
             ->write("}\n\n")
         ;
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
@@ -500,6 +678,12 @@ final class ModuleNode extends Node
     {
         $compiler
             ->write("public function getSourceContext(): Source\n", "{\n")
+=======
+    protected function compileGetSourceContext(Compiler $compiler)
+    {
+        $compiler
+            ->write("public function getSourceContext()\n", "{\n")
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ->indent()
             ->write('return new Source(')
             ->string($compiler->getEnvironment()->isDebug() ? $this->getSourceContext()->getCode() : '')
@@ -512,4 +696,24 @@ final class ModuleNode extends Node
             ->write("}\n")
         ;
     }
+<<<<<<< HEAD
+=======
+
+    protected function compileLoadTemplate(Compiler $compiler, $node, $var)
+    {
+        if ($node instanceof ConstantExpression) {
+            $compiler
+                ->write(sprintf('%s = $this->loadTemplate(', $var))
+                ->subcompile($node)
+                ->raw(', ')
+                ->repr($node->getTemplateName())
+                ->raw(', ')
+                ->repr($node->getTemplateLine())
+                ->raw(");\n")
+            ;
+        } else {
+            throw new \LogicException('Trait templates can only be constant nodes.');
+        }
+    }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

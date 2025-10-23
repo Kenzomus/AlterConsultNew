@@ -18,6 +18,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  */
 class HttpTransportException extends TransportException
 {
+<<<<<<< HEAD
     public function __construct(
         string $message,
         private ResponseInterface $response,
@@ -25,6 +26,15 @@ class HttpTransportException extends TransportException
         ?\Throwable $previous = null,
     ) {
         parent::__construct($message, $code, $previous);
+=======
+    private ResponseInterface $response;
+
+    public function __construct(string $message, ResponseInterface $response, int $code = 0, ?\Throwable $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+
+        $this->response = $response;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getResponse(): ResponseInterface

@@ -20,7 +20,10 @@ use Symfony\Component\Mime\Message;
  * Manipulates the Envelope of a Message.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+<<<<<<< HEAD
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 class EnvelopeListener implements EventSubscriberInterface
 {
@@ -33,6 +36,7 @@ class EnvelopeListener implements EventSubscriberInterface
 
     /**
      * @param array<Address|string> $recipients
+<<<<<<< HEAD
      * @param string[]              $allowedRecipients An array of regex to match the allowed recipients
      */
     public function __construct(
@@ -40,6 +44,11 @@ class EnvelopeListener implements EventSubscriberInterface
         ?array $recipients = null,
         private array $allowedRecipients = [],
     ) {
+=======
+     */
+    public function __construct(Address|string|null $sender = null, ?array $recipients = null)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (null !== $sender) {
             $this->sender = Address::create($sender);
         }
@@ -62,6 +71,7 @@ class EnvelopeListener implements EventSubscriberInterface
         }
 
         if ($this->recipients) {
+<<<<<<< HEAD
             $recipients = $this->recipients;
             if ($this->allowedRecipients) {
                 foreach ($event->getEnvelope()->getRecipients() as $recipient) {
@@ -83,6 +93,9 @@ class EnvelopeListener implements EventSubscriberInterface
             }
 
             $event->getEnvelope()->setRecipients($recipients);
+=======
+            $event->getEnvelope()->setRecipients($this->recipients);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
     }
 

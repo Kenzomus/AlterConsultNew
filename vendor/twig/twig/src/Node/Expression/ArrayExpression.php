@@ -12,6 +12,7 @@
 namespace Twig\Node\Expression;
 
 use Twig\Compiler;
+<<<<<<< HEAD
 use Twig\Node\Expression\Unary\SpreadUnary;
 use Twig\Node\Expression\Unary\StringCastUnary;
 use Twig\Node\Expression\Variable\ContextVariable;
@@ -20,6 +21,11 @@ class ArrayExpression extends AbstractExpression implements SupportDefinedTestIn
 {
     use SupportDefinedTestTrait;
 
+=======
+
+class ArrayExpression extends AbstractExpression
+{
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private $index;
 
     public function __construct(array $elements, int $lineno)
@@ -60,7 +66,11 @@ class ArrayExpression extends AbstractExpression implements SupportDefinedTestIn
         return false;
     }
 
+<<<<<<< HEAD
     public function addElement(AbstractExpression $value, ?AbstractExpression $key = null): void
+=======
+    public function addElement(AbstractExpression $value, AbstractExpression $key = null): void
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (null === $key) {
             $key = new ConstantExpression(++$this->index, $value->getTemplateLine());
@@ -71,6 +81,7 @@ class ArrayExpression extends AbstractExpression implements SupportDefinedTestIn
 
     public function compile(Compiler $compiler): void
     {
+<<<<<<< HEAD
         if ($this->definedTest) {
             $compiler->repr(true);
 
@@ -108,5 +119,72 @@ class ArrayExpression extends AbstractExpression implements SupportDefinedTestIn
             $compiler->subcompile($pair['value']);
         }
         $compiler->raw(']');
+=======
+        $keyValuePairs = $this->getKeyValuePairs();
+        $needsArrayMergeSpread = \PHP_VERSION_ID < 80100 && $this->hasSpreadItem($keyValuePairs);
+
+        if ($needsArrayMergeSpread) {
+            $compiler->raw('twig_array_merge(');
+        }
+        $compiler->raw('[');
+        $first = true;
+        $reopenAfterMergeSpread = false;
+        $nextIndex = 0;
+        foreach ($keyValuePairs as $pair) {
+            if ($reopenAfterMergeSpread) {
+                $compiler->raw(', [');
+                $reopenAfterMergeSpread = false;
+            }
+
+            if ($needsArrayMergeSpread && $pair['value']->hasAttribute('spread')) {
+                $compiler->raw('], ')->subcompile($pair['value']);
+                $first = true;
+                $reopenAfterMergeSpread = true;
+                continue;
+            }
+            if (!$first) {
+                $compiler->raw(', ');
+            }
+            $first = false;
+
+            if ($pair['value']->hasAttribute('spread') && !$needsArrayMergeSpread) {
+                $compiler->raw('...')->subcompile($pair['value']);
+                ++$nextIndex;
+            } else {
+                $key = $pair['key'] instanceof ConstantExpression ? $pair['key']->getAttribute('value') : null;
+
+                if ($nextIndex !== $key) {
+                    if (\is_int($key)) {
+                        $nextIndex = $key + 1;
+                    }
+                    $compiler
+                        ->subcompile($pair['key'])
+                        ->raw(' => ')
+                    ;
+                } else {
+                    ++$nextIndex;
+                }
+
+                $compiler->subcompile($pair['value']);
+            }
+        }
+        if (!$reopenAfterMergeSpread) {
+            $compiler->raw(']');
+        }
+        if ($needsArrayMergeSpread) {
+            $compiler->raw(')');
+        }
+    }
+
+    private function hasSpreadItem(array $pairs): bool
+    {
+        foreach ($pairs as $pair) {
+            if ($pair['value']->hasAttribute('spread')) {
+                return true;
+            }
+        }
+
+        return false;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

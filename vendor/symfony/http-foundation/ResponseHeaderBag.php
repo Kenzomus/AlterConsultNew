@@ -24,9 +24,15 @@ class ResponseHeaderBag extends HeaderBag
     public const DISPOSITION_ATTACHMENT = 'attachment';
     public const DISPOSITION_INLINE = 'inline';
 
+<<<<<<< HEAD
     protected array $computedCacheControl = [];
     protected array $cookies = [];
     protected array $headerNames = [];
+=======
+    protected $computedCacheControl = [];
+    protected $cookies = [];
+    protected $headerNames = [];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     public function __construct(array $headers = [])
     {
@@ -55,7 +61,14 @@ class ResponseHeaderBag extends HeaderBag
         return $headers;
     }
 
+<<<<<<< HEAD
     public function allPreserveCaseWithoutCookies(): array
+=======
+    /**
+     * @return array
+     */
+    public function allPreserveCaseWithoutCookies()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $headers = $this->allPreserveCase();
         if (isset($this->headerNames['set-cookie'])) {
@@ -65,7 +78,14 @@ class ResponseHeaderBag extends HeaderBag
         return $headers;
     }
 
+<<<<<<< HEAD
     public function replace(array $headers = []): void
+=======
+    /**
+     * @return void
+     */
+    public function replace(array $headers = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->headerNames = [];
 
@@ -97,7 +117,14 @@ class ResponseHeaderBag extends HeaderBag
         return $headers;
     }
 
+<<<<<<< HEAD
     public function set(string $key, string|array|null $values, bool $replace = true): void
+=======
+    /**
+     * @return void
+     */
+    public function set(string $key, string|array|null $values, bool $replace = true)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $uniqueKey = strtr($key, self::UPPER, self::LOWER);
 
@@ -125,7 +152,14 @@ class ResponseHeaderBag extends HeaderBag
         }
     }
 
+<<<<<<< HEAD
     public function remove(string $key): void
+=======
+    /**
+     * @return void
+     */
+    public function remove(string $key)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $uniqueKey = strtr($key, self::UPPER, self::LOWER);
         unset($this->headerNames[$uniqueKey]);
@@ -157,7 +191,14 @@ class ResponseHeaderBag extends HeaderBag
         return $this->computedCacheControl[$key] ?? null;
     }
 
+<<<<<<< HEAD
     public function setCookie(Cookie $cookie): void
+=======
+    /**
+     * @return void
+     */
+    public function setCookie(Cookie $cookie)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->cookies[$cookie->getDomain()][$cookie->getPath()][$cookie->getName()] = $cookie;
         $this->headerNames['set-cookie'] = 'Set-Cookie';
@@ -165,8 +206,15 @@ class ResponseHeaderBag extends HeaderBag
 
     /**
      * Removes a cookie from the array, but does not unset it in the browser.
+<<<<<<< HEAD
      */
     public function removeCookie(string $name, ?string $path = '/', ?string $domain = null): void
+=======
+     *
+     * @return void
+     */
+    public function removeCookie(string $name, ?string $path = '/', ?string $domain = null)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $path ??= '/';
 
@@ -180,7 +228,11 @@ class ResponseHeaderBag extends HeaderBag
             }
         }
 
+<<<<<<< HEAD
         if (!$this->cookies) {
+=======
+        if (empty($this->cookies)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             unset($this->headerNames['set-cookie']);
         }
     }
@@ -218,8 +270,15 @@ class ResponseHeaderBag extends HeaderBag
      * Clears a cookie in the browser.
      *
      * @param bool $partitioned
+<<<<<<< HEAD
      */
     public function clearCookie(string $name, ?string $path = '/', ?string $domain = null, bool $secure = false, bool $httpOnly = true, ?string $sameSite = null /* , bool $partitioned = false */): void
+=======
+     *
+     * @return void
+     */
+    public function clearCookie(string $name, ?string $path = '/', ?string $domain = null, bool $secure = false, bool $httpOnly = true, ?string $sameSite = null /* , bool $partitioned = false */)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $partitioned = 6 < \func_num_args() ? func_get_arg(6) : false;
 
@@ -228,8 +287,15 @@ class ResponseHeaderBag extends HeaderBag
 
     /**
      * @see HeaderUtils::makeDisposition()
+<<<<<<< HEAD
      */
     public function makeDisposition(string $disposition, string $filename, string $filenameFallback = ''): string
+=======
+     *
+     * @return string
+     */
+    public function makeDisposition(string $disposition, string $filename, string $filenameFallback = '')
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return HeaderUtils::makeDisposition($disposition, $filename, $filenameFallback);
     }

@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 
@@ -18,6 +19,13 @@ use Symfony\Component\Validator\Constraint;
  * Validates that a value is a valid International Securities Identification Number (ISIN).
  *
  * @see https://en.wikipedia.org/wiki/International_Securities_Identification_Number
+=======
+use Symfony\Component\Validator\Constraint;
+
+/**
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Laurent Masforné <l.masforne@gmail.com>
  */
@@ -37,6 +45,7 @@ class Isin extends Constraint
         self::INVALID_CHECKSUM_ERROR => 'INVALID_CHECKSUM_ERROR',
     ];
 
+<<<<<<< HEAD
     public string $message = 'This value is not a valid International Securities Identification Number (ISIN).';
 
     /**
@@ -50,6 +59,17 @@ class Isin extends Constraint
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
         }
 
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $message = 'This value is not a valid International Securities Identification Number (ISIN).';
+
+    public function __construct(?array $options = null, ?string $message = null, ?array $groups = null, mixed $payload = null)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($options, $groups, $payload);
 
         $this->message = $message ?? $this->message;

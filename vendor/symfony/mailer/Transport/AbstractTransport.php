@@ -30,14 +30,24 @@ use Symfony\Component\Mime\RawMessage;
  */
 abstract class AbstractTransport implements TransportInterface
 {
+<<<<<<< HEAD
+=======
+    private ?EventDispatcherInterface $dispatcher;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private LoggerInterface $logger;
     private float $rate = 0;
     private float $lastSent = 0;
 
+<<<<<<< HEAD
     public function __construct(
         private ?EventDispatcherInterface $dispatcher = null,
         ?LoggerInterface $logger = null,
     ) {
+=======
+    public function __construct(?EventDispatcherInterface $dispatcher = null, ?LoggerInterface $logger = null)
+    {
+        $this->dispatcher = $dispatcher;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->logger = $logger ?? new NullLogger();
     }
 

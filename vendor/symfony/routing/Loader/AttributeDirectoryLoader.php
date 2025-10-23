@@ -67,7 +67,15 @@ class AttributeDirectoryLoader extends AttributeFileLoader
             return false;
         }
 
+<<<<<<< HEAD
         if ('attribute' === $type) {
+=======
+        if (\in_array($type, ['annotation', 'attribute'], true)) {
+            if ('annotation' === $type) {
+                trigger_deprecation('symfony/routing', '6.4', 'The "annotation" route type is deprecated, use the "attribute" route type instead.');
+            }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return true;
         }
 
@@ -82,3 +90,10 @@ class AttributeDirectoryLoader extends AttributeFileLoader
         }
     }
 }
+<<<<<<< HEAD
+=======
+
+if (!class_exists(AnnotationDirectoryLoader::class, false)) {
+    class_alias(AttributeDirectoryLoader::class, AnnotationDirectoryLoader::class);
+}
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c

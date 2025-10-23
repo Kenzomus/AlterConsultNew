@@ -18,6 +18,7 @@ use Symfony\Component\VarExporter\Internal\LazyObjectRegistry as Registry;
 use Symfony\Component\VarExporter\Internal\LazyObjectState;
 use Symfony\Component\VarExporter\Internal\LazyObjectTrait;
 
+<<<<<<< HEAD
 if (\PHP_VERSION_ID >= 80400) {
     trigger_deprecation('symfony/var-exporter', '7.3', 'The "%s" trait is deprecated, use native lazy objects instead.', LazyProxyTrait::class);
 }
@@ -25,6 +26,8 @@ if (\PHP_VERSION_ID >= 80400) {
 /**
  * @deprecated since Symfony 7.3, use native lazy objects instead
  */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 trait LazyProxyTrait
 {
     use LazyObjectTrait;
@@ -39,6 +42,7 @@ trait LazyProxyTrait
     {
         if (self::class !== $class = $instance ? $instance::class : static::class) {
             $skippedProperties = ["\0".self::class."\0lazyObjectState" => true];
+<<<<<<< HEAD
         }
 
         if (!isset(Registry::$defaultProperties[$class])) {
@@ -65,6 +69,16 @@ trait LazyProxyTrait
         $instance->lazyObjectState = new LazyObjectState($initializer);
 
         foreach (Registry::$classResetters[$class] as $reset) {
+=======
+        } elseif (\defined($class.'::LAZY_OBJECT_PROPERTY_SCOPES')) {
+            Hydrator::$propertyScopes[$class] ??= $class::LAZY_OBJECT_PROPERTY_SCOPES;
+        }
+
+        $instance ??= (Registry::$classReflectors[$class] ??= new \ReflectionClass($class))->newInstanceWithoutConstructor();
+        $instance->lazyObjectState = new LazyObjectState($initializer);
+
+        foreach (Registry::$classResetters[$class] ??= Registry::getClassResetters($class) as $reset) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $reset($instance, $skippedProperties ??= []);
         }
 
@@ -74,7 +88,11 @@ trait LazyProxyTrait
     /**
      * Returns whether the object is initialized.
      *
+<<<<<<< HEAD
      * @param bool $partial Whether partially initialized objects should be considered as initialized
+=======
+     * @param $partial Whether partially initialized objects should be considered as initialized
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     #[Ignore]
     public function isLazyObjectInitialized(bool $partial = false): bool
@@ -298,6 +316,13 @@ trait LazyProxyTrait
         }
 
         $this->lazyObjectState = clone $this->lazyObjectState;
+<<<<<<< HEAD
+=======
+
+        if (isset($this->lazyObjectState->realInstance)) {
+            $this->lazyObjectState->realInstance = clone $this->lazyObjectState->realInstance;
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function __serialize(): array

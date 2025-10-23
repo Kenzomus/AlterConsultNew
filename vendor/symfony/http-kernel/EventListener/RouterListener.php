@@ -41,13 +41,23 @@ use Symfony\Component\Routing\RequestContextAwareInterface;
  */
 class RouterListener implements EventSubscriberInterface
 {
+<<<<<<< HEAD
     private RequestContext $context;
+=======
+    private RequestMatcherInterface|UrlMatcherInterface $matcher;
+    private RequestContext $context;
+    private ?LoggerInterface $logger;
+    private RequestStack $requestStack;
+    private ?string $projectDir;
+    private bool $debug;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @param RequestContext|null $context The RequestContext (can be null when $matcher implements RequestContextAwareInterface)
      *
      * @throws \InvalidArgumentException
      */
+<<<<<<< HEAD
     public function __construct(
         private UrlMatcherInterface|RequestMatcherInterface $matcher,
         private RequestStack $requestStack,
@@ -56,11 +66,24 @@ class RouterListener implements EventSubscriberInterface
         private ?string $projectDir = null,
         private bool $debug = true,
     ) {
+=======
+    public function __construct(UrlMatcherInterface|RequestMatcherInterface $matcher, RequestStack $requestStack, ?RequestContext $context = null, ?LoggerInterface $logger = null, ?string $projectDir = null, bool $debug = true)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (null === $context && !$matcher instanceof RequestContextAwareInterface) {
             throw new \InvalidArgumentException('You must either pass a RequestContext or the matcher must implement RequestContextAwareInterface.');
         }
 
+<<<<<<< HEAD
         $this->context = $context ?? $matcher->getContext();
+=======
+        $this->matcher = $matcher;
+        $this->context = $context ?? $matcher->getContext();
+        $this->requestStack = $requestStack;
+        $this->logger = $logger;
+        $this->projectDir = $projectDir;
+        $this->debug = $debug;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     private function setCurrentRequest(?Request $request): void
@@ -110,6 +133,7 @@ class RouterListener implements EventSubscriberInterface
                 'method' => $request->getMethod(),
             ]);
 
+<<<<<<< HEAD
             $attributes = $parameters;
             if ($mapping = $parameters['_route_mapping'] ?? false) {
                 unset($parameters['_route_mapping']);
@@ -144,6 +168,9 @@ class RouterListener implements EventSubscriberInterface
             }
 
             $request->attributes->add($attributes);
+=======
+            $request->attributes->add($parameters);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             unset($parameters['_route'], $parameters['_controller']);
             $request->attributes->set('_route_params', $parameters);
         } catch (ResourceNotFoundException $e) {

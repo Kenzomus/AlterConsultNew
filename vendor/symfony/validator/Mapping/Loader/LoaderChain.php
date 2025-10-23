@@ -25,19 +25,34 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  */
 class LoaderChain implements LoaderInterface
 {
+<<<<<<< HEAD
+=======
+    protected $loaders;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * @param LoaderInterface[] $loaders The metadata loaders to use
      *
      * @throws MappingException If any of the loaders has an invalid type
      */
+<<<<<<< HEAD
     public function __construct(
         protected array $loaders,
     ) {
+=======
+    public function __construct(array $loaders)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         foreach ($loaders as $loader) {
             if (!$loader instanceof LoaderInterface) {
                 throw new MappingException(\sprintf('Class "%s" is expected to implement LoaderInterface.', get_debug_type($loader)));
             }
         }
+<<<<<<< HEAD
+=======
+
+        $this->loaders = $loaders;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function loadClassMetadata(ClassMetadata $metadata): bool

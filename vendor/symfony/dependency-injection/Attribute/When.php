@@ -19,10 +19,16 @@ namespace Symfony\Component\DependencyInjection\Attribute;
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_METHOD | \Attribute::TARGET_FUNCTION | \Attribute::IS_REPEATABLE)]
 class When
 {
+<<<<<<< HEAD
     /**
      * @param string $env The environment under which the class will be registered as a service (i.e. "dev", "test", "prod")
      */
     public function __construct(public string $env)
     {
+=======
+    public function __construct(
+        public string $env,
+    ) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

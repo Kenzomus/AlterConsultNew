@@ -33,7 +33,11 @@ class FileExtensionEscapingStrategy
      */
     public static function guess(string $name)
     {
+<<<<<<< HEAD
         if (\in_array(substr($name, -1), ['/', '\\'], true)) {
+=======
+        if (\in_array(substr($name, -1), ['/', '\\'])) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return 'html'; // return html for directories
         }
 
@@ -45,7 +49,10 @@ class FileExtensionEscapingStrategy
 
         switch ($extension) {
             case 'js':
+<<<<<<< HEAD
             case 'json':
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 return 'js';
 
             case 'css':

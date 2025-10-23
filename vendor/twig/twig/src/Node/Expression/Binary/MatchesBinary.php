@@ -12,6 +12,7 @@
 namespace Twig\Node\Expression\Binary;
 
 use Twig\Compiler;
+<<<<<<< HEAD
 use Twig\Error\SyntaxError;
 use Twig\Node\Expression\ReturnBoolInterface;
 use Twig\Node\Expression\ConstantExpression;
@@ -38,6 +39,15 @@ class MatchesBinary extends AbstractBinary implements ReturnBoolInterface
     {
         $compiler
             ->raw('CoreExtension::matches(')
+=======
+
+class MatchesBinary extends AbstractBinary
+{
+    public function compile(Compiler $compiler): void
+    {
+        $compiler
+            ->raw('twig_matches(')
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ->subcompile($this->getNode('right'))
             ->raw(', ')
             ->subcompile($this->getNode('left'))

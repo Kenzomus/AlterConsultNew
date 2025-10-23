@@ -6,8 +6,13 @@ The Routing component maps an HTTP request to a set of configuration variables.
 Getting Started
 ---------------
 
+<<<<<<< HEAD
 ```bash
 composer require symfony/routing
+=======
+```
+$ composer require symfony/routing
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 ```
 
 ```php
@@ -44,7 +49,11 @@ $url = $generator->generate('blog_show', [
 Sponsor
 -------
 
+<<<<<<< HEAD
 The Routing component for Symfony 7.1 is [backed][1] by [redirection.io][2].
+=======
+The Routing component for Symfony 6.4 is [backed][1] by [redirection.io][2].
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 redirection.io logs all your website’s HTTP traffic, and lets you fix errors
 with redirect rules in seconds. Give your marketing, SEO and IT teams the

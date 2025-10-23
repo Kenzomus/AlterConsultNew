@@ -280,7 +280,11 @@ class Archive_Tar extends PEAR
      *              single string with names separated by a single
      *              blank space.
      *
+<<<<<<< HEAD
      * @return bool true on success, false on error.
+=======
+     * @return true on success, false on error.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @see    createModify()
      */
     public function create($p_filelist)
@@ -300,7 +304,11 @@ class Archive_Tar extends PEAR
      *              single string with names separated by a single
      *              blank space.
      *
+<<<<<<< HEAD
      * @return bool true on success, false on error.
+=======
+     * @return true on success, false on error.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @see    createModify()
      * @access public
      */
@@ -443,7 +451,11 @@ class Archive_Tar extends PEAR
      *                             each element in the list, when
      *                             relevant.
      *
+<<<<<<< HEAD
      * @return bool true on success, false on error.
+=======
+     * @return true on success, false on error.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function addModify($p_filelist, $p_add_dir, $p_remove_dir = '')
     {
@@ -496,7 +508,11 @@ class Archive_Tar extends PEAR
      *                               gid => the group ID of the file
      *                                   (default = 0 = root)
      *
+<<<<<<< HEAD
      * @return bool true on success, false on error.
+=======
+     * @return true on success, false on error.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function addString($p_filename, $p_string, $p_datetime = false, $p_params = array())
     {
@@ -622,7 +638,11 @@ class Archive_Tar extends PEAR
      * @param boolean $p_preserve Preserve user/group ownership of files
      * @param boolean $p_symlinks Allow symlinks.
      *
+<<<<<<< HEAD
      * @return bool true on success, false on error.
+=======
+     * @return true on success, false on error.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @see    extractModify()
      */
     public function extractList($p_filelist, $p_path = '', $p_remove_path = '', $p_preserve = false, $p_symlinks = true)
@@ -660,7 +680,11 @@ class Archive_Tar extends PEAR
      * list of parameters, in the format attribute code + attribute values :
      * $arch->setAttribute(ARCHIVE_TAR_ATT_SEPARATOR, ',');
      *
+<<<<<<< HEAD
      * @return bool true on success, false on error.
+=======
+     * @return true on success, false on error.
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function setAttribute()
     {
@@ -2115,7 +2139,11 @@ class Archive_Tar extends PEAR
                 if ($v_extract_file) {
                     if ($v_header['typeflag'] == "5") {
                         if (!@file_exists($v_header['filename'])) {
+<<<<<<< HEAD
                             if (!@mkdir($v_header['filename'], 0775)) {
+=======
+                            if (!@mkdir($v_header['filename'], 0777)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                                 $this->_error(
                                     'Unable to create directory {'
                                     . $v_header['filename'] . '}'
@@ -2448,7 +2476,11 @@ class Archive_Tar extends PEAR
             return false;
         }
 
+<<<<<<< HEAD
         if (!@mkdir($p_dir, 0775)) {
+=======
+        if (!@mkdir($p_dir, 0777)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->_error("Unable to create directory '$p_dir'");
             return false;
         }

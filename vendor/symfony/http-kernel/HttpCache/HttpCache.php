@@ -32,7 +32,14 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 {
     public const BODY_EVAL_BOUNDARY_LENGTH = 24;
 
+<<<<<<< HEAD
     private Request $request;
+=======
+    private HttpKernelInterface $kernel;
+    private StoreInterface $store;
+    private Request $request;
+    private ?SurrogateInterface $surrogate;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private ?ResponseCacheStrategyInterface $surrogateCacheStrategy = null;
     private array $options = [];
     private array $traces = [];
@@ -81,6 +88,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *                            the cache can serve a stale response when an error is encountered (default: 60).
      *                            This setting is overridden by the stale-if-error HTTP Cache-Control extension
      *                            (see RFC 5861).
+<<<<<<< HEAD
      */
     public function __construct(
         private HttpKernelInterface $kernel,
@@ -88,6 +96,20 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         private ?SurrogateInterface $surrogate = null,
         array $options = [],
     ) {
+=======
+     *
+     *   * terminate_on_cache_hit Specifies if the kernel.terminate event should be dispatched even when the cache
+     *                            was hit (default: true).
+     *                            Unless your application needs to process events on cache hits, it is recommended
+     *                            to set this to false to avoid having to bootstrap the Symfony framework on a cache hit.
+     */
+    public function __construct(HttpKernelInterface $kernel, StoreInterface $store, ?SurrogateInterface $surrogate = null, array $options = [])
+    {
+        $this->store = $store;
+        $this->kernel = $kernel;
+        $this->surrogate = $surrogate;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         // needed in case there is a fatal error because the backend is too slow to respond
         register_shutdown_function($this->store->cleanup(...));
 
@@ -102,6 +124,10 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             'stale_if_error' => 60,
             'trace_level' => 'none',
             'trace_header' => 'X-Symfony-Cache',
+<<<<<<< HEAD
+=======
+            'terminate_on_cache_hit' => true,
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         ], $options);
 
         if (!isset($options['trace_level'])) {
@@ -242,12 +268,25 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         return $response;
     }
 
+<<<<<<< HEAD
     public function terminate(Request $request, Response $response): void
+=======
+    /**
+     * @return void
+     */
+    public function terminate(Request $request, Response $response)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         // Do not call any listeners in case of a cache hit.
         // This ensures identical behavior as if you had a separate
         // reverse caching proxy such as Varnish and the like.
+<<<<<<< HEAD
         if (\in_array('fresh', $this->traces[$this->getTraceKey($request)] ?? [], true)) {
+=======
+        if ($this->options['terminate_on_cache_hit']) {
+            trigger_deprecation('symfony/http-kernel', '6.2', 'Setting "terminate_on_cache_hit" to "true" is deprecated and will be changed to "false" in Symfony 7.0.');
+        } elseif (\in_array('fresh', $this->traces[$this->getTraceKey($request)] ?? [], true)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return;
         }
 
@@ -396,7 +435,11 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
             // return the response and not the cache entry if the response is valid but not cached
             $etag = $response->getEtag();
+<<<<<<< HEAD
             if ($etag && \in_array($etag, $requestEtags, true) && !\in_array($etag, $cachedEtags, true)) {
+=======
+            if ($etag && \in_array($etag, $requestEtags) && !\in_array($etag, $cachedEtags)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 return $response;
             }
 
@@ -457,8 +500,15 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @param bool          $catch Whether to catch exceptions or not
      * @param Response|null $entry A Response instance (the stale entry if present, null otherwise)
+<<<<<<< HEAD
      */
     protected function forward(Request $request, bool $catch = false, ?Response $entry = null): Response
+=======
+     *
+     * @return Response
+     */
+    protected function forward(Request $request, bool $catch = false, ?Response $entry = null)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->surrogate?->addSurrogateCapability($request);
 
@@ -580,9 +630,17 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Writes the Response to the cache.
      *
+<<<<<<< HEAD
      * @throws \Exception
      */
     protected function store(Request $request, Response $response): void
+=======
+     * @return void
+     *
+     * @throws \Exception
+     */
+    protected function store(Request $request, Response $response)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         try {
             $restoreHeaders = [];
@@ -657,7 +715,14 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         $response->headers->remove('X-Body-File');
     }
 
+<<<<<<< HEAD
     protected function processResponseBody(Request $request, Response $response): void
+=======
+    /**
+     * @return void
+     */
+    protected function processResponseBody(Request $request, Response $response)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($this->surrogate?->needsParsing($response)) {
             $this->surrogate->process($request, $response);
@@ -705,7 +770,11 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
         try {
             return $request->getMethod().' '.$path;
+<<<<<<< HEAD
         } catch (SuspiciousOperationException) {
+=======
+        } catch (SuspiciousOperationException $e) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return '_BAD_METHOD_ '.$path;
         }
     }

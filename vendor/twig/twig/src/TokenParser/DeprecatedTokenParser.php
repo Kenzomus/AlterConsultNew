@@ -11,7 +11,10 @@
 
 namespace Twig\TokenParser;
 
+<<<<<<< HEAD
 use Twig\Error\SyntaxError;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Node\DeprecatedNode;
 use Twig\Node\Node;
 use Twig\Token;
@@ -22,8 +25,11 @@ use Twig\Token;
  *    {% deprecated 'The "base.twig" template is deprecated, use "layout.twig" instead.' %}
  *    {% extends 'layout.html.twig' %}
  *
+<<<<<<< HEAD
  *    {% deprecated 'The "base.twig" template is deprecated, use "layout.twig" instead.' package="foo/bar" version="1.1" %}
  *
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  * @author Yonel Ceruto <yonelceruto@gmail.com>
  *
  * @internal
@@ -32,6 +38,7 @@ final class DeprecatedTokenParser extends AbstractTokenParser
 {
     public function parse(Token $token): Node
     {
+<<<<<<< HEAD
         $stream = $this->parser->getStream();
         $expr = $this->parser->parseExpression();
         $node = new DeprecatedNode($expr, $token->getLine());
@@ -56,6 +63,13 @@ final class DeprecatedTokenParser extends AbstractTokenParser
         $stream->expect(Token::BLOCK_END_TYPE);
 
         return $node;
+=======
+        $expr = $this->parser->getExpressionParser()->parseExpression();
+
+        $this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
+
+        return new DeprecatedNode($expr, $token->getLine(), $this->getTag());
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getTag(): string

@@ -13,15 +13,25 @@ namespace Twig\NodeVisitor;
 
 use Twig\Environment;
 use Twig\Node\Expression\BlockReferenceExpression;
+<<<<<<< HEAD
+=======
+use Twig\Node\Expression\ConditionalExpression;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\FilterExpression;
 use Twig\Node\Expression\FunctionExpression;
 use Twig\Node\Expression\GetAttrExpression;
+<<<<<<< HEAD
 use Twig\Node\Expression\MacroReferenceExpression;
 use Twig\Node\Expression\MethodCallExpression;
 use Twig\Node\Expression\OperatorEscapeInterface;
 use Twig\Node\Expression\ParentExpression;
 use Twig\Node\Expression\Variable\ContextVariable;
+=======
+use Twig\Node\Expression\MethodCallExpression;
+use Twig\Node\Expression\NameExpression;
+use Twig\Node\Expression\ParentExpression;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Node\Node;
 
 /**
@@ -37,6 +47,7 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
         $this->safeVars = $safeVars;
     }
 
+<<<<<<< HEAD
     /**
      * @return array
      */
@@ -45,6 +56,13 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
         $hash = spl_object_id($node);
         if (!isset($this->data[$hash])) {
             return [];
+=======
+    public function getSafe(Node $node)
+    {
+        $hash = spl_object_hash($node);
+        if (!isset($this->data[$hash])) {
+            return;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         foreach ($this->data[$hash] as $bucket) {
@@ -52,19 +70,30 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
                 continue;
             }
 
+<<<<<<< HEAD
             if (\in_array('html_attr', $bucket['value'], true)) {
+=======
+            if (\in_array('html_attr', $bucket['value'])) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $bucket['value'][] = 'html';
             }
 
             return $bucket['value'];
         }
+<<<<<<< HEAD
 
         return [];
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     private function setSafe(Node $node, array $safe): void
     {
+<<<<<<< HEAD
         $hash = spl_object_id($node);
+=======
+        $hash = spl_object_hash($node);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (isset($this->data[$hash])) {
             foreach ($this->data[$hash] as &$bucket) {
                 if ($bucket['key'] === $node) {
@@ -96,6 +125,7 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
         } elseif ($node instanceof ParentExpression) {
             // parent block is safe by definition
             $this->setSafe($node, ['all']);
+<<<<<<< HEAD
         } elseif ($node instanceof OperatorEscapeInterface) {
             // intersect safeness of operands
             $operands = $node->getOperandNamesToEscape();
@@ -151,11 +181,55 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
             if (\in_array($name, $this->safeVars, true)) {
                 $this->setSafe($node, ['all']);
             }
+=======
+        } elseif ($node instanceof ConditionalExpression) {
+            // intersect safeness of both operands
+            $safe = $this->intersectSafe($this->getSafe($node->getNode('expr2')), $this->getSafe($node->getNode('expr3')));
+            $this->setSafe($node, $safe);
+        } elseif ($node instanceof FilterExpression) {
+            // filter expression is safe when the filter is safe
+            $name = $node->getNode('filter')->getAttribute('value');
+            $args = $node->getNode('arguments');
+            if ($filter = $env->getFilter($name)) {
+                $safe = $filter->getSafe($args);
+                if (null === $safe) {
+                    $safe = $this->intersectSafe($this->getSafe($node->getNode('node')), $filter->getPreservesSafety());
+                }
+                $this->setSafe($node, $safe);
+            } else {
+                $this->setSafe($node, []);
+            }
+        } elseif ($node instanceof FunctionExpression) {
+            // function expression is safe when the function is safe
+            $name = $node->getAttribute('name');
+            $args = $node->getNode('arguments');
+            if ($function = $env->getFunction($name)) {
+                $this->setSafe($node, $function->getSafe($args));
+            } else {
+                $this->setSafe($node, []);
+            }
+        } elseif ($node instanceof MethodCallExpression) {
+            if ($node->getAttribute('safe')) {
+                $this->setSafe($node, ['all']);
+            } else {
+                $this->setSafe($node, []);
+            }
+        } elseif ($node instanceof GetAttrExpression && $node->getNode('node') instanceof NameExpression) {
+            $name = $node->getNode('node')->getAttribute('name');
+            if (\in_array($name, $this->safeVars)) {
+                $this->setSafe($node, ['all']);
+            } else {
+                $this->setSafe($node, []);
+            }
+        } else {
+            $this->setSafe($node, []);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return $node;
     }
 
+<<<<<<< HEAD
     private function intersectSafe(array $a, array $b): array
     {
         if (!$a || !$b) {
@@ -167,6 +241,19 @@ final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
         }
 
         if (\in_array('all', $b, true)) {
+=======
+    private function intersectSafe(array $a = null, array $b = null): array
+    {
+        if (null === $a || null === $b) {
+            return [];
+        }
+
+        if (\in_array('all', $a)) {
+            return $b;
+        }
+
+        if (\in_array('all', $b)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return $a;
         }
 

@@ -17,12 +17,16 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\ErrorHandler\DebugClassLoader;
 use Symfony\Component\HttpKernel\Kernel;
 
+<<<<<<< HEAD
 trigger_deprecation('symfony/http-kernel', '7.1', 'The "%s" class is deprecated since Symfony 7.1 and will be removed in 8.0.', AddAnnotatedClassesToCachePass::class);
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 /**
  * Sets the classes to compile in the cache for the container.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+<<<<<<< HEAD
  *
  * @deprecated since Symfony 7.1, to be removed in 8.0
  */
@@ -34,6 +38,22 @@ class AddAnnotatedClassesToCachePass implements CompilerPassInterface
     }
 
     public function process(ContainerBuilder $container): void
+=======
+ */
+class AddAnnotatedClassesToCachePass implements CompilerPassInterface
+{
+    private Kernel $kernel;
+
+    public function __construct(Kernel $kernel)
+    {
+        $this->kernel = $kernel;
+    }
+
+    /**
+     * @return void
+     */
+    public function process(ContainerBuilder $container)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $annotatedClasses = [];
         foreach ($container->getExtensions() as $extension) {

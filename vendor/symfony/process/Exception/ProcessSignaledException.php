@@ -20,9 +20,18 @@ use Symfony\Component\Process\Process;
  */
 final class ProcessSignaledException extends RuntimeException
 {
+<<<<<<< HEAD
     public function __construct(
         private Process $process,
     ) {
+=======
+    private Process $process;
+
+    public function __construct(Process $process)
+    {
+        $this->process = $process;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct(\sprintf('The process has been signaled with signal "%s".', $process->getTermSignal()));
     }
 

@@ -23,9 +23,18 @@ trait AddTrait
 {
     use LocalizedRouteTrait;
 
+<<<<<<< HEAD
     protected RouteCollection $collection;
     protected string $name = '';
     protected ?array $prefixes = null;
+=======
+    /**
+     * @var RouteCollection
+     */
+    protected $collection;
+    protected $name = '';
+    protected $prefixes;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Adds a route.

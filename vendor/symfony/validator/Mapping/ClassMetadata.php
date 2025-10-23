@@ -321,8 +321,15 @@ class ClassMetadata extends GenericMetadata implements ClassMetadataInterface
 
     /**
      * Merges the constraints of the given metadata into this object.
+<<<<<<< HEAD
      */
     public function mergeConstraints(self $source): void
+=======
+     *
+     * @return void
+     */
+    public function mergeConstraints(self $source)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($source->isGroupSequenceProvider()) {
             $this->setGroupProvider($source->getGroupProvider());
@@ -429,9 +436,17 @@ class ClassMetadata extends GenericMetadata implements ClassMetadataInterface
     /**
      * Sets whether a group sequence provider should be used.
      *
+<<<<<<< HEAD
      * @throws GroupDefinitionException
      */
     public function setGroupSequenceProvider(bool $active): void
+=======
+     * @return void
+     *
+     * @throws GroupDefinitionException
+     */
+    public function setGroupSequenceProvider(bool $active)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($this->hasGroupSequence()) {
             throw new GroupDefinitionException('Defining a group sequence provider is not allowed with a static group sequence.');

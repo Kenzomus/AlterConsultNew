@@ -11,7 +11,11 @@
 
 namespace Symfony\Component\String\Slugger;
 
+<<<<<<< HEAD
 use Symfony\Component\Emoji\EmojiTransliterator;
+=======
+use Symfony\Component\Intl\Transliterator\EmojiTransliterator;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\String\AbstractUnicodeString;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
@@ -55,6 +59,10 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
         'zh' => 'Han-Latin',
     ];
 
+<<<<<<< HEAD
+=======
+    private ?string $defaultLocale;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private \Closure|array $symbolsMap = [
         'en' => ['@' => 'at', '&' => 'and'],
     ];
@@ -67,6 +75,7 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
      */
     private array $transliterators = [];
 
+<<<<<<< HEAD
     public function __construct(
         private ?string $defaultLocale = null,
         array|\Closure|null $symbolsMap = null,
@@ -75,6 +84,18 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
     }
 
     public function setLocale(string $locale): void
+=======
+    public function __construct(?string $defaultLocale = null, array|\Closure|null $symbolsMap = null)
+    {
+        $this->defaultLocale = $defaultLocale;
+        $this->symbolsMap = $symbolsMap ?? $this->symbolsMap;
+    }
+
+    /**
+     * @return void
+     */
+    public function setLocale(string $locale)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->defaultLocale = $locale;
     }
@@ -92,7 +113,11 @@ class AsciiSlugger implements SluggerInterface, LocaleAwareInterface
     public function withEmoji(bool|string $emoji = true): static
     {
         if (false !== $emoji && !class_exists(EmojiTransliterator::class)) {
+<<<<<<< HEAD
             throw new \LogicException(\sprintf('You cannot use the "%s()" method as the "symfony/emoji" package is not installed. Try running "composer require symfony/emoji".', __METHOD__));
+=======
+            throw new \LogicException(\sprintf('You cannot use the "%s()" method as the "symfony/intl" package is not installed. Try running "composer require symfony/intl".', __METHOD__));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $new = clone $this;

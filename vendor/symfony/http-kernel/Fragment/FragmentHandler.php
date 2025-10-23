@@ -29,13 +29,20 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class FragmentHandler
 {
+<<<<<<< HEAD
     /** @var array<string, FragmentRendererInterface> */
     private array $renderers = [];
+=======
+    private bool $debug;
+    private array $renderers = [];
+    private RequestStack $requestStack;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @param FragmentRendererInterface[] $renderers An array of FragmentRendererInterface instances
      * @param bool                        $debug     Whether the debug mode is enabled or not
      */
+<<<<<<< HEAD
     public function __construct(
         private RequestStack $requestStack,
         array $renderers = [],
@@ -44,12 +51,28 @@ class FragmentHandler
         foreach ($renderers as $renderer) {
             $this->addRenderer($renderer);
         }
+=======
+    public function __construct(RequestStack $requestStack, array $renderers = [], bool $debug = false)
+    {
+        $this->requestStack = $requestStack;
+        foreach ($renderers as $renderer) {
+            $this->addRenderer($renderer);
+        }
+        $this->debug = $debug;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
      * Adds a renderer.
+<<<<<<< HEAD
      */
     public function addRenderer(FragmentRendererInterface $renderer): void
+=======
+     *
+     * @return void
+     */
+    public function addRenderer(FragmentRendererInterface $renderer)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->renderers[$renderer->getName()] = $renderer;
     }

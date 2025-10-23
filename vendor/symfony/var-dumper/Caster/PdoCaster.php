@@ -19,8 +19,11 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  * @author Nicolas Grekas <p@tchwork.com>
  *
  * @final
+<<<<<<< HEAD
  *
  * @internal since Symfony 7.3
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 class PdoCaster
 {
@@ -61,7 +64,14 @@ class PdoCaster
         ],
     ];
 
+<<<<<<< HEAD
     public static function castPdo(\PDO $c, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castPdo(\PDO $c, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $attr = [];
         $errmode = $c->getAttribute(\PDO::ATTR_ERRMODE);
@@ -110,7 +120,14 @@ class PdoCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castPdoStatement(\PDOStatement $c, array $a, Stub $stub, bool $isNested): array
+=======
+    /**
+     * @return array
+     */
+    public static function castPdoStatement(\PDOStatement $c, array $a, Stub $stub, bool $isNested)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $prefix = Caster::PREFIX_VIRTUAL;
         $a[$prefix.'errorInfo'] = $c->errorInfo();

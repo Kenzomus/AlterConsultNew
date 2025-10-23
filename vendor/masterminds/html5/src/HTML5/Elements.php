@@ -72,6 +72,7 @@ class Elements
     const BLOCK_ONLY_INLINE = 128;
 
     /**
+<<<<<<< HEAD
      * Elements with optional end tags that cause auto-closing of previous and parent tags,
      * as example most of the table related tags, see https://www.w3.org/TR/html401/struct/tables.html
      * Structure is as follows:
@@ -90,6 +91,8 @@ class Elements
     );
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * The HTML5 elements as defined in http://dev.w3.org/html5/markup/elements.html.
      *
      * @var array

@@ -16,6 +16,7 @@ namespace Symfony\Component\DependencyInjection\Exception;
  */
 class AutowiringFailedException extends RuntimeException
 {
+<<<<<<< HEAD
     private ?\Closure $messageCallback = null;
 
     public function __construct(
@@ -24,6 +25,15 @@ class AutowiringFailedException extends RuntimeException
         int $code = 0,
         ?\Throwable $previous = null,
     ) {
+=======
+    private string $serviceId;
+    private ?\Closure $messageCallback = null;
+
+    public function __construct(string $serviceId, string|\Closure $message = '', int $code = 0, ?\Throwable $previous = null)
+    {
+        $this->serviceId = $serviceId;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if ($message instanceof \Closure && \function_exists('xdebug_is_enabled') && xdebug_is_enabled()) {
             $message = $message();
         }
@@ -66,7 +76,14 @@ class AutowiringFailedException extends RuntimeException
         return $this->messageCallback;
     }
 
+<<<<<<< HEAD
     public function getServiceId(): string
+=======
+    /**
+     * @return string
+     */
+    public function getServiceId()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->serviceId;
     }

@@ -19,10 +19,13 @@ namespace Symfony\Component\DependencyInjection\Attribute;
 #[\Attribute(\Attribute::TARGET_CLASS | \Attribute::IS_REPEATABLE)]
 class AutoconfigureTag extends Autoconfigure
 {
+<<<<<<< HEAD
     /**
      * @param string|null             $name       The tag name to add
      * @param array<array-key, mixed> $attributes The tag attributes to attach to the tag
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(?string $name = null, array $attributes = [])
     {
         parent::__construct(

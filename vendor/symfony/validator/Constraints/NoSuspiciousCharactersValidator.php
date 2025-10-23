@@ -18,7 +18,11 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 /**
+<<<<<<< HEAD
  * @author Mathieu Lechat <math.lechat@gmail.com>
+=======
+ * @author Mathieu Lechat <mathieu.lechat@les-tilleuls.coop>
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 class NoSuspiciousCharactersValidator extends ConstraintValidator
 {
@@ -56,7 +60,14 @@ class NoSuspiciousCharactersValidator extends ConstraintValidator
     {
     }
 
+<<<<<<< HEAD
     public function validate(mixed $value, Constraint $constraint): void
+=======
+    /**
+     * @return void
+     */
+    public function validate(mixed $value, Constraint $constraint)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$constraint instanceof NoSuspiciousCharacters) {
             throw new UnexpectedTypeException($constraint, NoSuspiciousCharacters::class);
@@ -94,11 +105,16 @@ class NoSuspiciousCharactersValidator extends ConstraintValidator
 
         $checker->setChecks($checks);
 
+<<<<<<< HEAD
         if (!$checker->isSuspicious($value, $errorCode)) {
+=======
+        if (!$checker->isSuspicious($value)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return;
         }
 
         foreach (self::CHECK_ERROR as $check => $error) {
+<<<<<<< HEAD
             if (\PHP_VERSION_ID < 80204) {
                 if (!($checks & $check)) {
                     continue;
@@ -110,6 +126,15 @@ class NoSuspiciousCharactersValidator extends ConstraintValidator
                     continue;
                 }
             } elseif (!($errorCode & $check)) {
+=======
+            if (!($checks & $check)) {
+                continue;
+            }
+
+            $checker->setChecks($check);
+
+            if (!$checker->isSuspicious($value)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 continue;
             }
 

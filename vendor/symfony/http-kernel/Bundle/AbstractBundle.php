@@ -50,7 +50,11 @@ abstract class AbstractBundle extends Bundle implements ConfigurableExtensionInt
 
     public function getPath(): string
     {
+<<<<<<< HEAD
         if (!isset($this->path)) {
+=======
+        if (null === $this->path) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $reflected = new \ReflectionObject($this);
             // assume the modern directory structure by default
             $this->path = \dirname($reflected->getFileName(), 2);

@@ -11,7 +11,10 @@
 
 namespace Symfony\Component\HttpKernel\EventListener;
 
+<<<<<<< HEAD
 use Psr\Container\ContainerInterface;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
@@ -23,6 +26,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  */
 class SessionListener extends AbstractSessionListener
 {
+<<<<<<< HEAD
     public function __construct(
         private ?ContainerInterface $container = null,
         bool $debug = false,
@@ -31,6 +35,8 @@ class SessionListener extends AbstractSessionListener
         parent::__construct($container, $debug, $sessionOptions);
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected function getSession(): ?SessionInterface
     {
         if ($this->container->has('session_factory')) {

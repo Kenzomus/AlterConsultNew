@@ -18,16 +18,27 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  */
 class TableCell
 {
+<<<<<<< HEAD
+=======
+    private string $value;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private array $options = [
         'rowspan' => 1,
         'colspan' => 1,
         'style' => null,
     ];
 
+<<<<<<< HEAD
     public function __construct(
         private string $value = '',
         array $options = [],
     ) {
+=======
+    public function __construct(string $value = '', array $options = [])
+    {
+        $this->value = $value;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         // check option names
         if ($diff = array_diff(array_keys($options), array_keys($this->options))) {
             throw new InvalidArgumentException(\sprintf('The TableCell does not support the following options: \'%s\'.', implode('\', \'', $diff)));

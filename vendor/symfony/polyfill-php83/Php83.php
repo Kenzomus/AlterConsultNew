@@ -13,7 +13,10 @@ namespace Symfony\Polyfill\Php83;
 
 /**
  * @author Ion Bazan <ion.bazan@gmail.com>
+<<<<<<< HEAD
  * @author Pierre Ambroise <pierre27.ambroise@gmail.com>
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @internal
  */
@@ -35,12 +38,20 @@ final class Php83
             throw new \ValueError(sprintf('json_validate(): Argument #2 ($depth) must be less than %d', self::JSON_MAX_DEPTH));
         }
 
+<<<<<<< HEAD
         json_decode($json, true, $depth, $flags);
+=======
+        json_decode($json, null, $depth, $flags);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         return \JSON_ERROR_NONE === json_last_error();
     }
 
+<<<<<<< HEAD
     public static function mb_str_pad(string $string, int $length, string $pad_string = ' ', int $pad_type = \STR_PAD_RIGHT, ?string $encoding = null): string
+=======
+    public static function mb_str_pad(string $string, int $length, string $pad_string = ' ', int $pad_type = \STR_PAD_RIGHT, string $encoding = null): string
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!\in_array($pad_type, [\STR_PAD_RIGHT, \STR_PAD_LEFT, \STR_PAD_BOTH], true)) {
             throw new \ValueError('mb_str_pad(): Argument #4 ($pad_type) must be STR_PAD_LEFT, STR_PAD_RIGHT, or STR_PAD_BOTH');
@@ -83,6 +94,7 @@ final class Php83
                 return mb_substr(str_repeat($pad_string, $leftPaddingLength), 0, $leftPaddingLength, $encoding).$string.mb_substr(str_repeat($pad_string, $rightPaddingLength), 0, $rightPaddingLength, $encoding);
         }
     }
+<<<<<<< HEAD
 
     public static function str_increment(string $string): string
     {
@@ -194,4 +206,6 @@ final class Php83
 
         return $decremented;
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

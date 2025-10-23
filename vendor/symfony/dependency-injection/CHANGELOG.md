@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 
+<<<<<<< HEAD
 7.3
 ---
 
@@ -51,6 +52,8 @@ CHANGELOG
  * Add argument `$id` and `$asGhostObject` to `DumperInterface::isProxyCandidate()` and `getProxyCode()`
  * Add argument `$source` to `FileLoader::registerClasses()`
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 6.4
 ---
 
@@ -58,7 +61,10 @@ CHANGELOG
  * Deprecate `ContainerAwareInterface` and `ContainerAwareTrait`, use dependency injection instead
  * Add `defined` env var processor that returns `true` for defined and neither null nor empty env vars
  * Add `#[AutowireLocator]` and `#[AutowireIterator]` attributes
+<<<<<<< HEAD
  * Add `urlencode` env var processor that url encodes a string value
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 6.3
 ---

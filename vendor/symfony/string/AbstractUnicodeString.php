@@ -226,6 +226,7 @@ abstract class AbstractUnicodeString extends AbstractString
         return $str;
     }
 
+<<<<<<< HEAD
     /**
      * @param string $locale In the format language_region (e.g. tr_TR)
      */
@@ -241,6 +242,8 @@ abstract class AbstractUnicodeString extends AbstractString
         return $this->lower();
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function match(string $regexp, int $flags = 0, int $offset = 0): array
     {
         $match = ((\PREG_PATTERN_ORDER | \PREG_SET_ORDER) & $flags) ? 'preg_match_all' : 'preg_match';
@@ -384,6 +387,7 @@ abstract class AbstractUnicodeString extends AbstractString
         return $str;
     }
 
+<<<<<<< HEAD
     /**
      * @param string $locale In the format language_region (e.g. tr_TR)
      */
@@ -399,6 +403,8 @@ abstract class AbstractUnicodeString extends AbstractString
         return $this->title();
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function trim(string $chars = " \t\n\r\0\x0B\x0C\u{A0}\u{FEFF}"): static
     {
         if (" \t\n\r\0\x0B\x0C\u{A0}\u{FEFF}" !== $chars && !preg_match('//u', $chars)) {
@@ -486,6 +492,7 @@ abstract class AbstractUnicodeString extends AbstractString
         return $str;
     }
 
+<<<<<<< HEAD
     /**
      * @param string $locale In the format language_region (e.g. tr_TR)
      */
@@ -501,6 +508,8 @@ abstract class AbstractUnicodeString extends AbstractString
         return $this->upper();
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function width(bool $ignoreAnsiDecoration = true): int
     {
         $width = 0;
@@ -638,6 +647,7 @@ abstract class AbstractUnicodeString extends AbstractString
 
         return $width;
     }
+<<<<<<< HEAD
 
     private function getLocaleTransliterator(string $locale, string $id): ?\Transliterator
     {
@@ -667,4 +677,6 @@ abstract class AbstractUnicodeString extends AbstractString
 
         return self::$transliterators[$rule] = self::$transliterators[$parentRule] = $transliterator;
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

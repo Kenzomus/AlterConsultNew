@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 3.21.1 (2025-05-03)
 
  * Fix ExtensionSet usage of BinaryOperatorExpressionParser
@@ -259,6 +260,8 @@
  * Add SourcePolicyInterface to selectively enable the Sandbox based on a template's Source
  * Throw a proper Twig exception when using cycle on an empty array
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 # 3.8.0 (2023-11-21)
 
  * Catch errors thrown during template rendering
@@ -447,7 +450,11 @@
  * removed Parser::isReservedMacroName()
  * removed SanboxedPrintNode
  * removed Node::setTemplateName()
+<<<<<<< HEAD
  * made classes marked as "@final" final
+=======
+ * made classes maked as "@final" final
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  * removed InitRuntimeInterface, ExistsLoaderInterface, and SourceContextLoaderInterface
  * removed the "spaceless" tag
  * removed Twig\Environment::getBaseTemplateClass() and Twig\Environment::setBaseTemplateClass()

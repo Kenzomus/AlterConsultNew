@@ -19,14 +19,24 @@ use Symfony\Component\VarDumper\Cloner\Stub;
  * @author Dany Maillard <danymaillard93b@gmail.com>
  *
  * @final
+<<<<<<< HEAD
  *
  * @internal since Symfony 7.3
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 class DateCaster
 {
     private const PERIOD_LIMIT = 3;
 
+<<<<<<< HEAD
     public static function castDateTime(\DateTimeInterface $d, array $a, Stub $stub, bool $isNested, int $filter): array
+=======
+    /**
+     * @return array
+     */
+    public static function castDateTime(\DateTimeInterface $d, array $a, Stub $stub, bool $isNested, int $filter)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $prefix = Caster::PREFIX_VIRTUAL;
         $location = $d->getTimezone() ? $d->getTimezone()->getLocation() : null;
@@ -49,7 +59,14 @@ class DateCaster
         return $a;
     }
 
+<<<<<<< HEAD
     public static function castInterval(\DateInterval $interval, array $a, Stub $stub, bool $isNested, int $filter): array
+=======
+    /**
+     * @return array
+     */
+    public static function castInterval(\DateInterval $interval, array $a, Stub $stub, bool $isNested, int $filter)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $now = new \DateTimeImmutable('@0', new \DateTimeZone('UTC'));
         $numberOfSeconds = $now->add($interval)->getTimestamp() - $now->getTimestamp();
@@ -78,7 +95,14 @@ class DateCaster
         return $i->format(rtrim($format));
     }
 
+<<<<<<< HEAD
     public static function castTimeZone(\DateTimeZone $timeZone, array $a, Stub $stub, bool $isNested, int $filter): array
+=======
+    /**
+     * @return array
+     */
+    public static function castTimeZone(\DateTimeZone $timeZone, array $a, Stub $stub, bool $isNested, int $filter)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $location = $timeZone->getLocation();
         $formatted = (new \DateTimeImmutable('now', $timeZone))->format($location ? 'e (P)' : 'P');
@@ -89,7 +113,14 @@ class DateCaster
         return $filter & Caster::EXCLUDE_VERBOSE ? $z : $z + $a;
     }
 
+<<<<<<< HEAD
     public static function castPeriod(\DatePeriod $p, array $a, Stub $stub, bool $isNested, int $filter): array
+=======
+    /**
+     * @return array
+     */
+    public static function castPeriod(\DatePeriod $p, array $a, Stub $stub, bool $isNested, int $filter)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $dates = [];
         foreach (clone $p as $i => $d) {
@@ -109,7 +140,11 @@ class DateCaster
             self::formatInterval($p->getDateInterval()),
             $p->include_start_date ? '[' : ']',
             self::formatDateTime($p->getStartDate()),
+<<<<<<< HEAD
             ($end = $p->getEndDate()) ? 'to '.self::formatDateTime($end).($p->include_end_date ? ']' : '[') : 'recurring '.$p->recurrences.' time/s'
+=======
+            ($end = $p->getEndDate()) ? 'to '.self::formatDateTime($end).(\PHP_VERSION_ID >= 80200 && $p->include_end_date ? ']' : '[') : 'recurring '.$p->recurrences.' time/s'
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         );
 
         $p = [Caster::PREFIX_VIRTUAL.'period' => new ConstStub($period, implode("\n", $dates))];

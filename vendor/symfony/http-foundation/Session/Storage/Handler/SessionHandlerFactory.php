@@ -57,8 +57,11 @@ class SessionHandlerFactory
 
             case str_starts_with($connection, 'redis:'):
             case str_starts_with($connection, 'rediss:'):
+<<<<<<< HEAD
             case str_starts_with($connection, 'valkey:'):
             case str_starts_with($connection, 'valkeys:'):
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             case str_starts_with($connection, 'memcached:'):
                 if (!class_exists(AbstractAdapter::class)) {
                     throw new \InvalidArgumentException('Unsupported Redis or Memcached DSN. Try running "composer require symfony/cache".');
@@ -73,11 +76,23 @@ class SessionHandlerFactory
                     throw new \InvalidArgumentException('Unsupported PDO OCI DSN. Try running "composer require doctrine/dbal".');
                 }
                 $connection[3] = '-';
+<<<<<<< HEAD
                 $params = (new DsnParser())->parse($connection);
                 $config = new Configuration();
                 $config->setSchemaManagerFactory(new DefaultSchemaManagerFactory());
 
                 $connection = DriverManager::getConnection($params, $config)->getNativeConnection();
+=======
+                $params = class_exists(DsnParser::class) ? (new DsnParser())->parse($connection) : ['url' => $connection];
+                $config = new Configuration();
+                if (class_exists(DefaultSchemaManagerFactory::class)) {
+                    $config->setSchemaManagerFactory(new DefaultSchemaManagerFactory());
+                }
+
+                $connection = DriverManager::getConnection($params, $config);
+                // The condition should be removed once support for DBAL <3.3 is dropped
+                $connection = method_exists($connection, 'getNativeConnection') ? $connection->getNativeConnection() : $connection->getWrappedConnection();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 // no break;
 
             case str_starts_with($connection, 'mssql://'):

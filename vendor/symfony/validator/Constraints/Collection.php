@@ -11,11 +11,20 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * Validates a collection with constraints defined for specific keys.
+=======
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
+
+/**
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
@@ -30,6 +39,7 @@ class Collection extends Composite
         self::NO_SUCH_FIELD_ERROR => 'NO_SUCH_FIELD_ERROR',
     ];
 
+<<<<<<< HEAD
     public array $fields = [];
     public bool $allowExtraFields = false;
     public bool $allowMissingFields = false;
@@ -58,6 +68,26 @@ class Collection extends Composite
         }
 
         parent::__construct($options, $groups, $payload);
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $fields = [];
+    public $allowExtraFields = false;
+    public $allowMissingFields = false;
+    public $extraFieldsMessage = 'This field was not expected.';
+    public $missingFieldsMessage = 'This field is missing.';
+
+    public function __construct(mixed $fields = null, ?array $groups = null, mixed $payload = null, ?bool $allowExtraFields = null, ?bool $allowMissingFields = null, ?string $extraFieldsMessage = null, ?string $missingFieldsMessage = null)
+    {
+        if (self::isFieldsOption($fields)) {
+            $fields = ['fields' => $fields];
+        }
+
+        parent::__construct($fields, $groups, $payload);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         $this->allowExtraFields = $allowExtraFields ?? $this->allowExtraFields;
         $this->allowMissingFields = $allowMissingFields ?? $this->allowMissingFields;
@@ -65,10 +95,24 @@ class Collection extends Composite
         $this->missingFieldsMessage = $missingFieldsMessage ?? $this->missingFieldsMessage;
     }
 
+<<<<<<< HEAD
     protected function initializeNestedConstraints(): void
     {
         parent::initializeNestedConstraints();
 
+=======
+    /**
+     * @return void
+     */
+    protected function initializeNestedConstraints()
+    {
+        parent::initializeNestedConstraints();
+
+        if (!\is_array($this->fields)) {
+            throw new ConstraintDefinitionException(\sprintf('The option "fields" is expected to be an array in constraint "%s".', __CLASS__));
+        }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         foreach ($this->fields as $fieldName => $field) {
             // the XmlFileLoader and YamlFileLoader pass the field Optional
             // and Required constraint as an array with exactly one element
@@ -94,10 +138,13 @@ class Collection extends Composite
 
     private static function isFieldsOption($options): bool
     {
+<<<<<<< HEAD
         if (null === $options) {
             return true;
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (!\is_array($options)) {
             return false;
         }

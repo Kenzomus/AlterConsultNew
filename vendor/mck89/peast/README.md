@@ -12,7 +12,11 @@ Peast
 Installation
 -------------
 Include the following requirement to your composer.json:
+<<<<<<< HEAD
 ```json
+=======
+```
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
 	"require": {
 		"mck89/peast": "dev-master"
@@ -27,8 +31,13 @@ Then in your script include the autoloader and you can start using Peast:
 ```php
 require_once "vendor/autoload.php";
 
+<<<<<<< HEAD
 $source = "var a = 1"; // Your JavaScript code
 $ast = Peast\Peast::latest($source, $options)->parse(); // Parse it!
+=======
+$source = "var a = 1"; //Your JavaScript code
+$ast = Peast\Peast::latest($source, $options)->parse(); //Parse it!
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 ```
 
 Known issues

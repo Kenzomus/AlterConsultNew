@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 
+<<<<<<< HEAD
 7.0
 ---
 
@@ -8,6 +9,8 @@ CHANGELOG
  * Argument `$body` is now required (at least null) in `Message::setBody()`
  * Require explicit argument when calling `Message::setBody()`
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 6.3
 ---
 

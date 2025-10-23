@@ -11,12 +11,20 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 
 /**
+<<<<<<< HEAD
  * Validates that the given password has reached a minimum strength.
+=======
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Florent Morselli <florent.morselli@spomky-labs.com>
  */
@@ -39,6 +47,7 @@ final class PasswordStrength extends Constraint
 
     public int $minScore;
 
+<<<<<<< HEAD
     /**
      * @param array<string,mixed>|null $options
      * @param self::STRENGTH_*|null    $minScore The minimum required strength of the password (defaults to {@see PasswordStrength::STRENGTH_MEDIUM})
@@ -51,6 +60,10 @@ final class PasswordStrength extends Constraint
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
         }
 
+=======
+    public function __construct(?array $options = null, ?int $minScore = null, ?array $groups = null, mixed $payload = null, ?string $message = null)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $options['minScore'] ??= self::STRENGTH_MEDIUM;
 
         parent::__construct($options, $groups, $payload);

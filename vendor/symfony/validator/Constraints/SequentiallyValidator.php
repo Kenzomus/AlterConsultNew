@@ -20,7 +20,14 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class SequentiallyValidator extends ConstraintValidator
 {
+<<<<<<< HEAD
     public function validate(mixed $value, Constraint $constraint): void
+=======
+    /**
+     * @return void
+     */
+    public function validate(mixed $value, Constraint $constraint)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$constraint instanceof Sequentially) {
             throw new UnexpectedTypeException($constraint, Sequentially::class);

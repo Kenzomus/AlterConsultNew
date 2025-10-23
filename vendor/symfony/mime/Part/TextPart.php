@@ -23,8 +23,11 @@ use Symfony\Component\Mime\Header\Headers;
  */
 class TextPart extends AbstractPart
 {
+<<<<<<< HEAD
     private const DEFAULT_ENCODERS = ['quoted-printable', 'base64', '8bit'];
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /** @internal */
     protected Headers $_headers;
 
@@ -65,8 +68,13 @@ class TextPart extends AbstractPart
         if (null === $encoding) {
             $this->encoding = $this->chooseEncoding();
         } else {
+<<<<<<< HEAD
             if (!\in_array($encoding, self::DEFAULT_ENCODERS, true) && !\array_key_exists($encoding, self::$encoders)) {
                 throw new InvalidArgumentException(\sprintf('The encoding must be one of "%s" ("%s" given).', implode('", "', array_unique(array_merge(self::DEFAULT_ENCODERS, array_keys(self::$encoders)))), $encoding));
+=======
+            if ('quoted-printable' !== $encoding && 'base64' !== $encoding && '8bit' !== $encoding) {
+                throw new InvalidArgumentException(\sprintf('The encoding must be one of "quoted-printable", "base64", or "8bit" ("%s" given).', $encoding));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
             $this->encoding = $encoding;
         }
@@ -213,6 +221,7 @@ class TextPart extends AbstractPart
             return self::$encoders[$this->encoding] ??= new QpContentEncoder();
         }
 
+<<<<<<< HEAD
         if ('base64' === $this->encoding) {
             return self::$encoders[$this->encoding] ??= new Base64ContentEncoder();
         }
@@ -227,6 +236,9 @@ class TextPart extends AbstractPart
         }
 
         self::$encoders[$encoder->getName()] = $encoder;
+=======
+        return self::$encoders[$this->encoding] ??= new Base64ContentEncoder();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     private function chooseEncoding(): string
@@ -251,7 +263,14 @@ class TextPart extends AbstractPart
         return ['_headers', 'body', 'charset', 'subtype', 'disposition', 'name', 'encoding'];
     }
 
+<<<<<<< HEAD
     public function __wakeup(): void
+=======
+    /**
+     * @return void
+     */
+    public function __wakeup()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $r = new \ReflectionProperty(AbstractPart::class, 'headers');
         $r->setValue($this, $this->_headers);

@@ -28,8 +28,12 @@ class Escaper
     // first to ensure proper escaping because str_replace operates iteratively
     // on the input arrays. This ordering of the characters avoids the use of strtr,
     // which performs more slowly.
+<<<<<<< HEAD
     private const ESCAPEES = [
         '\\', '\\\\', '\\"', '"',
+=======
+    private const ESCAPEES = ['\\', '\\\\', '\\"', '"',
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         "\x00",  "\x01",  "\x02",  "\x03",  "\x04",  "\x05",  "\x06",  "\x07",
         "\x08",  "\x09",  "\x0a",  "\x0b",  "\x0c",  "\x0d",  "\x0e",  "\x0f",
         "\x10",  "\x11",  "\x12",  "\x13",  "\x14",  "\x15",  "\x16",  "\x17",
@@ -37,8 +41,12 @@ class Escaper
         "\x7f",
         "\xc2\x85", "\xc2\xa0", "\xe2\x80\xa8", "\xe2\x80\xa9",
     ];
+<<<<<<< HEAD
     private const ESCAPED = [
         '\\\\', '\\"', '\\\\', '\\"',
+=======
+    private const ESCAPED = ['\\\\', '\\"', '\\\\', '\\"',
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         '\\0',   '\\x01', '\\x02', '\\x03', '\\x04', '\\x05', '\\x06', '\\a',
         '\\b',   '\\t',   '\\n',   '\\v',   '\\f',   '\\r',   '\\x0e', '\\x0f',
         '\\x10', '\\x11', '\\x12', '\\x13', '\\x14', '\\x15', '\\x16', '\\x17',
@@ -82,7 +90,11 @@ class Escaper
 
         // Determines if the PHP value contains any single characters that would
         // cause it to require single quoting in YAML.
+<<<<<<< HEAD
         return 0 < preg_match('/[\s\'"\:\{\}\[\],&\*\#\?] | \A[\-?|<>=!%@`\p{Zs}]/xu', $value);
+=======
+        return 0 < preg_match('/[ \s \' " \: \{ \} \[ \] , & \* \# \?] | \A[ \- ? | < > = ! % @ ` \p{Zs}]/xu', $value);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**

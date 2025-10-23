@@ -41,6 +41,10 @@ class SyntaxError extends Error
 
         asort($alternatives);
 
+<<<<<<< HEAD
         $this->appendMessage(\sprintf(' Did you mean "%s"?', implode('", "', array_keys($alternatives))));
+=======
+        $this->appendMessage(sprintf(' Did you mean "%s"?', implode('", "', array_keys($alternatives))));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

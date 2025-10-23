@@ -11,10 +11,13 @@
 
 namespace Symfony\Component\Serializer;
 
+<<<<<<< HEAD
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
@@ -24,10 +27,13 @@ interface SerializerInterface
      * Serializes data in the appropriate format.
      *
      * @param array<string, mixed> $context Options normalizers/encoders have access to
+<<<<<<< HEAD
      *
      * @throws NotNormalizableValueException Occurs when a value cannot be normalized
      * @throws UnexpectedValueException      Occurs when a value cannot be encoded
      * @throws ExceptionInterface            Occurs for all the other cases of serialization-related errors
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function serialize(mixed $data, string $format, array $context = []): string;
 
@@ -43,10 +49,13 @@ interface SerializerInterface
      * @phpstan-return ($type is class-string<TObject> ? TObject : mixed)
      *
      * @psalm-return (TType is class-string<TObject> ? TObject : mixed)
+<<<<<<< HEAD
      *
      * @throws NotNormalizableValueException Occurs when a value cannot be denormalized
      * @throws UnexpectedValueException      Occurs when a value cannot be decoded
      * @throws ExceptionInterface            Occurs for all the other cases of serialization-related errors
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function deserialize(mixed $data, string $type, string $format, array $context = []): mixed;
 }

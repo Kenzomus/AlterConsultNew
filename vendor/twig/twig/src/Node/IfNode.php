@@ -12,17 +12,22 @@
 
 namespace Twig\Node;
 
+<<<<<<< HEAD
 use Twig\Attribute\YieldReady;
 use Twig\Compiler;
 use Twig\Node\Expression\ReturnPrimitiveTypeInterface;
 use Twig\Node\Expression\Test\TrueTest;
 use Twig\TwigTest;
+=======
+use Twig\Compiler;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 /**
  * Represents an if node.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 #[YieldReady]
 class IfNode extends Node
 {
@@ -34,12 +39,22 @@ class IfNode extends Node
                 $tests->setNode($i, new TrueTest($test, new TwigTest('true'), null, $test->getTemplateLine()));
             }
         }
+=======
+class IfNode extends Node
+{
+    public function __construct(Node $tests, ?Node $else, int $lineno, string $tag = null)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $nodes = ['tests' => $tests];
         if (null !== $else) {
             $nodes['else'] = $else;
         }
 
+<<<<<<< HEAD
         parent::__construct($nodes, [], $lineno);
+=======
+        parent::__construct($nodes, [], $lineno, $tag);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function compile(Compiler $compiler): void
@@ -58,13 +73,22 @@ class IfNode extends Node
             }
 
             $compiler
+<<<<<<< HEAD
                 ->subcompile($this->getNode('tests')->getNode((string) $i))
+=======
+                ->subcompile($this->getNode('tests')->getNode($i))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ->raw(") {\n")
                 ->indent()
             ;
             // The node might not exists if the content is empty
+<<<<<<< HEAD
             if ($this->getNode('tests')->hasNode((string) ($i + 1))) {
                 $compiler->subcompile($this->getNode('tests')->getNode((string) ($i + 1)));
+=======
+            if ($this->getNode('tests')->hasNode($i + 1)) {
+                $compiler->subcompile($this->getNode('tests')->getNode($i + 1));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
         }
 

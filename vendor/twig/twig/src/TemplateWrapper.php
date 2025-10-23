@@ -18,12 +18,19 @@ namespace Twig;
  */
 final class TemplateWrapper
 {
+<<<<<<< HEAD
+=======
+    private $env;
+    private $template;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * This method is for internal use only and should never be called
      * directly (use Twig\Environment::load() instead).
      *
      * @internal
      */
+<<<<<<< HEAD
     public function __construct(
         private Environment $env,
         private Template $template,
@@ -44,6 +51,12 @@ final class TemplateWrapper
     public function streamBlock(string $name, array $context = []): iterable
     {
         yield from $this->template->yieldBlock($name, $context);
+=======
+    public function __construct(Environment $env, Template $template)
+    {
+        $this->env = $env;
+        $this->template = $template;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function render(array $context = []): string
@@ -51,9 +64,12 @@ final class TemplateWrapper
         return $this->template->render($context);
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function display(array $context = [])
     {
         // using func_get_args() allows to not expose the blocks argument
@@ -76,6 +92,7 @@ final class TemplateWrapper
 
     public function renderBlock(string $name, array $context = []): string
     {
+<<<<<<< HEAD
         return $this->template->renderBlock($name, $context + $this->env->getGlobals());
     }
 
@@ -88,6 +105,31 @@ final class TemplateWrapper
         foreach ($this->template->yieldBlock($name, $context) as $data) {
             echo $data;
         }
+=======
+        $context = $this->env->mergeGlobals($context);
+        $level = ob_get_level();
+        if ($this->env->isDebug()) {
+            ob_start();
+        } else {
+            ob_start(function () { return ''; });
+        }
+        try {
+            $this->template->displayBlock($name, $context);
+        } catch (\Throwable $e) {
+            while (ob_get_level() > $level) {
+                ob_end_clean();
+            }
+
+            throw $e;
+        }
+
+        return ob_get_clean();
+    }
+
+    public function displayBlock(string $name, array $context = [])
+    {
+        $this->template->displayBlock($name, $this->env->mergeGlobals($context));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getSourceContext(): Source

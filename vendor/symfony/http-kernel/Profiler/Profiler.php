@@ -26,11 +26,17 @@ use Symfony\Contracts\Service\ResetInterface;
  */
 class Profiler implements ResetInterface
 {
+<<<<<<< HEAD
+=======
+    private ProfilerStorageInterface $storage;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * @var DataCollectorInterface[]
      */
     private array $collectors = [];
 
+<<<<<<< HEAD
     private bool $initiallyEnabled = true;
 
     public function __construct(
@@ -39,20 +45,45 @@ class Profiler implements ResetInterface
         private bool $enabled = true,
     ) {
         $this->initiallyEnabled = $enabled;
+=======
+    private ?LoggerInterface $logger;
+    private bool $initiallyEnabled = true;
+    private bool $enabled = true;
+
+    public function __construct(ProfilerStorageInterface $storage, ?LoggerInterface $logger = null, bool $enable = true)
+    {
+        $this->storage = $storage;
+        $this->logger = $logger;
+        $this->initiallyEnabled = $this->enabled = $enable;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
      * Disables the profiler.
+<<<<<<< HEAD
      */
     public function disable(): void
+=======
+     *
+     * @return void
+     */
+    public function disable()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->enabled = false;
     }
 
     /**
      * Enables the profiler.
+<<<<<<< HEAD
      */
     public function enable(): void
+=======
+     *
+     * @return void
+     */
+    public function enable()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->enabled = true;
     }
@@ -103,8 +134,15 @@ class Profiler implements ResetInterface
 
     /**
      * Purges all data from the storage.
+<<<<<<< HEAD
      */
     public function purge(): void
+=======
+     *
+     * @return void
+     */
+    public function purge()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->storage->purge();
     }
@@ -119,8 +157,15 @@ class Profiler implements ResetInterface
      *
      * @see https://php.net/datetime.formats for the supported date/time formats
      */
+<<<<<<< HEAD
     public function find(?string $ip, ?string $url, ?int $limit, ?string $method, ?string $start, ?string $end, ?string $statusCode = null, ?\Closure $filter = null): array
     {
+=======
+    public function find(?string $ip, ?string $url, ?int $limit, ?string $method, ?string $start, ?string $end, ?string $statusCode = null/* , \Closure $filter = null */): array
+    {
+        $filter = 7 < \func_num_args() ? func_get_arg(7) : null;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         return $this->storage->find($ip, $url, $limit, $method, $this->getTimestamp($start), $this->getTimestamp($end), $statusCode, $filter);
     }
 
@@ -133,7 +178,11 @@ class Profiler implements ResetInterface
             return null;
         }
 
+<<<<<<< HEAD
         $profile = new Profile(bin2hex(random_bytes(3)));
+=======
+        $profile = new Profile(substr(hash('sha256', uniqid(mt_rand(), true)), 0, 6));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $profile->setTime(time());
         $profile->setUrl($request->getUri());
         $profile->setMethod($request->getMethod());
@@ -164,7 +213,14 @@ class Profiler implements ResetInterface
         return $profile;
     }
 
+<<<<<<< HEAD
     public function reset(): void
+=======
+    /**
+     * @return void
+     */
+    public function reset()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($this->collectors as $collector) {
             $collector->reset();
@@ -184,8 +240,15 @@ class Profiler implements ResetInterface
      * Sets the Collectors associated with this profiler.
      *
      * @param DataCollectorInterface[] $collectors An array of collectors
+<<<<<<< HEAD
      */
     public function set(array $collectors = []): void
+=======
+     *
+     * @return void
+     */
+    public function set(array $collectors = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->collectors = [];
         foreach ($collectors as $collector) {
@@ -195,8 +258,15 @@ class Profiler implements ResetInterface
 
     /**
      * Adds a Collector.
+<<<<<<< HEAD
      */
     public function add(DataCollectorInterface $collector): void
+=======
+     *
+     * @return void
+     */
+    public function add(DataCollectorInterface $collector)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->collectors[$collector->getName()] = $collector;
     }

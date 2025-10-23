@@ -11,9 +11,12 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
+<<<<<<< HEAD
 use Doctrine\DBAL\Schema\Name\Identifier;
 use Doctrine\DBAL\Schema\Name\UnqualifiedName;
 use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Types;
 
@@ -227,6 +230,7 @@ class PdoSessionHandler extends AbstractSessionHandler
             default:
                 throw new \DomainException(\sprintf('Creating the session table is currently not implemented for PDO driver "%s".', $this->driver));
         }
+<<<<<<< HEAD
 
         if (class_exists(PrimaryKeyConstraint::class)) {
             $table->addPrimaryKeyConstraint(new PrimaryKeyConstraint(null, [new UnqualifiedName(Identifier::unquoted($this->idCol))], true));
@@ -234,6 +238,9 @@ class PdoSessionHandler extends AbstractSessionHandler
             $table->setPrimaryKey([$this->idCol]);
         }
 
+=======
+        $table->setPrimaryKey([$this->idCol]);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $table->addIndex([$this->lifetimeCol], $this->lifetimeCol.'_idx');
     }
 
@@ -245,10 +252,19 @@ class PdoSessionHandler extends AbstractSessionHandler
      * saved in a BLOB. One could also use a shorter inlined varbinary column
      * if one was sure the data fits into it.
      *
+<<<<<<< HEAD
      * @throws \PDOException    When the table already exists
      * @throws \DomainException When an unsupported PDO driver is used
      */
     public function createTable(): void
+=======
+     * @return void
+     *
+     * @throws \PDOException    When the table already exists
+     * @throws \DomainException When an unsupported PDO driver is used
+     */
+    public function createTable()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         // connect if we are not yet
         $this->getConnection();

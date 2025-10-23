@@ -21,6 +21,7 @@ use Symfony\Component\VarDumper\Dumper\CliDumper;
  */
 final class Dumper
 {
+<<<<<<< HEAD
     private \Closure $handler;
 
     public function __construct(
@@ -28,6 +29,19 @@ final class Dumper
         private ?CliDumper $dumper = null,
         private ?ClonerInterface $cloner = null,
     ) {
+=======
+    private OutputInterface $output;
+    private ?CliDumper $dumper;
+    private ?ClonerInterface $cloner;
+    private \Closure $handler;
+
+    public function __construct(OutputInterface $output, ?CliDumper $dumper = null, ?ClonerInterface $cloner = null)
+    {
+        $this->output = $output;
+        $this->dumper = $dumper;
+        $this->cloner = $cloner;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (class_exists(CliDumper::class)) {
             $this->handler = function ($var): string {
                 $dumper = $this->dumper ??= new CliDumper(null, null, CliDumper::DUMP_LIGHT_ARRAY | CliDumper::DUMP_COMMA_SEPARATOR);

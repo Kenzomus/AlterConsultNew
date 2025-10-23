@@ -3,6 +3,7 @@
 Please refer to [UPGRADING](UPGRADING.md) guide for upgrading to a major version.
 
 
+<<<<<<< HEAD
 ## 7.9.3 - 2025-03-27
 
 ### Changed
@@ -35,6 +36,8 @@ Please refer to [UPGRADING](UPGRADING.md) guide for upgrading to a major version
 - Dropped support for EOL `guzzlehttp/psr7` v1
 - Improved URI user info redaction in errors
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 ## 7.8.2 - 2024-07-18
 
 ### Added

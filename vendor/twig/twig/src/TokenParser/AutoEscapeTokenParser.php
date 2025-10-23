@@ -29,21 +29,36 @@ final class AutoEscapeTokenParser extends AbstractTokenParser
         $lineno = $token->getLine();
         $stream = $this->parser->getStream();
 
+<<<<<<< HEAD
         if ($stream->test(Token::BLOCK_END_TYPE)) {
             $value = 'html';
         } else {
             $expr = $this->parser->parseExpression();
+=======
+        if ($stream->test(/* Token::BLOCK_END_TYPE */ 3)) {
+            $value = 'html';
+        } else {
+            $expr = $this->parser->getExpressionParser()->parseExpression();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if (!$expr instanceof ConstantExpression) {
                 throw new SyntaxError('An escaping strategy must be a string or false.', $stream->getCurrent()->getLine(), $stream->getSourceContext());
             }
             $value = $expr->getAttribute('value');
         }
 
+<<<<<<< HEAD
         $stream->expect(Token::BLOCK_END_TYPE);
         $body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
         $stream->expect(Token::BLOCK_END_TYPE);
 
         return new AutoEscapeNode($value, $body, $lineno);
+=======
+        $stream->expect(/* Token::BLOCK_END_TYPE */ 3);
+        $body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
+        $stream->expect(/* Token::BLOCK_END_TYPE */ 3);
+
+        return new AutoEscapeNode($value, $body, $lineno, $this->getTag());
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function decideBlockEnd(Token $token): bool

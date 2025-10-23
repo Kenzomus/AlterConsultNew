@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 
+<<<<<<< HEAD
 7.3
 ---
 
@@ -46,6 +47,8 @@ CHANGELOG
  * Add argument `$buildDir` to `WarmableInterface`
  * Add argument `$filter` to `Profiler::find()` and `FileProfilerStorage::find()`
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 6.4
 ---
 

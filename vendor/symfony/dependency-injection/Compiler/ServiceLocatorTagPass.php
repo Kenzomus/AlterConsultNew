@@ -54,6 +54,7 @@ final class ServiceLocatorTagPass extends AbstractRecursivePass
             $value->setClass(ServiceLocator::class);
         }
 
+<<<<<<< HEAD
         $values = $value->getArguments()[0] ?? null;
         $services = [];
 
@@ -88,6 +89,39 @@ final class ServiceLocatorTagPass extends AbstractRecursivePass
             }
         }
 
+=======
+        $services = $value->getArguments()[0] ?? null;
+
+        if ($services instanceof TaggedIteratorArgument) {
+            $services = $this->findAndSortTaggedServices($services, $this->container);
+        }
+
+        if (!\is_array($services)) {
+            throw new InvalidArgumentException(\sprintf('Invalid definition for service "%s": an array of references is expected as first argument when the "container.service_locator" tag is set.', $this->currentId));
+        }
+
+        $i = 0;
+
+        foreach ($services as $k => $v) {
+            if ($v instanceof ServiceClosureArgument) {
+                continue;
+            }
+
+            if ($i === $k) {
+                if ($v instanceof Reference) {
+                    unset($services[$k]);
+                    $k = (string) $v;
+                }
+                ++$i;
+            } elseif (\is_int($k)) {
+                $i = null;
+            }
+
+            $services[$k] = new ServiceClosureArgument($v);
+        }
+        ksort($services);
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $value->setArgument(0, $services);
 
         $id = '.service_locator.'.ContainerBuilder::hash($value);

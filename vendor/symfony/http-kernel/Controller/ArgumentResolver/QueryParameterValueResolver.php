@@ -15,8 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+<<<<<<< HEAD
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Uid\AbstractUid;
+=======
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 /**
  * Resolve arguments of type: array, string, int, float, bool, \BackedEnum from query parameters.
@@ -24,7 +28,10 @@ use Symfony\Component\Uid\AbstractUid;
  * @author Ruud Kamphuis <ruud@ticketswap.com>
  * @author Nicolas Grekas <p@tchwork.com>
  * @author Mateusz Anders <anders_mateusz@outlook.com>
+<<<<<<< HEAD
  * @author Ionut Enache <i.ovidiuenache@yahoo.com>
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 final class QueryParameterValueResolver implements ValueResolverInterface
 {
@@ -35,14 +42,21 @@ final class QueryParameterValueResolver implements ValueResolverInterface
         }
 
         $name = $attribute->name ?? $argument->getName();
+<<<<<<< HEAD
         $validationFailedCode = $attribute->validationFailedStatusCode;
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (!$request->query->has($name)) {
             if ($argument->isNullable() || $argument->hasDefaultValue()) {
                 return [];
             }
 
+<<<<<<< HEAD
             throw HttpException::fromStatusCode($validationFailedCode, \sprintf('Missing query parameter "%s".', $name));
+=======
+            throw new NotFoundHttpException(\sprintf('Missing query parameter "%s".', $name));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $value = $request->query->all()[$name];
@@ -56,7 +70,11 @@ final class QueryParameterValueResolver implements ValueResolverInterface
             $filtered = array_values(array_filter((array) $value, \is_array(...)));
 
             if ($filtered !== $value && !($attribute->flags & \FILTER_NULL_ON_FAILURE)) {
+<<<<<<< HEAD
                 throw HttpException::fromStatusCode($validationFailedCode, \sprintf('Invalid query parameter "%s".', $name));
+=======
+                throw new NotFoundHttpException(\sprintf('Invalid query parameter "%s".', $name));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
 
             return $filtered;
@@ -74,6 +92,7 @@ final class QueryParameterValueResolver implements ValueResolverInterface
             $options['flags'] |= \FILTER_REQUIRE_SCALAR;
         }
 
+<<<<<<< HEAD
         $uidType = null;
         if (is_subclass_of($type, AbstractUid::class)) {
             $uidType = $type;
@@ -92,6 +111,19 @@ final class QueryParameterValueResolver implements ValueResolverInterface
                 'int' => \FILTER_VALIDATE_INT,
                 'string' => \FILTER_DEFAULT,
                 default => throw new \LogicException(\sprintf('#[MapQueryParameter] cannot be used on controller argument "%s$%s" of type "%s"; one of array, string, int, float, bool, uid or \BackedEnum should be used.', $argument->isVariadic() ? '...' : '', $argument->getName(), $type ?? 'mixed')),
+=======
+        $enumType = null;
+        $filter = match ($type) {
+            'array' => \FILTER_DEFAULT,
+            'string' => \FILTER_DEFAULT,
+            'int' => \FILTER_VALIDATE_INT,
+            'float' => \FILTER_VALIDATE_FLOAT,
+            'bool' => \FILTER_VALIDATE_BOOL,
+            default => match ($enumType = is_subclass_of($type, \BackedEnum::class) ? (new \ReflectionEnum($type))->getBackingType()->getName() : null) {
+                'int' => \FILTER_VALIDATE_INT,
+                'string' => \FILTER_DEFAULT,
+                default => throw new \LogicException(\sprintf('#[MapQueryParameter] cannot be used on controller argument "%s$%s" of type "%s"; one of array, string, int, float, bool or \BackedEnum should be used.', $argument->isVariadic() ? '...' : '', $argument->getName(), $type ?? 'mixed')),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             },
         };
 
@@ -113,12 +145,17 @@ final class QueryParameterValueResolver implements ValueResolverInterface
             $value = \is_array($value) ? array_map($enumFrom, $value) : $enumFrom($value);
         }
 
+<<<<<<< HEAD
         if (null !== $uidType) {
             $value = \is_array($value) ? array_map([$uidType, 'fromString'], $value) : $uidType::fromString($value);
         }
 
         if (null === $value && !($attribute->flags & \FILTER_NULL_ON_FAILURE)) {
             throw HttpException::fromStatusCode($validationFailedCode, \sprintf('Invalid query parameter "%s".', $name));
+=======
+        if (null === $value && !($attribute->flags & \FILTER_NULL_ON_FAILURE)) {
+            throw new NotFoundHttpException(\sprintf('Invalid query parameter "%s".', $name));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         if (!\is_array($value)) {
@@ -132,7 +169,11 @@ final class QueryParameterValueResolver implements ValueResolverInterface
         }
 
         if ($filtered !== $value && !($attribute->flags & \FILTER_NULL_ON_FAILURE)) {
+<<<<<<< HEAD
             throw HttpException::fromStatusCode($validationFailedCode, \sprintf('Invalid query parameter "%s".', $name));
+=======
+            throw new NotFoundHttpException(\sprintf('Invalid query parameter "%s".', $name));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return $argument->isVariadic() ? $filtered : [$filtered];

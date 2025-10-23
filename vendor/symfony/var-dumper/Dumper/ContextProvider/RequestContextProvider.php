@@ -22,11 +22,20 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
  */
 final class RequestContextProvider implements ContextProviderInterface
 {
+<<<<<<< HEAD
     private VarCloner $cloner;
 
     public function __construct(
         private RequestStack $requestStack,
     ) {
+=======
+    private RequestStack $requestStack;
+    private VarCloner $cloner;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->cloner = new VarCloner();
         $this->cloner->setMaxItems(0);
         $this->cloner->addCasters(ReflectionCaster::UNSET_CLOSURE_FILE_INFO);

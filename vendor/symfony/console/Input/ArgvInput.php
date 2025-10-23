@@ -40,21 +40,30 @@ use Symfony\Component\Console\Exception\RuntimeException;
  */
 class ArgvInput extends Input
 {
+<<<<<<< HEAD
     /** @var list<string> */
     private array $tokens;
     private array $parsed;
 
     /** @param list<string>|null $argv */
+=======
+    private array $tokens;
+    private array $parsed;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(?array $argv = null, ?InputDefinition $definition = null)
     {
         $argv ??= $_SERVER['argv'] ?? [];
 
+<<<<<<< HEAD
         foreach ($argv as $arg) {
             if (!\is_scalar($arg) && !$arg instanceof \Stringable) {
                 throw new RuntimeException(\sprintf('Argument values expected to be all scalars, got "%s".', get_debug_type($arg)));
             }
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         // strip the application name
         array_shift($argv);
 
@@ -63,13 +72,27 @@ class ArgvInput extends Input
         parent::__construct($definition);
     }
 
+<<<<<<< HEAD
     /** @param list<string> $tokens */
     protected function setTokens(array $tokens): void
+=======
+    /**
+     * @return void
+     */
+    protected function setTokens(array $tokens)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->tokens = $tokens;
     }
 
+<<<<<<< HEAD
     protected function parse(): void
+=======
+    /**
+     * @return void
+     */
+    protected function parse()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $parseOptions = true;
         $this->parsed = $this->tokens;
@@ -133,9 +156,15 @@ class ArgvInput extends Input
                 $this->addLongOption($option->getName(), $i === $len - 1 ? null : substr($name, $i + 1));
 
                 break;
+<<<<<<< HEAD
             }
 
             $this->addLongOption($option->getName(), null);
+=======
+            } else {
+                $this->addLongOption($option->getName(), null);
+            }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
     }
 
@@ -352,6 +381,7 @@ class ArgvInput extends Input
     }
 
     /**
+<<<<<<< HEAD
      * Returns un-parsed and not validated tokens.
      *
      * @param bool $strip Whether to return the raw parameters (false) or the values after the command name (true)
@@ -381,6 +411,8 @@ class ArgvInput extends Input
     }
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Returns a stringified representation of the args passed to the command.
      */
     public function __toString(): string

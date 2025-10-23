@@ -85,6 +85,7 @@ class Envelope
     {
         return $this->recipients;
     }
+<<<<<<< HEAD
 
     /**
      * Returns true if any address' localpart contains at least one
@@ -114,4 +115,6 @@ class Envelope
 
         return false;
     }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

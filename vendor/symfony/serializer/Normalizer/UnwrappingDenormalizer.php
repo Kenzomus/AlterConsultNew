@@ -20,7 +20,11 @@ use Symfony\Component\Serializer\SerializerAwareTrait;
 /**
  * @author Eduard Bulava <bulavaeduard@gmail.com>
  */
+<<<<<<< HEAD
 final class UnwrappingDenormalizer implements DenormalizerInterface, SerializerAwareInterface
+=======
+final class UnwrappingDenormalizer implements DenormalizerInterface, SerializerAwareInterface, CacheableSupportsMethodInterface
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     use SerializerAwareTrait;
 
@@ -62,4 +66,17 @@ final class UnwrappingDenormalizer implements DenormalizerInterface, SerializerA
     {
         return \array_key_exists(self::UNWRAP_PATH, $context) && !isset($context['unwrapped']);
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * @deprecated since Symfony 6.3, use "getSupportedTypes()" instead
+     */
+    public function hasCacheableSupportsMethod(): bool
+    {
+        trigger_deprecation('symfony/serializer', '6.3', 'The "%s()" method is deprecated, use "getSupportedTypes()" instead.', __METHOD__);
+
+        return $this->serializer instanceof CacheableSupportsMethodInterface && $this->serializer->hasCacheableSupportsMethod();
+    }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

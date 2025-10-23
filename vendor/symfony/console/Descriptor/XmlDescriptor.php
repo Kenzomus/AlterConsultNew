@@ -208,9 +208,17 @@ class XmlDescriptor extends Descriptor
             $defaults = \is_array($option->getDefault()) ? $option->getDefault() : (\is_bool($option->getDefault()) ? [var_export($option->getDefault(), true)] : ($option->getDefault() ? [$option->getDefault()] : []));
             $objectXML->appendChild($defaultsXML = $dom->createElement('defaults'));
 
+<<<<<<< HEAD
             foreach ($defaults as $default) {
                 $defaultsXML->appendChild($defaultXML = $dom->createElement('default'));
                 $defaultXML->appendChild($dom->createTextNode($default));
+=======
+            if (!empty($defaults)) {
+                foreach ($defaults as $default) {
+                    $defaultsXML->appendChild($defaultXML = $dom->createElement('default'));
+                    $defaultXML->appendChild($dom->createTextNode($default));
+                }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
         }
 

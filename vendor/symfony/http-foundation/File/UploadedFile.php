@@ -31,10 +31,17 @@ use Symfony\Component\Mime\MimeTypes;
  */
 class UploadedFile extends File
 {
+<<<<<<< HEAD
     private string $originalName;
     private string $mimeType;
     private int $error;
     private string $originalPath;
+=======
+    private bool $test;
+    private string $originalName;
+    private string $mimeType;
+    private int $error;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Accepts the information of the uploaded file as provided by the PHP global $_FILES.
@@ -60,6 +67,7 @@ class UploadedFile extends File
      * @throws FileException         If file_uploads is disabled
      * @throws FileNotFoundException If the file does not exist
      */
+<<<<<<< HEAD
     public function __construct(
         string $path,
         string $originalName,
@@ -71,6 +79,14 @@ class UploadedFile extends File
         $this->originalPath = strtr($originalName, '\\', '/');
         $this->mimeType = $mimeType ?: 'application/octet-stream';
         $this->error = $error ?: \UPLOAD_ERR_OK;
+=======
+    public function __construct(string $path, string $originalName, ?string $mimeType = null, ?int $error = null, bool $test = false)
+    {
+        $this->originalName = $this->getName($originalName);
+        $this->mimeType = $mimeType ?: 'application/octet-stream';
+        $this->error = $error ?: \UPLOAD_ERR_OK;
+        $this->test = $test;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         parent::__construct($path, \UPLOAD_ERR_OK === $this->error);
     }
@@ -98,6 +114,7 @@ class UploadedFile extends File
     }
 
     /**
+<<<<<<< HEAD
      * Returns the original file full path.
      *
      * It is extracted from the request from which the file has been uploaded.
@@ -113,6 +130,8 @@ class UploadedFile extends File
     }
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Returns the file mime type.
      *
      * The client mime type is extracted from the request from which the file

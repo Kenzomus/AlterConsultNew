@@ -18,10 +18,19 @@ use Symfony\Component\Mime\Header\UnstructuredHeader;
  */
 final class MetadataHeader extends UnstructuredHeader
 {
+<<<<<<< HEAD
     public function __construct(
         private string $key,
         string $value,
     ) {
+=======
+    private string $key;
+
+    public function __construct(string $key, string $value)
+    {
+        $this->key = $key;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct('X-Metadata-'.$key, $value);
     }
 

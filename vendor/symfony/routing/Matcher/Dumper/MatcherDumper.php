@@ -20,9 +20,17 @@ use Symfony\Component\Routing\RouteCollection;
  */
 abstract class MatcherDumper implements MatcherDumperInterface
 {
+<<<<<<< HEAD
     public function __construct(
         private RouteCollection $routes,
     ) {
+=======
+    private RouteCollection $routes;
+
+    public function __construct(RouteCollection $routes)
+    {
+        $this->routes = $routes;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getRoutes(): RouteCollection

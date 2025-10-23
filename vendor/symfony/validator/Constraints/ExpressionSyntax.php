@@ -11,11 +11,19 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * Validates that a value is valid as an ExpressionLanguage expression.
+=======
+use Symfony\Component\Validator\Constraint;
+
+/**
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Andrey Sevastianov <mrpkmail@gmail.com>
  */
@@ -28,6 +36,7 @@ class ExpressionSyntax extends Constraint
         self::EXPRESSION_SYNTAX_ERROR => 'EXPRESSION_SYNTAX_ERROR',
     ];
 
+<<<<<<< HEAD
     public string $message = 'This value should be a valid expression.';
     public ?string $service = null;
     public ?array $allowedVariables = null;
@@ -45,6 +54,14 @@ class ExpressionSyntax extends Constraint
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
         }
 
+=======
+    public $message = 'This value should be a valid expression.';
+    public $service;
+    public $allowedVariables;
+
+    public function __construct(?array $options = null, ?string $message = null, ?string $service = null, ?array $allowedVariables = null, ?array $groups = null, mixed $payload = null)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($options, $groups, $payload);
 
         $this->message = $message ?? $this->message;

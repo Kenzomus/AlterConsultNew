@@ -11,12 +11,20 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 
 /**
+<<<<<<< HEAD
  * Validates a whole class, including nested objects in properties.
+=======
+ * @Annotation
+ * @Target({"CLASS"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Jules Pietri <jules@heahprod.com>
  */
@@ -25,6 +33,7 @@ class Cascade extends Constraint
 {
     public array $exclude = [];
 
+<<<<<<< HEAD
     /**
      * @param non-empty-string[]|non-empty-string|array<string,mixed>|null $exclude Properties excluded from validation
      * @param array<string,mixed>|null                                     $options
@@ -42,6 +51,14 @@ class Cascade extends Constraint
                 trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
             }
 
+=======
+    public function __construct(array|string|null $exclude = null, ?array $options = null)
+    {
+        if (\is_array($exclude) && !array_is_list($exclude)) {
+            $options = array_merge($exclude, $options ?? []);
+            $options['exclude'] = array_flip((array) ($options['exclude'] ?? []));
+        } else {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->exclude = array_flip((array) $exclude);
         }
 

@@ -19,6 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
  * Attribute to tell which callable to give to an argument of type Closure.
  */
 #[\Attribute(\Attribute::TARGET_PARAMETER)]
+<<<<<<< HEAD
 class AutowireCallable extends AutowireInline
 {
     /**
@@ -26,6 +27,12 @@ class AutowireCallable extends AutowireInline
      * @param string|null       $service  The service containing the callable to autowire
      * @param string|null       $method   The method name that will be autowired
      * @param bool|class-string $lazy     Whether to use lazy-loading for this argument
+=======
+class AutowireCallable extends Autowire
+{
+    /**
+     * @param bool|class-string $lazy Whether to use lazy-loading for this argument
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     public function __construct(
         string|array|null $callable = null,
@@ -40,7 +47,11 @@ class AutowireCallable extends AutowireInline
             throw new LogicException('#[AutowireCallable] attribute cannot have a $method without a $service.');
         }
 
+<<<<<<< HEAD
         Autowire::__construct($callable ?? [new Reference($service), $method ?? '__invoke'], lazy: $lazy);
+=======
+        parent::__construct($callable ?? [new Reference($service), $method ?? '__invoke'], lazy: $lazy);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function buildDefinition(mixed $value, ?string $type, \ReflectionParameter $parameter): Definition

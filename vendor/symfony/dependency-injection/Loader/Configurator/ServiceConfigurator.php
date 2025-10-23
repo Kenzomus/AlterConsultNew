@@ -43,6 +43,7 @@ class ServiceConfigurator extends AbstractServiceConfigurator
 
     public const FACTORY = 'services';
 
+<<<<<<< HEAD
     private bool $destructed = false;
 
     public function __construct(
@@ -55,6 +56,21 @@ class ServiceConfigurator extends AbstractServiceConfigurator
         array $defaultTags,
         private ?string $path = null,
     ) {
+=======
+    private ContainerBuilder $container;
+    private array $instanceof;
+    private bool $allowParent;
+    private ?string $path;
+    private bool $destructed = false;
+
+    public function __construct(ContainerBuilder $container, array $instanceof, bool $allowParent, ServicesConfigurator $parent, Definition $definition, ?string $id, array $defaultTags, ?string $path = null)
+    {
+        $this->container = $container;
+        $this->instanceof = $instanceof;
+        $this->allowParent = $allowParent;
+        $this->path = $path;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($parent, $definition, $id, $defaultTags);
     }
 

@@ -27,6 +27,7 @@ class RequestStack
     private array $requests = [];
 
     /**
+<<<<<<< HEAD
      * @param Request[] $requests
      */
     public function __construct(array $requests = [])
@@ -37,12 +38,21 @@ class RequestStack
     }
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Pushes a Request on the stack.
      *
      * This method should generally not be called directly as the stack
      * management should be taken care of by the application itself.
+<<<<<<< HEAD
      */
     public function push(Request $request): void
+=======
+     *
+     * @return void
+     */
+    public function push(Request $request)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->requests[] = $request;
     }

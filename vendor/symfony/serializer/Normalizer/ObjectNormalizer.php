@@ -28,14 +28,25 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
  * Converts between objects and arrays using the PropertyAccess component.
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
+<<<<<<< HEAD
  */
 final class ObjectNormalizer extends AbstractObjectNormalizer
+=======
+ *
+ * @final since Symfony 6.3
+ */
+class ObjectNormalizer extends AbstractObjectNormalizer
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     private static $reflectionCache = [];
     private static $isReadableCache = [];
     private static $isWritableCache = [];
 
+<<<<<<< HEAD
     protected PropertyAccessorInterface $propertyAccessor;
+=======
+    protected $propertyAccessor;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     protected $propertyInfoExtractor;
     private $writeInfoExtractor;
 
@@ -58,7 +69,21 @@ final class ObjectNormalizer extends AbstractObjectNormalizer
 
     public function getSupportedTypes(?string $format): array
     {
+<<<<<<< HEAD
         return ['object' => true];
+=======
+        return ['object' => __CLASS__ === static::class || $this->hasCacheableSupportsMethod()];
+    }
+
+    /**
+     * @deprecated since Symfony 6.3, use "getSupportedTypes()" instead
+     */
+    public function hasCacheableSupportsMethod(): bool
+    {
+        trigger_deprecation('symfony/serializer', '6.3', 'The "%s()" method is deprecated, implement "%s::getSupportedTypes()" instead.', __METHOD__, get_debug_type($this));
+
+        return __CLASS__ === static::class;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     protected function extractAttributes(object $object, ?string $format = null, array $context = []): array
@@ -139,7 +164,14 @@ final class ObjectNormalizer extends AbstractObjectNormalizer
             : $this->propertyAccessor->getValue($object, $attribute);
     }
 
+<<<<<<< HEAD
     protected function setAttributeValue(object $object, string $attribute, mixed $value, ?string $format = null, array $context = []): void
+=======
+    /**
+     * @return void
+     */
+    protected function setAttributeValue(object $object, string $attribute, mixed $value, ?string $format = null, array $context = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         try {
             $this->propertyAccessor->setValue($object, $attribute, $value);
@@ -148,7 +180,11 @@ final class ObjectNormalizer extends AbstractObjectNormalizer
         }
     }
 
+<<<<<<< HEAD
     protected function isAllowedAttribute($classOrObject, string $attribute, ?string $format = null, array $context = []): bool
+=======
+    protected function isAllowedAttribute($classOrObject, string $attribute, ?string $format = null, array $context = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!parent::isAllowedAttribute($classOrObject, $attribute, $format, $context)) {
             return false;

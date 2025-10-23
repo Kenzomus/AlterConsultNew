@@ -11,7 +11,10 @@
 
 namespace Symfony\Component\Console\Command;
 
+<<<<<<< HEAD
 use Symfony\Component\Console\Attribute\AsCommand;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\LockInterface;
@@ -27,8 +30,11 @@ trait LockableTrait
 {
     private ?LockInterface $lock = null;
 
+<<<<<<< HEAD
     private ?LockFactory $lockFactory = null;
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * Locks a command.
      */
@@ -42,6 +48,7 @@ trait LockableTrait
             throw new LogicException('A lock is already in place.');
         }
 
+<<<<<<< HEAD
         if (null === $this->lockFactory) {
             if (SemaphoreStore::isSupported()) {
                 $store = new SemaphoreStore();
@@ -63,6 +70,15 @@ trait LockableTrait
         }
 
         $this->lock = $this->lockFactory->createLock($name);
+=======
+        if (SemaphoreStore::isSupported()) {
+            $store = new SemaphoreStore();
+        } else {
+            $store = new FlockStore();
+        }
+
+        $this->lock = (new LockFactory($store))->createLock($name ?: $this->getName());
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (!$this->lock->acquire($blocking)) {
             $this->lock = null;
 

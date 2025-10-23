@@ -33,7 +33,11 @@ use SebastianBergmann\Diff\Differ;
  */
 final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
 {
+<<<<<<< HEAD
     private static array $default = [
+=======
+    private static $default = [
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         'collapseRanges'      => true, // ranges of length one are rendered with the trailing `,1`
         'commonLineThreshold' => 6,    // number of same lines before ending a new hunk and creating a new one (if needed)
         'contextLines'        => 3,    // like `diff:  -u, -U NUM, --unified[=NUM]`, for patch/git apply compatibility best to keep at least @ 3
@@ -42,6 +46,7 @@ final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
         'toFile'              => null,
         'toFileDate'          => null,
     ];
+<<<<<<< HEAD
     private bool $changed;
     private bool $collapseRanges;
 
@@ -55,6 +60,33 @@ final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
      * @psalm-var positive-int
      */
     private int $contextLines;
+=======
+
+    /**
+     * @var bool
+     */
+    private $changed;
+
+    /**
+     * @var bool
+     */
+    private $collapseRanges;
+
+    /**
+     * @var int >= 0
+     */
+    private $commonLineThreshold;
+
+    /**
+     * @var string
+     */
+    private $header;
+
+    /**
+     * @var int >= 0
+     */
+    private $contextLines;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     public function __construct(array $options = [])
     {
@@ -82,7 +114,11 @@ final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
             $options['fromFile'],
             null === $options['fromFileDate'] ? '' : "\t" . $options['fromFileDate'],
             $options['toFile'],
+<<<<<<< HEAD
             null === $options['toFileDate'] ? '' : "\t" . $options['toFileDate'],
+=======
+            null === $options['toFileDate'] ? '' : "\t" . $options['toFileDate']
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         );
 
         $this->collapseRanges      = $options['collapseRanges'];
@@ -136,10 +172,17 @@ final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
             }
         } else {
             // search back for the last `+` and `-` line,
+<<<<<<< HEAD
             // check if it has a trailing linebreak, else add a warning under it
             $toFind = [1 => true, 2 => true];
 
             for ($i = $upperLimit - 1; $i >= 0; $i--) {
+=======
+            // check if has trailing linebreak, else add under it warning under it
+            $toFind = [1 => true, 2 => true];
+
+            for ($i = $upperLimit - 1; $i >= 0; --$i) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 if (isset($toFind[$diff[$i][1]])) {
                     unset($toFind[$diff[$i][1]]);
                     $lc = substr($diff[$i][0], -1);
@@ -167,15 +210,26 @@ final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
         foreach ($diff as $i => $entry) {
             if (0 === $entry[1]) { // same
                 if (false === $hunkCapture) {
+<<<<<<< HEAD
                     $fromStart++;
                     $toStart++;
+=======
+                    ++$fromStart;
+                    ++$toStart;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
                     continue;
                 }
 
+<<<<<<< HEAD
                 $sameCount++;
                 $toRange++;
                 $fromRange++;
+=======
+                ++$sameCount;
+                ++$toRange;
+                ++$fromRange;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
                 if ($sameCount === $cutOff) {
                     $contextStartOffset = ($hunkCapture - $this->contextLines) < 0
@@ -201,11 +255,19 @@ final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
                         $fromRange - $cutOff + $contextStartOffset + $this->contextLines,
                         $toStart - $contextStartOffset,
                         $toRange - $cutOff + $contextStartOffset + $this->contextLines,
+<<<<<<< HEAD
                         $output,
                     );
 
                     $fromStart += $fromRange;
                     $toStart   += $toRange;
+=======
+                        $output
+                    );
+
+                    $fromStart += $fromRange;
+                    $toStart += $toRange;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
                     $hunkCapture = false;
                     $sameCount   = $toRange = $fromRange = 0;
@@ -227,11 +289,19 @@ final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
             }
 
             if (Differ::ADDED === $entry[1]) { // added
+<<<<<<< HEAD
                 $toRange++;
             }
 
             if (Differ::REMOVED === $entry[1]) { // removed
                 $fromRange++;
+=======
+                ++$toRange;
+            }
+
+            if (Differ::REMOVED === $entry[1]) { // removed
+                ++$fromRange;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
         }
 
@@ -239,7 +309,11 @@ final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
             return;
         }
 
+<<<<<<< HEAD
         // we end here when cutoff (commonLineThreshold) was not reached, but we were capturing a hunk,
+=======
+        // we end here when cutoff (commonLineThreshold) was not reached, but we where capturing a hunk,
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         // do not render hunk till end automatically because the number of context lines might be less than the commonLineThreshold
 
         $contextStartOffset = $hunkCapture - $this->contextLines < 0
@@ -251,7 +325,11 @@ final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
         $contextEndOffset = min($sameCount, $this->contextLines);
 
         $fromRange -= $sameCount;
+<<<<<<< HEAD
         $toRange   -= $sameCount;
+=======
+        $toRange -= $sameCount;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         $this->writeHunk(
             $diff,
@@ -261,7 +339,11 @@ final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
             $fromRange + $contextStartOffset + $contextEndOffset,
             $toStart - $contextStartOffset,
             $toRange + $contextStartOffset + $contextEndOffset,
+<<<<<<< HEAD
             $output,
+=======
+            $output
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         );
     }
 
@@ -289,7 +371,11 @@ final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
 
         fwrite($output, " @@\n");
 
+<<<<<<< HEAD
         for ($i = $diffStartIndex; $i < $diffEndIndex; $i++) {
+=======
+        for ($i = $diffStartIndex; $i < $diffEndIndex; ++$i) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if ($diff[$i][1] === Differ::ADDED) {
                 $this->changed = true;
                 fwrite($output, '+' . $diff[$i][0]);
@@ -302,11 +388,19 @@ final class StrictUnifiedDiffOutputBuilder implements DiffOutputBuilderInterface
                 $this->changed = true;
                 fwrite($output, $diff[$i][0]);
             }
+<<<<<<< HEAD
             // } elseif ($diff[$i][1] === Differ::DIFF_LINE_END_WARNING) { // custom comment inserted by PHPUnit/diff package
             //  skip
             // } else {
             //  unknown/invalid
             // }
+=======
+            //} elseif ($diff[$i][1] === Differ::DIFF_LINE_END_WARNING) { // custom comment inserted by PHPUnit/diff package
+                //  skip
+            //} else {
+                //  unknown/invalid
+            //}
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
     }
 

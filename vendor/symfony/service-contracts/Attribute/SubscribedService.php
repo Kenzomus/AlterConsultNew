@@ -11,15 +11,24 @@
 
 namespace Symfony\Contracts\Service\Attribute;
 
+<<<<<<< HEAD
 use Symfony\Contracts\Service\ServiceMethodsSubscriberTrait;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
+=======
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
+use Symfony\Contracts\Service\ServiceSubscriberTrait;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 /**
  * For use as the return value for {@see ServiceSubscriberInterface}.
  *
  * @example new SubscribedService('http_client', HttpClientInterface::class, false, new Target('githubApi'))
  *
+<<<<<<< HEAD
  * Use with {@see ServiceMethodsSubscriberTrait} to mark a method's return type
+=======
+ * Use with {@see ServiceSubscriberTrait} to mark a method's return type
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  * as a subscribed service.
  *
  * @author Kevin Bond <kevinbond@gmail.com>

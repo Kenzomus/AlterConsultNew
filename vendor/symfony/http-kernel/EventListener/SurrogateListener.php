@@ -26,9 +26,17 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class SurrogateListener implements EventSubscriberInterface
 {
+<<<<<<< HEAD
     public function __construct(
         private ?SurrogateInterface $surrogate = null,
     ) {
+=======
+    private ?SurrogateInterface $surrogate;
+
+    public function __construct(?SurrogateInterface $surrogate = null)
+    {
+        $this->surrogate = $surrogate;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**

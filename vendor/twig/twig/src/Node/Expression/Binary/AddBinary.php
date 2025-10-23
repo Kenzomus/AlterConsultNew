@@ -13,9 +13,14 @@
 namespace Twig\Node\Expression\Binary;
 
 use Twig\Compiler;
+<<<<<<< HEAD
 use Twig\Node\Expression\ReturnNumberInterface;
 
 class AddBinary extends AbstractBinary implements ReturnNumberInterface
+=======
+
+class AddBinary extends AbstractBinary
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     public function operator(Compiler $compiler): Compiler
     {

@@ -23,6 +23,7 @@ class Cursor
     public const HASH_OBJECT = Stub::TYPE_OBJECT;
     public const HASH_RESOURCE = Stub::TYPE_RESOURCE;
 
+<<<<<<< HEAD
     public int $depth = 0;
     public int $refIndex = 0;
     public int $softRefTo = 0;
@@ -40,4 +41,23 @@ class Cursor
     public bool $stop = false;
     public array $attr = [];
     public bool $skipChildren = false;
+=======
+    public $depth = 0;
+    public $refIndex = 0;
+    public $softRefTo = 0;
+    public $softRefCount = 0;
+    public $softRefHandle = 0;
+    public $hardRefTo = 0;
+    public $hardRefCount = 0;
+    public $hardRefHandle = 0;
+    public $hashType;
+    public $hashKey;
+    public $hashKeyIsBinary;
+    public $hashIndex = 0;
+    public $hashLength = 0;
+    public $hashCut = 0;
+    public $stop = false;
+    public $attr = [];
+    public $skipChildren = false;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

@@ -30,7 +30,10 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
+<<<<<<< HEAD
 use Symfony\Component\Validator\Mapping\MetadataInterface;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Mapping\PropertyMetadata;
 use Symfony\Component\Validator\Validator\ContextualValidatorInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -45,11 +48,19 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 abstract class ConstraintValidatorTestCase extends TestCase
 {
+<<<<<<< HEAD
     protected ExecutionContextInterface $context;
+=======
+    /**
+     * @var ExecutionContextInterface
+     */
+    protected $context;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @var T
      */
+<<<<<<< HEAD
     protected ConstraintValidatorInterface $validator;
 
     protected string $group;
@@ -61,6 +72,18 @@ abstract class ConstraintValidatorTestCase extends TestCase
     protected Constraint $constraint;
     protected ?string $defaultTimezone = null;
 
+=======
+    protected $validator;
+
+    protected $group;
+    protected $metadata;
+    protected $object;
+    protected $value;
+    protected $root;
+    protected $propertyPath;
+    protected $constraint;
+    protected $defaultTimezone;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private string $defaultLocale;
     private array $expectedViolations;
     private int $call;
@@ -234,7 +257,11 @@ abstract class ConstraintValidatorTestCase extends TestCase
     {
         $contextualValidator = $this->context->getValidator()->inContext($this->context);
         $contextualValidator->expectValidation($i, null, $value, $group, function ($passedConstraints) use ($constraints) {
+<<<<<<< HEAD
             if (!\is_array($passedConstraints)) {
+=======
+            if (\is_array($constraints) && !\is_array($passedConstraints)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $passedConstraints = [$passedConstraints];
             }
 
@@ -246,7 +273,11 @@ abstract class ConstraintValidatorTestCase extends TestCase
     {
         $contextualValidator = $this->context->getValidator()->inContext($this->context);
         $contextualValidator->expectValidation($i, null, $value, $group, function ($passedConstraints) use ($constraints) {
+<<<<<<< HEAD
             if (!\is_array($passedConstraints)) {
+=======
+            if (\is_array($constraints) && !\is_array($passedConstraints)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $passedConstraints = [$passedConstraints];
             }
 
@@ -288,18 +319,38 @@ abstract class ConstraintValidatorTestCase extends TestCase
     }
 
     /**
+<<<<<<< HEAD
      * @return T
      */
     abstract protected function createValidator(): ConstraintValidatorInterface;
+=======
+     * @return ConstraintValidatorInterface
+     *
+     * @psalm-return T
+     */
+    abstract protected function createValidator();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }
 
 final class ConstraintViolationAssertion
 {
+<<<<<<< HEAD
+=======
+    private ExecutionContextInterface $context;
+
+    /**
+     * @var ConstraintViolationAssertion[]
+     */
+    private array $assertions;
+
+    private string $message;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private array $parameters = [];
     private mixed $invalidValue = 'InvalidValue';
     private string $propertyPath = 'property.path';
     private ?int $plural = null;
     private ?string $code = null;
+<<<<<<< HEAD
     private mixed $cause = null;
 
     /**
@@ -313,6 +364,20 @@ final class ConstraintViolationAssertion
         private ?Constraint $constraint = null,
         private array $assertions = [],
     ) {
+=======
+    private ?Constraint $constraint;
+    private mixed $cause = null;
+
+    /**
+     * @internal
+     */
+    public function __construct(ExecutionContextInterface $context, string $message, ?Constraint $constraint = null, array $assertions = [])
+    {
+        $this->context = $context;
+        $this->message = $message;
+        $this->constraint = $constraint;
+        $this->assertions = $assertions;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -445,15 +510,25 @@ final class ConstraintViolationAssertion
  */
 class AssertingContextualValidator implements ContextualValidatorInterface
 {
+<<<<<<< HEAD
+=======
+    private ExecutionContextInterface $context;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private bool $expectNoValidate = false;
     private int $atPathCalls = -1;
     private array $expectedAtPath = [];
     private int $validateCalls = -1;
     private array $expectedValidate = [];
 
+<<<<<<< HEAD
     public function __construct(
         private ExecutionContextInterface $context,
     ) {
+=======
+    public function __construct(ExecutionContextInterface $context)
+    {
+        $this->context = $context;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function __destruct()

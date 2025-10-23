@@ -49,7 +49,11 @@ abstract class AbstractExtension extends Extension implements ConfigurableExtens
             $this->prependExtension($configurator, $container);
         };
 
+<<<<<<< HEAD
         $this->executeConfiguratorCallback($container, $callback, $this, true);
+=======
+        $this->executeConfiguratorCallback($container, $callback, $this);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     final public function load(array $configs, ContainerBuilder $container): void

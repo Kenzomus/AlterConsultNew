@@ -23,6 +23,11 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class StaticPrefixCollection
 {
+<<<<<<< HEAD
+=======
+    private string $prefix;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * @var string[]
      */
@@ -38,9 +43,15 @@ class StaticPrefixCollection
      */
     private array $items = [];
 
+<<<<<<< HEAD
     public function __construct(
         private string $prefix = '/',
     ) {
+=======
+    public function __construct(string $prefix = '/')
+    {
+        $this->prefix = $prefix;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getPrefix(): string

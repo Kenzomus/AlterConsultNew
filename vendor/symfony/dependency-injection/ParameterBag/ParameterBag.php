@@ -11,8 +11,11 @@
 
 namespace Symfony\Component\DependencyInjection\ParameterBag;
 
+<<<<<<< HEAD
 use Symfony\Component\DependencyInjection\Exception\EmptyParameterValueException;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\DependencyInjection\Exception\ParameterCircularReferenceException;
 use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
@@ -24,22 +27,42 @@ use Symfony\Component\DependencyInjection\Exception\RuntimeException;
  */
 class ParameterBag implements ParameterBagInterface
 {
+<<<<<<< HEAD
     protected array $parameters = [];
     protected bool $resolved = false;
     protected array $deprecatedParameters = [];
     protected array $nonEmptyParameters = [];
+=======
+    protected $parameters = [];
+    protected $resolved = false;
+    protected array $deprecatedParameters = [];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     public function __construct(array $parameters = [])
     {
         $this->add($parameters);
     }
 
+<<<<<<< HEAD
     public function clear(): void
+=======
+    /**
+     * @return void
+     */
+    public function clear()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->parameters = [];
     }
 
+<<<<<<< HEAD
     public function add(array $parameters): void
+=======
+    /**
+     * @return void
+     */
+    public function add(array $parameters)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($parameters as $key => $value) {
             $this->set($key, $value);
@@ -56,11 +79,14 @@ class ParameterBag implements ParameterBagInterface
         return $this->deprecatedParameters;
     }
 
+<<<<<<< HEAD
     public function allNonEmpty(): array
     {
         return $this->nonEmptyParameters;
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function get(string $name): array|bool|string|int|float|\UnitEnum|null
     {
         if (!\array_key_exists($name, $this->parameters)) {
@@ -68,10 +94,13 @@ class ParameterBag implements ParameterBagInterface
                 throw new ParameterNotFoundException($name);
             }
 
+<<<<<<< HEAD
             if (\array_key_exists($name, $this->nonEmptyParameters)) {
                 throw new ParameterNotFoundException($name, extraMessage: $this->nonEmptyParameters[$name]);
             }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $alternatives = [];
             foreach ($this->parameters as $key => $parameterValue) {
                 $lev = levenshtein($name, $key);
@@ -103,6 +132,7 @@ class ParameterBag implements ParameterBagInterface
             trigger_deprecation(...$this->deprecatedParameters[$name]);
         }
 
+<<<<<<< HEAD
         if (\array_key_exists($name, $this->nonEmptyParameters) && (null === $this->parameters[$name] || '' === $this->parameters[$name] || [] === $this->parameters[$name])) {
             throw new EmptyParameterValueException($this->nonEmptyParameters[$name]);
         }
@@ -114,6 +144,20 @@ class ParameterBag implements ParameterBagInterface
     {
         if (is_numeric($name)) {
             throw new InvalidArgumentException(\sprintf('The parameter name "%s" cannot be numeric.', $name));
+=======
+        return $this->parameters[$name];
+    }
+
+    /**
+     * @return void
+     */
+    public function set(string $name, array|bool|string|int|float|\UnitEnum|null $value)
+    {
+        if (is_numeric($name)) {
+            trigger_deprecation('symfony/dependency-injection', '6.2', \sprintf('Using numeric parameter name "%s" is deprecated and will throw as of 7.0.', $name));
+            // uncomment the following line in 7.0
+            // throw new InvalidArgumentException(sprintf('The parameter name "%s" cannot be numeric.', $name));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $this->parameters[$name] = $value;
@@ -122,9 +166,17 @@ class ParameterBag implements ParameterBagInterface
     /**
      * Deprecates a service container parameter.
      *
+<<<<<<< HEAD
      * @throws ParameterNotFoundException if the parameter is not defined
      */
     public function deprecate(string $name, string $package, string $version, string $message = 'The parameter "%s" is deprecated.'): void
+=======
+     * @return void
+     *
+     * @throws ParameterNotFoundException if the parameter is not defined
+     */
+    public function deprecate(string $name, string $package, string $version, string $message = 'The parameter "%s" is deprecated.')
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!\array_key_exists($name, $this->parameters)) {
             throw new ParameterNotFoundException($name);
@@ -133,22 +185,40 @@ class ParameterBag implements ParameterBagInterface
         $this->deprecatedParameters[$name] = [$package, $version, $message, $name];
     }
 
+<<<<<<< HEAD
     public function cannotBeEmpty(string $name, string $message): void
     {
         $this->nonEmptyParameters[$name] = $message;
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function has(string $name): bool
     {
         return \array_key_exists($name, $this->parameters);
     }
 
+<<<<<<< HEAD
     public function remove(string $name): void
     {
         unset($this->parameters[$name], $this->deprecatedParameters[$name], $this->nonEmptyParameters[$name]);
     }
 
     public function resolve(): void
+=======
+    /**
+     * @return void
+     */
+    public function remove(string $name)
+    {
+        unset($this->parameters[$name], $this->deprecatedParameters[$name]);
+    }
+
+    /**
+     * @return void
+     */
+    public function resolve()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($this->resolved) {
             return;
@@ -257,7 +327,14 @@ class ParameterBag implements ParameterBagInterface
         }, $value);
     }
 
+<<<<<<< HEAD
     public function isResolved(): bool
+=======
+    /**
+     * @return bool
+     */
+    public function isResolved()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->resolved;
     }

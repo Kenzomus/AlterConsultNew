@@ -113,6 +113,10 @@ final class GenerateAutoloadReferenceFile {
  * @see index.php
  * @see core/install.php
  * @see core/rebuild.php
+<<<<<<< HEAD
+=======
+ * @see core/modules/statistics/statistics.php
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 
 return require __DIR__ . '/{$relative_autoload_path}';

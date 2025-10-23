@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Validator\Mapping\Loader;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\GroupSequence;
@@ -18,6 +19,8 @@ use Symfony\Component\Validator\Constraints\GroupSequenceProvider;
 use Symfony\Component\Validator\Exception\MappingException;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 /**
  * Loads validation metadata using PHP attributes.
  *
@@ -25,6 +28,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  * @author Alexander M. Turek <me@derrabus.de>
  * @author Alexandre Daubois <alex.daubois@gmail.com>
  */
+<<<<<<< HEAD
 class AttributeLoader implements LoaderInterface
 {
     public function loadClassMetadata(ClassMetadata $metadata): bool
@@ -92,5 +96,12 @@ class AttributeLoader implements LoaderInterface
         foreach ($reflection->getAttributes(Constraint::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
             yield $attribute->newInstance();
         }
+=======
+class AttributeLoader extends AnnotationLoader
+{
+    public function __construct()
+    {
+        parent::__construct(null);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

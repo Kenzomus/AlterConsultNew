@@ -16,11 +16,23 @@ use Symfony\Component\Mailer\Event\MessageEvents;
 
 final class EmailCount extends Constraint
 {
+<<<<<<< HEAD
     public function __construct(
         private int $expectedValue,
         private ?string $transport = null,
         private bool $queued = false,
     ) {
+=======
+    private int $expectedValue;
+    private ?string $transport;
+    private bool $queued;
+
+    public function __construct(int $expectedValue, ?string $transport = null, bool $queued = false)
+    {
+        $this->expectedValue = $expectedValue;
+        $this->transport = $transport;
+        $this->queued = $queued;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function toString(): string

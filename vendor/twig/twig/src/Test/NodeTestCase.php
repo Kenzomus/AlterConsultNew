@@ -11,8 +11,11 @@
 
 namespace Twig\Test;
 
+<<<<<<< HEAD
 use PHPUnit\Framework\Attributes\BeforeClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use PHPUnit\Framework\TestCase;
 use Twig\Compiler;
 use Twig\Environment;
@@ -21,6 +24,7 @@ use Twig\Node\Node;
 
 abstract class NodeTestCase extends TestCase
 {
+<<<<<<< HEAD
     /**
      * @var Environment
      */
@@ -51,15 +55,26 @@ abstract class NodeTestCase extends TestCase
      * @return void
      */
     #[DataProvider('getTests'), DataProvider('provideTests')]
+=======
+    abstract public function getTests();
+
+    /**
+     * @dataProvider getTests
+     */
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function testCompile($node, $source, $environment = null, $isPattern = false)
     {
         $this->assertNodeCompilation($source, $node, $environment, $isPattern);
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
     public function assertNodeCompilation($source, Node $node, ?Environment $environment = null, $isPattern = false)
+=======
+    public function assertNodeCompilation($source, Node $node, Environment $environment = null, $isPattern = false)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $compiler = $this->getCompiler($environment);
         $compiler->compile($node);
@@ -71,14 +86,19 @@ abstract class NodeTestCase extends TestCase
         }
     }
 
+<<<<<<< HEAD
     /**
      * @return Compiler
      */
     protected function getCompiler(?Environment $environment = null)
+=======
+    protected function getCompiler(Environment $environment = null)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return new Compiler($environment ?? $this->getEnvironment());
     }
 
+<<<<<<< HEAD
     /**
      * @return Environment
      *
@@ -138,5 +158,22 @@ abstract class NodeTestCase extends TestCase
         if (self::class !== $r->getDeclaringClass()->getName()) {
             trigger_deprecation('twig/twig', '3.13', 'Implementing "%s::getTests()" in "%s" is deprecated, implement "provideTests()" instead.', self::class, static::class);
         }
+=======
+    protected function getEnvironment()
+    {
+        return new Environment(new ArrayLoader([]));
+    }
+
+    protected function getVariableGetter($name, $line = false)
+    {
+        $line = $line > 0 ? "// line $line\n" : '';
+
+        return sprintf('%s($context["%s"] ?? null)', $line, $name);
+    }
+
+    protected function getAttributeGetter()
+    {
+        return 'twig_get_attribute($this->env, $this->source, ';
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

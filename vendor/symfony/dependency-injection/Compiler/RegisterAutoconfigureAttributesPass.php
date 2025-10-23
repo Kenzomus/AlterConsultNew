@@ -12,10 +12,15 @@
 namespace Symfony\Component\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+<<<<<<< HEAD
 use Symfony\Component\DependencyInjection\Attribute\Lazy;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\AutoconfigureFailedException;
+=======
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
@@ -44,6 +49,7 @@ final class RegisterAutoconfigureAttributesPass implements CompilerPassInterface
 
     public function processClass(ContainerBuilder $container, \ReflectionClass $class): void
     {
+<<<<<<< HEAD
         $autoconfigure = $class->getAttributes(Autoconfigure::class, \ReflectionAttribute::IS_INSTANCEOF);
         $lazy = $class->getAttributes(Lazy::class, \ReflectionAttribute::IS_INSTANCEOF);
 
@@ -54,6 +60,9 @@ final class RegisterAutoconfigureAttributesPass implements CompilerPassInterface
         $attributes = array_merge($autoconfigure, $lazy);
 
         foreach ($attributes as $attribute) {
+=======
+        foreach ($class->getAttributes(Autoconfigure::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             self::registerForAutoconfiguration($container, $class, $attribute);
         }
     }

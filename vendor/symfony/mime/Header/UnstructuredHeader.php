@@ -29,8 +29,15 @@ class UnstructuredHeader extends AbstractHeader
 
     /**
      * @param string $body
+<<<<<<< HEAD
      */
     public function setBody(mixed $body): void
+=======
+     *
+     * @return void
+     */
+    public function setBody(mixed $body)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->setValue($body);
     }
@@ -50,8 +57,15 @@ class UnstructuredHeader extends AbstractHeader
 
     /**
      * Set the (unencoded) value of this header.
+<<<<<<< HEAD
      */
     public function setValue(string $value): void
+=======
+     *
+     * @return void
+     */
+    public function setValue(string $value)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->value = $value;
     }

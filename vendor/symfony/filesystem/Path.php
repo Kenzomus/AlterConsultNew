@@ -346,13 +346,22 @@ final class Path
         $extension = ltrim($extension, '.');
 
         // No extension for paths
+<<<<<<< HEAD
         if (str_ends_with($path, '/')) {
+=======
+        if ('/' === substr($path, -1)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return $path;
         }
 
         // No actual extension in path
+<<<<<<< HEAD
         if (!$actualExtension) {
             return $path.(str_ends_with($path, '.') ? '' : '.').$extension;
+=======
+        if (empty($actualExtension)) {
+            return $path.('.' === substr($path, -1) ? '' : '.').$extension;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return substr($path, 0, -\strlen($actualExtension)).$extension;
@@ -668,7 +677,11 @@ final class Path
             }
 
             // Only add slash if previous part didn't end with '/' or '\'
+<<<<<<< HEAD
             if (!\in_array(substr($finalPath, -1), ['/', '\\'], true)) {
+=======
+            if (!\in_array(substr($finalPath, -1), ['/', '\\'])) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $finalPath .= '/';
             }
 

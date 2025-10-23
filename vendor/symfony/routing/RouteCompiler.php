@@ -154,7 +154,11 @@ class RouteCompiler implements RouteCompilerInterface
 
             $regexp = $route->getRequirement($varName);
             if (null === $regexp) {
+<<<<<<< HEAD
                 $followingPattern = substr($pattern, $pos);
+=======
+                $followingPattern = (string) substr($pattern, $pos);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 // Find the next static character after the variable that functions as a separator. By default, this separator and '/'
                 // are disallowed for the variable. This default requirement makes sure that optional variables can be matched at all
                 // and that the generating-matching-combination of URLs unambiguous, i.e. the params used for generating the URL are
@@ -292,6 +296,7 @@ class RouteCompiler implements RouteCompilerInterface
         if ('text' === $token[0]) {
             // Text tokens
             return preg_quote($token[1]);
+<<<<<<< HEAD
         }
 
         // Variable tokens
@@ -314,6 +319,30 @@ class RouteCompiler implements RouteCompilerInterface
         }
 
         return $regexp;
+=======
+        } else {
+            // Variable tokens
+            if (0 === $index && 0 === $firstOptional) {
+                // When the only token is an optional variable token, the separator is required
+                return \sprintf('%s(?P<%s>%s)?', preg_quote($token[1]), $token[3], $token[2]);
+            } else {
+                $regexp = \sprintf('%s(?P<%s>%s)', preg_quote($token[1]), $token[3], $token[2]);
+                if ($index >= $firstOptional) {
+                    // Enclose each optional token in a subpattern to make it optional.
+                    // "?:" means it is non-capturing, i.e. the portion of the subject string that
+                    // matched the optional subpattern is not passed back.
+                    $regexp = "(?:$regexp";
+                    $nbTokens = \count($tokens);
+                    if ($nbTokens - 1 == $index) {
+                        // Close the optional subpatterns
+                        $regexp .= str_repeat(')?', $nbTokens - $firstOptional - (0 === $firstOptional ? 1 : 0));
+                    }
+                }
+
+                return $regexp;
+            }
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     private static function transformCapturingGroupsToNonCapturings(string $regexp): string

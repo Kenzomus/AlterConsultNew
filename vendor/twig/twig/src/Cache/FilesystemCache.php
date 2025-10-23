@@ -16,7 +16,11 @@ namespace Twig\Cache;
  *
  * @author Andrew Tch <andrew@noop.lv>
  */
+<<<<<<< HEAD
 class FilesystemCache implements CacheInterface, RemovableCacheInterface
+=======
+class FilesystemCache implements CacheInterface
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     public const FORCE_BYTECODE_INVALIDATION = 1;
 
@@ -50,11 +54,19 @@ class FilesystemCache implements CacheInterface, RemovableCacheInterface
             if (false === @mkdir($dir, 0777, true)) {
                 clearstatcache(true, $dir);
                 if (!is_dir($dir)) {
+<<<<<<< HEAD
                     throw new \RuntimeException(\sprintf('Unable to create the cache directory (%s).', $dir));
                 }
             }
         } elseif (!is_writable($dir)) {
             throw new \RuntimeException(\sprintf('Unable to write in the cache directory (%s).', $dir));
+=======
+                    throw new \RuntimeException(sprintf('Unable to create the cache directory (%s).', $dir));
+                }
+            }
+        } elseif (!is_writable($dir)) {
+            throw new \RuntimeException(sprintf('Unable to write in the cache directory (%s).', $dir));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $tmpFile = tempnam($dir, basename($key));
@@ -73,6 +85,7 @@ class FilesystemCache implements CacheInterface, RemovableCacheInterface
             return;
         }
 
+<<<<<<< HEAD
         throw new \RuntimeException(\sprintf('Failed to write cache file "%s".', $key));
     }
 
@@ -82,6 +95,9 @@ class FilesystemCache implements CacheInterface, RemovableCacheInterface
         if (!@unlink($key) && file_exists($key)) {
             throw new \RuntimeException(\sprintf('Failed to delete cache file "%s".', $key));
         }
+=======
+        throw new \RuntimeException(sprintf('Failed to write cache file "%s".', $key));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getTimestamp(string $key): int

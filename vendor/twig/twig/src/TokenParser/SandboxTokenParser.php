@@ -22,7 +22,11 @@ use Twig\Token;
  * Marks a section of a template as untrusted code that must be evaluated in the sandbox mode.
  *
  *    {% sandbox %}
+<<<<<<< HEAD
  *        {% include 'user.html.twig' %}
+=======
+ *        {% include 'user.html' %}
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *    {% endsandbox %}
  *
  * @see https://twig.symfony.com/doc/api.html#sandbox-extension for details
@@ -34,11 +38,17 @@ final class SandboxTokenParser extends AbstractTokenParser
     public function parse(Token $token): Node
     {
         $stream = $this->parser->getStream();
+<<<<<<< HEAD
         trigger_deprecation('twig/twig', '3.15', \sprintf('The "sandbox" tag is deprecated in "%s" at line %d.', $stream->getSourceContext()->getName(), $token->getLine()));
 
         $stream->expect(Token::BLOCK_END_TYPE);
         $body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
         $stream->expect(Token::BLOCK_END_TYPE);
+=======
+        $stream->expect(/* Token::BLOCK_END_TYPE */ 3);
+        $body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
+        $stream->expect(/* Token::BLOCK_END_TYPE */ 3);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         // in a sandbox tag, only include tags are allowed
         if (!$body instanceof IncludeNode) {
@@ -53,7 +63,11 @@ final class SandboxTokenParser extends AbstractTokenParser
             }
         }
 
+<<<<<<< HEAD
         return new SandboxNode($body, $token->getLine());
+=======
+        return new SandboxNode($body, $token->getLine(), $this->getTag());
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function decideBlockEnd(Token $token): bool

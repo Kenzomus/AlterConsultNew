@@ -26,6 +26,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 final class ResponseEvent extends KernelEvent
 {
+<<<<<<< HEAD
     public function __construct(
         HttpKernelInterface $kernel,
         Request $request,
@@ -33,6 +34,15 @@ final class ResponseEvent extends KernelEvent
         private Response $response,
     ) {
         parent::__construct($kernel, $request, $requestType);
+=======
+    private Response $response;
+
+    public function __construct(HttpKernelInterface $kernel, Request $request, int $requestType, Response $response)
+    {
+        parent::__construct($kernel, $request, $requestType);
+
+        $this->setResponse($response);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getResponse(): Response

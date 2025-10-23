@@ -18,16 +18,29 @@ namespace Symfony\Component\HttpFoundation\Session\Attribute;
  */
 class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Countable
 {
+<<<<<<< HEAD
     protected array $attributes = [];
 
     private string $name = 'attributes';
+=======
+    private string $name = 'attributes';
+    private string $storageKey;
+
+    protected $attributes = [];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @param string $storageKey The key used to store attributes in the session
      */
+<<<<<<< HEAD
     public function __construct(
         private string $storageKey = '_sf2_attributes',
     ) {
+=======
+    public function __construct(string $storageKey = '_sf2_attributes')
+    {
+        $this->storageKey = $storageKey;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getName(): string
@@ -35,12 +48,26 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         return $this->name;
     }
 
+<<<<<<< HEAD
     public function setName(string $name): void
+=======
+    /**
+     * @return void
+     */
+    public function setName(string $name)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->name = $name;
     }
 
+<<<<<<< HEAD
     public function initialize(array &$attributes): void
+=======
+    /**
+     * @return void
+     */
+    public function initialize(array &$attributes)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->attributes = &$attributes;
     }
@@ -60,7 +87,14 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         return \array_key_exists($name, $this->attributes) ? $this->attributes[$name] : $default;
     }
 
+<<<<<<< HEAD
     public function set(string $name, mixed $value): void
+=======
+    /**
+     * @return void
+     */
+    public function set(string $name, mixed $value)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->attributes[$name] = $value;
     }
@@ -70,7 +104,14 @@ class AttributeBag implements AttributeBagInterface, \IteratorAggregate, \Counta
         return $this->attributes;
     }
 
+<<<<<<< HEAD
     public function replace(array $attributes): void
+=======
+    /**
+     * @return void
+     */
+    public function replace(array $attributes)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->attributes = [];
         foreach ($attributes as $key => $value) {

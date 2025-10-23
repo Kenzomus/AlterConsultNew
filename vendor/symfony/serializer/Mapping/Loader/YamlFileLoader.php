@@ -133,8 +133,12 @@ class YamlFileLoader extends FileLoader
 
             $classMetadata->setClassDiscriminatorMapping(new ClassDiscriminatorMapping(
                 $yaml['discriminator_map']['type_property'],
+<<<<<<< HEAD
                 $yaml['discriminator_map']['mapping'],
                 $yaml['discriminator_map']['default_type'] ?? null
+=======
+                $yaml['discriminator_map']['mapping']
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ));
         }
 
@@ -161,7 +165,11 @@ class YamlFileLoader extends FileLoader
 
         $classes = $this->yamlParser->parseFile($this->file, Yaml::PARSE_CONSTANT);
 
+<<<<<<< HEAD
         if (!$classes) {
+=======
+        if (empty($classes)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             return [];
         }
 

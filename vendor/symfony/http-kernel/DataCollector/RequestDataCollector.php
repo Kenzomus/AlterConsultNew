@@ -36,11 +36,20 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
      */
     private \SplObjectStorage $controllers;
     private array $sessionUsages = [];
+<<<<<<< HEAD
 
     public function __construct(
         private ?RequestStack $requestStack = null,
     ) {
         $this->controllers = new \SplObjectStorage();
+=======
+    private ?RequestStack $requestStack;
+
+    public function __construct(?RequestStack $requestStack = null)
+    {
+        $this->controllers = new \SplObjectStorage();
+        $this->requestStack = $requestStack;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
@@ -194,47 +203,110 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['path_info'];
     }
 
+<<<<<<< HEAD
     public function getRequestRequest(): ParameterBag
+=======
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestRequest()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return new ParameterBag($this->data['request_request']->getValue());
     }
 
+<<<<<<< HEAD
     public function getRequestQuery(): ParameterBag
+=======
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestQuery()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return new ParameterBag($this->data['request_query']->getValue());
     }
 
+<<<<<<< HEAD
     public function getRequestFiles(): ParameterBag
+=======
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestFiles()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return new ParameterBag($this->data['request_files']->getValue());
     }
 
+<<<<<<< HEAD
     public function getRequestHeaders(): ParameterBag
+=======
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestHeaders()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return new ParameterBag($this->data['request_headers']->getValue());
     }
 
+<<<<<<< HEAD
     public function getRequestServer(bool $raw = false): ParameterBag
+=======
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestServer(bool $raw = false)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return new ParameterBag($this->data['request_server']->getValue($raw));
     }
 
+<<<<<<< HEAD
     public function getRequestCookies(bool $raw = false): ParameterBag
+=======
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestCookies(bool $raw = false)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return new ParameterBag($this->data['request_cookies']->getValue($raw));
     }
 
+<<<<<<< HEAD
     public function getRequestAttributes(): ParameterBag
+=======
+    /**
+     * @return ParameterBag
+     */
+    public function getRequestAttributes()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return new ParameterBag($this->data['request_attributes']->getValue());
     }
 
+<<<<<<< HEAD
     public function getResponseHeaders(): ParameterBag
+=======
+    /**
+     * @return ParameterBag
+     */
+    public function getResponseHeaders()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return new ParameterBag($this->data['response_headers']->getValue());
     }
 
+<<<<<<< HEAD
     public function getResponseCookies(): ParameterBag
+=======
+    /**
+     * @return ParameterBag
+     */
+    public function getResponseCookies()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return new ParameterBag($this->data['response_cookies']->getValue());
     }
@@ -272,12 +344,26 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['content'];
     }
 
+<<<<<<< HEAD
     public function isJsonRequest(): bool
+=======
+    /**
+     * @return bool
+     */
+    public function isJsonRequest()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return 1 === preg_match('{^application/(?:\w+\++)*json$}i', $this->data['request_headers']['content-type']);
     }
 
+<<<<<<< HEAD
     public function getPrettyJson(): ?string
+=======
+    /**
+     * @return string|null
+     */
+    public function getPrettyJson()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $decoded = json_decode($this->getContent());
 
@@ -309,7 +395,14 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return $this->data['locale'];
     }
 
+<<<<<<< HEAD
     public function getDotenvVars(): ParameterBag
+=======
+    /**
+     * @return ParameterBag
+     */
+    public function getDotenvVars()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return new ParameterBag($this->data['dotenv_vars']->getValue());
     }
@@ -468,12 +561,20 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
                 'line' => $r->getStartLine(),
             ];
 
+<<<<<<< HEAD
             if ($r->isAnonymous()) {
+=======
+            if (str_contains($r->name, '{closure')) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 return $controller;
             }
             $controller['method'] = $r->name;
 
+<<<<<<< HEAD
             if ($class = $r->getClosureCalledClass()) {
+=======
+            if ($class = \PHP_VERSION_ID >= 80111 ? $r->getClosureCalledClass() : $r->getClosureScopeClass()) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $controller['class'] = $class->name;
             } else {
                 return $r->name;

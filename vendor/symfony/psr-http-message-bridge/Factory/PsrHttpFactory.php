@@ -85,7 +85,16 @@ class PsrHttpFactory implements HttpMessageFactoryInterface
         }
 
         $body = $this->streamFactory->createStreamFromResource($symfonyRequest->getContent(true));
+<<<<<<< HEAD
         $format = $symfonyRequest->getContentTypeFormat();
+=======
+
+        if (method_exists(Request::class, 'getContentTypeFormat')) {
+            $format = $symfonyRequest->getContentTypeFormat();
+        } else {
+            $format = $symfonyRequest->getContentType();
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         if ('json' === $format) {
             $parsedBody = json_decode($symfonyRequest->getContent(), true, 512, \JSON_BIGINT_AS_STRING);
@@ -178,7 +187,11 @@ class PsrHttpFactory implements HttpMessageFactoryInterface
 
         $headers = $symfonyResponse->headers->all();
         $cookies = $symfonyResponse->headers->getCookies();
+<<<<<<< HEAD
         if ($cookies) {
+=======
+        if (!empty($cookies)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $headers['Set-Cookie'] = [];
 
             foreach ($cookies as $cookie) {
@@ -195,7 +208,13 @@ class PsrHttpFactory implements HttpMessageFactoryInterface
         }
 
         $protocolVersion = $symfonyResponse->getProtocolVersion();
+<<<<<<< HEAD
 
         return $response->withProtocolVersion($protocolVersion);
+=======
+        $response = $response->withProtocolVersion($protocolVersion);
+
+        return $response;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

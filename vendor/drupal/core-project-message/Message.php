@@ -108,7 +108,10 @@ class Message {
    *   The file to read. Relative paths are relative to the project directory.
    *
    * @return string[]
+<<<<<<< HEAD
    *   The message text.
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
    */
   protected function getMessageFromFile($file) {
     return file_exists($file) ? file($file, FILE_IGNORE_NEW_LINES) : [];

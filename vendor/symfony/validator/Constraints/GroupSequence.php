@@ -11,8 +11,11 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 /**
  * A sequence of validation groups.
  *
@@ -46,6 +49,12 @@ use Symfony\Component\Validator\Attribute\HasNamedArguments;
  *
  *     $validator->validate($address, null, "Address")
  *
+<<<<<<< HEAD
+=======
+ * @Annotation
+ * @Target({"CLASS", "ANNOTATION"})
+ *
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
 #[\Attribute(\Attribute::TARGET_CLASS)]
@@ -56,7 +65,11 @@ class GroupSequence
      *
      * @var array<int, string|string[]|GroupSequence>
      */
+<<<<<<< HEAD
     public array $groups;
+=======
+    public $groups;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * The group in which cascaded objects are validated when validating
@@ -69,15 +82,25 @@ class GroupSequence
      * "Default" group. When validating that class in the "Default" group, the
      * group sequence is used instead, but still the "Default" group should be
      * cascaded to other objects.
+<<<<<<< HEAD
      */
     public string|GroupSequence $cascadedGroup;
+=======
+     *
+     * @var string|GroupSequence
+     */
+    public $cascadedGroup;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Creates a new group sequence.
      *
      * @param array<string|string[]|GroupSequence> $groups The groups in the sequence
      */
+<<<<<<< HEAD
     #[HasNamedArguments]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(array $groups)
     {
         $this->groups = $groups['value'] ?? $groups;

@@ -70,7 +70,11 @@ final class DocLexer extends AbstractLexer
     {
         return $this->token === null
             || ($this->lookahead !== null
+<<<<<<< HEAD
                 && ($this->lookahead->position - $this->token->position) === strlen($this->token->value));
+=======
+                && ($this->lookahead['position'] - $this->token['position']) === strlen($this->token['value']));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -128,4 +132,19 @@ final class DocLexer extends AbstractLexer
 
         return $type;
     }
+<<<<<<< HEAD
+=======
+
+    /** @return array{value: int|string, type:self::T_*|null, position:int} */
+    public function peek(): ?array
+    {
+        $token = parent::peek();
+
+        if ($token === null) {
+            return null;
+        }
+
+        return (array) $token;
+    }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

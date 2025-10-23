@@ -21,10 +21,23 @@ use Symfony\Component\String\UnicodeString;
  */
 abstract class Helper implements HelperInterface
 {
+<<<<<<< HEAD
     protected ?HelperSet $helperSet = null;
 
     public function setHelperSet(?HelperSet $helperSet): void
     {
+=======
+    protected $helperSet;
+
+    /**
+     * @return void
+     */
+    public function setHelperSet(?HelperSet $helperSet = null)
+    {
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->helperSet = $helperSet;
     }
 
@@ -91,6 +104,7 @@ abstract class Helper implements HelperInterface
         return mb_substr($string, $from, $length, $encoding);
     }
 
+<<<<<<< HEAD
     public static function formatTime(int|float $secs, int $precision = 1): string
     {
         $ms = (int) ($secs * 1000);
@@ -106,16 +120,39 @@ abstract class Helper implements HelperInterface
             [60000, 'min'],
             [3600000, 'h'],
             [86_400_000, 'd'],
+=======
+    /**
+     * @return string
+     */
+    public static function formatTime(int|float $secs, int $precision = 1)
+    {
+        $secs = (int) floor($secs);
+
+        if (0 === $secs) {
+            return '< 1 sec';
+        }
+
+        static $timeFormats = [
+            [1, '1 sec', 'secs'],
+            [60, '1 min', 'mins'],
+            [3600, '1 hr', 'hrs'],
+            [86400, '1 day', 'days'],
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         ];
 
         $times = [];
         foreach ($timeFormats as $index => $format) {
+<<<<<<< HEAD
             $milliSeconds = isset($timeFormats[$index + 1]) ? $ms % $timeFormats[$index + 1][0] : $ms;
+=======
+            $seconds = isset($timeFormats[$index + 1]) ? $secs % $timeFormats[$index + 1][0] : $secs;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
             if (isset($times[$index - $precision])) {
                 unset($times[$index - $precision]);
             }
 
+<<<<<<< HEAD
             if (0 === $milliSeconds) {
                 continue;
             }
@@ -128,12 +165,33 @@ abstract class Helper implements HelperInterface
             }
 
             $ms -= $milliSeconds;
+=======
+            if (0 === $seconds) {
+                continue;
+            }
+
+            $unitCount = ($seconds / $format[0]);
+            $times[$index] = 1 === $unitCount ? $format[1] : $unitCount.' '.$format[2];
+
+            if ($secs === $seconds) {
+                break;
+            }
+
+            $secs -= $seconds;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         return implode(', ', array_reverse($times));
     }
 
+<<<<<<< HEAD
     public static function formatMemory(int $memory): string
+=======
+    /**
+     * @return string
+     */
+    public static function formatMemory(int $memory)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($memory >= 1024 * 1024 * 1024) {
             return \sprintf('%.1f GiB', $memory / 1024 / 1024 / 1024);
@@ -150,7 +208,14 @@ abstract class Helper implements HelperInterface
         return \sprintf('%d B', $memory);
     }
 
+<<<<<<< HEAD
     public static function removeDecoration(OutputFormatterInterface $formatter, ?string $string): string
+=======
+    /**
+     * @return string
+     */
+    public static function removeDecoration(OutputFormatterInterface $formatter, ?string $string)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $isDecorated = $formatter->isDecorated();
         $formatter->setDecorated(false);

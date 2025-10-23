@@ -12,6 +12,10 @@
 namespace Symfony\Component\DependencyInjection\Compiler;
 
 use Psr\Container\ContainerInterface as PsrContainerInterface;
+<<<<<<< HEAD
+=======
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\DependencyInjection\Argument\BoundArgument;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,8 +23,13 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\TypedReference;
+<<<<<<< HEAD
 use Symfony\Contracts\Service\Attribute\SubscribedService;
 use Symfony\Contracts\Service\ServiceCollectionInterface;
+=======
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Contracts\Service\Attribute\SubscribedService;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Contracts\Service\ServiceProviderInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
@@ -71,6 +80,11 @@ class RegisterServiceSubscribersPass extends AbstractRecursivePass
             throw new InvalidArgumentException(\sprintf('Service "%s" must implement interface "%s".', $this->currentId, ServiceSubscriberInterface::class));
         }
         $class = $r->name;
+<<<<<<< HEAD
+=======
+        // to remove when symfony/dependency-injection will stop being compatible with symfony/framework-bundle<6.0
+        $replaceDeprecatedSession = $this->container->has('.session.deprecated') && $r->isSubclassOf(AbstractController::class);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $subscriberMap = [];
 
         foreach ($class::getSubscribedServices() as $key => $type) {
@@ -103,6 +117,14 @@ class RegisterServiceSubscribersPass extends AbstractRecursivePass
                 if (!$autowire) {
                     throw new InvalidArgumentException(\sprintf('Service "%s" misses a "container.service_subscriber" tag with "key"/"id" attributes corresponding to entry "%s" as returned by "%s::getSubscribedServices()".', $this->currentId, $key, $class));
                 }
+<<<<<<< HEAD
+=======
+                if ($replaceDeprecatedSession && SessionInterface::class === $type) {
+                    // This prevents triggering the deprecation when building the container
+                    // to remove when symfony/dependency-injection will stop being compatible with symfony/framework-bundle<6.0
+                    $type = '.session.deprecated';
+                }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $serviceMap[$key] = new Reference($type);
             }
 
@@ -135,7 +157,10 @@ class RegisterServiceSubscribersPass extends AbstractRecursivePass
         $value->setBindings([
             PsrContainerInterface::class => new BoundArgument($locatorRef, false),
             ServiceProviderInterface::class => new BoundArgument($locatorRef, false),
+<<<<<<< HEAD
             ServiceCollectionInterface::class => new BoundArgument($locatorRef, false),
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         ] + $value->getBindings());
 
         return parent::processValue($value);

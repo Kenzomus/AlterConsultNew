@@ -24,6 +24,13 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  */
 class StringInput extends ArgvInput
 {
+<<<<<<< HEAD
+=======
+    /**
+     * @deprecated since Symfony 6.1
+     */
+    public const REGEX_STRING = '([^\s]+?)(?:\s|(?<!\\\\)"|(?<!\\\\)\'|$)';
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public const REGEX_UNQUOTED_STRING = '([^\s\\\\]+?)';
     public const REGEX_QUOTED_STRING = '(?:"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"|\'([^\'\\\\]*(?:\\\\.[^\'\\\\]*)*)\')';
 
@@ -40,8 +47,11 @@ class StringInput extends ArgvInput
     /**
      * Tokenizes a string.
      *
+<<<<<<< HEAD
      * @return list<string>
      *
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @throws InvalidArgumentException When unable to parse input (should never happen)
      */
     private function tokenize(string $input): array

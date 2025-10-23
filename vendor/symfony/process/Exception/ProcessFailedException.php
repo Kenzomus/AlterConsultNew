@@ -20,9 +20,16 @@ use Symfony\Component\Process\Process;
  */
 class ProcessFailedException extends RuntimeException
 {
+<<<<<<< HEAD
     public function __construct(
         private Process $process,
     ) {
+=======
+    private Process $process;
+
+    public function __construct(Process $process)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if ($process->isSuccessful()) {
             throw new InvalidArgumentException('Expected a failed process, but the given process was successful.');
         }
@@ -46,7 +53,14 @@ class ProcessFailedException extends RuntimeException
         $this->process = $process;
     }
 
+<<<<<<< HEAD
     public function getProcess(): Process
+=======
+    /**
+     * @return Process
+     */
+    public function getProcess()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return $this->process;
     }

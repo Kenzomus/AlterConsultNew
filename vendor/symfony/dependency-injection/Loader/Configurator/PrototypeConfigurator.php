@@ -38,6 +38,7 @@ class PrototypeConfigurator extends AbstractServiceConfigurator
 
     public const FACTORY = 'load';
 
+<<<<<<< HEAD
     private ?array $excludes = null;
 
     public function __construct(
@@ -49,6 +50,16 @@ class PrototypeConfigurator extends AbstractServiceConfigurator
         private bool $allowParent,
         private ?string $path = null,
     ) {
+=======
+    private PhpFileLoader $loader;
+    private string $resource;
+    private ?array $excludes = null;
+    private bool $allowParent;
+    private ?string $path;
+
+    public function __construct(ServicesConfigurator $parent, PhpFileLoader $loader, Definition $defaults, string $namespace, string $resource, bool $allowParent, ?string $path = null)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $definition = new Definition();
         if (!$defaults->isPublic() || !$defaults->isPrivate()) {
             $definition->setPublic($defaults->isPublic());
@@ -59,6 +70,14 @@ class PrototypeConfigurator extends AbstractServiceConfigurator
         $definition->setBindings(unserialize(serialize($defaults->getBindings())));
         $definition->setChanges([]);
 
+<<<<<<< HEAD
+=======
+        $this->loader = $loader;
+        $this->resource = $resource;
+        $this->allowParent = $allowParent;
+        $this->path = $path;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($parent, $definition, $namespace, $defaults->getTags());
     }
 

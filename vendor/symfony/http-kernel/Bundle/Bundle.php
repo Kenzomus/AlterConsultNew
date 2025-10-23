@@ -24,6 +24,7 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
  */
 abstract class Bundle implements BundleInterface
 {
+<<<<<<< HEAD
     protected string $name;
     protected ExtensionInterface|false|null $extension = null;
     protected string $path;
@@ -32,6 +33,19 @@ abstract class Bundle implements BundleInterface
     private string $namespace;
 
     /**
+=======
+    protected $name;
+    protected $extension;
+    protected $path;
+    private string $namespace;
+
+    /**
+     * @var ContainerInterface|null
+     */
+    protected $container;
+
+    /**
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @return void
      */
     public function boot()

@@ -16,8 +16,11 @@ namespace Symfony\Component\Process\Messenger;
  */
 class RunProcessMessage implements \Stringable
 {
+<<<<<<< HEAD
     public ?string $commandLine = null;
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(
         public readonly array $command,
         public readonly ?string $cwd = null,
@@ -29,6 +32,7 @@ class RunProcessMessage implements \Stringable
 
     public function __toString(): string
     {
+<<<<<<< HEAD
         return $this->commandLine ?? implode(' ', $this->command);
     }
 
@@ -43,5 +47,8 @@ class RunProcessMessage implements \Stringable
         $message->commandLine = $command;
 
         return $message;
+=======
+        return implode(' ', $this->command);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

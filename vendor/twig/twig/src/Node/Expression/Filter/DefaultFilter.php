@@ -11,6 +11,7 @@
 
 namespace Twig\Node\Expression\Filter;
 
+<<<<<<< HEAD
 use Twig\Attribute\FirstClassTwigCallableReady;
 use Twig\Compiler;
 use Twig\Extension\CoreExtension;
@@ -25,6 +26,16 @@ use Twig\Node\Expression\Variable\ContextVariable;
 use Twig\Node\Node;
 use Twig\TwigFilter;
 use Twig\TwigTest;
+=======
+use Twig\Compiler;
+use Twig\Node\Expression\ConditionalExpression;
+use Twig\Node\Expression\ConstantExpression;
+use Twig\Node\Expression\FilterExpression;
+use Twig\Node\Expression\GetAttrExpression;
+use Twig\Node\Expression\NameExpression;
+use Twig\Node\Expression\Test\DefinedTest;
+use Twig\Node\Node;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 /**
  * Returns the value or the default value when it is undefined or empty.
@@ -35,6 +46,7 @@ use Twig\TwigTest;
  */
 class DefaultFilter extends FilterExpression
 {
+<<<<<<< HEAD
     /**
      * @param AbstractExpression $node
      */
@@ -58,11 +70,26 @@ class DefaultFilter extends FilterExpression
             $false = \count($arguments) ? $arguments->getNode('0') : new ConstantExpression('', $node->getTemplateLine());
 
             $node = new ConditionalTernary($test, $default, $false, $node->getTemplateLine());
+=======
+    public function __construct(Node $node, ConstantExpression $filterName, Node $arguments, int $lineno, string $tag = null)
+    {
+        $default = new FilterExpression($node, new ConstantExpression('default', $node->getTemplateLine()), $arguments, $node->getTemplateLine());
+
+        if ('default' === $filterName->getAttribute('value') && ($node instanceof NameExpression || $node instanceof GetAttrExpression)) {
+            $test = new DefinedTest(clone $node, 'defined', new Node(), $node->getTemplateLine());
+            $false = \count($arguments) ? $arguments->getNode(0) : new ConstantExpression('', $node->getTemplateLine());
+
+            $node = new ConditionalExpression($test, $default, $false, $node->getTemplateLine());
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         } else {
             $node = $default;
         }
 
+<<<<<<< HEAD
         parent::__construct($node, $filter, $arguments, $lineno);
+=======
+        parent::__construct($node, $filterName, $arguments, $lineno, $tag);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function compile(Compiler $compiler): void

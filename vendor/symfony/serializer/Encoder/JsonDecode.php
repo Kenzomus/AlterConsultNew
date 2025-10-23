@@ -23,6 +23,14 @@ use Symfony\Component\Serializer\Exception\UnsupportedException;
 class JsonDecode implements DecoderInterface
 {
     /**
+<<<<<<< HEAD
+=======
+     * @deprecated since Symfony 6.4, to be removed in 7.0
+     */
+    protected $serializer;
+
+    /**
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * True to return the result as an associative array, false for a nested stdClass hierarchy.
      */
     public const ASSOCIATIVE = 'json_decode_associative';

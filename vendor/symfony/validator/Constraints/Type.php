@@ -11,11 +11,19 @@
 
 namespace Symfony\Component\Validator\Constraints;
 
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * Validates that a value is of a specific data type.
+=======
+use Symfony\Component\Validator\Constraint;
+
+/**
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
@@ -28,6 +36,7 @@ class Type extends Constraint
         self::INVALID_TYPE_ERROR => 'INVALID_TYPE_ERROR',
     ];
 
+<<<<<<< HEAD
     public string $message = 'This value should be of type {{ type }}.';
     public string|array|null $type = null;
 
@@ -53,6 +62,22 @@ class Type extends Constraint
             $options['value'] = $type;
         } elseif (\is_array($options)) {
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $message = 'This value should be of type {{ type }}.';
+    public $type;
+
+    public function __construct(string|array|null $type, ?string $message = null, ?array $groups = null, mixed $payload = null, array $options = [])
+    {
+        if (\is_array($type) && \is_string(key($type))) {
+            $options = array_merge($type, $options);
+        } elseif (null !== $type) {
+            $options['value'] = $type;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         parent::__construct($options, $groups, $payload);

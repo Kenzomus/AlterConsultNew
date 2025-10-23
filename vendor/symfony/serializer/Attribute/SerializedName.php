@@ -14,14 +14,26 @@ namespace Symfony\Component\Serializer\Attribute;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
 /**
+<<<<<<< HEAD
+=======
+ * Annotation class for @SerializedName().
+ *
+ * @Annotation
+ * @NamedArgumentConstructor
+ * @Target({"PROPERTY", "METHOD"})
+ *
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  * @author Fabien Bourigault <bourigaultfabien@gmail.com>
  */
 #[\Attribute(\Attribute::TARGET_METHOD | \Attribute::TARGET_PROPERTY)]
 class SerializedName
 {
+<<<<<<< HEAD
     /**
      * @param string $serializedName The name of the property as it will be serialized
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(private readonly string $serializedName)
     {
         if ('' === $serializedName) {

@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 
+<<<<<<< HEAD
 7.3
 ---
 
@@ -42,6 +43,8 @@ CHANGELOG
  * Require explicit argument when calling `JsonResponse::setCallback()`, `Response::setExpires/setLastModified/setEtag()`, `MockArraySessionStorage/NativeSessionStorage::setMetadataBag()`, `NativeSessionStorage::setSaveHandler()`
  * Add argument `$statusCode` to `Response::sendHeaders()` and `StreamedResponse::sendHeaders()`
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 6.4
 ---
 
@@ -50,7 +53,11 @@ CHANGELOG
  * Add `UriSigner` from the HttpKernel component
  * Add `partitioned` flag to `Cookie` (CHIPS Cookie)
  * Add argument `bool $flush = true` to `Response::send()`
+<<<<<<< HEAD
  * Make `MongoDbSessionHandler` instantiable with the mongodb extension directly
+=======
+* Make `MongoDbSessionHandler` instantiable with the mongodb extension directly
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 6.3
 ---

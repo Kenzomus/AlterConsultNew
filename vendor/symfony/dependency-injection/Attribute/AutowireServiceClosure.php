@@ -20,9 +20,12 @@ use Symfony\Component\DependencyInjection\Reference;
 #[\Attribute(\Attribute::TARGET_PARAMETER)]
 class AutowireServiceClosure extends Autowire
 {
+<<<<<<< HEAD
     /**
      * @param string $service The service id to wrap in the closure
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(string $service)
     {
         parent::__construct(new ServiceClosureArgument(new Reference($service)));

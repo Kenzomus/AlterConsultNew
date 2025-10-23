@@ -20,6 +20,7 @@ use Twig\Node\Node;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 class BlockReferenceExpression extends AbstractExpression implements SupportDefinedTestInterface
 {
     use SupportDefinedTestDeprecationTrait;
@@ -34,25 +35,44 @@ class BlockReferenceExpression extends AbstractExpression implements SupportDefi
             trigger_deprecation('twig/twig', '3.15', 'Not passing a "%s" instance to the "node" argument of "%s" is deprecated ("%s" given).', AbstractExpression::class, static::class, $name::class);
         }
 
+=======
+class BlockReferenceExpression extends AbstractExpression
+{
+    public function __construct(Node $name, ?Node $template, int $lineno, string $tag = null)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $nodes = ['name' => $name];
         if (null !== $template) {
             $nodes['template'] = $template;
         }
 
+<<<<<<< HEAD
         parent::__construct($nodes, ['output' => false], $lineno);
+=======
+        parent::__construct($nodes, ['is_defined_test' => false, 'output' => false], $lineno, $tag);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function compile(Compiler $compiler): void
     {
+<<<<<<< HEAD
         if ($this->definedTest) {
+=======
+        if ($this->getAttribute('is_defined_test')) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->compileTemplateCall($compiler, 'hasBlock');
         } else {
             if ($this->getAttribute('output')) {
                 $compiler->addDebugInfo($this);
 
+<<<<<<< HEAD
                 $compiler->write('yield from ');
                 $this
                     ->compileTemplateCall($compiler, 'yieldBlock')
+=======
+                $this
+                    ->compileTemplateCall($compiler, 'displayBlock')
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     ->raw(";\n");
             } else {
                 $this->compileTemplateCall($compiler, 'renderBlock');
@@ -66,15 +86,27 @@ class BlockReferenceExpression extends AbstractExpression implements SupportDefi
             $compiler->write('$this');
         } else {
             $compiler
+<<<<<<< HEAD
                 ->write('$this->load(')
                 ->subcompile($this->getNode('template'))
                 ->raw(', ')
+=======
+                ->write('$this->loadTemplate(')
+                ->subcompile($this->getNode('template'))
+                ->raw(', ')
+                ->repr($this->getTemplateName())
+                ->raw(', ')
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ->repr($this->getTemplateLine())
                 ->raw(')')
             ;
         }
 
+<<<<<<< HEAD
         $compiler->raw(\sprintf('->unwrap()->%s', $method));
+=======
+        $compiler->raw(sprintf('->%s', $method));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         return $this->compileBlockArguments($compiler);
     }

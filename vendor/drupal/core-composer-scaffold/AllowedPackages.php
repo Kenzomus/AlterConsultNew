@@ -66,7 +66,11 @@ class AllowedPackages implements PostPackageEventListenerInterface {
    *
    * We will implicitly allow the projects 'drupal/legacy-scaffold-assets'
    * and 'drupal/core' to scaffold files, if they are present. Any other
+<<<<<<< HEAD
    * project must be explicitly allowed in the top-level composer.json
+=======
+   * project must be explicitly whitelisted in the top-level composer.json
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
    * file in order to be allowed to override scaffold files.
    * Configuration for packages specified later will override configuration
    * specified by packages listed earlier. In other words, the last listed
@@ -111,7 +115,11 @@ class AllowedPackages implements PostPackageEventListenerInterface {
    *
    * We will implicitly allow the projects 'drupal/legacy-scaffold-assets'
    * and 'drupal/core' to scaffold files, if they are present. Any other
+<<<<<<< HEAD
    * project must be explicitly allowed in the top-level composer.json
+=======
+   * project must be explicitly whitelisted in the top-level composer.json
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
    * file in order to be allowed to override scaffold files.
    *
    * @return array

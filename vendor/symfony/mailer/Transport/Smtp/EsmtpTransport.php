@@ -32,8 +32,11 @@ class EsmtpTransport extends SmtpTransport
     private string $username = '';
     private string $password = '';
     private array $capabilities;
+<<<<<<< HEAD
     private bool $autoTls = true;
     private bool $requireTls = false;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     public function __construct(string $host = 'localhost', int $port = 0, ?bool $tls = null, ?EventDispatcherInterface $dispatcher = null, ?LoggerInterface $logger = null, ?AbstractStream $stream = null, ?array $authenticators = null)
     {
@@ -102,6 +105,7 @@ class EsmtpTransport extends SmtpTransport
         return $this->password;
     }
 
+<<<<<<< HEAD
     /**
      * @return $this
      */
@@ -132,6 +136,8 @@ class EsmtpTransport extends SmtpTransport
         return $this->requireTls;
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function setAuthenticators(array $authenticators): void
     {
         $this->authenticators = [];
@@ -175,26 +181,39 @@ class EsmtpTransport extends SmtpTransport
 
         /** @var SocketStream $stream */
         $stream = $this->getStream();
+<<<<<<< HEAD
         $tlsStarted = $stream->isTls();
         // WARNING: !$stream->isTLS() is right, 100% sure :)
         // if you think that the ! should be removed, read the code again
         // if doing so "fixes" your issue then it probably means your SMTP server behaves incorrectly or is wrongly configured
         if ($this->autoTls && !$stream->isTLS() && \defined('OPENSSL_VERSION_NUMBER') && \array_key_exists('STARTTLS', $this->capabilities)) {
+=======
+        // WARNING: !$stream->isTLS() is right, 100% sure :)
+        // if you think that the ! should be removed, read the code again
+        // if doing so "fixes" your issue then it probably means your SMTP server behaves incorrectly or is wrongly configured
+        if (!$stream->isTLS() && \defined('OPENSSL_VERSION_NUMBER') && \array_key_exists('STARTTLS', $this->capabilities)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->executeCommand("STARTTLS\r\n", [220]);
 
             if (!$stream->startTLS()) {
                 throw new TransportException('Unable to connect with STARTTLS.');
             }
 
+<<<<<<< HEAD
             $tlsStarted = true;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $response = $this->executeCommand(\sprintf("EHLO %s\r\n", $this->getLocalDomain()), [250]);
             $this->capabilities = $this->parseCapabilities($response);
         }
 
+<<<<<<< HEAD
         if (!$tlsStarted && $this->isTlsRequired()) {
             throw new TransportException('TLS required but neither TLS or STARTTLS are in use.');
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (\array_key_exists('AUTH', $this->capabilities)) {
             $this->handleAuth($this->capabilities['AUTH']);
         }
@@ -217,11 +236,14 @@ class EsmtpTransport extends SmtpTransport
         return $capabilities;
     }
 
+<<<<<<< HEAD
     protected function serverSupportsSmtpUtf8(): bool
     {
         return \array_key_exists('SMTPUTF8', $this->capabilities);
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private function handleAuth(array $modes): void
     {
         if (!$this->username) {

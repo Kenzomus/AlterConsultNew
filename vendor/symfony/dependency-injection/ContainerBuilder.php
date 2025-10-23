@@ -11,7 +11,10 @@
 
 namespace Symfony\Component\DependencyInjection;
 
+<<<<<<< HEAD
 use Composer\Autoload\ClassLoader;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Composer\InstalledVersions;
 use Symfony\Component\Config\Resource\ClassExistenceResource;
 use Symfony\Component\Config\Resource\ComposerResource;
@@ -47,7 +50,10 @@ use Symfony\Component\DependencyInjection\LazyProxy\Instantiator\RealServiceInst
 use Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+<<<<<<< HEAD
 use Symfony\Component\ErrorHandler\DebugClassLoader;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
@@ -119,7 +125,11 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     private array $vendors;
 
     /**
+<<<<<<< HEAD
      * @var array<string, bool> whether a path is in a vendor directory
+=======
+     * @var array<string, bool> the cache for paths being in vendor directories
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     private array $pathsInVendor = [];
 
@@ -129,7 +139,11 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     private array $autoconfiguredInstanceof = [];
 
     /**
+<<<<<<< HEAD
      * @var array<string, callable[]>
+=======
+     * @var array<string, callable>
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      */
     private array $autoconfiguredAttributes = [];
 
@@ -175,8 +189,15 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      *
      * If you are not using the loaders and therefore don't want
      * to depend on the Config component, set this flag to false.
+<<<<<<< HEAD
      */
     public function setResourceTracking(bool $track): void
+=======
+     *
+     * @return void
+     */
+    public function setResourceTracking(bool $track)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->trackResources = $track;
     }
@@ -191,13 +212,27 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
 
     /**
      * Sets the instantiator to be used when fetching proxies.
+<<<<<<< HEAD
      */
     public function setProxyInstantiator(InstantiatorInterface $proxyInstantiator): void
+=======
+     *
+     * @return void
+     */
+    public function setProxyInstantiator(InstantiatorInterface $proxyInstantiator)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->proxyInstantiator = $proxyInstantiator;
     }
 
+<<<<<<< HEAD
     public function registerExtension(ExtensionInterface $extension): void
+=======
+    /**
+     * @return void
+     */
+    public function registerExtension(ExtensionInterface $extension)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->extensions[$extension->getAlias()] = $extension;
 
@@ -264,6 +299,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         if ($resource instanceof GlobResource && $this->inVendors($resource->getPrefix())) {
             return $this;
         }
+<<<<<<< HEAD
         if ($resource instanceof FileExistenceResource && $this->inVendors($resource->getResource())) {
             return $this;
         }
@@ -311,6 +347,8 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
                 return $this;
             }
         }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         $this->resources[(string) $resource] = $resource;
 
@@ -446,7 +484,11 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         if (!$exists) {
             $this->addResource(new FileExistenceResource($path));
 
+<<<<<<< HEAD
             return false;
+=======
+            return $exists;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         if (is_dir($path)) {
@@ -459,7 +501,11 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
             $this->addResource(new FileResource($path));
         }
 
+<<<<<<< HEAD
         return true;
+=======
+        return $exists;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -522,9 +568,17 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     /**
      * Sets a service.
      *
+<<<<<<< HEAD
      * @throws BadMethodCallException When this ContainerBuilder is compiled
      */
     public function set(string $id, ?object $service): void
+=======
+     * @return void
+     *
+     * @throws BadMethodCallException When this ContainerBuilder is compiled
+     */
+    public function set(string $id, ?object $service)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($this->isCompiled() && (isset($this->definitions[$id]) && !$this->definitions[$id]->isSynthetic())) {
             // setting a synthetic service on a compiled container is alright
@@ -538,6 +592,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
 
     /**
      * Removes a service definition.
+<<<<<<< HEAD
      */
     public function removeDefinition(string $id): void
     {
@@ -546,6 +601,16 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
             if ('.' !== ($id[0] ?? '-')) {
                 $this->removedIds[$id] = true;
             }
+=======
+     *
+     * @return void
+     */
+    public function removeDefinition(string $id)
+    {
+        if (isset($this->definitions[$id])) {
+            unset($this->definitions[$id]);
+            $this->removedIds[$id] = true;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
     }
 
@@ -649,9 +714,17 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * parameter, the value will still be 'bar' as defined in the ContainerBuilder
      * constructor.
      *
+<<<<<<< HEAD
      * @throws BadMethodCallException When this ContainerBuilder is compiled
      */
     public function merge(self $container): void
+=======
+     * @return void
+     *
+     * @throws BadMethodCallException When this ContainerBuilder is compiled
+     */
+    public function merge(self $container)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ($this->isCompiled()) {
             throw new BadMethodCallException('Cannot merge on a compiled container.');
@@ -671,10 +744,13 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
             foreach ($otherBag->allDeprecated() as $name => $deprecated) {
                 $parameterBag->deprecate($name, ...$deprecated);
             }
+<<<<<<< HEAD
 
             foreach ($otherBag->allNonEmpty() as $name => $message) {
                 $parameterBag->cannotBeEmpty($name, $message);
             }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         if ($this->trackResources) {
@@ -717,11 +793,20 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
             $this->autoconfiguredInstanceof[$interface] = $childDefinition;
         }
 
+<<<<<<< HEAD
         foreach ($container->getAttributeAutoconfigurators() as $attribute => $configurators) {
             $this->autoconfiguredAttributes[$attribute] = array_merge(
                 $this->autoconfiguredAttributes[$attribute] ?? [],
                 $configurators)
             ;
+=======
+        foreach ($container->getAutoconfiguredAttributes() as $attribute => $configurator) {
+            if (isset($this->autoconfiguredAttributes[$attribute])) {
+                throw new InvalidArgumentException(\sprintf('"%s" has already been autoconfigured and merge() does not support merging autoconfiguration for the same attribute.', $attribute));
+            }
+
+            $this->autoconfiguredAttributes[$attribute] = $configurator;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
     }
 
@@ -743,8 +828,15 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * Prepends a config array to the configs of the given extension.
      *
      * @param array<string, mixed> $config
+<<<<<<< HEAD
      */
     public function prependExtensionConfig(string $name, array $config): void
+=======
+     *
+     * @return void
+     */
+    public function prependExtensionConfig(string $name, array $config)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!isset($this->extensionConfigs[$name])) {
             $this->extensionConfigs[$name] = [];
@@ -767,6 +859,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         $this->parameterBag->deprecate($name, $package, $version, $message);
     }
 
+<<<<<<< HEAD
     public function parameterCannotBeEmpty(string $name, string $message): void
     {
         if (!$this->parameterBag instanceof ParameterBag) {
@@ -776,6 +869,8 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         $this->parameterBag->cannotBeEmpty($name, $message);
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * Compiles the container.
      *
@@ -795,8 +890,15 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      *                                     on the environment (false). In general, this should be set to "true"
      *                                     when you want to use the current ContainerBuilder directly, and to
      *                                     "false" when the container is dumped instead.
+<<<<<<< HEAD
      */
     public function compile(bool $resolveEnvPlaceholders = false): void
+=======
+     *
+     * @return void
+     */
+    public function compile(bool $resolveEnvPlaceholders = false)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $compiler = $this->getCompiler();
 
@@ -832,9 +934,12 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         parent::compile();
 
         foreach ($this->definitions + $this->aliasDefinitions as $id => $definition) {
+<<<<<<< HEAD
             if ('.' === ($id[0] ?? '-')) {
                 continue;
             }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if (!$definition->isPublic() || $definition->isPrivate()) {
                 $this->removedIds[$id] = true;
             }
@@ -860,8 +965,15 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * Adds the service aliases.
      *
      * @param array<string, string|Alias> $aliases
+<<<<<<< HEAD
      */
     public function addAliases(array $aliases): void
+=======
+     *
+     * @return void
+     */
+    public function addAliases(array $aliases)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($aliases as $alias => $id) {
             $this->setAlias($alias, $id);
@@ -872,8 +984,15 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * Sets the service aliases.
      *
      * @param array<string, string|Alias> $aliases
+<<<<<<< HEAD
      */
     public function setAliases(array $aliases): void
+=======
+     *
+     * @return void
+     */
+    public function setAliases(array $aliases)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->aliasDefinitions = [];
         $this->addAliases($aliases);
@@ -904,6 +1023,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         return $this->aliasDefinitions[$alias] = $id;
     }
 
+<<<<<<< HEAD
     public function removeAlias(string $alias): void
     {
         if (isset($this->aliasDefinitions[$alias])) {
@@ -911,6 +1031,16 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
             if ('.' !== ($alias[0] ?? '-')) {
                 $this->removedIds[$alias] = true;
             }
+=======
+    /**
+     * @return void
+     */
+    public function removeAlias(string $alias)
+    {
+        if (isset($this->aliasDefinitions[$alias])) {
+            unset($this->aliasDefinitions[$alias]);
+            $this->removedIds[$alias] = true;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
     }
 
@@ -942,7 +1072,11 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     /**
      * Registers a service definition.
      *
+<<<<<<< HEAD
      * This method allows for simple registration of service definition
+=======
+     * This methods allows for simple registration of service definition
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * with a fluid interface.
      */
     public function register(string $id, ?string $class = null): Definition
@@ -951,6 +1085,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     }
 
     /**
+<<<<<<< HEAD
      * This method provides a fluid interface for easily registering a child
      * service definition of the given parent service.
      */
@@ -960,6 +1095,8 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     }
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Registers an autowired service definition.
      *
      * This method implements a shortcut for using setDefinition() with
@@ -974,8 +1111,15 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * Adds the service definitions.
      *
      * @param array<string, Definition> $definitions
+<<<<<<< HEAD
      */
     public function addDefinitions(array $definitions): void
+=======
+     *
+     * @return void
+     */
+    public function addDefinitions(array $definitions)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($definitions as $id => $definition) {
             $this->setDefinition($id, $definition);
@@ -986,8 +1130,15 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * Sets the service definitions.
      *
      * @param array<string, Definition> $definitions
+<<<<<<< HEAD
      */
     public function setDefinitions(array $definitions): void
+=======
+     *
+     * @return void
+     */
+    public function setDefinitions(array $definitions)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->definitions = [];
         $this->addDefinitions($definitions);
@@ -1353,6 +1504,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     }
 
     /**
+<<<<<<< HEAD
      * Returns service ids for a given tag, asserting they have the "container.excluded" tag.
      *
      *  Example:
@@ -1385,6 +1537,8 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     }
 
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Returns all tags the defined services use.
      *
      * @return string[]
@@ -1409,7 +1563,14 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         return array_values(array_diff($this->findTags(), $this->usedTags));
     }
 
+<<<<<<< HEAD
     public function addExpressionLanguageProvider(ExpressionFunctionProviderInterface $provider): void
+=======
+    /**
+     * @return void
+     */
+    public function addExpressionLanguageProvider(ExpressionFunctionProviderInterface $provider)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->expressionLanguageProviders[] = $provider;
     }
@@ -1449,7 +1610,11 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      */
     public function registerAttributeForAutoconfiguration(string $attributeClass, callable $configurator): void
     {
+<<<<<<< HEAD
         $this->autoconfiguredAttributes[$attributeClass][] = $configurator;
+=======
+        $this->autoconfiguredAttributes[$attributeClass] = $configurator;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -1490,6 +1655,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
     }
 
     /**
+<<<<<<< HEAD
      * @return array<class-string, callable>
      *
      * @deprecated Use {@see getAttributeAutoconfigurators()} instead
@@ -1515,6 +1681,12 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      */
     public function getAttributeAutoconfigurators(): array
     {
+=======
+     * @return array<string, callable>
+     */
+    public function getAutoconfiguredAttributes(): array
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         return $this->autoconfiguredAttributes;
     }
 
@@ -1724,7 +1896,11 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      */
     public static function hash(mixed $value): string
     {
+<<<<<<< HEAD
         $hash = substr(base64_encode(hash('xxh128', serialize($value), true)), 0, 7);
+=======
+        $hash = substr(base64_encode(hash('sha256', serialize($value), true)), 0, 7);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         return str_replace(['/', '+'], ['.', '_'], $hash);
     }
@@ -1818,10 +1994,15 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         }
 
         foreach ($this->vendors as $vendor) {
+<<<<<<< HEAD
             if (\in_array($path[\strlen($vendor)] ?? '', ['/', \DIRECTORY_SEPARATOR], true) && str_starts_with($path, $vendor)) {
                 $this->pathsInVendor[$vendor.\DIRECTORY_SEPARATOR.'composer'] = false;
                 $this->addResource(new FileResource($vendor.\DIRECTORY_SEPARATOR.'composer'.\DIRECTORY_SEPARATOR.'installed.json'));
                 $this->pathsInVendor[$vendor.\DIRECTORY_SEPARATOR.'composer'] = true;
+=======
+            if (str_starts_with($path, $vendor) && false !== strpbrk(substr($path, \strlen($vendor), 1), '/'.\DIRECTORY_SEPARATOR)) {
+                $this->addResource(new FileResource($vendor.'/composer/installed.json'));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
                 return $this->pathsInVendor[$path] = true;
             }

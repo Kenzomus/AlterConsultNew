@@ -20,11 +20,23 @@ use Symfony\Component\DependencyInjection\ServiceLocator as BaseServiceLocator;
  */
 class ServiceLocator extends BaseServiceLocator
 {
+<<<<<<< HEAD
     public function __construct(
         private \Closure $factory,
         private array $serviceMap,
         private ?array $serviceTypes = null,
     ) {
+=======
+    private \Closure $factory;
+    private array $serviceMap;
+    private ?array $serviceTypes;
+
+    public function __construct(\Closure $factory, array $serviceMap, ?array $serviceTypes = null)
+    {
+        $this->factory = $factory;
+        $this->serviceMap = $serviceMap;
+        $this->serviceTypes = $serviceTypes;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($serviceMap);
     }
 

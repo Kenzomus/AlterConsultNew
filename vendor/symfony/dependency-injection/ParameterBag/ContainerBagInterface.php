@@ -33,11 +33,20 @@ interface ContainerBagInterface extends ContainerInterface
      *
      * @param TValue $value
      *
+<<<<<<< HEAD
+=======
+     * @return mixed
+     *
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * @psalm-return (TValue is scalar ? array|scalar : array<array|scalar>)
      *
      * @throws ParameterNotFoundException if a placeholder references a parameter that does not exist
      */
+<<<<<<< HEAD
     public function resolveValue(mixed $value): mixed;
+=======
+    public function resolveValue(mixed $value);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Escape parameter placeholders %.

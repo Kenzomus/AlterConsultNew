@@ -24,7 +24,14 @@ use Symfony\Component\DependencyInjection\Exception\RuntimeException;
  */
 class ResolveInstanceofConditionalsPass implements CompilerPassInterface
 {
+<<<<<<< HEAD
     public function process(ContainerBuilder $container): void
+=======
+    /**
+     * @return void
+     */
+    public function process(ContainerBuilder $container)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         foreach ($container->getAutoconfiguredInstanceof() as $interface => $definition) {
             if ($definition->getArguments()) {
@@ -127,7 +134,11 @@ class ResolveInstanceofConditionalsPass implements CompilerPassInterface
                 foreach ($tags as $k => $v) {
                     if (null === $definition->getDecoratedService() || $interface === $definition->getClass() || \in_array($k, $tagsToKeep, true)) {
                         foreach ($v as $v) {
+<<<<<<< HEAD
                             if ($definition->hasTag($k) && \in_array($v, $definition->getTag($k), true)) {
+=======
+                            if ($definition->hasTag($k) && \in_array($v, $definition->getTag($k))) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                                 continue;
                             }
                             $definition->addTag($k, $v);
@@ -149,11 +160,14 @@ class ResolveInstanceofConditionalsPass implements CompilerPassInterface
                 ->setAbstract(true);
         }
 
+<<<<<<< HEAD
         if ($definition->isSynthetic()) {
             // Ignore container.excluded tag on synthetic services
             $definition->clearTag('container.excluded');
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         return $definition;
     }
 

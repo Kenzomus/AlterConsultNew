@@ -6,8 +6,13 @@ The Mailer component helps sending emails.
 Getting Started
 ---------------
 
+<<<<<<< HEAD
 ```bash
 composer require symfony/mailer
+=======
+```
+$ composer require symfony/mailer
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 ```
 
 ```php
@@ -64,6 +69,7 @@ $email = (new TemplatedEmail())
 $mailer->send($email);
 ```
 
+<<<<<<< HEAD
 Sponsor
 -------
 
@@ -73,6 +79,8 @@ The Mailer component for Symfony 7.2 is [backed][1] by:
 
 Help Symfony by [sponsoring][3] its development!
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 Resources
 ---------
 
@@ -81,7 +89,10 @@ Resources
  * [Report issues](https://github.com/symfony/symfony/issues) and
    [send Pull Requests](https://github.com/symfony/symfony/pulls)
    in the [main Symfony repository](https://github.com/symfony/symfony)
+<<<<<<< HEAD
 
 [1]: https://symfony.com/backers
 [2]: https://www.sweego.io/
 [3]: https://symfony.com/sponsor
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c

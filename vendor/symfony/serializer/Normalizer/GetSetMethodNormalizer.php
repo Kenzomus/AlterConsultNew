@@ -34,28 +34,65 @@ use Symfony\Component\Serializer\Attribute\Ignore;
  *
  * @author Nils Adermann <naderman@naderman.de>
  * @author Kévin Dunglas <dunglas@gmail.com>
+<<<<<<< HEAD
  */
 final class GetSetMethodNormalizer extends AbstractObjectNormalizer
+=======
+ *
+ * @final since Symfony 6.3
+ */
+class GetSetMethodNormalizer extends AbstractObjectNormalizer
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     private static $reflectionCache = [];
     private static array $setterAccessibleCache = [];
 
     public function getSupportedTypes(?string $format): array
     {
+<<<<<<< HEAD
         return ['object' => true];
     }
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+=======
+        return ['object' => __CLASS__ === static::class || $this->hasCacheableSupportsMethod()];
+    }
+
+    /**
+     * @param array $context
+     */
+    public function supportsNormalization(mixed $data, ?string $format = null /* , array $context = [] */): bool
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return parent::supportsNormalization($data, $format) && $this->supports($data::class, true);
     }
 
+<<<<<<< HEAD
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+=======
+    /**
+     * @param array $context
+     */
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null /* , array $context = [] */): bool
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return parent::supportsDenormalization($data, $type, $format) && $this->supports($type, false);
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @deprecated since Symfony 6.3, use "getSupportedTypes()" instead
+     */
+    public function hasCacheableSupportsMethod(): bool
+    {
+        trigger_deprecation('symfony/serializer', '6.3', 'The "%s()" method is deprecated, implement "%s::getSupportedTypes()" instead.', __METHOD__, get_debug_type($this));
+
+        return __CLASS__ === static::class;
+    }
+
+    /**
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Checks if the given class has any getter or setter method.
      */
     private function supports(string $class, bool $readAttributes): bool
@@ -147,7 +184,14 @@ final class GetSetMethodNormalizer extends AbstractObjectNormalizer
         return null;
     }
 
+<<<<<<< HEAD
     protected function setAttributeValue(object $object, string $attribute, mixed $value, ?string $format = null, array $context = []): void
+=======
+    /**
+     * @return void
+     */
+    protected function setAttributeValue(object $object, string $attribute, mixed $value, ?string $format = null, array $context = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $setter = 'set'.$attribute;
         $key = $object::class.':'.$setter;
@@ -161,7 +205,11 @@ final class GetSetMethodNormalizer extends AbstractObjectNormalizer
         }
     }
 
+<<<<<<< HEAD
     protected function isAllowedAttribute($classOrObject, string $attribute, ?string $format = null, array $context = []): bool
+=======
+    protected function isAllowedAttribute($classOrObject, string $attribute, ?string $format = null, array $context = [])
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!parent::isAllowedAttribute($classOrObject, $attribute, $format, $context)) {
             return false;

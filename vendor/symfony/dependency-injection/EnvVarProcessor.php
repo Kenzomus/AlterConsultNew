@@ -14,27 +14,45 @@ namespace Symfony\Component\DependencyInjection;
 use Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
 use Symfony\Component\DependencyInjection\Exception\ParameterCircularReferenceException;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
+<<<<<<< HEAD
 use Symfony\Contracts\Service\ResetInterface;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  */
+<<<<<<< HEAD
 class EnvVarProcessor implements EnvVarProcessorInterface, ResetInterface
 {
     /** @var \Traversable<EnvVarLoaderInterface> */
     private \Traversable $loaders;
     /** @var \Traversable<EnvVarLoaderInterface> */
     private \Traversable $originalLoaders;
+=======
+class EnvVarProcessor implements EnvVarProcessorInterface
+{
+    private ContainerInterface $container;
+    /** @var \Traversable<EnvVarLoaderInterface> */
+    private \Traversable $loaders;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private array $loadedVars = [];
 
     /**
      * @param \Traversable<EnvVarLoaderInterface>|null $loaders
      */
+<<<<<<< HEAD
     public function __construct(
         private ContainerInterface $container,
         ?\Traversable $loaders = null,
     ) {
         $this->originalLoaders = $this->loaders = $loaders ?? new \ArrayIterator();
+=======
+    public function __construct(ContainerInterface $container, ?\Traversable $loaders = null)
+    {
+        $this->container = $container;
+        $this->loaders = $loaders ?? new \ArrayIterator();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public static function getProvidedTypes(): array
@@ -60,7 +78,10 @@ class EnvVarProcessor implements EnvVarProcessorInterface, ResetInterface
             'enum' => \BackedEnum::class,
             'shuffle' => 'array',
             'defined' => 'bool',
+<<<<<<< HEAD
             'urlencode' => 'string',
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         ];
     }
 
@@ -151,9 +172,15 @@ class EnvVarProcessor implements EnvVarProcessorInterface, ResetInterface
 
             if ('file' === $prefix) {
                 return file_get_contents($file);
+<<<<<<< HEAD
             }
 
             return require $file;
+=======
+            } else {
+                return require $file;
+            }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $returnNull = false;
@@ -230,7 +257,11 @@ class EnvVarProcessor implements EnvVarProcessorInterface, ResetInterface
                 return null;
             }
 
+<<<<<<< HEAD
             if (!isset(static::getProvidedTypes()[$prefix])) {
+=======
+            if (!isset($this->getProvidedTypes()[$prefix])) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 throw new RuntimeException(\sprintf('Unsupported env var prefix "%s".', $prefix));
             }
 
@@ -310,12 +341,15 @@ class EnvVarProcessor implements EnvVarProcessorInterface, ResetInterface
             if (!isset($params['scheme'], $params['host'])) {
                 throw new RuntimeException(\sprintf('Invalid URL in env var "%s": scheme and host expected.', $name));
             }
+<<<<<<< HEAD
             if (('\\' !== \DIRECTORY_SEPARATOR || 'file' !== $params['scheme']) && false !== ($i = strpos($env, '\\')) && $i < strcspn($env, '?#')) {
                 throw new RuntimeException(\sprintf('Invalid URL in env var "%s": backslashes are not allowed.', $name));
             }
             if (\ord($env[0]) <= 32 || \ord($env[-1]) <= 32 || \strlen($env) !== strcspn($env, "\r\n\t")) {
                 throw new RuntimeException(\sprintf('Invalid URL in env var "%s": leading/trailing ASCII control characters or whitespaces are not allowed.', $name));
             }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $params += [
                 'port' => null,
                 'user' => null,
@@ -369,6 +403,7 @@ class EnvVarProcessor implements EnvVarProcessorInterface, ResetInterface
             return trim($env);
         }
 
+<<<<<<< HEAD
         if ('urlencode' === $prefix) {
             return rawurlencode($env);
         }
@@ -385,4 +420,8 @@ class EnvVarProcessor implements EnvVarProcessorInterface, ResetInterface
             $this->container->resetEnvCache();
         }
     }
+=======
+        throw new RuntimeException(\sprintf('Unsupported env var prefix "%s" for env name "%s".', $prefix, $name));
+    }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

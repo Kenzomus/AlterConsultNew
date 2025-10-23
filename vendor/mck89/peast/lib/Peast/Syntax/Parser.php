@@ -139,9 +139,13 @@ class Parser extends ParserAbstract
             "allowReturn" => false,
             "allowIn" => false,
             "allowYield" => false,
+<<<<<<< HEAD
             "allowAwait" => false,
             "inSwitch" => false,
             "inIteration" => false
+=======
+            "allowAwait" => false
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         );
         //If async/await is not enabled remove the
         //relative context properties
@@ -678,10 +682,13 @@ class Parser extends ParserAbstract
     {
         if ($token = $this->scanner->consume("continue")) {
             
+<<<<<<< HEAD
             if (!$this->context->inIteration) {
                 $this->error("Illegal continue statement");
             }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $node = $this->createNode("ContinueStatement", $token);
             
             if ($this->scanner->noLineTerminators() &&
@@ -715,11 +722,14 @@ class Parser extends ParserAbstract
                 $this->assertEndOfStatement();
             } else {
                 $this->scanner->consume(";");
+<<<<<<< HEAD
 
                 if (!$this->context->inIteration &&
                     !$this->context->inSwitch) {
                     $this->error("Illegal break statement");
                 }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
             
             return $this->completeNode($node);
@@ -859,9 +869,13 @@ class Parser extends ParserAbstract
                     array("allowIn" => true), "parseExpression"
                 )) &&
                 $this->scanner->consume(")") &&
+<<<<<<< HEAD
                 ($cases = $this->isolateContext(
                     array("inSwitch" => true), "parseCaseBlock"
                 )) !== null
+=======
+                ($cases = $this->parseCaseBlock()) !== null
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ) {
             
                 $node = $this->createNode("SwitchStatement", $token);
@@ -1019,9 +1033,13 @@ class Parser extends ParserAbstract
     {
         if ($token = $this->scanner->consume("do")) {
             
+<<<<<<< HEAD
             if (($body = $this->isolateContext(
                     array("inIteration" => true), "parseStatement"
                 )) &&
+=======
+            if (($body = $this->parseStatement()) &&
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $this->scanner->consume("while") &&
                 $this->scanner->consume("(") &&
                 ($test = $this->isolateContext(
@@ -1057,9 +1075,13 @@ class Parser extends ParserAbstract
                     array("allowIn" => true), "parseExpression"
                 )) &&
                 $this->scanner->consume(")") &&
+<<<<<<< HEAD
                 $body = $this->isolateContext(
                     array("inIteration" => true), "parseStatement"
                 )
+=======
+                $body = $this->parseStatement()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ) {
                     
                 $node = $this->createNode("WhileStatement", $token);
@@ -1113,9 +1135,13 @@ class Parser extends ParserAbstract
                 );
 
                 if ($this->scanner->consume(")") &&
+<<<<<<< HEAD
                     $body = $this->isolateContext(
                         array("inIteration" => true), "parseStatement"
                     )
+=======
+                    $body = $this->parseStatement()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ) {
 
                     $node = $this->createNode("ForStatement", $forToken);
@@ -1161,9 +1187,13 @@ class Parser extends ParserAbstract
                             array("allowIn" => true), "parseExpression"
                         )) &&
                         $this->scanner->consume(")") &&
+<<<<<<< HEAD
                         $body = $this->isolateContext(
                             array("inIteration" => true), "parseStatement"
                         )
+=======
+                        $body = $this->parseStatement()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     ) {
 
                         $node = $this->createNode(
@@ -1180,9 +1210,13 @@ class Parser extends ParserAbstract
                             array("allowIn" => true), "parseAssignmentExpression"
                         )) &&
                         $this->scanner->consume(")") &&
+<<<<<<< HEAD
                         $body = $this->isolateContext(
                             array("inIteration" => true), "parseStatement"
                         )
+=======
+                        $body = $this->parseStatement()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     ) {
 
                         $node = $this->createNode(
@@ -1219,9 +1253,13 @@ class Parser extends ParserAbstract
                     array("allowIn" => true), "parseExpression"
                 )) &&
                 $this->scanner->consume(")") &&
+<<<<<<< HEAD
                 $body = $this->isolateContext(
                     array("inIteration" => true), "parseStatement"
                 )
+=======
+                $body = $this->parseStatement()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ) {
                 
                 $node = $this->createNode("ForInStatement", $forToken);
@@ -1235,9 +1273,13 @@ class Parser extends ParserAbstract
                     array("allowIn" => true), "parseAssignmentExpression"
                 )) &&
                 $this->scanner->consume(")") &&
+<<<<<<< HEAD
                 $body = $this->isolateContext(
                     array("inIteration" => true), "parseStatement"
                 )
+=======
+                $body = $this->parseStatement()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             ) {
                 
                 $node = $this->createNode("ForOfStatement", $forToken);
@@ -1264,9 +1306,13 @@ class Parser extends ParserAbstract
                     );
                     
                     if ($this->scanner->consume(")") &&
+<<<<<<< HEAD
                         $body = $this->isolateContext(
                             array("inIteration" => true), "parseStatement"
                         )
+=======
+                        $body = $this->parseStatement()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     ) {
                         
                         $node = $this->createNode("ForStatement", $forToken);
@@ -1314,9 +1360,13 @@ class Parser extends ParserAbstract
                 );
                 
                 if ($this->scanner->consume(")") &&
+<<<<<<< HEAD
                     $body = $this->isolateContext(
                         array("inIteration" => true), "parseStatement"
                     )
+=======
+                    $body = $this->parseStatement()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ) {
                     
                     $node = $this->createNode("ForStatement", $forToken);
@@ -1347,9 +1397,13 @@ class Parser extends ParserAbstract
                         array("allowIn" => true), "parseExpression"
                     )) &&
                     $this->scanner->consume(")") &&
+<<<<<<< HEAD
                     $body = $this->isolateContext(
                         array("inIteration" => true), "parseStatement"
                     )
+=======
+                    $body = $this->parseStatement()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ) {
                     
                     $node = $this->createNode("ForInStatement", $forToken);
@@ -1367,9 +1421,13 @@ class Parser extends ParserAbstract
                         "parseAssignmentExpression"
                     )) &&
                     $this->scanner->consume(")") &&
+<<<<<<< HEAD
                     $body = $this->isolateContext(
                         array("inIteration" => true), "parseStatement"
                     )
+=======
+                    $body = $this->parseStatement()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 ) {
                     
                     $node = $this->createNode("ForOfStatement", $forToken);
@@ -1644,6 +1702,7 @@ class Parser extends ParserAbstract
                 break;
             }
         }
+<<<<<<< HEAD
         //Check if it ends with a comma, then check if the comma is a trailing comma,
         //in that case throw an error if the trailing comma feature is not enabled
         if ($hasComma &&
@@ -1652,6 +1711,11 @@ class Parser extends ParserAbstract
             if ($token && $token->value === ")") {
                 $this->error();
             }
+=======
+        if ($hasComma &&
+            !$this->features->trailingCommaFunctionCallDeclaration) {
+            $this->error();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
         return $list;
     }
@@ -1664,11 +1728,15 @@ class Parser extends ParserAbstract
     protected function parseFunctionBody()
     {
         $body = $this->isolateContext(
+<<<<<<< HEAD
             array(
                 "allowReturn" => true,
                 "inSwitch" => false,
                 "inIteration" => false
             ),
+=======
+            array("allowReturn" => true),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             "parseStatementList",
             array(true)
         );
@@ -1883,6 +1951,7 @@ class Parser extends ParserAbstract
             );
             
             if ($declarations) {
+<<<<<<< HEAD
                 // "const" requires that all declarations have an initializer
                 if ($token->value === "const") {
                     foreach ($declarations as $dec) {
@@ -1892,6 +1961,8 @@ class Parser extends ParserAbstract
                     }
                 }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $this->assertEndOfStatement();
                 $node = $this->createNode("VariableDeclaration", $token);
                 $node->setKind($token->value);
@@ -2086,6 +2157,7 @@ class Parser extends ParserAbstract
                 }
                 
                 if ($source = $this->parseFromClause()) {
+<<<<<<< HEAD
                     $node = $this->createNode("ExportAllDeclaration", $token);
                     $node->setSource($source);
                     $node->setExported($exported);
@@ -2094,6 +2166,12 @@ class Parser extends ParserAbstract
                         $node->setAttributes($attrs);
                     }
                     $this->assertEndOfStatement();
+=======
+                    $this->assertEndOfStatement();
+                    $node = $this->createNode("ExportAllDeclaration", $token);
+                    $node->setSource($source);
+                    $node->setExported($exported);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     return $this->completeNode($node);
                 }
                 
@@ -2143,10 +2221,13 @@ class Parser extends ParserAbstract
                 if ($source = $this->parseFromClause()) {
                     $node->setSource($source);
                 }
+<<<<<<< HEAD
                 if ($this->features->importAttributes &&
                     ($attrs = $this->parseWithClause())) {
                     $node->setAttributes($attrs);
                 }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $this->assertEndOfStatement();
                 return $this->completeNode($node);
 
@@ -2264,6 +2345,7 @@ class Parser extends ParserAbstract
         if ($token = $this->scanner->consume("import")) {
             
             if ($source = $this->parseStringLiteral()) {
+<<<<<<< HEAD
                 $attrs = $this->features->importAttributes ?
                          $this->parseWithClause() : null;
                 $this->assertEndOfStatement();
@@ -2272,20 +2354,34 @@ class Parser extends ParserAbstract
                 if ($attrs) {
                     $node->setAttributes($attrs);
                 }
+=======
+                
+                $this->assertEndOfStatement();
+                $node = $this->createNode("ImportDeclaration", $token);
+                $node->setSource($source);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 return $this->completeNode($node);
                 
             } elseif (($specifiers = $this->parseImportClause()) !== null &&
                 $source = $this->parseFromClause()
             ) {
+<<<<<<< HEAD
                 $attrs = $this->features->importAttributes ?
                          $this->parseWithClause() : null;
+=======
+                
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $this->assertEndOfStatement();
                 $node = $this->createNode("ImportDeclaration", $token);
                 $node->setSpecifiers($specifiers);
                 $node->setSource($source);
+<<<<<<< HEAD
                 if ($attrs) {
                     $node->setAttributes($attrs);
                 }
+=======
+                
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 return $this->completeNode($node);
             }
             
@@ -2414,6 +2510,7 @@ class Parser extends ParserAbstract
     }
     
     /**
+<<<<<<< HEAD
      * Parses a with clause
      * 
      * @return array|null
@@ -2467,6 +2564,8 @@ class Parser extends ParserAbstract
     }
     
     /**
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
      * Parses a binding pattern
      * 
      * @return Node\ArrayPattern|Node\ObjectPattern|null
@@ -2732,14 +2831,24 @@ class Parser extends ParserAbstract
             }
         }
 
+<<<<<<< HEAD
         //Handle the case where get, set and async are methods name and not the
         //definition of a getter/setter or the start of an async function
         if (($kind !== Node\MethodDefinition::KIND_METHOD || ($async && !$generator)) &&
+=======
+        //Handle the case where get and set are methods name and not the
+        //definition of a getter/setter
+        if ($kind !== Node\MethodDefinition::KIND_METHOD &&
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->scanner->consume("(")
         ) {
             $this->scanner->setState($state);
             $kind = Node\MethodDefinition::KIND_METHOD;
+<<<<<<< HEAD
             $error = $async = false;
+=======
+            $error = false;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         if ($prop = $this->parseClassElementName()) {
@@ -2809,11 +2918,14 @@ class Parser extends ParserAbstract
                 }
             }
         }
+<<<<<<< HEAD
         //Handle the case where "async" is a class field name
         elseif ($this->features->classFields && $async && !$generator) {
             $this->scanner->setState($state);
             $error = $async = false;
         }
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         if ($error) {
             $this->error();
@@ -4103,6 +4215,7 @@ class Parser extends ParserAbstract
     {
         if (($token = $this->scanner->consume("import")) &&
             $this->scanner->consume("(")) {
+<<<<<<< HEAD
             $source = $this->isolateContext(
                 array("allowIn" => true), "parseAssignmentExpression"
             );
@@ -4122,6 +4235,19 @@ class Parser extends ParserAbstract
                     return $this->completeNode($node);
                 }
             }
+=======
+
+            if (($source = $this->isolateContext(
+                    array("allowIn" => true), "parseAssignmentExpression"
+                )) &&
+                $this->scanner->consume(")")
+            ) {
+                $node = $this->createNode("ImportExpression", $token);
+                $node->setSource($source);
+                return $this->completeNode($node);
+            }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $this->error();
         }
         return null;

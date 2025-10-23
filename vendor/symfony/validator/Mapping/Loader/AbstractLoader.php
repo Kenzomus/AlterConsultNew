@@ -33,7 +33,11 @@ abstract class AbstractLoader implements LoaderInterface
      */
     public const DEFAULT_NAMESPACE = '\\Symfony\\Component\\Validator\\Constraints\\';
 
+<<<<<<< HEAD
     protected array $namespaces = [];
+=======
+    protected $namespaces = [];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @var array<class-string, bool>
@@ -49,8 +53,15 @@ abstract class AbstractLoader implements LoaderInterface
      *     $this->addNamespaceAlias('mynamespace', '\\Acme\\Package\\Constraints\\');
      *
      *     $constraint = $this->newConstraint('mynamespace:NotNull');
+<<<<<<< HEAD
      */
     protected function addNamespaceAlias(string $alias, string $namespace): void
+=======
+     *
+     * @return void
+     */
+    protected function addNamespaceAlias(string $alias, string $namespace)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->namespaces[$alias] = $namespace;
     }
@@ -97,6 +108,7 @@ abstract class AbstractLoader implements LoaderInterface
                 return new $className($options['value']);
             }
 
+<<<<<<< HEAD
             if (array_is_list($options)) {
                 return new $className($options);
             }
@@ -111,5 +123,11 @@ abstract class AbstractLoader implements LoaderInterface
         }
 
         return new $className();
+=======
+            return new $className(...$options);
+        }
+
+        return new $className($options);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 }

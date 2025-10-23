@@ -14,7 +14,11 @@ if (\PHP_VERSION_ID >= 80300) {
 }
 
 if (!function_exists('ldap_exop_sync') && function_exists('ldap_exop')) {
+<<<<<<< HEAD
     function ldap_exop_sync(\LDAP\Connection $ldap, string $request_oid, ?string $request_data = null, ?array $controls = null, &$response_data = null, &$response_oid = null): bool { return ldap_exop($ldap, $request_oid, $request_data, $controls, $response_data, $response_oid); }
+=======
+    function ldap_exop_sync(\LDAP\Connection $ldap, string $request_oid, string $request_data = null, array $controls = null, &$response_data = null, &$response_oid = null): bool { return ldap_exop($ldap, $request_oid, $request_data, $controls, $response_data, $response_oid); }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }
 
 if (!function_exists('ldap_connect_wallet') && function_exists('ldap_connect')) {

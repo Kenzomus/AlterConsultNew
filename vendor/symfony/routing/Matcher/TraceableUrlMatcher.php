@@ -27,9 +27,18 @@ class TraceableUrlMatcher extends UrlMatcher
     public const ROUTE_ALMOST_MATCHES = 1;
     public const ROUTE_MATCHES = 2;
 
+<<<<<<< HEAD
     protected array $traces;
 
     public function getTraces(string $pathinfo): array
+=======
+    protected $traces;
+
+    /**
+     * @return array
+     */
+    public function getTraces(string $pathinfo)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->traces = [];
 
@@ -41,7 +50,14 @@ class TraceableUrlMatcher extends UrlMatcher
         return $this->traces;
     }
 
+<<<<<<< HEAD
     public function getTracesForRequest(Request $request): array
+=======
+    /**
+     * @return array
+     */
+    public function getTracesForRequest(Request $request)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->request = $request;
         $traces = $this->getTraces($request->getPathInfo());
@@ -125,7 +141,11 @@ class TraceableUrlMatcher extends UrlMatcher
             }
 
             if ('/' !== $pathinfo && !$hasTrailingVar && $hasTrailingSlash === ($trimmedPathinfo === $pathinfo)) {
+<<<<<<< HEAD
                 if ($supportsTrailingSlash && (!$requiredMethods || \in_array('GET', $requiredMethods, true))) {
+=======
+                if ($supportsTrailingSlash && (!$requiredMethods || \in_array('GET', $requiredMethods))) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     $this->addTrace('Route matches!', self::ROUTE_MATCHES, $name, $route);
 
                     return $this->allow = $this->allowSchemes = [];
@@ -140,7 +160,11 @@ class TraceableUrlMatcher extends UrlMatcher
                 continue;
             }
 
+<<<<<<< HEAD
             if ($requiredMethods && !\in_array($method, $requiredMethods, true)) {
+=======
+            if ($requiredMethods && !\in_array($method, $requiredMethods)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $this->allow = array_merge($this->allow, $requiredMethods);
                 $this->addTrace(\sprintf('Method "%s" does not match any of the required methods (%s)', $this->context->getMethod(), implode(', ', $requiredMethods)), self::ROUTE_ALMOST_MATCHES, $name, $route);
                 continue;

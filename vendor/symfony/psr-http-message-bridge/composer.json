@@ -16,6 +16,7 @@
         }
     ],
     "require": {
+<<<<<<< HEAD
         "php": ">=8.2",
         "psr/http-message": "^1.0|^2.0",
         "symfony/http-foundation": "^6.4|^7.0"
@@ -26,13 +27,29 @@
         "symfony/event-dispatcher": "^6.4|^7.0",
         "symfony/framework-bundle": "^6.4|^7.0",
         "symfony/http-kernel": "^6.4|^7.0",
+=======
+        "php": ">=8.1",
+        "psr/http-message": "^1.0|^2.0",
+        "symfony/http-foundation": "^5.4|^6.0|^7.0"
+    },
+    "require-dev": {
+        "symfony/browser-kit": "^5.4|^6.0|^7.0",
+        "symfony/config": "^5.4|^6.0|^7.0",
+        "symfony/event-dispatcher": "^5.4|^6.0|^7.0",
+        "symfony/framework-bundle": "^6.2|^7.0",
+        "symfony/http-kernel": "^6.2|^7.0",
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         "nyholm/psr7": "^1.1",
         "php-http/discovery": "^1.15",
         "psr/log": "^1.1.4|^2|^3"
     },
     "conflict": {
         "php-http/discovery": "<1.15",
+<<<<<<< HEAD
         "symfony/http-kernel": "<6.4"
+=======
+        "symfony/http-kernel": "<6.2"
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     },
     "config": {
         "allow-plugins": {

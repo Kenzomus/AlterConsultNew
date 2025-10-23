@@ -47,6 +47,7 @@ class RequestContext
 
     public static function fromUri(string $uri, string $host = 'localhost', string $scheme = 'http', int $httpPort = 80, int $httpsPort = 443): self
     {
+<<<<<<< HEAD
         if (false !== ($i = strpos($uri, '\\')) && $i < strcspn($uri, '?#')) {
             $uri = '';
         }
@@ -54,6 +55,8 @@ class RequestContext
             $uri = '';
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $uri = parse_url($uri);
         $scheme = $uri['scheme'] ?? $scheme;
         $host = $uri['host'] ?? $host;

@@ -24,7 +24,15 @@ interface ArgumentResolverInterface
     /**
      * Returns the arguments to pass to the controller.
      *
+<<<<<<< HEAD
      * @throws \RuntimeException When no value could be provided for a required argument
      */
     public function getArguments(Request $request, callable $controller, ?\ReflectionFunctionAbstract $reflector = null): array;
+=======
+     * @param \ReflectionFunctionAbstract|null $reflector
+     *
+     * @throws \RuntimeException When no value could be provided for a required argument
+     */
+    public function getArguments(Request $request, callable $controller/* , \ReflectionFunctionAbstract $reflector = null */): array;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

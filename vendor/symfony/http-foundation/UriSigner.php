@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpFoundation;
 
+<<<<<<< HEAD
 use Psr\Clock\ClockInterface;
 use Symfony\Component\HttpFoundation\Exception\ExpiredSignedUriException;
 use Symfony\Component\HttpFoundation\Exception\LogicException;
@@ -18,11 +19,14 @@ use Symfony\Component\HttpFoundation\Exception\SignedUriException;
 use Symfony\Component\HttpFoundation\Exception\UnsignedUriException;
 use Symfony\Component\HttpFoundation\Exception\UnverifiedSignedUriException;
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  */
 class UriSigner
 {
+<<<<<<< HEAD
     private const STATUS_VALID = 1;
     private const STATUS_INVALID = 2;
     private const STATUS_MISSING = 3;
@@ -41,6 +45,22 @@ class UriSigner
         if (!$secret) {
             throw new \InvalidArgumentException('A non-empty secret is required.');
         }
+=======
+    private string $secret;
+    private string $parameter;
+
+    /**
+     * @param string $parameter Query string parameter to use
+     */
+    public function __construct(#[\SensitiveParameter] string $secret, string $parameter = '_hash')
+    {
+        if (!$secret) {
+            throw new \InvalidArgumentException('A non-empty secret is required.');
+        }
+
+        $this->secret = $secret;
+        $this->parameter = $parameter;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -48,6 +68,7 @@ class UriSigner
      *
      * The given URI is signed by adding the query string parameter
      * which value depends on the URI and the secret.
+<<<<<<< HEAD
      *
      * @param \DateTimeInterface|\DateInterval|int|null $expiration The expiration for the given URI.
      *                                                              If $expiration is a \DateTimeInterface, it's expected to be the exact date + time.
@@ -69,6 +90,11 @@ class UriSigner
             throw new \TypeError(\sprintf('The second argument of "%s()" must be an instance of "%s" or "%s", an integer or null (%s given).', __METHOD__, \DateTimeInterface::class, \DateInterval::class, get_debug_type($expiration)));
         }
 
+=======
+     */
+    public function sign(string $uri): string
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $url = parse_url($uri);
         $params = [];
 
@@ -76,6 +102,7 @@ class UriSigner
             parse_str($url['query'], $params);
         }
 
+<<<<<<< HEAD
         if (isset($params[$this->hashParameter])) {
             throw new LogicException(\sprintf('URI query parameter conflict: parameter name "%s" is reserved.', $this->hashParameter));
         }
@@ -90,21 +117,47 @@ class UriSigner
 
         $uri = $this->buildUrl($url, $params);
         $params[$this->hashParameter] = $this->computeHash($uri);
+=======
+        $uri = $this->buildUrl($url, $params);
+        $params[$this->parameter] = $this->computeHash($uri);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         return $this->buildUrl($url, $params);
     }
 
     /**
      * Checks that a URI contains the correct hash.
+<<<<<<< HEAD
      * Also checks if the URI has not expired (If you used expiration during signing).
      */
     public function check(string $uri): bool
     {
         return self::STATUS_VALID === $this->doVerify($uri);
+=======
+     */
+    public function check(string $uri): bool
+    {
+        $url = parse_url($uri);
+        $params = [];
+
+        if (isset($url['query'])) {
+            parse_str($url['query'], $params);
+        }
+
+        if (empty($params[$this->parameter])) {
+            return false;
+        }
+
+        $hash = $params[$this->parameter];
+        unset($params[$this->parameter]);
+
+        return hash_equals($this->computeHash($this->buildUrl($url, $params)), $hash);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function checkRequest(Request $request): bool
     {
+<<<<<<< HEAD
         return self::STATUS_VALID === $this->doVerify(self::normalize($request));
     }
 
@@ -134,11 +187,21 @@ class UriSigner
         }
 
         throw new ExpiredSignedUriException();
+=======
+        $qs = ($qs = $request->server->get('QUERY_STRING')) ? '?'.$qs : '';
+
+        // we cannot use $request->getUri() here as we want to work with the original URI (no query string reordering)
+        return $this->check($request->getSchemeAndHttpHost().$request->getBaseUrl().$request->getPathInfo().$qs);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     private function computeHash(string $uri): string
     {
+<<<<<<< HEAD
         return strtr(rtrim(base64_encode(hash_hmac('sha256', $uri, $this->secret, true)), '='), ['/' => '_', '+' => '-']);
+=======
+        return base64_encode(hash_hmac('sha256', $uri, $this->secret, true));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     private function buildUrl(array $url, array $params = []): string
@@ -158,6 +221,7 @@ class UriSigner
 
         return $scheme.$user.$pass.$host.$port.$path.$query.$fragment;
     }
+<<<<<<< HEAD
 
     private function getExpirationTime(\DateTimeInterface|\DateInterval|int $expiration): string
     {
@@ -220,4 +284,10 @@ class UriSigner
 
         return $uri;
     }
+=======
+}
+
+if (!class_exists(\Symfony\Component\HttpKernel\UriSigner::class, false)) {
+    class_alias(UriSigner::class, \Symfony\Component\HttpKernel\UriSigner::class);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

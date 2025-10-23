@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <!-- <?= $_message = \sprintf('%s (%d %s)', $exceptionMessage, $statusCode, $statusText); ?> -->
+=======
+<!-- <?= $_message = sprintf('%s (%d %s)', $exceptionMessage, $statusCode, $statusText); ?> -->
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 <!DOCTYPE html>
 <html lang="en">
     <head>

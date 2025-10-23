@@ -19,10 +19,20 @@ use Symfony\Component\Mime\RawMessage;
  */
 class SendEmailMessage
 {
+<<<<<<< HEAD
     public function __construct(
         private RawMessage $message,
         private ?Envelope $envelope = null,
     ) {
+=======
+    private RawMessage $message;
+    private ?Envelope $envelope;
+
+    public function __construct(RawMessage $message, ?Envelope $envelope = null)
+    {
+        $this->message = $message;
+        $this->envelope = $envelope;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getMessage(): RawMessage

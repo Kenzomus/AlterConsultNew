@@ -33,6 +33,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class FragmentListener implements EventSubscriberInterface
 {
+<<<<<<< HEAD
     /**
      * @param string $fragmentPath The path that triggers this listener
      */
@@ -40,6 +41,18 @@ class FragmentListener implements EventSubscriberInterface
         private UriSigner $signer,
         private string $fragmentPath = '/_fragment',
     ) {
+=======
+    private UriSigner $signer;
+    private string $fragmentPath;
+
+    /**
+     * @param string $fragmentPath The path that triggers this listener
+     */
+    public function __construct(UriSigner $signer, string $fragmentPath = '/_fragment')
+    {
+        $this->signer = $signer;
+        $this->fragmentPath = $fragmentPath;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -67,7 +80,11 @@ class FragmentListener implements EventSubscriberInterface
         }
 
         parse_str($request->query->get('_path', ''), $attributes);
+<<<<<<< HEAD
         $attributes['_check_controller_is_allowed'] = true;
+=======
+        $attributes['_check_controller_is_allowed'] = -1; // @deprecated, switch to true in Symfony 7
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $request->attributes->add($attributes);
         $request->attributes->set('_route_params', array_replace($request->attributes->get('_route_params', []), $attributes));
         $request->query->remove('_path');

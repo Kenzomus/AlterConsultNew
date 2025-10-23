@@ -17,9 +17,15 @@ use Twig\Node\Node;
 /**
  * Used to make node visitors compatible with Twig 1.x and 2.x.
  *
+<<<<<<< HEAD
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @deprecated since Twig 3.9 (to be removed in 4.0)
+=======
+ * To be removed in Twig 3.1.
+ *
+ * @author Fabien Potencier <fabien@symfony.com>
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  */
 abstract class AbstractNodeVisitor implements NodeVisitorInterface
 {

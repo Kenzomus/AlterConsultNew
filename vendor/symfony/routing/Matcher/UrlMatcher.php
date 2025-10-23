@@ -32,10 +32,20 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
     public const REQUIREMENT_MISMATCH = 1;
     public const ROUTE_MATCH = 2;
 
+<<<<<<< HEAD
     /**
      * Collects HTTP methods that would be allowed for the request.
      */
     protected array $allow = [];
+=======
+    /** @var RequestContext */
+    protected $context;
+
+    /**
+     * Collects HTTP methods that would be allowed for the request.
+     */
+    protected $allow = [];
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * Collects URI schemes that would be allowed for the request.
@@ -43,12 +53,20 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
      * @internal
      */
     protected array $allowSchemes = [];
+<<<<<<< HEAD
     protected ?Request $request = null;
     protected ExpressionLanguage $expressionLanguage;
+=======
+
+    protected $routes;
+    protected $request;
+    protected $expressionLanguage;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /**
      * @var ExpressionFunctionProviderInterface[]
      */
+<<<<<<< HEAD
     protected array $expressionLanguageProviders = [];
 
     public function __construct(
@@ -58,6 +76,20 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
     }
 
     public function setContext(RequestContext $context): void
+=======
+    protected $expressionLanguageProviders = [];
+
+    public function __construct(RouteCollection $routes, RequestContext $context)
+    {
+        $this->routes = $routes;
+        $this->context = $context;
+    }
+
+    /**
+     * @return void
+     */
+    public function setContext(RequestContext $context)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->context = $context;
     }
@@ -93,7 +125,14 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
         return $ret;
     }
 
+<<<<<<< HEAD
     public function addExpressionLanguageProvider(ExpressionFunctionProviderInterface $provider): void
+=======
+    /**
+     * @return void
+     */
+    public function addExpressionLanguageProvider(ExpressionFunctionProviderInterface $provider)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $this->expressionLanguageProviders[] = $provider;
     }
@@ -159,7 +198,11 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
             }
 
             if ('/' !== $pathinfo && !$hasTrailingVar && $hasTrailingSlash === ($trimmedPathinfo === $pathinfo)) {
+<<<<<<< HEAD
                 if ($supportsTrailingSlash && (!$requiredMethods || \in_array('GET', $requiredMethods, true))) {
+=======
+                if ($supportsTrailingSlash && (!$requiredMethods || \in_array('GET', $requiredMethods))) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                     return $this->allow = $this->allowSchemes = [];
                 }
                 continue;
@@ -170,7 +213,11 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
                 continue;
             }
 
+<<<<<<< HEAD
             if ($requiredMethods && !\in_array($method, $requiredMethods, true)) {
+=======
+            if ($requiredMethods && !\in_array($method, $requiredMethods)) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $this->allow = array_merge($this->allow, $requiredMethods);
                 continue;
             }
@@ -197,10 +244,13 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
         }
         $attributes['_route'] = $name;
 
+<<<<<<< HEAD
         if ($mapping = $route->getOption('mapping')) {
             $attributes['_route_mapping'] = $mapping;
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         return $this->mergeDefaults($attributes, $defaults);
     }
 
@@ -209,8 +259,24 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
      *
      * @return array The first element represents the status, the second contains additional information
      */
+<<<<<<< HEAD
     protected function handleRouteRequirements(string $pathinfo, string $name, Route $route, array $routeParameters): array
     {
+=======
+    protected function handleRouteRequirements(string $pathinfo, string $name, Route $route/* , array $routeParameters */): array
+    {
+        if (\func_num_args() < 4) {
+            trigger_deprecation('symfony/routing', '6.1', 'The "%s()" method will have a new "array $routeParameters" argument in version 7.0, not defining it is deprecated.', __METHOD__);
+            $routeParameters = [];
+        } else {
+            $routeParameters = func_get_arg(3);
+
+            if (!\is_array($routeParameters)) {
+                throw new \TypeError(\sprintf('"%s": Argument $routeParameters is expected to be an array, got "%s".', __METHOD__, get_debug_type($routeParameters)));
+            }
+        }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         // expression condition
         if ($route->getCondition() && !$this->getExpressionLanguage()->evaluate($route->getCondition(), [
             'context' => $this->context,
@@ -237,7 +303,14 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
         return $defaults;
     }
 
+<<<<<<< HEAD
     protected function getExpressionLanguage(): ExpressionLanguage
+=======
+    /**
+     * @return ExpressionLanguage
+     */
+    protected function getExpressionLanguage()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!isset($this->expressionLanguage)) {
             if (!class_exists(ExpressionLanguage::class)) {

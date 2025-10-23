@@ -32,9 +32,21 @@ use Symfony\Component\HttpKernel\Profiler\Profiler;
  */
 class ProfilerListener implements EventSubscriberInterface
 {
+<<<<<<< HEAD
     private ?\Throwable $exception = null;
     /** @var \SplObjectStorage<Request, Profile> */
     private \SplObjectStorage $profiles;
+=======
+    private Profiler $profiler;
+    private ?RequestMatcherInterface $matcher;
+    private bool $onlyException;
+    private bool $onlyMainRequests;
+    private ?\Throwable $exception = null;
+    /** @var \SplObjectStorage<Request, Profile> */
+    private \SplObjectStorage $profiles;
+    private RequestStack $requestStack;
+    private ?string $collectParameter;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /** @var \SplObjectStorage<Request, Request|null> */
     private \SplObjectStorage $parents;
 
@@ -42,6 +54,7 @@ class ProfilerListener implements EventSubscriberInterface
      * @param bool $onlyException    True if the profiler only collects data when an exception occurs, false otherwise
      * @param bool $onlyMainRequests True if the profiler only collects data when the request is the main request, false otherwise
      */
+<<<<<<< HEAD
     public function __construct(
         private Profiler $profiler,
         private RequestStack $requestStack,
@@ -52,6 +65,18 @@ class ProfilerListener implements EventSubscriberInterface
     ) {
         $this->profiles = new \SplObjectStorage();
         $this->parents = new \SplObjectStorage();
+=======
+    public function __construct(Profiler $profiler, RequestStack $requestStack, ?RequestMatcherInterface $matcher = null, bool $onlyException = false, bool $onlyMainRequests = false, ?string $collectParameter = null)
+    {
+        $this->profiler = $profiler;
+        $this->matcher = $matcher;
+        $this->onlyException = $onlyException;
+        $this->onlyMainRequests = $onlyMainRequests;
+        $this->profiles = new \SplObjectStorage();
+        $this->parents = new \SplObjectStorage();
+        $this->requestStack = $requestStack;
+        $this->collectParameter = $collectParameter;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**

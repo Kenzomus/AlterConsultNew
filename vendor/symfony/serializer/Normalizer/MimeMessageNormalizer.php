@@ -30,7 +30,11 @@ use Symfony\Component\Serializer\SerializerInterface;
  *
  * Emails using resources for any parts are not serializable.
  */
+<<<<<<< HEAD
 final class MimeMessageNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface
+=======
+final class MimeMessageNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface, CacheableSupportsMethodInterface
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     private NormalizerInterface&DenormalizerInterface $serializer;
     private array $headerClassMap;
@@ -44,12 +48,23 @@ final class MimeMessageNormalizer implements NormalizerInterface, DenormalizerIn
 
     public function getSupportedTypes(?string $format): array
     {
+<<<<<<< HEAD
         return [
             Message::class => true,
             Headers::class => true,
             HeaderInterface::class => true,
             Address::class => true,
             AbstractPart::class => true,
+=======
+        $isCacheable = __CLASS__ === static::class || $this->hasCacheableSupportsMethod();
+
+        return [
+            Message::class => $isCacheable,
+            Headers::class => $isCacheable,
+            HeaderInterface::class => $isCacheable,
+            Address::class => $isCacheable,
+            AbstractPart::class => $isCacheable,
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         ];
     }
 
@@ -62,17 +77,26 @@ final class MimeMessageNormalizer implements NormalizerInterface, DenormalizerIn
         $this->normalizer->setSerializer($serializer);
     }
 
+<<<<<<< HEAD
     public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         if ($data instanceof Headers) {
             $ret = [];
             foreach ($this->headersProperty->getValue($data) as $name => $header) {
+=======
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    {
+        if ($object instanceof Headers) {
+            $ret = [];
+            foreach ($this->headersProperty->getValue($object) as $name => $header) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $ret[$name] = $this->serializer->normalize($header, $format, $context);
             }
 
             return $ret;
         }
 
+<<<<<<< HEAD
         $ret = $this->normalizer->normalize($data, $format, $context);
 
         if ($data instanceof AbstractPart) {
@@ -81,6 +105,16 @@ final class MimeMessageNormalizer implements NormalizerInterface, DenormalizerIn
         }
 
         if ($data instanceof RawMessage && \array_key_exists('message', $ret) && null === $ret['message']) {
+=======
+        $ret = $this->normalizer->normalize($object, $format, $context);
+
+        if ($object instanceof AbstractPart) {
+            $ret['class'] = $object::class;
+            unset($ret['seekable'], $ret['cid'], $ret['handle']);
+        }
+
+        if ($object instanceof RawMessage && \array_key_exists('message', $ret) && null === $ret['message']) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             unset($ret['message']);
         }
 
@@ -118,4 +152,17 @@ final class MimeMessageNormalizer implements NormalizerInterface, DenormalizerIn
     {
         return is_a($type, Message::class, true) || Headers::class === $type || AbstractPart::class === $type;
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * @deprecated since Symfony 6.3, use "getSupportedTypes()" instead
+     */
+    public function hasCacheableSupportsMethod(): bool
+    {
+        trigger_deprecation('symfony/serializer', '6.3', 'The "%s()" method is deprecated, implement "%s::getSupportedTypes()" instead.', __METHOD__, get_debug_type($this));
+
+        return true;
+    }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

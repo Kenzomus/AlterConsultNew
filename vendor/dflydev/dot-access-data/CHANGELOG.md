@@ -7,12 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+<<<<<<< HEAD
 ## [3.0.3] - 2024-07-08
 
 ### Fixed
 
  - Fixed PHP 8.4 deprecation notices (#47)
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 ## [3.0.2] - 2022-10-27
 
 ### Fixed
@@ -63,8 +66,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Initial release!**
 
+<<<<<<< HEAD
 [Unreleased]: https://github.com/dflydev/dflydev-dot-access-data/compare/v3.0.3...main
 [3.0.3]: https://github.com/dflydev/dflydev-dot-access-data/compare/v3.0.2...v3.0.3
+=======
+[Unreleased]: https://github.com/dflydev/dflydev-dot-access-data/compare/v3.0.2...main
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 [3.0.2]: https://github.com/dflydev/dflydev-dot-access-data/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/dflydev/dflydev-dot-access-data/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/dflydev/dflydev-dot-access-data/compare/v2.0.0...v3.0.0

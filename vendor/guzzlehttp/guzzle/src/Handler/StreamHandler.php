@@ -40,12 +40,15 @@ class StreamHandler
             \usleep($options['delay'] * 1000);
         }
 
+<<<<<<< HEAD
         $protocolVersion = $request->getProtocolVersion();
 
         if ('1.0' !== $protocolVersion && '1.1' !== $protocolVersion) {
             throw new ConnectException(sprintf('HTTP/%s is not supported by the stream handler.', $protocolVersion), $request);
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $startTime = isset($options['on_stats']) ? Utils::currentTime() : null;
 
         try {
@@ -53,6 +56,7 @@ class StreamHandler
             $request = $request->withoutHeader('Expect');
 
             // Append a content-length header if body size is zero to match
+<<<<<<< HEAD
             // the behavior of `CurlHandler`
             if (
                 (
@@ -61,6 +65,10 @@ class StreamHandler
                 )
                 && 0 === $request->getBody()->getSize()
             ) {
+=======
+            // cURL's behavior.
+            if (0 === $request->getBody()->getSize()) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $request = $request->withHeader('Content-Length', '0');
             }
 
@@ -285,7 +293,11 @@ class StreamHandler
 
         // HTTP/1.1 streams using the PHP stream wrapper require a
         // Connection: close header
+<<<<<<< HEAD
         if ($request->getProtocolVersion() === '1.1'
+=======
+        if ($request->getProtocolVersion() == '1.1'
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             && !$request->hasHeader('Connection')
         ) {
             $request = $request->withHeader('Connection', 'close');

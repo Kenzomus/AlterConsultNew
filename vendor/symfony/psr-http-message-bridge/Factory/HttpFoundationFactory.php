@@ -15,6 +15,10 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
+<<<<<<< HEAD
+=======
+use Psr\Http\Message\UriInterface;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,6 +43,7 @@ class HttpFoundationFactory implements HttpFoundationFactoryInterface
         $server = [];
         $uri = $psrRequest->getUri();
 
+<<<<<<< HEAD
         $server['SERVER_NAME'] = $uri->getHost();
         $server['SERVER_PORT'] = $uri->getPort() ?: ('https' === $uri->getScheme() ? 443 : 80);
         $server['REQUEST_URI'] = $uri->getPath();
@@ -50,6 +55,21 @@ class HttpFoundationFactory implements HttpFoundationFactoryInterface
 
         if ('https' === $uri->getScheme()) {
             $server['HTTPS'] = 'on';
+=======
+        if ($uri instanceof UriInterface) {
+            $server['SERVER_NAME'] = $uri->getHost();
+            $server['SERVER_PORT'] = $uri->getPort() ?: ('https' === $uri->getScheme() ? 443 : 80);
+            $server['REQUEST_URI'] = $uri->getPath();
+            $server['QUERY_STRING'] = $uri->getQuery();
+
+            if ('' !== $server['QUERY_STRING']) {
+                $server['REQUEST_URI'] .= '?'.$server['QUERY_STRING'];
+            }
+
+            if ('https' === $uri->getScheme()) {
+                $server['HTTPS'] = 'on';
+            }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $server['REQUEST_METHOD'] = $psrRequest->getMethod();
@@ -104,7 +124,11 @@ class HttpFoundationFactory implements HttpFoundationFactoryInterface
      */
     protected function getTemporaryPath(): string
     {
+<<<<<<< HEAD
         return tempnam(sys_get_temp_dir(), 'symfony');
+=======
+        return tempnam(sys_get_temp_dir(), uniqid('symfony', true));
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function createResponse(ResponseInterface $psrResponse, bool $streamed = false): Response

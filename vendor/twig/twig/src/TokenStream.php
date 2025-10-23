@@ -21,6 +21,7 @@ use Twig\Error\SyntaxError;
  */
 final class TokenStream
 {
+<<<<<<< HEAD
     private $current = 0;
 
     public function __construct(
@@ -35,13 +36,29 @@ final class TokenStream
     }
 
     public function __toString(): string
+=======
+    private $tokens;
+    private $current = 0;
+    private $source;
+
+    public function __construct(array $tokens, Source $source = null)
+    {
+        $this->tokens = $tokens;
+        $this->source = $source ?: new Source('', '');
+    }
+
+    public function __toString()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return implode("\n", $this->tokens);
     }
 
+<<<<<<< HEAD
     /**
      * @return void
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function injectTokens(array $tokens)
     {
         $this->tokens = array_merge(\array_slice($this->tokens, 0, $this->current), $tokens, \array_slice($this->tokens, $this->current));
@@ -66,22 +83,40 @@ final class TokenStream
      */
     public function nextIf($primary, $secondary = null)
     {
+<<<<<<< HEAD
         return $this->tokens[$this->current]->test($primary, $secondary) ? $this->next() : null;
+=======
+        if ($this->tokens[$this->current]->test($primary, $secondary)) {
+            return $this->next();
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
      * Tests a token and returns it or throws a syntax error.
      */
+<<<<<<< HEAD
     public function expect($type, $value = null, ?string $message = null): Token
+=======
+    public function expect($type, $value = null, string $message = null): Token
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $token = $this->tokens[$this->current];
         if (!$token->test($type, $value)) {
             $line = $token->getLine();
+<<<<<<< HEAD
             throw new SyntaxError(\sprintf('%sUnexpected token "%s"%s ("%s" expected%s).',
                 $message ? $message.'. ' : '',
                 $token->toEnglish(),
                 $token->getValue() ? \sprintf(' of value "%s"', $token->getValue()) : '',
                 Token::typeToEnglish($type), $value ? \sprintf(' with value "%s"', $value) : ''),
+=======
+            throw new SyntaxError(sprintf('%sUnexpected token "%s"%s ("%s" expected%s).',
+                $message ? $message.'. ' : '',
+                Token::typeToEnglish($token->getType()),
+                $token->getValue() ? sprintf(' of value "%s"', $token->getValue()) : '',
+                Token::typeToEnglish($type), $value ? sprintf(' with value "%s"', $value) : ''),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                 $line,
                 $this->source
             );
@@ -116,7 +151,11 @@ final class TokenStream
      */
     public function isEOF(): bool
     {
+<<<<<<< HEAD
         return $this->tokens[$this->current]->test(Token::EOF_TYPE);
+=======
+        return /* Token::EOF_TYPE */ -1 === $this->tokens[$this->current]->getType();
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getCurrent(): Token
@@ -124,6 +163,14 @@ final class TokenStream
         return $this->tokens[$this->current];
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Gets the source associated with this stream.
+     *
+     * @internal
+     */
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function getSourceContext(): Source
     {
         return $this->source;

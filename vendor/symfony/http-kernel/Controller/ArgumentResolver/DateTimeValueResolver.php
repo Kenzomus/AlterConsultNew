@@ -14,6 +14,10 @@ namespace Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Psr\Clock\ClockInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapDateTime;
+<<<<<<< HEAD
+=======
+use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -24,13 +28,30 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * @author Benjamin Eberlei <kontakt@beberlei.de>
  * @author Tim Goudriaan <tim@codedmonkey.com>
  */
+<<<<<<< HEAD
 final class DateTimeValueResolver implements ValueResolverInterface
+=======
+final class DateTimeValueResolver implements ArgumentValueResolverInterface, ValueResolverInterface
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 {
     public function __construct(
         private readonly ?ClockInterface $clock = null,
     ) {
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * @deprecated since Symfony 6.2, use resolve() instead
+     */
+    public function supports(Request $request, ArgumentMetadata $argument): bool
+    {
+        @trigger_deprecation('symfony/http-kernel', '6.2', 'The "%s()" method is deprecated, use "resolve()" instead.', __METHOD__);
+
+        return is_a($argument->getType(), \DateTimeInterface::class, true) && $request->attributes->has($argument->getName());
+    }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function resolve(Request $request, ArgumentMetadata $argument): array
     {
         if (!is_a($argument->getType(), \DateTimeInterface::class, true) || !$request->attributes->has($argument->getName())) {

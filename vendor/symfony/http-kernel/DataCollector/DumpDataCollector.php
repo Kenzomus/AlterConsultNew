@@ -31,6 +31,10 @@ use Symfony\Component\VarDumper\Server\Connection;
  */
 class DumpDataCollector extends DataCollector implements DataDumperInterface
 {
+<<<<<<< HEAD
+=======
+    private ?Stopwatch $stopwatch = null;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private string|FileLinkFormatter|false $fileLinkFormat;
     private int $dataCount = 0;
     private bool $isCollected = true;
@@ -38,6 +42,7 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
     private int $clonesIndex = 0;
     private array $rootRefs;
     private string $charset;
+<<<<<<< HEAD
     private mixed $sourceContextProvider;
     private bool $webMode;
 
@@ -52,6 +57,21 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
         $fileLinkFormat = $fileLinkFormat ?: \ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
         $this->fileLinkFormat = $fileLinkFormat instanceof FileLinkFormatter && false === $fileLinkFormat->format('', 0) ? false : $fileLinkFormat;
         $this->charset = $charset ?: \ini_get('php.output_encoding') ?: \ini_get('default_charset') ?: 'UTF-8';
+=======
+    private ?RequestStack $requestStack;
+    private DataDumperInterface|Connection|null $dumper;
+    private mixed $sourceContextProvider;
+    private bool $webMode;
+
+    public function __construct(?Stopwatch $stopwatch = null, string|FileLinkFormatter|null $fileLinkFormat = null, ?string $charset = null, ?RequestStack $requestStack = null, DataDumperInterface|Connection|null $dumper = null, ?bool $webMode = null)
+    {
+        $fileLinkFormat = $fileLinkFormat ?: \ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+        $this->stopwatch = $stopwatch;
+        $this->fileLinkFormat = $fileLinkFormat instanceof FileLinkFormatter && false === $fileLinkFormat->format('', 0) ? false : $fileLinkFormat;
+        $this->charset = $charset ?: \ini_get('php.output_encoding') ?: \ini_get('default_charset') ?: 'UTF-8';
+        $this->requestStack = $requestStack;
+        $this->dumper = $dumper;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->webMode = $webMode ?? !\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true);
 
         // All clones share these properties by reference:
@@ -121,12 +141,21 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
         ) {
             if ($response->headers->has('Content-Type') && str_contains($response->headers->get('Content-Type') ?? '', 'html')) {
                 $dumper = new HtmlDumper('php://output', $this->charset);
+<<<<<<< HEAD
             } else {
                 $dumper = new CliDumper('php://output', $this->charset);
             }
 
             $dumper->setDisplayOptions(['fileLinkFormat' => $this->fileLinkFormat]);
 
+=======
+                $dumper->setDisplayOptions(['fileLinkFormat' => $this->fileLinkFormat]);
+            } else {
+                $dumper = new CliDumper('php://output', $this->charset);
+                $dumper->setDisplayOptions(['fileLinkFormat' => $this->fileLinkFormat]);
+            }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             foreach ($this->data as $dump) {
                 $this->doDump($dumper, $dump['data'], $dump['name'], $dump['file'], $dump['line'], $dump['label'] ?? '');
             }
@@ -180,7 +209,11 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
             }
         }
 
+<<<<<<< HEAD
         self::__construct($this->stopwatch ?? null, \is_string($fileLinkFormat) || $fileLinkFormat instanceof FileLinkFormatter ? $fileLinkFormat : null, \is_string($charset) ? $charset : null);
+=======
+        self::__construct($this->stopwatch, \is_string($fileLinkFormat) || $fileLinkFormat instanceof FileLinkFormatter ? $fileLinkFormat : null, \is_string($charset) ? $charset : null);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getDumpsCount(): int
@@ -235,12 +268,21 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
 
             if ($this->webMode) {
                 $dumper = new HtmlDumper('php://output', $this->charset);
+<<<<<<< HEAD
             } else {
                 $dumper = new CliDumper('php://output', $this->charset);
             }
 
             $dumper->setDisplayOptions(['fileLinkFormat' => $this->fileLinkFormat]);
 
+=======
+                $dumper->setDisplayOptions(['fileLinkFormat' => $this->fileLinkFormat]);
+            } else {
+                $dumper = new CliDumper('php://output', $this->charset);
+                $dumper->setDisplayOptions(['fileLinkFormat' => $this->fileLinkFormat]);
+            }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             foreach ($this->data as $i => $dump) {
                 $this->data[$i] = null;
                 $this->doDump($dumper, $dump['data'], $dump['name'], $dump['file'], $dump['line'], $dump['label'] ?? '');

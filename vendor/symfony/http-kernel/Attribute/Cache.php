@@ -102,6 +102,7 @@ final class Cache
          * It can be expressed in seconds or with a relative time format (1 day, 2 weeks, ...).
          */
         public int|string|null $staleIfError = null,
+<<<<<<< HEAD
 
         /**
          * Add the "no-store" Cache-Control directive when set to true.
@@ -114,6 +115,8 @@ final class Cache
          * @see https://datatracker.ietf.org/doc/html/rfc7234#section-5.2.2.3
          */
         public ?bool $noStore = null,
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     ) {
     }
 }

@@ -68,8 +68,11 @@ Available methods are:
 * ```Peast::ES2021(source, options)``` or ```Peast::ES12(source, options)```: parse using EcmaScript 2021 (ES12) syntax
 * ```Peast::ES2022(source, options)``` or ```Peast::ES13(source, options)```: parse using EcmaScript 2022 (ES13) syntax
 * ```Peast::ES2023(source, options)``` or ```Peast::ES14(source, options)```: parse using EcmaScript 2023 (ES14) syntax
+<<<<<<< HEAD
 * ```Peast::ES2024(source, options)``` or ```Peast::ES15(source, options)```: parse using EcmaScript 2024 (ES15) syntax
 * ```Peast::ES2025(source, options)``` or ```Peast::ES16(source, options)```: parse using EcmaScript 2025 (ES16) syntax
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 * ```Peast::latest(source, options)```: parse using the latest EcmaScript syntax version implemented
 
 Options

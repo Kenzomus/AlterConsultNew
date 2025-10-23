@@ -22,12 +22,25 @@ use Symfony\Component\Process\Process;
  */
 class UnixPipes extends AbstractPipes
 {
+<<<<<<< HEAD
     public function __construct(
         private ?bool $ttyMode,
         private bool $ptyMode,
         mixed $input,
         private bool $haveReadSupport,
     ) {
+=======
+    private ?bool $ttyMode;
+    private bool $ptyMode;
+    private bool $haveReadSupport;
+
+    public function __construct(?bool $ttyMode, bool $ptyMode, mixed $input, bool $haveReadSupport)
+    {
+        $this->ttyMode = $ttyMode;
+        $this->ptyMode = $ptyMode;
+        $this->haveReadSupport = $haveReadSupport;
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         parent::__construct($input);
     }
 

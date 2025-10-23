@@ -30,8 +30,17 @@ class ConfigDataCollector extends DataCollector implements LateDataCollectorInte
     /**
      * Sets the Kernel associated with this Request.
      */
+<<<<<<< HEAD
     public function setKernel(KernelInterface $kernel): void
     {
+=======
+    public function setKernel(?KernelInterface $kernel = null): void
+    {
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/http-kernel', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
+        }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->kernel = $kernel;
     }
 
@@ -40,8 +49,11 @@ class ConfigDataCollector extends DataCollector implements LateDataCollectorInte
         $eom = \DateTimeImmutable::createFromFormat('d/m/Y', '01/'.Kernel::END_OF_MAINTENANCE);
         $eol = \DateTimeImmutable::createFromFormat('d/m/Y', '01/'.Kernel::END_OF_LIFE);
 
+<<<<<<< HEAD
         $xdebugMode = getenv('XDEBUG_MODE') ?: \ini_get('xdebug.mode');
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->data = [
             'token' => $response->headers->get('X-Debug-Token'),
             'symfony_version' => Kernel::VERSION,
@@ -57,11 +69,16 @@ class ConfigDataCollector extends DataCollector implements LateDataCollectorInte
             'php_intl_locale' => class_exists(\Locale::class, false) && \Locale::getDefault() ? \Locale::getDefault() : 'n/a',
             'php_timezone' => date_default_timezone_get(),
             'xdebug_enabled' => \extension_loaded('xdebug'),
+<<<<<<< HEAD
             'xdebug_status' => \extension_loaded('xdebug') ? ($xdebugMode && 'off' !== $xdebugMode ? 'Enabled ('.$xdebugMode.')' : 'Not enabled') : 'Not installed',
             'apcu_enabled' => \extension_loaded('apcu') && filter_var(\ini_get('apc.enabled'), \FILTER_VALIDATE_BOOL),
             'apcu_status' => \extension_loaded('apcu') ? (filter_var(\ini_get('apc.enabled'), \FILTER_VALIDATE_BOOLEAN) ? 'Enabled' : 'Not enabled') : 'Not installed',
             'zend_opcache_enabled' => \extension_loaded('Zend OPcache') && filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOL),
             'zend_opcache_status' => \extension_loaded('Zend OPcache') ? (filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOLEAN) ? 'Enabled' : 'Not enabled') : 'Not installed',
+=======
+            'apcu_enabled' => \extension_loaded('apcu') && filter_var(\ini_get('apc.enabled'), \FILTER_VALIDATE_BOOL),
+            'zend_opcache_enabled' => \extension_loaded('Zend OPcache') && filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOL),
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             'bundles' => [],
             'sapi_name' => \PHP_SAPI,
         ];
@@ -197,11 +214,14 @@ class ConfigDataCollector extends DataCollector implements LateDataCollectorInte
         return $this->data['xdebug_enabled'];
     }
 
+<<<<<<< HEAD
     public function getXdebugStatus(): string
     {
         return $this->data['xdebug_status'];
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * Returns true if the function xdebug_info is available.
      */
@@ -218,11 +238,14 @@ class ConfigDataCollector extends DataCollector implements LateDataCollectorInte
         return $this->data['apcu_enabled'];
     }
 
+<<<<<<< HEAD
     public function getApcuStatus(): string
     {
         return $this->data['apcu_status'];
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     /**
      * Returns true if Zend OPcache is enabled.
      */
@@ -231,11 +254,14 @@ class ConfigDataCollector extends DataCollector implements LateDataCollectorInte
         return $this->data['zend_opcache_enabled'];
     }
 
+<<<<<<< HEAD
     public function getZendOpcacheStatus(): string
     {
         return $this->data['zend_opcache_status'];
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function getBundles(): array|Data
     {
         return $this->data['bundles'];

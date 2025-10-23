@@ -27,9 +27,17 @@ class Registry
     public static array $cloneable = [];
     public static array $instantiableWithoutConstructor = [];
 
+<<<<<<< HEAD
     public function __construct(
         public readonly array $classes,
     ) {
+=======
+    public $classes = [];
+
+    public function __construct(array $classes)
+    {
+        $this->classes = $classes;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public static function unserialize($objects, $serializables)
@@ -58,7 +66,11 @@ class Registry
     {
         $reflector = self::$reflectors[$class] ??= self::getClassReflector($class, true, false);
 
+<<<<<<< HEAD
         return self::$factories[$class] = $reflector->newInstanceWithoutConstructor(...);
+=======
+        return self::$factories[$class] = [$reflector, 'newInstanceWithoutConstructor'](...);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public static function getClassReflector($class, $instantiableWithoutConstructor = false, $cloneable = null)

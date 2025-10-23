@@ -12,8 +12,12 @@
 
 namespace Twig\TokenParser;
 
+<<<<<<< HEAD
 use Twig\Node\Expression\Variable\AssignContextVariable;
 use Twig\Node\ForElseNode;
+=======
+use Twig\Node\Expression\AssignNameExpression;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Node\ForNode;
 use Twig\Node\Node;
 use Twig\Token;
@@ -35,6 +39,7 @@ final class ForTokenParser extends AbstractTokenParser
     {
         $lineno = $token->getLine();
         $stream = $this->parser->getStream();
+<<<<<<< HEAD
         $targets = $this->parseAssignmentExpression();
         $stream->expect(Token::OPERATOR_TYPE, 'in');
         $seq = $this->parser->parseExpression();
@@ -61,6 +66,33 @@ final class ForTokenParser extends AbstractTokenParser
         $valueTarget = new AssignContextVariable($valueTarget->getAttribute('name'), $valueTarget->getTemplateLine());
 
         return new ForNode($keyTarget, $valueTarget, $seq, null, $body, $else, $lineno);
+=======
+        $targets = $this->parser->getExpressionParser()->parseAssignmentExpression();
+        $stream->expect(/* Token::OPERATOR_TYPE */ 8, 'in');
+        $seq = $this->parser->getExpressionParser()->parseExpression();
+
+        $stream->expect(/* Token::BLOCK_END_TYPE */ 3);
+        $body = $this->parser->subparse([$this, 'decideForFork']);
+        if ('else' == $stream->next()->getValue()) {
+            $stream->expect(/* Token::BLOCK_END_TYPE */ 3);
+            $else = $this->parser->subparse([$this, 'decideForEnd'], true);
+        } else {
+            $else = null;
+        }
+        $stream->expect(/* Token::BLOCK_END_TYPE */ 3);
+
+        if (\count($targets) > 1) {
+            $keyTarget = $targets->getNode(0);
+            $keyTarget = new AssignNameExpression($keyTarget->getAttribute('name'), $keyTarget->getTemplateLine());
+            $valueTarget = $targets->getNode(1);
+        } else {
+            $keyTarget = new AssignNameExpression('_key', $lineno);
+            $valueTarget = $targets->getNode(0);
+        }
+        $valueTarget = new AssignNameExpression($valueTarget->getAttribute('name'), $valueTarget->getTemplateLine());
+
+        return new ForNode($keyTarget, $valueTarget, $seq, null, $body, $else, $lineno, $this->getTag());
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function decideForFork(Token $token): bool

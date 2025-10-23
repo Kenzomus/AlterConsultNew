@@ -62,9 +62,17 @@ class XmlFileLoader extends FileLoader
     /**
      * Parses a node from a loaded XML file.
      *
+<<<<<<< HEAD
      * @throws \InvalidArgumentException When the XML is invalid
      */
     protected function parseNode(RouteCollection $collection, \DOMElement $node, string $path, string $file): void
+=======
+     * @return void
+     *
+     * @throws \InvalidArgumentException When the XML is invalid
+     */
+    protected function parseNode(RouteCollection $collection, \DOMElement $node, string $path, string $file)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (self::NAMESPACE_URI !== $node->namespaceURI) {
             return;
@@ -100,9 +108,17 @@ class XmlFileLoader extends FileLoader
     /**
      * Parses a route and adds it to the RouteCollection.
      *
+<<<<<<< HEAD
      * @throws \InvalidArgumentException When the XML is invalid
      */
     protected function parseRoute(RouteCollection $collection, \DOMElement $node, string $path): void
+=======
+     * @return void
+     *
+     * @throws \InvalidArgumentException When the XML is invalid
+     */
+    protected function parseRoute(RouteCollection $collection, \DOMElement $node, string $path)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if ('' === $id = $node->getAttribute('id')) {
             throw new \InvalidArgumentException(\sprintf('The <route> element in file "%s" must have an "id" attribute.', $path));
@@ -149,9 +165,17 @@ class XmlFileLoader extends FileLoader
     /**
      * Parses an import and adds the routes in the resource to the RouteCollection.
      *
+<<<<<<< HEAD
      * @throws \InvalidArgumentException When the XML is invalid
      */
     protected function parseImport(RouteCollection $collection, \DOMElement $node, string $path, string $file): void
+=======
+     * @return void
+     *
+     * @throws \InvalidArgumentException When the XML is invalid
+     */
+    protected function parseImport(RouteCollection $collection, \DOMElement $node, string $path, string $file)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         /** @var \DOMElement $resourceElement */
         if (!($resource = $node->getAttribute('resource') ?: null) && $resourceElement = $node->getElementsByTagName('resource')[0] ?? null) {

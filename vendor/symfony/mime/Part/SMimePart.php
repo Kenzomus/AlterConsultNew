@@ -21,6 +21,7 @@ class SMimePart extends AbstractPart
     /** @internal */
     protected Headers $_headers;
 
+<<<<<<< HEAD
     public function __construct(
         private iterable|string $body,
         private string $type,
@@ -28,6 +29,21 @@ class SMimePart extends AbstractPart
         private array $parameters,
     ) {
         parent::__construct();
+=======
+    private iterable|string $body;
+    private string $type;
+    private string $subtype;
+    private array $parameters;
+
+    public function __construct(iterable|string $body, string $type, string $subtype, array $parameters)
+    {
+        parent::__construct();
+
+        $this->body = $body;
+        $this->type = $type;
+        $this->subtype = $subtype;
+        $this->parameters = $parameters;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getMediaType(): string

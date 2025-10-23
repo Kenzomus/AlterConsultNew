@@ -19,10 +19,13 @@ use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Serializer\Debug\TraceableEncoder;
 use Symfony\Component\Serializer\Debug\TraceableNormalizer;
+<<<<<<< HEAD
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
 /**
  * Adds all services with the tags "serializer.encoder" and "serializer.normalizer" as
@@ -35,14 +38,22 @@ class SerializerPass implements CompilerPassInterface
 {
     use PriorityTaggedServiceTrait;
 
+<<<<<<< HEAD
     private const NAME_CONVERTER_METADATA_AWARE_ID = 'serializer.name_converter.metadata_aware';
 
     public function process(ContainerBuilder $container): void
+=======
+    /**
+     * @return void
+     */
+    public function process(ContainerBuilder $container)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$container->hasDefinition('serializer')) {
             return;
         }
 
+<<<<<<< HEAD
         $namedSerializers = $container->hasParameter('.serializer.named_serializers')
             ? $container->getParameter('.serializer.named_serializers') : [];
 
@@ -60,10 +71,28 @@ class SerializerPass implements CompilerPassInterface
         $defaultContext = [];
         if ($container->hasParameter('serializer.default_context')) {
             $defaultContext = $container->getParameter('serializer.default_context');
+=======
+        if (!$normalizers = $this->findAndSortTaggedServices('serializer.normalizer', $container)) {
+            throw new RuntimeException('You must tag at least one service as "serializer.normalizer" to use the "serializer" service.');
+        }
+
+        if (!$encoders = $this->findAndSortTaggedServices('serializer.encoder', $container)) {
+            throw new RuntimeException('You must tag at least one service as "serializer.encoder" to use the "serializer" service.');
+        }
+
+        if ($container->hasParameter('serializer.default_context')) {
+            $defaultContext = $container->getParameter('serializer.default_context');
+            foreach (array_merge($normalizers, $encoders) as $service) {
+                $definition = $container->getDefinition($service);
+                $definition->setBindings(['array $defaultContext' => new BoundArgument($defaultContext, false)] + $definition->getBindings());
+            }
+
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $container->getParameterBag()->remove('serializer.default_context');
             $container->getDefinition('serializer')->setArgument('$defaultContext', $defaultContext);
         }
 
+<<<<<<< HEAD
         /** @var ?string $circularReferenceHandler */
         $circularReferenceHandler = $container->hasParameter('.serializer.circular_reference_handler')
             ? $container->getParameter('.serializer.circular_reference_handler') : null;
@@ -140,10 +169,17 @@ class SerializerPass implements CompilerPassInterface
             foreach ($normalizers as $i => $normalizer) {
                 $normalizers[$i] = $container->register('.debug.serializer.normalizer.'.$normalizer, TraceableNormalizer::class)
                     ->setArguments([$normalizer, new Reference('serializer.data_collector'), $serializerName]);
+=======
+        if ($container->getParameter('kernel.debug') && $container->hasDefinition('serializer.data_collector')) {
+            foreach ($normalizers as $i => $normalizer) {
+                $normalizers[$i] = $container->register('.debug.serializer.normalizer.'.$normalizer, TraceableNormalizer::class)
+                    ->setArguments([$normalizer, new Reference('serializer.data_collector')]);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             }
 
             foreach ($encoders as $i => $encoder) {
                 $encoders[$i] = $container->register('.debug.serializer.encoder.'.$encoder, TraceableEncoder::class)
+<<<<<<< HEAD
                     ->setArguments([$encoder, new Reference('serializer.data_collector'), $serializerName]);
             }
         }
@@ -238,4 +274,14 @@ class SerializerPass implements CompilerPassInterface
 
         return null;
     }
+=======
+                    ->setArguments([$encoder, new Reference('serializer.data_collector')]);
+            }
+        }
+
+        $serializerDefinition = $container->getDefinition('serializer');
+        $serializerDefinition->replaceArgument(0, $normalizers);
+        $serializerDefinition->replaceArgument(1, $encoders);
+    }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 }

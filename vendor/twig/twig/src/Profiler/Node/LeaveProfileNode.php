@@ -11,7 +11,10 @@
 
 namespace Twig\Profiler\Node;
 
+<<<<<<< HEAD
 use Twig\Attribute\YieldReady;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Compiler;
 use Twig\Node\Node;
 
@@ -20,7 +23,10 @@ use Twig\Node\Node;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 #[YieldReady]
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 class LeaveProfileNode extends Node
 {
     public function __construct(string $varName)
@@ -32,7 +38,11 @@ class LeaveProfileNode extends Node
     {
         $compiler
             ->write("\n")
+<<<<<<< HEAD
             ->write(\sprintf("\$%s->leave(\$%s);\n\n", $this->getAttribute('var_name'), $this->getAttribute('var_name').'_prof'))
+=======
+            ->write(sprintf("\$%s->leave(\$%s);\n\n", $this->getAttribute('var_name'), $this->getAttribute('var_name').'_prof'))
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         ;
     }
 }

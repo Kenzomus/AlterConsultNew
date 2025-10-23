@@ -21,11 +21,19 @@ use Symfony\Component\Console\Exception\LogicException;
  */
 class Question
 {
+<<<<<<< HEAD
+=======
+    private string $question;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private ?int $attempts = null;
     private bool $hidden = false;
     private bool $hiddenFallback = true;
     private ?\Closure $autocompleterCallback = null;
     private ?\Closure $validator = null;
+<<<<<<< HEAD
+=======
+    private string|int|bool|float|null $default;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private ?\Closure $normalizer = null;
     private bool $trimmable = true;
     private bool $multiline = false;
@@ -34,10 +42,17 @@ class Question
      * @param string                     $question The question to ask to the user
      * @param string|bool|int|float|null $default  The default answer to return if the user enters nothing
      */
+<<<<<<< HEAD
     public function __construct(
         private string $question,
         private string|bool|int|float|null $default = null,
     ) {
+=======
+    public function __construct(string $question, string|bool|int|float|null $default = null)
+    {
+        $this->question = $question;
+        $this->default = $default;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     /**
@@ -173,8 +188,16 @@ class Question
      *
      * @return $this
      */
+<<<<<<< HEAD
     public function setAutocompleterCallback(?callable $callback): static
     {
+=======
+    public function setAutocompleterCallback(?callable $callback = null): static
+    {
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if ($this->hidden && null !== $callback) {
             throw new LogicException('A hidden question cannot use the autocompleter.');
         }
@@ -189,8 +212,16 @@ class Question
      *
      * @return $this
      */
+<<<<<<< HEAD
     public function setValidator(?callable $validator): static
     {
+=======
+    public function setValidator(?callable $validator = null): static
+    {
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->validator = null === $validator ? null : $validator(...);
 
         return $this;
@@ -258,7 +289,14 @@ class Question
         return $this->normalizer;
     }
 
+<<<<<<< HEAD
     protected function isAssoc(array $array): bool
+=======
+    /**
+     * @return bool
+     */
+    protected function isAssoc(array $array)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         return (bool) \count(array_filter(array_keys($array), 'is_string'));
     }

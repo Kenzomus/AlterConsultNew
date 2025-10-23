@@ -39,8 +39,13 @@ abstract class AbstractString implements \Stringable, \JsonSerializable
     public const PREG_SPLIT_DELIM_CAPTURE = \PREG_SPLIT_DELIM_CAPTURE;
     public const PREG_SPLIT_OFFSET_CAPTURE = \PREG_SPLIT_OFFSET_CAPTURE;
 
+<<<<<<< HEAD
     protected string $string = '';
     protected ?bool $ignoreCase = false;
+=======
+    protected $string = '';
+    protected $ignoreCase = false;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     abstract public function __construct(string $string = '');
 
@@ -433,6 +438,7 @@ abstract class AbstractString implements \Stringable, \JsonSerializable
 
     abstract public function snake(): static;
 
+<<<<<<< HEAD
     public function kebab(): static
     {
         return $this->snake()->replace('_', '-');
@@ -443,6 +449,8 @@ abstract class AbstractString implements \Stringable, \JsonSerializable
         return $this->camel()->title();
     }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     abstract public function splice(string $replacement, int $start = 0, ?int $length = null): static;
 
     /**
@@ -615,7 +623,11 @@ abstract class AbstractString implements \Stringable, \JsonSerializable
         return $str;
     }
 
+<<<<<<< HEAD
     public function truncate(int $length, string $ellipsis = '', bool|TruncateMode $cut = TruncateMode::Char): static
+=======
+    public function truncate(int $length, string $ellipsis = '', bool $cut = true): static
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         $stringLength = $this->length();
 
@@ -629,19 +641,27 @@ abstract class AbstractString implements \Stringable, \JsonSerializable
             $ellipsisLength = 0;
         }
 
+<<<<<<< HEAD
         $desiredLength = $length;
         if (TruncateMode::WordAfter === $cut || !$cut) {
+=======
+        if (!$cut) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             if (null === $length = $this->indexOf([' ', "\r", "\n", "\t"], ($length ?: 1) - 1)) {
                 return clone $this;
             }
 
             $length += $ellipsisLength;
+<<<<<<< HEAD
         } elseif (TruncateMode::WordBefore === $cut && null !== $this->indexOf([' ', "\r", "\n", "\t"], ($length ?: 1) - 1)) {
             $length += $ellipsisLength;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         }
 
         $str = $this->slice(0, $length - $ellipsisLength);
 
+<<<<<<< HEAD
         if (TruncateMode::WordBefore === $cut) {
             if (0 === $ellipsisLength && $desiredLength === $this->indexOf([' ', "\r", "\n", "\t"], $length)) {
                 return $str;
@@ -650,6 +670,8 @@ abstract class AbstractString implements \Stringable, \JsonSerializable
             $str = $str->beforeLast([' ', "\r", "\n", "\t"]);
         }
 
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         return $ellipsisLength ? $str->trimEnd()->append($ellipsis) : $str;
     }
 

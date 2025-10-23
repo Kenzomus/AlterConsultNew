@@ -29,12 +29,23 @@ abstract class AbstractConfigurator
     /**
      * @var \Closure(mixed, bool):mixed|null
      */
+<<<<<<< HEAD
     public static ?\Closure $valuePreProcessor = null;
+=======
+    public static $valuePreProcessor;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     /** @internal */
     protected Definition|Alias|null $definition = null;
 
+<<<<<<< HEAD
     public function __call(string $method, array $args): mixed
+=======
+    /**
+     * @return mixed
+     */
+    public function __call(string $method, array $args)
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (method_exists($this, 'set'.$method)) {
             return $this->{'set'.$method}(...$args);
@@ -48,7 +59,14 @@ abstract class AbstractConfigurator
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
+<<<<<<< HEAD
     public function __wakeup(): void
+=======
+    /**
+     * @return void
+     */
+    public function __wakeup()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
     }

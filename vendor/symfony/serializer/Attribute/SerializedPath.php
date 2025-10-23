@@ -16,6 +16,15 @@ use Symfony\Component\PropertyAccess\PropertyPath;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 
 /**
+<<<<<<< HEAD
+=======
+ * Annotation class for @SerializedPath().
+ *
+ * @Annotation
+ * @NamedArgumentConstructor
+ * @Target({"PROPERTY", "METHOD"})
+ *
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  * @author Tobias Bönner <tobi@boenner.family>
  */
 #[\Attribute(\Attribute::TARGET_METHOD | \Attribute::TARGET_PROPERTY)]
@@ -23,9 +32,12 @@ class SerializedPath
 {
     private PropertyPath $serializedPath;
 
+<<<<<<< HEAD
     /**
      * @param string $serializedPath A path using a valid PropertyAccess syntax where the value is stored in a normalized representation
      */
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public function __construct(string $serializedPath)
     {
         try {

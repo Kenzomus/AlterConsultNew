@@ -40,7 +40,14 @@ class BufferingLogger extends AbstractLogger
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
+<<<<<<< HEAD
     public function __wakeup(): void
+=======
+    /**
+     * @return void
+     */
+    public function __wakeup()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
     }
@@ -50,7 +57,11 @@ class BufferingLogger extends AbstractLogger
         foreach ($this->logs as [$level, $message, $context]) {
             if (str_contains($message, '{')) {
                 foreach ($context as $key => $val) {
+<<<<<<< HEAD
                     if (null === $val || \is_scalar($val) || $val instanceof \Stringable) {
+=======
+                    if (null === $val || \is_scalar($val) || (\is_object($val) && \is_callable([$val, '__toString']))) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
                         $message = str_replace("{{$key}}", $val, $message);
                     } elseif ($val instanceof \DateTimeInterface) {
                         $message = str_replace("{{$key}}", $val->format(\DateTimeInterface::RFC3339), $message);

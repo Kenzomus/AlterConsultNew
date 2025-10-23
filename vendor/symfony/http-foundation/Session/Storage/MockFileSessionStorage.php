@@ -73,7 +73,14 @@ class MockFileSessionStorage extends MockArraySessionStorage
         return parent::regenerate($destroy, $lifetime);
     }
 
+<<<<<<< HEAD
     public function save(): void
+=======
+    /**
+     * @return void
+     */
+    public function save()
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     {
         if (!$this->started) {
             throw new \RuntimeException('Trying to save a session that was not started yet or was already closed.');

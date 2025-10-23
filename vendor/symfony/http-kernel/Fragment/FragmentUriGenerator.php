@@ -24,11 +24,23 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
  */
 final class FragmentUriGenerator implements FragmentUriGeneratorInterface
 {
+<<<<<<< HEAD
     public function __construct(
         private string $fragmentPath,
         private ?UriSigner $signer = null,
         private ?RequestStack $requestStack = null,
     ) {
+=======
+    private string $fragmentPath;
+    private ?UriSigner $signer;
+    private ?RequestStack $requestStack;
+
+    public function __construct(string $fragmentPath, ?UriSigner $signer = null, ?RequestStack $requestStack = null)
+    {
+        $this->fragmentPath = $fragmentPath;
+        $this->signer = $signer;
+        $this->requestStack = $requestStack;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function generate(ControllerReference $controller, ?Request $request = null, bool $absolute = false, bool $strict = true, bool $sign = true): string

@@ -13,6 +13,7 @@ namespace Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
@@ -23,12 +24,22 @@ use Symfony\Component\Validator\Exception\LogicException;
  * Ensures that the value is valid against the BIC format.
  *
  * @see https://en.wikipedia.org/wiki/ISO_9362
+=======
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
+use Symfony\Component\Validator\Exception\LogicException;
+
+/**
+ * @Annotation
+ * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
  *
  * @author Michael Hirschler <michael.vhirsch@gmail.com>
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class Bic extends Constraint
 {
+<<<<<<< HEAD
     public const VALIDATION_MODE_STRICT = 'strict';
     public const VALIDATION_MODE_CASE_INSENSITIVE = 'case-insensitive';
 
@@ -42,6 +53,10 @@ class Bic extends Constraint
     /**
      * @deprecated since Symfony 7.1, to be removed in 8.0
      */
+=======
+    public const INVALID_LENGTH_ERROR = '66dad313-af0b-4214-8566-6c799be9789c';
+    public const INVALID_CHARACTERS_ERROR = 'f424c529-7add-4417-8f2d-4b656e4833e2';
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     public const INVALID_BANK_CODE_ERROR = '00559357-6170-4f29-aebd-d19330aa19cf';
     public const INVALID_COUNTRY_CODE_ERROR = '1ce76f8d-3c1f-451c-9e62-fe9c3ed486ae';
     public const INVALID_CASE_ERROR = '11884038-3312-4ae5-9d04-699f782130c7';
@@ -55,6 +70,7 @@ class Bic extends Constraint
         self::INVALID_CASE_ERROR => 'INVALID_CASE_ERROR',
     ];
 
+<<<<<<< HEAD
     public string $message = 'This is not a valid Business Identifier Code (BIC).';
     public string $ibanMessage = 'This Business Identifier Code (BIC) is not associated with IBAN {{ iban }}.';
     public ?string $iban = null;
@@ -95,6 +111,23 @@ class Bic extends Constraint
         if (\is_array($options)) {
             trigger_deprecation('symfony/validator', '7.3', 'Passing an array of options to configure the "%s" constraint is deprecated, use named arguments instead.', static::class);
         }
+=======
+    /**
+     * @deprecated since Symfony 6.1, use const ERROR_NAMES instead
+     */
+    protected static $errorNames = self::ERROR_NAMES;
+
+    public $message = 'This is not a valid Business Identifier Code (BIC).';
+    public $ibanMessage = 'This Business Identifier Code (BIC) is not associated with IBAN {{ iban }}.';
+    public $iban;
+    public $ibanPropertyPath;
+
+    public function __construct(?array $options = null, ?string $message = null, ?string $iban = null, ?string $ibanPropertyPath = null, ?string $ibanMessage = null, ?array $groups = null, mixed $payload = null)
+    {
+        if (!class_exists(Countries::class)) {
+            throw new LogicException('The Intl component is required to use the Bic constraint. Try running "composer require symfony/intl".');
+        }
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         parent::__construct($options, $groups, $payload);
 
@@ -102,7 +135,10 @@ class Bic extends Constraint
         $this->ibanMessage = $ibanMessage ?? $this->ibanMessage;
         $this->iban = $iban ?? $this->iban;
         $this->ibanPropertyPath = $ibanPropertyPath ?? $this->ibanPropertyPath;
+<<<<<<< HEAD
         $this->mode = $mode ?? $this->mode;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
         if (null !== $this->iban && null !== $this->ibanPropertyPath) {
             throw new ConstraintDefinitionException('The "iban" and "ibanPropertyPath" options of the Iban constraint cannot be used at the same time.');

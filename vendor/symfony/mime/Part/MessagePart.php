@@ -21,15 +21,27 @@ use Symfony\Component\Mime\RawMessage;
  */
 class MessagePart extends DataPart
 {
+<<<<<<< HEAD
     public function __construct(
         private RawMessage $message,
     ) {
+=======
+    private RawMessage $message;
+
+    public function __construct(RawMessage $message)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if ($message instanceof Message) {
             $name = $message->getHeaders()->getHeaderBody('Subject').'.eml';
         } else {
             $name = 'email.eml';
         }
         parent::__construct('', $name);
+<<<<<<< HEAD
+=======
+
+        $this->message = $message;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function getMediaType(): string

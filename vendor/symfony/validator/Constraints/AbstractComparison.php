@@ -12,7 +12,10 @@
 namespace Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
+<<<<<<< HEAD
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 use Symfony\Component\Validator\Exception\LogicException;
@@ -25,6 +28,7 @@ use Symfony\Component\Validator\Exception\LogicException;
  */
 abstract class AbstractComparison extends Constraint
 {
+<<<<<<< HEAD
     public string $message;
     public mixed $value = null;
     public ?string $propertyPath = null;
@@ -43,6 +47,17 @@ abstract class AbstractComparison extends Constraint
                 $options = [];
             }
 
+=======
+    public $message;
+    public $value;
+    public $propertyPath;
+
+    public function __construct(mixed $value = null, ?string $propertyPath = null, ?string $message = null, ?array $groups = null, mixed $payload = null, array $options = [])
+    {
+        if (\is_array($value)) {
+            $options = array_merge($value, $options);
+        } elseif (null !== $value) {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
             $options['value'] = $value;
         }
 

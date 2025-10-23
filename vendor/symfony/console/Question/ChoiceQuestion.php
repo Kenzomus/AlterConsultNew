@@ -20,6 +20,10 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  */
 class ChoiceQuestion extends Question
 {
+<<<<<<< HEAD
+=======
+    private array $choices;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     private bool $multiselect = false;
     private string $prompt = ' > ';
     private string $errorMessage = 'Value "%s" is invalid';
@@ -29,17 +33,26 @@ class ChoiceQuestion extends Question
      * @param array                      $choices  The list of available choices
      * @param string|bool|int|float|null $default  The default answer to return
      */
+<<<<<<< HEAD
     public function __construct(
         string $question,
         private array $choices,
         string|bool|int|float|null $default = null,
     ) {
+=======
+    public function __construct(string $question, array $choices, string|bool|int|float|null $default = null)
+    {
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         if (!$choices) {
             throw new \LogicException('Choice question must have at least 1 choice available.');
         }
 
         parent::__construct($question, $default);
 
+<<<<<<< HEAD
+=======
+        $this->choices = $choices;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
         $this->setValidator($this->getDefaultValidator());
         $this->setAutocompleterValues($choices);
     }

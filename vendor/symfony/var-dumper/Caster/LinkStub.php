@@ -18,7 +18,11 @@ namespace Symfony\Component\VarDumper\Caster;
  */
 class LinkStub extends ConstStub
 {
+<<<<<<< HEAD
     public bool $inVendor = false;
+=======
+    public $inVendor = false;
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 
     private static array $vendorRoots;
     private static array $composerRoots = [];

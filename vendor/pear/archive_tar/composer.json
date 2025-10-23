@@ -7,7 +7,11 @@
         "tar"
     ],
     "homepage": "https://github.com/pear/Archive_Tar",
+<<<<<<< HEAD
     "license": "BSD-2-Clause",
+=======
+    "license": "BSD-3-Clause",
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     "authors": [
         {
             "name": "Vincent Blavet",

@@ -11,7 +11,10 @@
 
 namespace Twig\Node;
 
+<<<<<<< HEAD
 use Twig\Attribute\YieldReady;
+=======
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 use Twig\Compiler;
 
 /**
@@ -25,12 +28,20 @@ use Twig\Compiler;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
+<<<<<<< HEAD
 #[YieldReady]
 class AutoEscapeNode extends Node
 {
     public function __construct($value, Node $body, int $lineno)
     {
         parent::__construct(['body' => $body], ['value' => $value], $lineno);
+=======
+class AutoEscapeNode extends Node
+{
+    public function __construct($value, Node $body, int $lineno, string $tag = 'autoescape')
+    {
+        parent::__construct(['body' => $body], ['value' => $value], $lineno, $tag);
+>>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
     }
 
     public function compile(Compiler $compiler): void
