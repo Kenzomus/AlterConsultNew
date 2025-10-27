@@ -1,61 +1,39 @@
-# Base image: PHP 8.3 with Apache
+# Use official PHP with Apache
 FROM php:8.3-apache
 
-# Install system dependencies and PHP extensions for Drupal
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libpng-dev \
-    libwebp-dev \
-    libxpm-dev \
-    libzip-dev \
-    unzip git curl vim nano pkg-config \
-    libicu-dev \
-    && docker-php-ext-configure gd \
-        --with-freetype \
-        --with-jpeg \
-        --with-webp \
-        --with-xpm \
-    && docker-php-ext-install -j$(nproc) gd zip pdo_mysql intl opcache \
-    && docker-php-ext-enable gd zip pdo_mysql intl opcache \
-    && rm -rf /var/lib/apt/lists/*
+    git unzip zip libicu-dev libxml2-dev libzip-dev \
+    libpng-dev libjpeg-dev libfreetype6-dev libonig-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd intl pdo_mysql opcache zip \
+    && docker-php-ext-enable opcache
 
-# Install Composer globally
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Enable Apache rewrite module
+# Enable Apache rewrite
 RUN a2enmod rewrite
 
-# Set working directory to Drupal project root
+# Set working directory
 WORKDIR /var/www/html
 
-# Copy only composer files first to leverage Docker layer caching
-COPY composer.json composer.lock /var/www/html/
+# Copy all project files
+COPY . .
 
-# Install dependencies before copying full project
-RUN composer install --no-dev --optimize-autoloader
+# Install Composer
+COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
+ENV COMPOSER_MEMORY_LIMIT=-1
 
-# Copy full project into container
-COPY . /var/www/html
+# Install dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
-# Set Apache DocumentRoot to Drupal's /web subdirectory
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/web|g' /etc/apache2/sites-available/000-default.conf \
-    && echo '<Directory /var/www/html/web>\nOptions Indexes FollowSymLinks\nAllowOverride All\nRequire all granted\n</Directory>' >> /etc/apache2/apache2.conf
+# Fix permissions
+RUN chown -R www-data:www-data /var/www/html /var/log/apache2 /var/run/apache2
 
-# Set correct permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/web \
-    && find /var/www/html/web -type f -exec chmod 644 {} \;
-
-# Ensure installer can write settings and services
-RUN chmod -R 775 /var/www/html/web/sites/default \
-    && chown -R www-data:www-data /var/www/html/web/sites/default
-
-# Expose port 8080 for Cloud Run
+# Set Cloud Run port
+ENV PORT=8080
 EXPOSE 8080
 
-# Update Apache to listen on Cloud Run's PORT env variable
-RUN sed -i 's/80/${PORT}/g' /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
+# Make Apache listen on Cloud Run port
+RUN sed -i 's/80/8080/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
 
-# Start Apache in foreground
+# Run Apache in foreground
 CMD ["apache2-foreground"]
