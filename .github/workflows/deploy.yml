@@ -1,77 +1,56 @@
-name: Build and Deploy to Google Cloud Run
+name: Deploy to Cloud Run
 
 on:
   push:
     branches:
       - main
-      - master
+      - master  # Trigger on both main and master
 
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  SERVICE_NAME: ${{ secrets.CLOUD_RUN_SERVICE }}
-  REGION: ${{ secrets.CLOUD_RUN_REGION }}
-  IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.CLOUD_RUN_SERVICE }}
+  PROJECT_ID: alter-consult-464302
+  REGION: us-central1
+  SERVICE_NAME: alterconsult
+  IMAGE_NAME: gcr.io/alter-consult-464302/alterconsult
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # -------------------------------------------------------------
-      # 1. Checkout repository
-      # -------------------------------------------------------------
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      # 1️⃣ Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # -------------------------------------------------------------
-      # 2. Authenticate to Google Cloud
-      # -------------------------------------------------------------
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
-
-      - name: Set up Cloud SDK
+      # 2️⃣ Authenticate with Google Cloud
+      - name: Set up Google Cloud
         uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          export_default_credentials: true
 
-      # -------------------------------------------------------------
-      # 3. Configure Docker authentication for GCR
-      # -------------------------------------------------------------
+      # 3️⃣ Configure Docker for GCR
       - name: Configure Docker for GCR
         run: gcloud auth configure-docker gcr.io --quiet
 
-      # -------------------------------------------------------------
-      # 4. Build and push Docker image (with detailed logs)
-      # -------------------------------------------------------------
+      # 4️⃣ Build and Push Docker image
       - name: Build and Push Docker image
-        id: build
         run: |
           echo "Starting Docker build..."
-          docker build \
-            --progress=plain \
-            --no-cache \
-            -t $IMAGE_NAME:$GITHUB_SHA .
+          docker build -t $IMAGE_NAME:$GITHUB_SHA .
           docker push $IMAGE_NAME:$GITHUB_SHA
 
-      # -------------------------------------------------------------
-      # 5. Deploy to Cloud Run
-      # -------------------------------------------------------------
+      # 5️⃣ Deploy to Cloud Run with Secret Manager
       - name: Deploy to Cloud Run
-        id: deploy
         run: |
-          echo "Deploying to Cloud Run..."
           gcloud run deploy $SERVICE_NAME \
             --image $IMAGE_NAME:$GITHUB_SHA \
             --region $REGION \
             --platform managed \
+            --update-secrets=DB_PASSWORD=drupal-db-password:latest,DB_USER=DB_USER:latest,DB_NAME=DB_NAME:latest \
             --allow-unauthenticated \
             --quiet
 
-      # -------------------------------------------------------------
-      # 6. Post-deployment summary
-      # -------------------------------------------------------------
+      # 6️⃣ Show deployment URL
       - name: Show Deployment URL
-        run: |
-          gcloud run services describe $SERVICE_NAME \
-            --region $REGION \
-            --format "value(status.url)"
+        run: gcloud run services describe $SERVICE_NAME --region $REGION --platform managed --format='value(status.url)'
