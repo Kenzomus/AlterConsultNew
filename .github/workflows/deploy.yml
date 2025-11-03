@@ -11,7 +11,6 @@ env:
   REGION: us-central1
   SERVICE: alterconsult
   REPO: alterconsult
-  IMAGE: gcr.io/${{ env.PROJECT_ID }}/${{ env.REPO }}
 
 jobs:
   deploy:
@@ -36,24 +35,30 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ env.IMAGE }}:${{ github.sha }} .
+          IMAGE="gcr.io/${PROJECT_ID}/${REPO}:${GITHUB_SHA}"
+          echo "🚀 Building Docker image: $IMAGE"
+          docker build -t "$IMAGE" .
 
       - name: Push Docker image to Artifact Registry
         run: |
-          docker push ${{ env.IMAGE }}:${{ github.sha }}
+          IMAGE="gcr.io/${PROJECT_ID}/${REPO}:${GITHUB_SHA}"
+          echo "📦 Pushing image to Artifact Registry: $IMAGE"
+          docker push "$IMAGE"
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy ${{ env.SERVICE }} \
-            --image ${{ env.IMAGE }}:${{ github.sha }} \
-            --region ${{ env.REGION }} \
+          IMAGE="gcr.io/${PROJECT_ID}/${REPO}:${GITHUB_SHA}"
+          echo "🚀 Deploying image to Cloud Run: $IMAGE"
+          gcloud run deploy "${SERVICE}" \
+            --image "$IMAGE" \
+            --region "${REGION}" \
             --platform managed \
             --allow-unauthenticated \
-            --service-account github-deployer@alter-consult-464302.iam.gserviceaccount.com
+            --service-account "github-deployer@alter-consult-464302.iam.gserviceaccount.com"
 
       - name: Output deployment URL
         run: |
           echo "✅ Deployment complete!"
-          gcloud run services describe ${{ env.SERVICE }} \
-            --region ${{ env.REGION }} \
+          gcloud run services describe "${SERVICE}" \
+            --region "${REGION}" \
             --format="value(status.url)"
