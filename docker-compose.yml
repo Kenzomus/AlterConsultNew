@@ -1,14 +1,63 @@
-version: '3.8'
+version: '3.9'
 
 services:
+  # ----------------------------------------------------------
+  # Drupal 11 (custom image built from your Dockerfile)
+  # ----------------------------------------------------------
   drupal:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: alter-consult-drupal11
     ports:
       - "8080:8080"
+    environment:
+      - DB_HOST=db
+      - DB_USER=drupaluser
+      - DB_PASSWORD=drupalpass
+      - DB_NAME=drupal
+      - DB_CONNECTION_NAME=local
+    depends_on:
+      - db
     volumes:
       - .:/var/www/html
-    environment:
-      - PORT=8080
     restart: unless-stopped
+
+  # ----------------------------------------------------------
+  # MariaDB (MySQL-compatible database)
+  # ----------------------------------------------------------
+  db:
+    image: mariadb:10.11
+    container_name: alter-consult-drupal11-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=drupal
+      - MYSQL_USER=drupaluser
+      - MYSQL_PASSWORD=drupalpass
+      - MYSQL_ROOT_PASSWORD=rootpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  # ----------------------------------------------------------
+  # Optional phpMyAdmin for debugging your database
+  # ----------------------------------------------------------
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: alter-consult-drupal11-phpmyadmin
+    restart: unless-stopped
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=drupaluser
+      - PMA_PASSWORD=drupalpass
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+
+# ----------------------------------------------------------
+# Volumes
+# ----------------------------------------------------------
+volumes:
+  db_data:
