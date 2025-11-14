@@ -99,7 +99,7 @@ $databases['default']['default'] = [
  * ];
  * @endcode
  */
-$databases = [];
+
 
 /**
  * Customizing database settings.
