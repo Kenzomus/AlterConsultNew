@@ -27,7 +27,7 @@ class MenuLinkContentEntityAccessTest extends UnitTestCase {
    *
    * @covers ::checkAccess
    */
-  public function testUnrecognizedOperation() {
+  public function testUnrecognizedOperation(): void {
     $entityType = $this->createMock(EntityTypeInterface::class);
     $accessManager = $this->createMock(AccessManagerInterface::class);
     $moduleHandler = $this->createMock(ModuleHandlerInterface::class);
@@ -46,7 +46,9 @@ class MenuLinkContentEntityAccessTest extends UnitTestCase {
       ->willReturn($language);
 
     $account = $this->createMock(AccountInterface::class);
-
+    $account->expects($this->atLeastOnce())
+      ->method('id')
+      ->willReturn(42);
     $accessControl = new MenuLinkContentAccessControlHandler($entityType, $accessManager);
     $accessControl->setModuleHandler($moduleHandler);
     $access = $accessControl->access($entity, 'not-an-op', $account, TRUE);

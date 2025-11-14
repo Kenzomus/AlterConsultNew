@@ -7,7 +7,7 @@ use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\TransferException;
+use Psr\Http\Client\ClientExceptionInterface;
 
 // cspell:ignore omitscript
 
@@ -96,12 +96,12 @@ class UrlResolver implements UrlResolverInterface {
     try {
       $response = $this->httpClient->get($url);
     }
-    catch (TransferException $e) {
+    catch (ClientExceptionInterface) {
       return FALSE;
     }
 
     $document = Html::load((string) $response->getBody());
-    $xpath = new \DOMXpath($document);
+    $xpath = new \DOMXPath($document);
 
     return $this->findUrl($xpath, 'json') ?: $this->findUrl($xpath, 'xml');
   }

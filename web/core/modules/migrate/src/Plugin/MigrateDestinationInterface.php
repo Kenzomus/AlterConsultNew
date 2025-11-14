@@ -13,7 +13,7 @@ use Drupal\migrate\Row;
  *
  * @see \Drupal\migrate\Plugin\migrate\destination\DestinationBase
  * @see \Drupal\migrate\Plugin\MigrateDestinationPluginManager
- * @see \Drupal\migrate\Annotation\MigrateDestination
+ * @see \Drupal\migrate\Attribute\MigrateDestination
  * @see plugin_api
  *
  * @ingroup migration
@@ -86,6 +86,9 @@ interface MigrateDestinationInterface extends PluginInspectionInterface {
    * @return array
    *   - Keys: machine names of the fields
    *   - Values: Human-friendly descriptions of the fields.
+   *
+   * @throws \Drupal\migrate\MigrateException
+   *   Thrown when the destination plugin is not configured correctly.
    */
   public function fields();
 
@@ -122,7 +125,10 @@ interface MigrateDestinationInterface extends PluginInspectionInterface {
    * Delete the specified destination object from the target Drupal.
    *
    * @param array $destination_identifier
-   *   The ID of the destination object to delete.
+   *   An associative array of destination IDs for the object to delete. The
+   *   array keys are defined by the
+   *   \Drupal\migrate\Plugin\MigrateDestinationInterface::getIds() method used
+   *   by the destination object.
    */
   public function rollback(array $destination_identifier);
 

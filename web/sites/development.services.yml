@@ -1,6 +1,5 @@
 # Local development services.
 #
-<<<<<<< HEAD
 # The development.services.yml file allows the developer to override
 # container parameters for debugging.
 #
@@ -13,16 +12,11 @@
 # This means that if you want to override any value of a parameter, the
 # whole parameter array needs to be copied from
 # sites/default/default.services.yml or from core/core.services.yml file.
-=======
-# To activate this feature, follow the instructions at the top of the
-# 'example.settings.local.php' file, which sits next to this file.
->>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c
 parameters:
   http.response.debug_cacheability_headers: true
 services:
   cache.backend.null:
     class: Drupal\Core\Cache\NullBackendFactory
-<<<<<<< HEAD
   logger.channel.config_schema:
     parent: logger.channel_base
     arguments: [ 'config_schema' ]
@@ -34,5 +28,3 @@ services:
       - '@logger.channel.config_schema'
     tags:
       - { name: event_subscriber }
-=======
->>>>>>> 9e87ebca8a4627a33d99f8115e8e3880fa01d70c

@@ -13,6 +13,7 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
  * BigPipe regression tests.
  *
  * @group big_pipe
+ * @group #slow
  */
 class BigPipeRegressionTest extends WebDriverTestBase {
 
@@ -21,6 +22,7 @@ class BigPipeRegressionTest extends WebDriverTestBase {
    */
   protected static $modules = [
     'big_pipe',
+    'big_pipe_messages_test',
     'big_pipe_regression_test',
   ];
 
@@ -45,17 +47,17 @@ class BigPipeRegressionTest extends WebDriverTestBase {
    *
    * @see https://www.drupal.org/node/2678662
    */
-  public function testMultipleClosingBodies_2678662() {
+  public function testMultipleClosingBodies_2678662(): void {
     $this->assertTrue($this->container->get('module_installer')->install(['render_placeholder_message_test'], TRUE), 'Installed modules.');
 
     $this->drupalLogin($this->drupalCreateUser());
     $this->drupalGet(Url::fromRoute('big_pipe_regression_test.2678662'));
 
     // Confirm that AJAX behaviors were instantiated, if not, this points to a
-    // JavaScript syntax error.
+    // JavaScript syntax error and the JS variable has the appropriate content.
     $javascript = <<<JS
     (function(){
-      return Object.keys(Drupal.ajax.instances).length > 0;
+      return Object.keys(Drupal.ajax.instances).length > 0 && hitsTheFloor === "</body>";
     }())
 JS;
     $this->assertJsCondition($javascript);
@@ -71,6 +73,9 @@ JS;
     // in an inline script.
     $this->assertSession()
       ->responseNotContains($js_code_until_closing_body_tag . "\n" . BigPipe::START_SIGNAL);
+    // But the inline script itself should not be altered.
+    $this->assertSession()
+      ->responseContains(BigPipeRegressionTestController::MARKER_2678662);
   }
 
   /**
@@ -78,12 +83,11 @@ JS;
    *
    * @see https://www.drupal.org/node/2712935
    */
-  public function testMessages_2712935() {
+  public function testMessages_2712935(): void {
     $this->assertTrue($this->container->get('module_installer')->install(['render_placeholder_message_test'], TRUE), 'Installed modules.');
 
     $this->drupalLogin($this->drupalCreateUser());
-    $messages_markup = '<div role="contentinfo" aria-label="Status message"';
-
+    $messages_markup = '<div class="messages messages--status" role="status"';
     $test_routes = [
       // Messages placeholder rendered first.
       'render_placeholder_message_test.first',
@@ -104,9 +108,9 @@ JS;
       $assert->elementContains('css', 'p.logged-message:nth-of-type(1)', 'Message: P1');
       $assert->elementContains('css', 'p.logged-message:nth-of-type(2)', 'Message: P2');
       $assert->responseContains($messages_markup);
-      $assert->elementExists('css', 'div[aria-label="Status message"] ul');
-      $assert->elementContains('css', 'div[aria-label="Status message"] ul li:nth-of-type(1)', 'P1');
-      $assert->elementContains('css', 'div[aria-label="Status message"] ul li:nth-of-type(2)', 'P2');
+      $assert->elementExists('css', 'div[aria-label="Status message"]');
+      $assert->responseContains('aria-label="Status message">P1');
+      $assert->responseContains('aria-label="Status message">P2');
 
       // Verify that we end with all messages printed, hence again zero queued.
       $this->drupalGet(Url::fromRoute('render_placeholder_message_test.queued'));
@@ -115,12 +119,21 @@ JS;
   }
 
   /**
+   * Tests edge cases with placeholder HTML.
+   */
+  public function testPlaceholderHtmlEdgeCases(): void {
+    $this->drupalLogin($this->drupalCreateUser());
+    $this->doTestPlaceholderInParagraph_2802923();
+    $this->doTestBigPipeLargeContent();
+    $this->doTestMultipleReplacements();
+  }
+
+  /**
    * Ensure default BigPipe placeholder HTML cannot split paragraphs.
    *
    * @see https://www.drupal.org/node/2802923
    */
-  public function testPlaceholderInParagraph_2802923() {
-    $this->drupalLogin($this->drupalCreateUser());
+  protected function doTestPlaceholderInParagraph_2802923(): void {
     $this->drupalGet(Url::fromRoute('big_pipe_regression_test.2802923'));
 
     $this->assertJsCondition('document.querySelectorAll(\'p\').length === 1');
@@ -132,9 +145,7 @@ JS;
    * Repeat loading of same page for two times, after second time the page is
    * cached and the bug consistently reproducible.
    */
-  public function testBigPipeLargeContent() {
-    $user = $this->drupalCreateUser();
-    $this->drupalLogin($user);
+  public function doTestBigPipeLargeContent(): void {
     $assert_session = $this->assertSession();
 
     $this->drupalGet(Url::fromRoute('big_pipe_test_large_content'));
@@ -160,7 +171,7 @@ JS;
    *
    * @see https://www.drupal.org/node/3390178
    */
-  public function testMultipleReplacements(): void {
+  protected function doTestMultipleReplacements(): void {
     $user = $this->drupalCreateUser();
     $this->drupalLogin($user);
 

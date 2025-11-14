@@ -98,7 +98,7 @@ class ImageStyleTest extends UnitTestCase {
   /**
    * @covers ::getDerivativeExtension
    */
-  public function testGetDerivativeExtension() {
+  public function testGetDerivativeExtension(): void {
     $image_effect_id = $this->randomMachineName();
     $logger = $this->getMockBuilder('\Psr\Log\LoggerInterface')->getMock();
     $image_effect = $this->getMockBuilder('\Drupal\image\ImageEffectBase')
@@ -120,7 +120,7 @@ class ImageStyleTest extends UnitTestCase {
   /**
    * @covers ::buildUri
    */
-  public function testBuildUri() {
+  public function testBuildUri(): void {
     // Image style that changes the extension.
     $image_effect_id = $this->randomMachineName();
     $logger = $this->getMockBuilder('\Psr\Log\LoggerInterface')->getMock();
@@ -141,7 +141,7 @@ class ImageStyleTest extends UnitTestCase {
       ->getMock();
     $image_effect->expects($this->any())
       ->method('getDerivativeExtension')
-      ->will($this->returnArgument(0));
+      ->willReturnArgument(0);
 
     $image_style = $this->getImageStyleMock($image_effect_id, $image_effect);
     $this->assertEquals($image_style->buildUri('public://test.jpeg'), 'public://styles/' . $image_style->id() . '/public/test.jpeg');
@@ -150,7 +150,7 @@ class ImageStyleTest extends UnitTestCase {
   /**
    * @covers ::getPathToken
    */
-  public function testGetPathToken() {
+  public function testGetPathToken(): void {
     $logger = $this->getMockBuilder('\Psr\Log\LoggerInterface')->getMock();
     $private_key = $this->randomMachineName();
     $hash_salt = $this->randomMachineName();
@@ -174,8 +174,8 @@ class ImageStyleTest extends UnitTestCase {
 
     // Assert the extension has been added to the URI before creating the token.
     $this->assertEquals($image_style->getPathToken('public://test.jpeg.png'), $image_style->getPathToken('public://test.jpeg'));
-    $this->assertEquals(substr(Crypt::hmacBase64($image_style->id() . ':' . 'public://test.jpeg.png', $private_key . $hash_salt), 0, 8), $image_style->getPathToken('public://test.jpeg'));
-    $this->assertNotEquals(substr(Crypt::hmacBase64($image_style->id() . ':' . 'public://test.jpeg', $private_key . $hash_salt), 0, 8), $image_style->getPathToken('public://test.jpeg'));
+    $this->assertEquals(substr(Crypt::hmacBase64($image_style->id() . ':public://test.jpeg.png', $private_key . $hash_salt), 0, 8), $image_style->getPathToken('public://test.jpeg'));
+    $this->assertNotEquals(substr(Crypt::hmacBase64($image_style->id() . ':public://test.jpeg', $private_key . $hash_salt), 0, 8), $image_style->getPathToken('public://test.jpeg'));
 
     // Image style that doesn't change the extension.
     $image_effect_id = $this->randomMachineName();
@@ -184,7 +184,7 @@ class ImageStyleTest extends UnitTestCase {
       ->getMock();
     $image_effect->expects($this->any())
       ->method('getDerivativeExtension')
-      ->will($this->returnArgument(0));
+      ->willReturnArgument(0);
 
     $image_style = $this->getImageStyleMock($image_effect_id, $image_effect, ['getPrivateKey', 'getHashSalt']);
     $image_style->expects($this->any())
@@ -195,21 +195,21 @@ class ImageStyleTest extends UnitTestCase {
       ->willReturn($hash_salt);
     // Assert no extension has been added to the uri before creating the token.
     $this->assertNotEquals($image_style->getPathToken('public://test.jpeg.png'), $image_style->getPathToken('public://test.jpeg'));
-    $this->assertNotEquals(substr(Crypt::hmacBase64($image_style->id() . ':' . 'public://test.jpeg.png', $private_key . $hash_salt), 0, 8), $image_style->getPathToken('public://test.jpeg'));
-    $this->assertEquals(substr(Crypt::hmacBase64($image_style->id() . ':' . 'public://test.jpeg', $private_key . $hash_salt), 0, 8), $image_style->getPathToken('public://test.jpeg'));
+    $this->assertNotEquals(substr(Crypt::hmacBase64($image_style->id() . ':public://test.jpeg.png', $private_key . $hash_salt), 0, 8), $image_style->getPathToken('public://test.jpeg'));
+    $this->assertEquals(substr(Crypt::hmacBase64($image_style->id() . ':public://test.jpeg', $private_key . $hash_salt), 0, 8), $image_style->getPathToken('public://test.jpeg'));
   }
 
   /**
    * @covers ::flush
    */
-  public function testFlush() {
+  public function testFlush(): void {
     $cache_tag_invalidator = $this->createMock('\Drupal\Core\Cache\CacheTagsInvalidator');
     $file_system = $this->createMock('\Drupal\Core\File\FileSystemInterface');
     $module_handler = $this->createMock('\Drupal\Core\Extension\ModuleHandlerInterface');
     $stream_wrapper_manager = $this->createMock('\Drupal\Core\StreamWrapper\StreamWrapperManagerInterface');
     $stream_wrapper_manager->expects($this->any())
       ->method('getWrappers')
-      ->will($this->returnValue([]));
+      ->willReturn([]);
     $theme_registry = $this->createMock('\Drupal\Core\Theme\Registry');
 
     $container = new ContainerBuilder();
