@@ -1,58 +1,69 @@
-# Stage 1: Build Drupal dependencies
-FROM composer:2.6 AS build
-
-WORKDIR /app
-
-# Copy composer files
-COPY composer.json composer.lock ./
-
-# Install production dependencies only
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
-
-# Copy the full project (web/ vendor/ modules/ themes/)
-COPY . .
-
-# Stage 2: Final image
 FROM php:8.3-apache
 
 WORKDIR /var/www/html
 
-# Enable Apache modules
-RUN a2enmod rewrite headers expires
-
-# Install system dependencies for Drupal + PHP extensions
+# ----------------------------------------------------------
+# 1. Install system dependencies for GD, ZIP & others
+# ----------------------------------------------------------
 RUN apt-get update && apt-get install -y \
-    git unzip libpng-dev libjpeg-dev libfreetype6-dev libonig-dev libxml2-dev libzip-dev \
-    mariadb-client libicu-dev g++ default-mysql-client \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql gd opcache intl zip \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libwebp-dev \
+    libzip-dev \
+    libxml2-dev \
+    libonig-dev \
+    zip unzip git curl nano vim pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy built Drupal code from build stage
-COPY --from=build /app/web /var/www/html
-COPY --from=build /app/vendor /var/www/html/vendor
+# ----------------------------------------------------------
+# 2. Install PHP extensions (IMPORTANT: correct GD flags)
+# ----------------------------------------------------------
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j$(nproc) \
+        gd zip pdo pdo_mysql mbstring xml opcache
 
-# PHP configuration
-RUN { \
-    echo "memory_limit=512M"; \
-    echo "upload_max_filesize=64M"; \
-    echo "post_max_size=64M"; \
-    echo "max_execution_time=300"; \
-} > /usr/local/etc/php/conf.d/drupal.ini
+# Enable mod_rewrite
+RUN a2enmod rewrite
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html && \
-    find /var/www/html -type d -exec chmod 755 {} \; && \
-    find /var/www/html -type f -exec chmod 644 {} \;
+# ----------------------------------------------------------
+# 3. Install Composer
+# ----------------------------------------------------------
+RUN curl -sS https://getcomposer.org/installer \
+    | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Writable files directory
-RUN mkdir -p sites/default/files && chown -R www-data:www-data sites/default/files
+# ----------------------------------------------------------
+# 4. Copy project
+# ----------------------------------------------------------
+COPY . /var/www/html/
 
-# Expose port 8080 for Cloud Run
+# ----------------------------------------------------------
+# 5. Install composer deps *after* GD exists
+# ----------------------------------------------------------
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+
+# ----------------------------------------------------------
+# 6. Prepare Drupal files
+# ----------------------------------------------------------
+RUN if [ ! -f web/sites/default/settings.php ]; then \
+      cp web/sites/default/default.settings.php web/sites/default/settings.php; \
+    fi
+
+RUN mkdir -p web/sites/default/files && \
+    chown -R www-data:www-data web/sites/default && \
+    find web/sites/default/files -type d -exec chmod 775 {} \; && \
+    find web/sites/default/files -type f -exec chmod 664 {} \;
+
+# ----------------------------------------------------------
+# 7. Apache DocumentRoot = /web
+# ----------------------------------------------------------
+ENV APACHE_DOCUMENT_ROOT /var/www/html/web
+
+RUN sed -ri -e 's!/var/www/html!/var/www/html/web!g' \
+      /etc/apache2/sites-available/*.conf && \
+    sed -ri -e 's!/var/www/!/var/www/html/web!g' \
+      /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
 EXPOSE 8080
 
-# Cloud SQL Unix socket directory (default for Cloud Run)
-VOLUME ["/cloudsql"]
-
-# Entrypoint: Apache foreground
 CMD ["apache2-foreground"]
