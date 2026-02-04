@@ -1,9 +1,15 @@
 FROM php:8.3-apache
 
+# ----------------------------------------------------------
+# Cloud Run requires PORT=8080
+# ----------------------------------------------------------
+ENV PORT=8080
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/web
+
 WORKDIR /var/www/html
 
 # ----------------------------------------------------------
-# 1. Install system dependencies for GD, ZIP & others
+# 1. System dependencies
 # ----------------------------------------------------------
 RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
@@ -17,53 +23,68 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # ----------------------------------------------------------
-# 2. Install PHP extensions (IMPORTANT: correct GD flags)
+# 2. PHP extensions
 # ----------------------------------------------------------
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) \
         gd zip pdo pdo_mysql mbstring xml opcache
 
-# Enable mod_rewrite
-RUN a2enmod rewrite
+# ----------------------------------------------------------
+# 3. Apache configuration (CRITICAL for Cloud Run)
+# ----------------------------------------------------------
+RUN a2enmod rewrite headers env expires
+
+# Make Apache listen on $PORT instead of 80
+RUN sed -i "s/80/${PORT}/g" /etc/apache2/ports.conf \
+ && sed -i "s/:80/:${PORT}/g" /etc/apache2/sites-available/000-default.conf
+
+# Update DocumentRoot to /web
+RUN sed -ri "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" \
+      /etc/apache2/sites-available/*.conf \
+      /etc/apache2/apache2.conf \
+      /etc/apache2/conf-available/*.conf
+
+# Avoid FQDN warning
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # ----------------------------------------------------------
-# 3. Install Composer
+# 4. Install Composer
 # ----------------------------------------------------------
 RUN curl -sS https://getcomposer.org/installer \
     | php -- --install-dir=/usr/local/bin --filename=composer
 
 # ----------------------------------------------------------
-# 4. Copy project
+# 5. Copy project files
 # ----------------------------------------------------------
-COPY . /var/www/html/
+COPY . /var/www/html
 
 # ----------------------------------------------------------
-# 5. Install composer deps *after* GD exists
+# 6. Install Composer dependencies
 # ----------------------------------------------------------
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --optimize-autoloader
 
 # ----------------------------------------------------------
-# 6. Prepare Drupal files
+# 7. Drupal settings & permissions
 # ----------------------------------------------------------
 RUN if [ ! -f web/sites/default/settings.php ]; then \
       cp web/sites/default/default.settings.php web/sites/default/settings.php; \
     fi
 
 RUN mkdir -p web/sites/default/files && \
-    chown -R www-data:www-data web/sites/default && \
+    chown -R www-data:www-data /var/www/html && \
     find web/sites/default/files -type d -exec chmod 775 {} \; && \
     find web/sites/default/files -type f -exec chmod 664 {} \;
 
 # ----------------------------------------------------------
-# 7. Apache DocumentRoot = /web
+# 8. Expose Cloud Run port
 # ----------------------------------------------------------
-ENV APACHE_DOCUMENT_ROOT /var/www/html/web
-
-RUN sed -ri -e 's!/var/www/html!/var/www/html/web!g' \
-      /etc/apache2/sites-available/*.conf && \
-    sed -ri -e 's!/var/www/!/var/www/html/web!g' \
-      /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
 EXPOSE 8080
 
+# ----------------------------------------------------------
+# 9. Start Apache
+# ----------------------------------------------------------
 CMD ["apache2-foreground"]
